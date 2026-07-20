@@ -1,0 +1,257 @@
+/*==============================
+            HEADER
+===============================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Be Vietnam Pro',sans-serif;
+}
+
+body{
+    background:#fff;
+    color:#333;
+}
+
+/* Navbar */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    background:rgba(255,255,255,.95);
+
+    backdrop-filter:blur(10px);
+
+    z-index:999;
+
+    padding:15px 0;
+
+    transition:.3s;
+
+}
+
+.navbar.shadow{
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+}
+
+/* Logo */
+
+.navbar-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    text-decoration:none;
+
+}
+
+.logo{
+
+    width:45px;
+
+    height:45px;
+
+    object-fit:contain;
+
+}
+
+.logo-name{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#A14F15;
+
+}
+
+/* Menu */
+
+.navbar-nav{
+
+    gap:20px;
+
+}
+
+.nav-link{
+
+    color:#444;
+
+    font-weight:500;
+
+    transition:.3s;
+
+    position:relative;
+
+}
+
+.nav-link:hover{
+
+    color:#F97316;
+
+}
+
+.nav-link.active{
+
+    color:#F97316;
+
+}
+
+.nav-link.active::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-8px;
+
+    width:100%;
+
+    height:3px;
+
+    background:#F97316;
+
+    border-radius:20px;
+
+}
+
+/* Search */
+
+.search-box{
+
+    display:flex;
+
+    align-items:center;
+
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:50px;
+
+    padding:8px 18px;
+
+    margin-right:20px;
+
+}
+
+.search-box i{
+
+    color:#999;
+
+    margin-right:10px;
+
+}
+
+.search-box input{
+
+    border:none;
+
+    outline:none;
+
+    width:180px;
+
+    background:transparent;
+
+}
+
+/* Cart */
+
+.cart{
+
+    position:relative;
+
+    color:#333;
+
+    font-size:22px;
+
+    margin-right:20px;
+
+    text-decoration:none;
+
+}
+
+.cart span{
+
+    position:absolute;
+
+    top:-8px;
+
+    right:-10px;
+
+    width:18px;
+
+    height:18px;
+
+    background:#DC2626;
+
+    color:#fff;
+
+    border-radius:50%;
+
+    font-size:11px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* Login */
+
+.login-btn{
+
+    background:#F97316;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    padding:10px 25px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.login-btn:hover{
+
+    background:#DC2626;
+
+    color:#fff;
+
+}
+
+/* Mobile */
+
+.navbar-toggler{
+
+    border:none;
+
+}
+
+.navbar-toggler:focus{
+
+    box-shadow:none;
+
+}

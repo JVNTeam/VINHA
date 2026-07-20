@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vị Nhà - Cơm ngon như bữa cơm nhà</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/trangChu.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<nav class="navbar navbar-expand-lg fixed-top">
+
+    <div class="container">
+
+        <!-- Logo -->
+
+        <a class="navbar-brand d-flex align-items-center"
+           th:href="@{/}">
+
+            <img th:src="@{/images/logo.png}"
+                 class="logo">
+
+            <span class="logo-name">
+
+                Vị Nhà
+
+            </span>
+
+        </a>
+
+        <!-- Mobile -->
+
+        <button class="navbar-toggler"
+                data-bs-toggle="collapse"
+                data-bs-target="#menu">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="menu">
+
+            <!-- Menu -->
+
+            <ul class="navbar-nav mx-auto">
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       th:href="@{/}">
+
+                        Trang chủ
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       th:href="@{/menu}">
+
+                        Thực đơn
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="#">
+
+                        Khuyến mãi
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="#">
+
+                        Giới thiệu
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="#">
+
+                        Liên hệ
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+            <!-- Search -->
+
+            <form class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                       placeholder="Tìm món ăn...">
+
+            </form>
+
+            <!-- Cart -->
+
+            <a href="#"
+               class="cart">
+
+                <i class="fa-solid fa-cart-shopping"></i>
+
+                <span>
+
+                    2
+
+                </span>
+
+            </a>
+
+            <!-- Login -->
+
+            <a href="#"
+               class="login-btn">
+
+                Đăng nhập
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <span class="hero-tag">
+
+                    Mâm Cơm Việt Hiện Đại
+
+                </span>
+
+                <h1>
+
+                    Cơm ngon như
+
+                    <br>
+
+                    <span>
+
+                        bữa cơm nhà
+
+                    </span>
+
+                </h1>
+
+                <p class="hero-description">
+                    Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn.
+                    Mỗi hạt cơm, mỗi món ăn đều được chăm chút bằng tất cả tình yêu thương.
+                </p>
+
+                <div class="hero-button">
+
+                    <a href="#"
+                       class="btn-order">
+
+                        Đặt món ngay
+
+                    </a>
+
+                    <a href="#"
+                       class="btn-menu">
+
+                        Xem thực đơn
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= CATEGORY ================= -->
+
+<section class="category-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="sub-title">
+                Danh mục nổi bật
+            </span>
+
+            <h2>
+                Khám Phá Danh Mục
+            </h2>
+
+            <p>
+                Những món cơm Việt quen thuộc được chế biến từ nguyên liệu tươi ngon mỗi ngày.
+            </p>
+
+        </div>
+
+        <div class="row g-4 mt-4">
+
+            <!-- Item 1 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/comGaXoiMo.png"
+                             alt="Cơm Gà">
+
+                    </div>
+
+                    <h5>Cơm Gà</h5>
+
+                    <span>12 món</span>
+
+                </div>
+
+            </div>
+
+            <!-- Item 2 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/comTamSuonBiCha.png"
+                             alt="Cơm Sườn">
+
+                    </div>
+
+                    <h5>Cơm Sườn</h5>
+
+                    <span>18 món</span>
+
+                </div>
+
+            </div>
+
+            <!-- Item 3 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/comThitKho.png"
+                             alt="Cơm Bò">
+
+                    </div>
+
+                    <h5>Cơm Bò</h5>
+
+                    <span>9 món</span>
+
+                </div>
+
+            </div>
+
+            <!-- Item 4 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/comCaKho.png"
+                             alt="Cơm Cá">
+
+                    </div>
+
+                    <h5>Cơm Cá</h5>
+
+                    <span>8 món</span>
+
+                </div>
+
+            </div>
+
+            <!-- Item 5 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/comRang.png"
+                             alt="Cơm Chay">
+
+                    </div>
+
+                    <h5>Cơm Chay</h5>
+
+                    <span>10 món</span>
+
+                </div>
+
+            </div>
+
+            <!-- Item 6 -->
+            <div class="col-lg-2 col-md-4 col-6">
+
+                <div class="category-card">
+
+                    <div class="category-image">
+
+                        <img src="/images/ComhitChuaNgot.png"
+                             alt="Đặc Biệt">
+
+                    </div>
+
+                    <h5>Đặc Biệt</h5>
+
+                    <span>6 món</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ================= BEST SELLER ================= -->
+
+<section class="best-seller">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="sub-title">
+                Best Seller
+            </span>
+
+            <h2>
+                Món Bán Chạy Nhất
+            </h2>
+
+            <p>
+                Những món ăn được khách hàng yêu thích và đặt nhiều nhất tại Vị Nhà.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Food 1 -->
+            <div class="col-lg-3 col-md-6">
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <span class="badge-hot">
+                            HOT
+                        </span>
+
+                        <img src="/images/foods/comTamSuonBiCha2.webp"
+                             alt="Cơm Tấm">
+
+                    </div>
+
+                    <div class="food-body">
+
+                        <div class="food-rating">
+
+                            ⭐ 4.9 (120)
+
+                        </div>
+
+                        <h5>
+
+                            Cơm Tấm Sườn Bì Chả
+
+                        </h5>
+
+                        <p>
+
+                            Sườn nướng mật ong, bì, chả trứng, dưa chua.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <div>
+
+                                <span class="price">
+
+                                    65.000đ
+
+                                </span>
+
+                            </div>
+
+                            <button>
+
+                                <i class="fa-solid fa-cart-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Food 2 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <img src="/images/foods/comGaXoiMo2.jpg">
+
+                    </div>
+
+                    <div class="food-body">
+
+                        <div class="food-rating">
+
+                            ⭐ 4.8 (90)
+
+                        </div>
+
+                        <h5>
+
+                            Cơm Gà Xối Mỡ
+
+                        </h5>
+
+                        <p>
+
+                            Gà giòn rụm ăn kèm cơm chiên và rau.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <span class="price">
+
+                                59.000đ
+
+                            </span>
+
+                            <button>
+
+                                <i class="fa-solid fa-cart-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Food 3 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <img src="/images/foods/com-bo-luc-lac.avif">
+
+                    </div>
+
+                    <div class="food-body">
+
+                        <div class="food-rating">
+
+                            ⭐ 4.9 (150)
+
+                        </div>
+
+                        <h5>
+
+                            Cơm Bò Lúc Lắc
+
+                        </h5>
+
+                        <p>
+
+                            Bò mềm, thơm, sốt tiêu đen đậm vị.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <span class="price">
+
+                                79.000đ
+
+                            </span>
+
+                            <button>
+
+                                <i class="fa-solid fa-cart-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Food 4 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="food-card">
+
+                    <div class="food-image">
+
+                        <img src="/images/foods/com-ca-kho.jpg">
+
+                    </div>
+
+                    <div class="food-body">
+
+                        <div class="food-rating">
+
+                            ⭐ 4.7 (80)
+
+                        </div>
+
+                        <h5>
+
+                            Cơm Cá Kho Tộ
+
+                        </h5>
+
+                        <p>
+
+                            Cá kho truyền thống ăn cùng cơm nóng.
+
+                        </p>
+
+                        <div class="food-footer">
+
+                            <span class="price">
+
+                                62.000đ
+
+                            </span>
+
+                            <button>
+
+                                <i class="fa-solid fa-cart-plus"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5">
+
+            <a href="/menu" class="btn-all-food">
+
+                Xem toàn bộ thực đơn
+
+                <i class="fa-solid fa-arrow-right ms-2"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--==================== REVIEW ====================-->
+
+<section class="review-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <span class="sub-title">
+                Khách hàng nói gì?
+            </span>
+
+            <h2>
+                Đánh Giá Từ Khách Hàng
+            </h2>
+
+            <p>
+                Hàng nghìn khách hàng đã tin tưởng và lựa chọn Vị Nhà cho bữa cơm mỗi ngày.
+            </p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <!-- Review 1 -->
+            <div class="col-lg-4">
+
+                <div class="review-card">
+
+                    <div class="quote">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+
+                    <div class="review-star">
+
+                        ★★★★★
+
+                    </div>
+
+                    <p>
+
+                        Cơm rất ngon, giao nhanh và đóng gói cẩn thận.
+                        Mình đặt cho cả văn phòng ai cũng thích.
+
+                    </p>
+
+                    <div class="customer">
+
+<!--                        <img src="/images/review/user1.jpg">-->
+
+                        <div>
+
+                            <h5>
+
+                                Nguyễn Minh Anh
+
+                            </h5>
+
+                            <span>
+
+                                Nhân viên văn phòng
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Review 2 -->
+
+            <div class="col-lg-4">
+
+                <div class="review-card">
+
+                    <div class="quote">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+
+                    <div class="review-star">
+
+                        ★★★★★
+
+                    </div>
+
+                    <p>
+
+                        Món ăn đúng vị cơm nhà.
+                        Cá kho và canh chua cực kỳ ngon.
+                        Giá hợp lý.
+
+                    </p>
+
+                    <div class="customer">
+
+<!--                        <img src="/images/review/user2.jpg">-->
+
+                        <div>
+
+                            <h5>
+
+                                Trần Hoàng Nam
+
+                            </h5>
+
+                            <span>
+
+                                Kỹ sư phần mềm
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Review 3 -->
+
+            <div class="col-lg-4">
+
+                <div class="review-card">
+
+                    <div class="quote">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+
+                    <div class="review-star">
+
+                        ★★★★★
+
+                    </div>
+
+                    <p>
+
+                        Đặt món gần như mỗi tuần.
+                        Đồ ăn nóng, nhiều món để lựa chọn
+                        và nhân viên rất thân thiện.
+
+                    </p>
+
+                    <div class="customer">
+
+<!--                        <img src="/images/review/user3.jpg">-->
+
+                        <div>
+
+                            <h5>
+
+                                Lê Thu Hà
+
+                            </h5>
+
+                            <span>
+
+                                Khách hàng thân thiết
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--==================== FOOTER ====================-->
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="row gy-5">
+
+            <!-- Logo -->
+
+            <div class="col-lg-4">
+
+                <h3 class="footer-logo">
+
+                    Vị Nhà
+
+                </h3>
+
+                <p class="footer-text">
+
+                    Vị Nhà mang đến những bữa cơm Việt chất lượng,
+                    nguyên liệu tươi ngon và hương vị như bữa cơm gia đình.
+
+                </p>
+
+                <div class="social">
+
+                    <a href="#">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Menu -->
+
+            <div class="col-lg-2">
+
+                <h5>
+
+                    Khám phá
+
+                </h5>
+
+                <ul>
+
+                    <li><a href="/">Trang chủ</a></li>
+
+                    <li><a href="/menu">Thực đơn</a></li>
+
+                    <li><a href="#">Khuyến mãi</a></li>
+
+                    <li><a href="#">Giới thiệu</a></li>
+
+                </ul>
+
+            </div>
+
+            <!-- Chính sách -->
+
+            <div class="col-lg-3">
+
+                <h5>
+
+                    Chính sách
+
+                </h5>
+
+                <ul>
+
+                    <li><a href="#">Điều khoản</a></li>
+
+                    <li><a href="#">Chính sách bảo mật</a></li>
+
+                    <li><a href="#">Đổi trả</a></li>
+
+                    <li><a href="#">Vận chuyển</a></li>
+
+                </ul>
+
+            </div>
+
+            <!-- Liên hệ -->
+
+            <div class="col-lg-3">
+
+                <h5>
+
+                    Liên hệ
+
+                </h5>
+
+                <p>
+
+                    <i class="fa-solid fa-location-dot"></i>
+
+                    Hà Nội, Việt Nam
+
+                </p>
+
+                <p>
+
+                    <i class="fa-solid fa-phone"></i>
+
+                    0901 234 567
+
+                </p>
+
+                <p>
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    contact@vinha.vn
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="footer-bottom">
+
+            <p>
+
+                © 2026 Vị Nhà. All Rights Reserved.
+
+            </p>
+
+            <a href="#" id="backToTop">
+
+                <i class="fa-solid fa-arrow-up"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<!-- Bootstrap -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS -->
+
+<script th:src="@{/js/home.js}"></script>
+
+</body>
+
+</html>

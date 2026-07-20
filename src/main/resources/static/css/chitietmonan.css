@@ -1,0 +1,727 @@
+/*==============================
+        CHI TIẾT MÓN ĂN
+==============================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Be Vietnam Pro',sans-serif;
+}
+
+body{
+    background:#FCFAF8;
+    color:#333;
+}
+
+.detail-page{
+    padding:130px 0 80px;
+}
+
+/*==============================
+        BREADCRUMB
+==============================*/
+
+.breadcrumb-custom{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:30px;
+
+    font-size:15px;
+
+}
+
+.breadcrumb-custom a{
+
+    text-decoration:none;
+
+    color:#666;
+
+}
+
+.breadcrumb-custom span{
+
+    color:#999;
+
+}
+
+.breadcrumb-custom strong{
+
+    color:#A85C18;
+
+    font-weight:600;
+
+}
+
+/*==============================
+        IMAGE
+==============================*/
+
+.product-image{
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.product-image img{
+
+    width:100%;
+
+    height:520px;
+
+    object-fit:cover;
+
+    transition:.4s;
+
+    cursor:zoom-in;
+
+}
+
+.product-image img:hover{
+
+    transform:scale(1.05);
+
+}
+
+/*==============================
+        PRODUCT INFO
+==============================*/
+
+.product-info{
+
+    padding-left:20px;
+
+}
+
+.product-info h1{
+
+    font-size:58px;
+
+    font-family:Georgia,serif;
+
+    font-weight:700;
+
+    color:#2F2F2F;
+
+    margin-bottom:18px;
+
+}
+
+.price{
+
+    font-size:52px;
+
+    color:#A55A18;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+.description{
+
+    color:#666;
+
+    font-size:18px;
+
+    line-height:1.9;
+
+    margin-bottom:35px;
+
+}
+
+/*==============================
+        INGREDIENT
+==============================*/
+
+.product-info h6{
+
+    font-size:20px;
+
+    margin-bottom:18px;
+
+    font-weight:600;
+
+}
+
+.ingredients{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-bottom:28px;
+
+}
+
+.ingredients span{
+
+    background:#F4F2EF;
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+}
+
+/*==============================
+        STATUS
+==============================*/
+
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#4CAF50;
+
+    font-size:18px;
+
+    margin-bottom:35px;
+
+}
+
+.status i{
+
+    font-size:22px;
+
+}
+
+/*==============================
+        BUY BOX
+==============================*/
+
+.buy-box{
+
+    display:flex;
+
+    gap:20px;
+
+    margin-bottom:20px;
+
+}
+
+/*==============================
+        QUANTITY
+==============================*/
+
+.quantity{
+
+    width:180px;
+
+    height:60px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border:2px solid #E6D5C5;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+}
+
+.quantity button{
+
+    width:55px;
+
+    height:100%;
+
+    border:none;
+
+    background:white;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.quantity button:hover{
+
+    background:#FFF4E9;
+
+    color:#FF8A00;
+
+}
+
+.quantity input{
+
+    width:60px;
+
+    border:none;
+
+    text-align:center;
+
+    outline:none;
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+/*==============================
+        BUTTON
+==============================*/
+
+.cart-btn{
+
+    flex:1;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#FF8A00;
+
+    color:white;
+
+    font-size:19px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.cart-btn:hover{
+
+    background:#F17700;
+
+}
+
+.buy-now{
+
+    width:100%;
+
+    height:65px;
+
+    border:2px solid #B46A23;
+
+    background:white;
+
+    color:#A65B18;
+
+    border-radius:14px;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.buy-now:hover{
+
+    background:#B46A23;
+
+    color:white;
+
+}
+
+/*==============================
+        REVIEW SECTION
+==============================*/
+
+.review-section{
+
+    margin-top:80px;
+
+}
+
+.review-section h3{
+
+    font-size:34px;
+
+    font-family:Georgia,serif;
+
+    font-weight:700;
+
+    color:#2F2F2F;
+
+}
+
+.review-line{
+
+    width:80px;
+
+    height:4px;
+
+    background:#FF8A00;
+
+    border-radius:20px;
+
+    margin-top:10px;
+
+    margin-bottom:30px;
+
+}
+
+/*==============================
+        REVIEW CARD
+==============================*/
+
+.review-card{
+
+    display:flex;
+
+    gap:18px;
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+}
+
+.review-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 10px 24px rgba(0,0,0,.10);
+
+}
+
+.review-card img{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.review-card h5{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+.review-card p{
+
+    color:#666;
+
+    line-height:1.7;
+
+    margin-bottom:10px;
+
+}
+
+.review-card small{
+
+    color:#999;
+
+}
+
+/*==============================
+        RATING BOX
+==============================*/
+
+.rating-box{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.06);
+
+}
+
+.rating-box h5{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+.stars{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+}
+
+.stars i{
+
+    font-size:34px;
+
+    color:#D9D9D9;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.stars i:hover{
+
+    color:#FFB400;
+
+    transform:scale(1.15);
+
+}
+
+.stars i.active{
+
+    color:#FFB400;
+
+}
+
+/*==============================
+        REVIEW FORM
+==============================*/
+
+.review-form{
+
+    margin-top:30px;
+
+}
+
+.review-form textarea{
+
+    width:100%;
+
+    min-height:140px;
+
+    resize:none;
+
+    border:1px solid #DDD;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    outline:none;
+
+    font-size:15px;
+
+}
+
+.review-form textarea:focus{
+
+    border-color:#FF8A00;
+
+}
+
+.review-form button{
+
+    margin-top:18px;
+
+    width:100%;
+
+    height:52px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#FF8A00;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.review-form button:hover{
+
+    background:#F17700;
+
+}
+
+/*==============================
+        RELATED PRODUCT
+==============================*/
+
+.related{
+
+    margin-top:90px;
+
+}
+
+.related h3{
+
+    font-size:34px;
+
+    font-family:Georgia,serif;
+
+    margin-bottom:35px;
+
+}
+
+.related .food-card{
+
+    margin-bottom:30px;
+
+}
+
+/*==============================
+        FOOTER SPACE
+==============================*/
+
+footer{
+
+    margin-top:90px;
+
+}
+
+/*==============================
+        RESPONSIVE
+==============================*/
+
+@media(max-width:992px){
+
+    .product-info{
+
+        padding-left:0;
+
+        margin-top:35px;
+
+    }
+
+    .product-info h1{
+
+        font-size:42px;
+
+    }
+
+    .price{
+
+        font-size:38px;
+
+    }
+
+    .buy-box{
+
+        flex-direction:column;
+
+    }
+
+    .quantity{
+
+        width:100%;
+
+    }
+
+    .cart-btn{
+
+        height:60px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .detail-page{
+
+        padding-top:110px;
+
+    }
+
+    .product-image img{
+
+        height:350px;
+
+    }
+
+    .product-info h1{
+
+        font-size:34px;
+
+    }
+
+    .description{
+
+        font-size:16px;
+
+    }
+
+    .ingredients{
+
+        gap:8px;
+
+    }
+
+    .ingredients span{
+
+        font-size:13px;
+
+    }
+
+    .review-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .review-card img{
+
+        margin:auto;
+
+    }
+
+    .stars i{
+
+        font-size:28px;
+
+    }
+
+}

@@ -44,6 +44,6 @@ public class DiaChiController {
         model.addAttribute("addresses", addresses);
         model.addAttribute("activeMenu", "address"); // Để active sidebar menu
 
-        return "customer/quanLyDiaChi"; // Trỏ đến file HTML trong templates/customer/
+        return "customer/diaChi"; // Trỏ đến file HTML trong templates/customer/
     }
 }

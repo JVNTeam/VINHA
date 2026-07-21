@@ -1,0 +1,380 @@
+/* ==========================
+        RESET
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body{
+    background:#f7f7f7;
+}
+
+/* ==========================
+        HEADER
+========================== */
+
+header{
+    width:100%;
+    height:70px;
+    background:#fff;
+    border-bottom:1px solid #ececec;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 60px;
+}
+
+.logo{
+    font-size:30px;
+    color:#8b5a14;
+    font-weight:bold;
+}
+
+.menu{
+    display:flex;
+    gap:40px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#444;
+    font-size:15px;
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:#d98200;
+}
+
+.header-right{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    color:#8b5a14;
+    font-size:18px;
+}
+
+/* ==========================
+        CONTAINER
+========================== */
+
+.container{
+    width:1200px;
+    margin:35px auto;
+
+    display:flex;
+    gap:25px;
+}
+
+/* ==========================
+        SIDEBAR
+========================== */
+
+.sidebar{
+    width:280px;
+    background:#fff;
+    border-radius:10px;
+    border:1px solid #eee;
+    overflow:hidden;
+}
+
+/* avatar */
+
+.user-box{
+    padding:30px 20px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.user-box img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #eee;
+}
+
+.user-box h3{
+    margin-top:15px;
+    font-size:18px;
+}
+
+.user-box p{
+    color:#777;
+    margin-top:5px;
+    font-size:14px;
+}
+
+/* menu */
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    border-bottom:1px solid #f1f1f1;
+}
+
+.sidebar li a{
+
+    display:flex;
+    align-items:center;
+
+    gap:12px;
+
+    padding:18px 22px;
+
+    text-decoration:none;
+
+    color:#555;
+
+    transition:.3s;
+}
+
+.sidebar li a:hover{
+
+    background:#fff6eb;
+
+    color:#d98200;
+
+}
+
+.sidebar li.active{
+
+    border-left:5px solid #ff9800;
+
+    background:#fff8ef;
+
+}
+
+.logout{
+
+    color:red !important;
+
+}
+
+/* ==========================
+        CONTENT
+========================== */
+
+.content{
+
+    flex:1;
+
+    background:#fff;
+
+    border-radius:10px;
+
+    border:1px solid #eee;
+
+    padding:35px;
+
+}
+
+/* title */
+
+.content-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+
+.content-header h2{
+
+    color:#8b5a14;
+
+}
+
+.content-header p{
+
+    color:#666;
+
+    margin-top:5px;
+
+}
+
+/* button */
+
+.edit-btn{
+
+    background:#ff9800;
+
+    color:white;
+
+    border:none;
+
+    border-radius:6px;
+
+    padding:12px 25px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.edit-btn:hover{
+
+    background:#ea8a00;
+
+}
+
+/* ==========================
+        INFO
+========================== */
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:35px;
+
+    margin-top:20px;
+
+}
+
+.info-item{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.info-item label{
+
+    color:#999;
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+}
+
+.info-item span{
+
+    color:#333;
+
+    font-weight:600;
+
+}
+
+/* ==========================
+        MEMBER CARD
+========================== */
+
+.member-card{
+
+    margin-top:45px;
+
+    background:#f8eed7;
+
+    border-radius:10px;
+
+    display:flex;
+
+    align-items:center;
+
+    padding:25px;
+
+}
+
+.member-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    color:#b16d00;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    margin-right:20px;
+
+}
+
+.member-text h3{
+
+    color:#8b5a14;
+
+    margin-bottom:8px;
+
+}
+
+.member-text p{
+
+    color:#666;
+
+}
+
+/* ==========================
+        RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+    .container{
+
+        width:95%;
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        width:100%;
+
+    }
+
+    .info-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    header{
+
+        padding:20px;
+
+        flex-direction:column;
+
+        height:auto;
+
+        gap:20px;
+
+    }
+
+    .menu{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+    }
+
+}

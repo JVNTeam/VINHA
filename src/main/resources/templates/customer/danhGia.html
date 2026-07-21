@@ -1,10 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá món ăn - Vị Nhà</title>
+
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/danhgia.css}">
 </head>
 <body>
 
+<!-- HEADER -->
+<header class="site-header">
+    <div class="header-container">
+        <a th:href="@{/trang-chu}" class="logo-box">
+            <div class="logo-badge">Vị Nhà</div>
+            <span class="logo-text">Vị Nhà</span>
+        </a>
+
+        <nav class="main-nav">
+            <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
+            <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
+            <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
+            <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
+            <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
+        </nav>
+
+        <div class="header-actions">
+            <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge">3</span>
+            </a>
+            <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+                <i class="fa-regular fa-user"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTAINER -->
+<div class="container account-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="user-profile">
+            <h3 class="user-name" th:text="${user != null ? user['name'] : 'Nguyễn Thu Hà'}">Nguyễn Thu Hà</h3>
+            <p class="user-email" th:text="${user != null ? user['email'] : 'thuha.nguyen@email.com'}">thuha.nguyen@email.com</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
+                <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+            </a>
+            <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+                <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+            </a>
+            <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+            </a>
+            <a th:href="@{/tai-khoan/danh-gia}" class="nav-item active">
+                <i class="fa-regular fa-star"></i> Đánh giá món ăn
+            </a>
+            <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+                <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+            </a>
+            <div class="nav-divider"></div>
+            <a th:href="@{/dang-xuat}" class="nav-item text-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT CARD -->
+    <main class="review-main-wrapper">
+        <div class="review-header">
+            <h2 class="page-title">Đánh giá món ăn</h2>
+
+            <!-- Switch Tabs -->
+            <div class="switch-tabs">
+                <button class="switch-btn active" onclick="switchTab('pending', this)">Chờ đánh giá</button>
+                <button class="switch-btn" onclick="switchTab('reviewed', this)">Đã đánh giá</button>
+            </div>
+        </div>
+
+        <!-- LIST PENDING REVIEWS -->
+        <div class="review-list" id="pending-list">
+
+            <div th:each="item : ${pendingReviews}"
+                 th:id="'review-card-' + ${item.id}"
+                 th:class="'review-card ' + (${item.isExpanding} ? 'expanded' : '')">
+
+                <div class="item-summary">
+                    <img th:src="${item.image}" alt="Món ăn" class="item-img">
+
+                    <div class="item-info">
+                        <div class="item-header-title">
+                            <h3 class="item-title" th:text="${item.name}">Cơm Sườn Nướng Muối Ớt</h3>
+                            <span class="badge-new" th:if="${item.isNew}">MỚI</span>
+                        </div>
+                        <p class="item-meta">
+                            Mã đơn: <span th:text="${item.orderCode}">#VN-2024-0620</span> • Hoàn thành: <span th:text="${item.completedDate}">28/07/2024</span>
+                        </p>
+                        <p class="item-subtext" th:if="${!item.isExpanding}">Đang đợi bạn chia sẻ cảm nghĩ...</p>
+                    </div>
+
+                    <button class="btn-review-now" th:if="${!item.isExpanding}"
+                            th:onclick="'toggleReviewForm(' + ${item.id} + ')'">
+                        Đánh giá ngay
+                    </button>
+                </div>
+
+                <!-- Form Đánh Giá Mở Rộng -->
+                <div class="review-form-body" th:style="${item.isExpanding} ? 'display: block;' : 'display: none;'">
+                    <p class="form-prompt">Bạn thấy món ăn này như thế nào?</p>
+
+                    <!-- Star Rating Component -->
+                    <div class="star-rating" th:data-id="${item.id}">
+                        <i class="fa-regular fa-star" data-value="1" th:onclick="'setRating(' + ${item.id} + ', 1)'"></i>
+                        <i class="fa-regular fa-star" data-value="2" th:onclick="'setRating(' + ${item.id} + ', 2)'"></i>
+                        <i class="fa-regular fa-star" data-value="3" th:onclick="'setRating(' + ${item.id} + ', 3)'"></i>
+                        <i class="fa-regular fa-star" data-value="4" th:onclick="'setRating(' + ${item.id} + ', 4)'"></i>
+                        <i class="fa-regular fa-star" data-value="5" th:onclick="'setRating(' + ${item.id} + ', 5)'"></i>
+                    </div>
+
+                    <textarea class="review-textarea" th:id="'textarea-' + ${item.id}"
+                              placeholder="Chia sẻ cảm nhận của bạn về món ăn..."></textarea>
+
+                    <div class="form-actions">
+                        <button class="btn-cancel" th:onclick="'toggleReviewForm(' + ${item.id} + ')'">Hủy</button>
+                        <button class="btn-submit" th:onclick="'submitReview(' + ${item.id} + ')'">Gửi đánh giá</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- LIST REVIEWED (Ẩn mặc định) -->
+        <div class="review-list" id="reviewed-list" style="display: none;">
+            <p class="empty-msg">Chưa có đánh giá nào được gửi.</p>
+        </div>
+    </main>
+
+</div>
+
+<!-- Custom JS -->
+<script th:src="@{/js/danhGiaMonAn.js}"></script>
 </body>
 </html>

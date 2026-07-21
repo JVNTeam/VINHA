@@ -1,10 +1,259 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giỏ hàng | Vị Nhà</title>
 
+    <link rel="stylesheet" href="/css/gioHang.css" />
+
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+</head>
+
+<body>
+<!-- ================= HEADER ================= -->
+
+<header>
+    <div class="container nav">
+        <div class="logo">
+            <img src="images/logo.png" alt="" />
+            <span>Vị Nhà</span>
+        </div>
+
+        <ul class="menu">
+            <li><a class="active" href="/trangChu">Trang chủ</a></li>
+
+            <li><a href="/thucDon">Thực đơn</a></li>
+
+            <li><a href="/khuyenMai">Khuyến mãi</a></li>
+
+            <li><a href="/gioiThieu">Giới thiệu</a></li>
+
+            <li><a href="/lienHe">Liên hệ</a></li>
+        </ul>
+
+        <div class="right">
+            <div class="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text" placeholder="Tìm món ăn..." />
+            </div>
+
+            <a href="#">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count">2</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-regular fa-user"></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- ================= BREADCRUMB ================= -->
+
+<section class="breadcrumb">
+    <div class="container">
+        <a href="/trangChu">Trang chủ</a>
+
+        <span>></span>
+
+        <strong>Giỏ hàng của bạn</strong>
+    </div>
+</section>
+
+<!-- ================= CART ================= -->
+
+<section class="cart-page">
+    <div class="container cart-layout">
+        <!-- LEFT -->
+
+        <div class="cart-left">
+            <h1>Giỏ hàng của bạn</h1>
+
+            <!-- Item -->
+
+            <div class="cart-item">
+                <div class="item-image">
+                    <img src="/images/comGa.png" alt="" />
+                </div>
+
+                <div class="item-info">
+                    <h3>Cơm Gà</h3>
+
+                    <p>Gà nướng mật ong</p>
+                </div>
+
+                <div class="price">65,000đ</div>
+
+                <div class="quantity">
+                    <button class="minus">-</button>
+
+                    <input type="text" value="1" />
+
+                    <button class="plus">+</button>
+                </div>
+
+                <div class="total">65,000đ</div>
+
+                <div class="delete">
+                    <i class="fa-regular fa-trash-can"></i>
+                </div>
+            </div>
+
+            <!-- Item -->
+
+            <div class="cart-item">
+                <div class="item-image">
+                    <img src="/images/ComhitChuaNgot.png" alt="" />
+                </div>
+
+                <div class="item-info">
+                    <h3>Cơm Sườn Non</h3>
+
+                    <p>Sườn nướng mật ong</p>
+                </div>
+
+                <div class="price">75,000đ</div>
+
+                <div class="quantity">
+                    <button class="minus">-</button>
+
+                    <input type="text" value="1" />
+
+                    <button class="plus">+</button>
+                </div>
+
+                <div class="total">75,000đ</div>
+
+                <div class="delete">
+                    <i class="fa-regular fa-trash-can"></i>
+                </div>
+            </div>
+
+            <a href="menu.html" class="continue">
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Tiếp tục mua hàng
+            </a>
+        </div>
+        <!-- RIGHT -->
+
+        <div class="cart-right">
+            <div class="summary">
+                <h2>Tóm tắt đơn hàng</h2>
+
+                <div class="summary-row">
+                    <span>Tạm tính</span>
+
+                    <span id="subtotal">140,000đ</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Số lượng món</span>
+
+                    <span id="item-count">2</span>
+                </div>
+
+                <hr />
+
+                <div class="summary-row total-row">
+                    <strong>Tổng cộng</strong>
+
+                    <strong id="grand-total">145,000đ</strong>
+                </div>
+
+                <button class="checkout-btn">
+                    Thanh toán
+
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="safe-payment">
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    Thanh toán an toàn 100%
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+    <div class="container footer">
+        <div class="footer-col">
+            <div class="footer-logo">
+                <img src="images/logo.png" alt="" />
+
+                <span>Vị Nhà</span>
+            </div>
+
+            <p>
+                Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng
+                và hương vị gia đình là ưu tiên hàng đầu.
+            </p>
+
+            <div class="social">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+
+                <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
+
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h3>Khám Phá</h3>
+
+            <a href="#">Về chúng tôi</a>
+
+            <a href="#">Thực đơn đặc biệt</a>
+
+            <a href="#">Tuyển dụng</a>
+
+            <a href="#">Tin tức & Blog</a>
+        </div>
+
+        <div class="footer-col">
+            <h3>Chính Sách</h3>
+
+            <a href="#">Privacy Policy</a>
+
+            <a href="#">Terms of Service</a>
+
+            <a href="#">Shipping Info</a>
+
+            <a href="#">Hướng dẫn đặt hàng</a>
+        </div>
+
+        <div class="footer-col">
+            <h3>Liên Hệ</h3>
+
+            <p>
+                <i class="fa-solid fa-location-dot"></i>
+                123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh
+            </p>
+
+            <p>
+                <i class="fa-solid fa-phone"></i>
+                090 1234 567
+            </p>
+
+            <p>
+                <i class="fa-regular fa-envelope"></i>
+                contact@vinha.com
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script src="../static/js/giohang.js"></script>
 </body>
 </html>

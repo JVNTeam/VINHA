@@ -1,10 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết đơn hàng - Vị Nhà</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Vẫn dùng file CSS này nhé, tí dán đè code CSS là được -->
+    <link rel="stylesheet" href="/css/chi-tiet-don.css">
 </head>
 <body>
 
+<div class="wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2><i class="fas fa-utensils" style="color: #f19f39; margin-right: 8px;"></i>Vị Nhà</h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-hamburger"></i> Quản lý món ăn</a></li>
+            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
+            <li><a href="#"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
+            <li><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <!-- Mục Đơn hàng đang được chọn -->
+            <li class="active"><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+
+        <!-- Phần Tiêu đề Đơn hàng -->
+        <div class="order-header">
+            <div class="order-title-row">
+                <h1>Đơn hàng <span>#VN-29034</span></h1>
+                <span class="badge-status pending">Chờ xác nhận</span>
+            </div>
+            <p class="order-date">Ngày đặt: 10:24 - 25/10/2026</p>
+        </div>
+
+        <!-- Khung 2 Cột -->
+        <div class="content-grid">
+
+            <!-- CỘT TRÁI (Thông tin KH & Món ăn) -->
+            <div class="left-column">
+
+                <!-- Card: Thông tin khách hàng -->
+                <div class="info-card">
+                    <h3 class="card-title">Thông tin khách hàng</h3>
+                    <div class="customer-info-grid">
+                        <div class="info-item">
+                            <span class="label">Khách hàng</span>
+                            <strong class="value">Nguyễn Văn An</strong>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Địa chỉ giao hàng</span>
+                            <strong class="value">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</strong>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Số điện thoại</span>
+                            <strong class="value">090 123 4567</strong>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Ghi chú</span>
+                            <em class="value text-gray">Giao trước 12h trưa, không lấy hành lá.</em>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Danh sách món ăn -->
+                <div class="info-card">
+                    <h3 class="card-title">Danh sách món ăn</h3>
+                    <table class="food-table">
+                        <thead>
+                        <tr>
+                            <th>Món ăn</th>
+                            <th class="text-center">SL</th>
+                            <th class="text-right">Đơn giá</th>
+                            <th class="text-right">Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div class="food-info">
+                                    <div class="food-img"></div>
+                                    <strong>Cơm Sườn Nướng</strong>
+                                </div>
+                            </td>
+                            <td class="text-center">2</td>
+                            <td class="text-right">150.000đ</td>
+                            <td class="text-right"><strong>300.000đ</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="food-info">
+                                    <div class="food-img"></div>
+                                    <strong>Cơm Gà Xối Mỡ</strong>
+                                </div>
+                            </td>
+                            <td class="text-center">1</td>
+                            <td class="text-right">120.000đ</td>
+                            <td class="text-right"><strong>120.000đ</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI (Lịch sử & Thanh toán) -->
+            <div class="right-column">
+
+                <!-- Card: Lịch sử trạng thái -->
+                <div class="info-card">
+                    <h3 class="card-title">Lịch sử trạng thái</h3>
+                    <ul class="timeline">
+                        <li class="done">
+                            <div class="icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="text">
+                                <strong>Đã đặt hàng</strong>
+                                <span>10:24 - 25/10/2026</span>
+                            </div>
+                        </li>
+                        <li class="current">
+                            <div class="icon"><i class="fas fa-clock"></i></div>
+                            <div class="text">
+                                <strong>Chờ xác nhận</strong>
+                                <span>10:25 - 25/10/2026</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card: Tóm tắt thanh toán -->
+                <div class="info-card">
+                    <h3 class="card-title">Tóm tắt thanh toán</h3>
+                    <div class="summary-row">
+                        <span>Tạm tính</span>
+                        <span>420.000đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Phí vận chuyển</span>
+                        <span>30.000đ</span>
+                    </div>
+                    <div class="summary-row text-red">
+                        <span>Giảm giá</span>
+                        <span>-0đ</span>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="summary-row total-row">
+                        <span>Tổng cộng</span>
+                        <span class="total-price">450.000đ</span>
+                    </div>
+
+                    <div class="payment-method">
+                        <i class="fas fa-university text-gray"></i>
+                        <div class="method-info">
+                            <span class="label">Phương thức thanh toán</span>
+                            <strong>Chuyển khoản</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nút thao tác (Tôi tự thêm cho logic Admin) -->
+                <div class="admin-actions">
+                    <button class="btn btn-outline" id="btnHuy">Hủy đơn</button>
+                    <button class="btn btn-primary" id="btnXacNhan">Xác nhận đơn</button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Vẫn giữ file JS cũ -->
+<script src="/js/chi-tiet-don.js"></script>
 </body>
 </html>

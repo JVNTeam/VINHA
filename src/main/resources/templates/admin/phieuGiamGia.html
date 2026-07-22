@@ -1,10 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý phiếu giảm giá - Vị Nhà</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Đã đồng bộ tên file CSS -->
+    <link rel="stylesheet" href="/css/phieu-giam-gia.css">
 </head>
 <body>
 
+<div class="wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Vị Nhà</h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
+            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
+            <!-- Đổi active sang Phiếu giảm giá -->
+            <li class="active"><a href="#"><i class="fas fa-ticket-alt"></i> Phiếu giảm giá</a></li>
+            <li><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <div class="topbar-right">
+                <button class="btn-icon"><i class="far fa-bell"></i></button>
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Avatar" class="avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>Quản lý phiếu giảm giá</h1>
+            <button class="btn btn-primary" id="btnThemMoi"><i class="fas fa-plus"></i> Thêm phiếu giảm giá</button>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-group flex-2">
+                <label>Tìm kiếm mã</label>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="VD: VINHA2024">
+                </div>
+            </div>
+
+            <div class="filter-group flex-1">
+                <label>Trạng thái</label>
+                <select class="form-control">
+                    <option>Tất cả trạng thái</option>
+                    <option>Đang bật</option>
+                    <option>Đã tắt</option>
+                </select>
+            </div>
+
+            <div class="filter-group flex-1">
+                <label>Mức giảm tối đa</label>
+                <input type="text" class="form-control" placeholder="Nhập số tiền...">
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn btn-outline" id="btnLamMoi">Làm mới</button>
+                <button class="btn btn-search" id="btnTimKiem">Tìm kiếm</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã giảm giá</th>
+                    <th>% Giảm</th>
+                    <th>Giảm tối đa</th>
+                    <th>Đơn tối thiểu</th>
+                    <th>Số lượng</th>
+                    <th>Thời gian áp dụng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><span class="code-badge bg-orange-light text-orange">VINHAHAVET</span></td>
+                    <td>20%</td>
+                    <td>50,000đ</td>
+                    <td>150,000đ</td>
+                    <td><strong>150 / 200</strong></td>
+                    <td class="date-col">
+                        <span>01/10/2024</span>
+                        <span class="text-gray">31/10/2024</span>
+                    </td>
+                    <td>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                    <td class="actions">
+                        <button title="Xem"><i class="far fa-eye"></i></button>
+                        <button title="Sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td><span class="code-badge bg-gray-light text-gray-dark">WELCOMEHOME</span></td>
+                    <td>15%</td>
+                    <td>30,000đ</td>
+                    <td>100,000đ</td>
+                    <td><strong>0 / 200</strong></td>
+                    <td class="date-col">
+                        <span>01/11/2024</span>
+                        <span class="text-gray">30/11/2024</span>
+                    </td>
+                    <td>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                    <td class="actions">
+                        <button title="Xem"><i class="far fa-eye"></i></button>
+                        <button title="Sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <span class="dots">...</span>
+                <button class="page-btn">15</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Đã đồng bộ tên file JS -->
+<script src="/js/phieu-giam-gia.js"></script>
 </body>
 </html>

@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    background-color: #fdfaf7;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 20px;
+    color: #8c5324;
+    font-size: 1.2rem;
+}
+
+.logo .line {
+    color: #f19f39;
+}
+
+.menu {
+    list-style: none;
+    flex: 1;
+}
+
+.menu li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.menu li a i {
+    width: 25px;
+    color: #777;
+}
+
+.menu li:hover a {
+    background-color: #fff3e6;
+    color: #f19f39;
+}
+
+.menu li.active a {
+    background-color: #f19f39;
+    color: white;
+    border-radius: 0 20px 20px 0;
+    margin-right: 15px;
+}
+
+.menu li.active a i {
+    color: white;
+}
+
+.logout {
+    padding: 20px;
+}
+
+.logout a {
+    text-decoration: none;
+    color: #555;
+}
+
+/* NỘI DUNG CHÍNH */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #222;
+}
+
+.header p {
+    color: #666;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* NÚT BẤM */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-add {
+    background-color: #f19f39;
+    color: white;
+}
+
+.btn-search {
+    background-color: #8c5324;
+    color: white;
+}
+
+.btn-reset {
+    background-color: #e4e4e4;
+    color: #555;
+}
+
+/* TÌM KIẾM */
+.filter-section {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.search-box label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: #fff8f0;
+    border: 1px solid #ffebcc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 350px;
+}
+
+.input-group input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+}
+
+.input-group i {
+    color: #f19f39;
+    margin-right: 10px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* BẢNG DỮ LIỆU */
+.table-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+th {
+    color: #444;
+    font-weight: 600;
+}
+
+.cate-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.icon-box {
+    background-color: #ffebcc;
+    color: #f19f39;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.badge-closed {
+    background-color: #f0f0f0;
+    color: #555;
+}
+
+.badge-open {
+    background-color: #e5f5e0;
+    color: #2e7d32;
+}
+
+.badge-count {
+    background-color: #f0ece9;
+    color: #8c5324;
+}
+
+.actions button {
+    border: none;
+    background: transparent;
+    color: #666;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.page-btn {
+    border: none;
+    background: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: #8c5324;
+    color: white;
+}

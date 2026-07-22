@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="vi">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Thanh toán | Vị Nhà</title>
@@ -8,339 +8,339 @@
     <link rel="stylesheet" href="/css/thanhtoan.css" />
 
     <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     />
-</head>
+  </head>
 
-<body>
-<!-- ================= HEADER ================= -->
+  <body>
+    <!-- ================= HEADER ================= -->
 
-<header>
-    <div class="container nav">
+    <header>
+      <div class="container nav">
         <div class="logo">
-            <img src="images/logo.png" alt="" />
-            <span>Vị Nhà</span>
+          <img src="images/logo.png" alt="" />
+          <span>Vị Nhà</span>
         </div>
 
         <ul class="menu">
-            <li><a class="active" href="/trangChu">Trang chủ</a></li>
+          <li><a class="active" href="/trangChu">Trang chủ</a></li>
 
-            <li><a href="/thucDon">Thực đơn</a></li>
+          <li><a href="/thucDon">Thực đơn</a></li>
 
-            <li><a href="/khuyenMai">Khuyến mãi</a></li>
+          <li><a href="/khuyenMai">Khuyến mãi</a></li>
 
-            <li><a href="/gioiThieu">Giới thiệu</a></li>
+          <li><a href="/gioiThieu">Giới thiệu</a></li>
 
-            <li><a href="/lienHe">Liên hệ</a></li>
+          <li><a href="/lienHe">Liên hệ</a></li>
         </ul>
 
         <div class="right">
-            <div class="search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
 
-                <input type="text" placeholder="Tìm món ăn..." />
-            </div>
+            <input type="text" placeholder="Tìm món ăn..." />
+          </div>
 
-            <a href="/gioHang">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </a>
+          <a href="/gioHang">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
 
-            <a href="#">
-                <i class="fa-regular fa-user"></i>
-            </a>
+          <a href="#">
+            <i class="fa-regular fa-user"></i>
+          </a>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- ================= CHECKOUT ================= -->
+    <!-- ================= CHECKOUT ================= -->
 
-<section class="checkout">
-    <div class="container">
+    <section class="checkout">
+      <div class="container">
         <h1>Thanh toán đơn hàng</h1>
 
         <div class="checkout-layout">
-            <!-- ================= LEFT ================= -->
+          <!-- ================= LEFT ================= -->
 
-            <div class="checkout-left">
-                <!-- Thông tin nhận hàng -->
+          <div class="checkout-left">
+            <!-- Thông tin nhận hàng -->
 
-                <div class="card">
-                    <div class="card-title">
-                        <h2>
-                            <i class="fa-solid fa-truck-fast"></i>
-                            Thông tin nhận hàng
-                        </h2>
+            <div class="card">
+              <div class="card-title">
+                <h2>
+                  <i class="fa-solid fa-truck-fast"></i>
+                  Thông tin nhận hàng
+                </h2>
 
-                        <button class="auto-fill">Tự động điền</button>
-                    </div>
+                <button class="auto-fill">Tự động điền</button>
+              </div>
 
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Họ và tên</label>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Họ và tên</label>
 
-                            <input
-                                    type="text"
-                                    id="fullname"
-                                    placeholder="Nhập họ tên người nhận"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Số điện thoại</label>
-
-                            <input
-                                    type="text"
-                                    id="phone"
-                                    placeholder="Nhập số điện thoại"
-                            />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Tỉnh / Thành phố</label>
-
-                            <select id="province">
-                                <option>Chọn Tỉnh / Thành</option>
-
-                                <option>Hà Nội</option>
-
-                                <option>Hồ Chí Minh</option>
-
-                                <option>Đà Nẵng</option>
-
-                                <option>Hải Phòng</option>
-
-                                <option>Cần Thơ</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Quận / Huyện</label>
-
-                            <select id="district">
-                                <option>Chọn Quận / Huyện</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group full">
-                        <label>Địa chỉ chi tiết</label>
-
-                        <input
-                                type="text"
-                                id="address"
-                                placeholder="Số nhà, tên đường..."
-                        />
-                    </div>
+                  <input
+                    type="text"
+                    id="fullname"
+                    placeholder="Nhập họ tên người nhận"
+                  />
                 </div>
 
-                <!-- ================= MÃ GIẢM GIÁ ================= -->
+                <div class="form-group">
+                  <label>Số điện thoại</label>
 
-                <div class="card">
-                    <h2>
-                        <i class="fa-solid fa-tag"></i>
-                        Mã giảm giá
-                    </h2>
-
-                    <div class="coupon">
-                        <input
-                                type="text"
-                                id="coupon"
-                                placeholder="NHẬP MÃ ƯU ĐÃI CỦA BẠN"
-                        />
-
-                        <button id="applyCoupon">Áp dụng</button>
-                    </div>
+                  <input
+                    type="text"
+                    id="phone"
+                    placeholder="Nhập số điện thoại"
+                  />
                 </div>
 
-                <!-- ================= THANH TOÁN ================= -->
+                <div class="form-group">
+                  <label>Tỉnh / Thành phố</label>
 
-                <div class="card">
-                    <h2>
-                        <i class="fa-regular fa-credit-card"></i>
-                        Hình thức thanh toán
-                    </h2>
+                  <select id="province">
+                    <option>Chọn Tỉnh / Thành</option>
 
-                    <label class="payment">
-                        <input type="radio" name="payment" value="cod" checked />
+                    <option>Hà Nội</option>
 
-                        <span>
+                    <option>Hồ Chí Minh</option>
+
+                    <option>Đà Nẵng</option>
+
+                    <option>Hải Phòng</option>
+
+                    <option>Cần Thơ</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Quận / Huyện</label>
+
+                  <select id="district">
+                    <option>Chọn Quận / Huyện</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label>Địa chỉ chi tiết</label>
+
+                <input
+                  type="text"
+                  id="address"
+                  placeholder="Số nhà, tên đường..."
+                />
+              </div>
+            </div>
+
+            <!-- ================= MÃ GIẢM GIÁ ================= -->
+
+            <div class="card">
+              <h2>
+                <i class="fa-solid fa-tag"></i>
+                Mã giảm giá
+              </h2>
+
+              <div class="coupon">
+                <input
+                  type="text"
+                  id="coupon"
+                  placeholder="NHẬP MÃ ƯU ĐÃI CỦA BẠN"
+                />
+
+                <button id="applyCoupon">Áp dụng</button>
+              </div>
+            </div>
+
+            <!-- ================= THANH TOÁN ================= -->
+
+            <div class="card">
+              <h2>
+                <i class="fa-regular fa-credit-card"></i>
+                Hình thức thanh toán
+              </h2>
+
+              <label class="payment">
+                <input type="radio" name="payment" value="cod" checked />
+
+                <span>
                   <i class="fa-solid fa-money-bill-wave"></i>
                   Tiền mặt (COD)
                 </span>
-                    </label>
+              </label>
 
-                    <label class="payment">
-                        <input type="radio" name="payment" value="bank" />
+              <label class="payment">
+                <input type="radio" name="payment" value="bank" />
 
-                        <span>
+                <span>
                   <i class="fa-solid fa-building-columns"></i>
                   Chuyển khoản ngân hàng
                 </span>
-                    </label>
+              </label>
 
-                    <label class="payment">
-                        <input type="radio" name="payment" value="wallet" />
+              <label class="payment">
+                <input type="radio" name="payment" value="wallet" />
 
-                        <span>
+                <span>
                   <i class="fa-solid fa-wallet"></i>
                   Ví điện tử (MoMo / ZaloPay)
                 </span>
-                    </label>
-                </div>
-
-                <!-- ================= GHI CHÚ ================= -->
-
-                <div class="card">
-                    <h2>
-                        <i class="fa-solid fa-pen"></i>
-                        Ghi chú đơn hàng
-                    </h2>
-
-                    <textarea
-                            id="note"
-                            rows="5"
-                            placeholder="Ví dụ: Giao hàng giờ hành chính, không cay..."
-                    ></textarea>
-                </div>
+              </label>
             </div>
 
-            <!-- ================= RIGHT ================= -->
+            <!-- ================= GHI CHÚ ================= -->
 
-            <div class="checkout-right">
-                <div class="order-summary">
-                    <h2>Chi tiết đơn hàng</h2>
+            <div class="card">
+              <h2>
+                <i class="fa-solid fa-pen"></i>
+                Ghi chú đơn hàng
+              </h2>
 
-                    <div class="order-item">
-                        <img src="/images/comGaXoiMo.png" alt="" />
+              <textarea
+                id="note"
+                rows="5"
+                placeholder="Ví dụ: Giao hàng giờ hành chính, không cay..."
+              ></textarea>
+            </div>
+          </div>
 
-                        <div>
-                            <h4>Cơm Gà</h4>
+          <!-- ================= RIGHT ================= -->
 
-                            <p>Số lượng: 1</p>
+          <div class="checkout-right">
+            <div class="order-summary">
+              <h2>Chi tiết đơn hàng</h2>
 
-                            <strong>65.000đ</strong>
-                        </div>
-                    </div>
+              <div class="order-item">
+                <img src="/images/comGaXoiMo.png" alt="" />
 
-                    <div class="order-item">
-                        <img src="/images/ComhitChuaNgot.png" alt="" />
+                <div>
+                  <h4>Cơm Gà</h4>
 
-                        <div>
-                            <h4>Cơm Sườn Non</h4>
+                  <p>Số lượng: 1</p>
 
-                            <p>Số lượng: 1</p>
-
-                            <strong>75.000đ</strong>
-                        </div>
-                    </div>
-
-                    <hr />
-
-                    <div class="money">
-                        <span>Tạm tính</span>
-
-                        <span id="subtotal">130.000đ</span>
-                    </div>
-
-                    <div class="money">
-                        <span>Phí giao hàng</span>
-
-                        <span>0.000đ</span>
-                    </div>
-
-                    <div class="money discount">
-                        <span>Giảm giá</span>
-
-                        <span id="discount">0.000đ</span>
-                    </div>
-
-                    <hr />
-
-                    <div class="money total">
-                        <strong>Tổng cộng</strong>
-
-                        <strong id="grandTotal">140.000đ</strong>
-                    </div>
-
-                    <button class="order-btn">
-                        Đặt hàng ngay
-
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-
-                    <p class="policy">
-                        Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý với các điều
-                        khoản của Vị Nhà.
-                    </p>
+                  <strong>65.000đ</strong>
                 </div>
+              </div>
+
+              <div class="order-item">
+                <img src="/images/ComhitChuaNgot.png" alt="" />
+
+                <div>
+                  <h4>Cơm Sườn Non</h4>
+
+                  <p>Số lượng: 1</p>
+
+                  <strong>75.000đ</strong>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="money">
+                <span>Tạm tính</span>
+
+                <span id="subtotal">130.000đ</span>
+              </div>
+
+              <div class="money">
+                <span>Phí giao hàng</span>
+
+                <span>0.000đ</span>
+              </div>
+
+              <div class="money discount">
+                <span>Giảm giá</span>
+
+                <span id="discount">0.000đ</span>
+              </div>
+
+              <hr />
+
+              <div class="money total">
+                <strong>Tổng cộng</strong>
+
+                <strong id="grandTotal">140.000đ</strong>
+              </div>
+
+              <button class="order-btn">
+                Đặt hàng ngay
+
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+
+              <p class="policy">
+                Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý với các điều
+                khoản của Vị Nhà.
+              </p>
             </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- ================= FOOTER ================= -->
+    <!-- ================= FOOTER ================= -->
 
-<footer>
-    <div class="container footer">
+    <footer>
+      <div class="container footer">
         <div class="footer-col">
-            <div class="footer-logo">
-                <img src="images/logo.png" alt="" />
+          <div class="footer-logo">
+            <img src="images/logo.png" alt="" />
 
-                <span>Vị Nhà</span>
-            </div>
+            <span>Vị Nhà</span>
+          </div>
 
-            <p>
-                Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng
-                và hương vị gia đình là ưu tiên hàng đầu.
-            </p>
-        </div>
-
-        <div class="footer-col">
-            <h3>Khám Phá</h3>
-
-            <a href="#">Về chúng tôi</a>
-
-            <a href="#">Thực đơn đặc biệt</a>
-
-            <a href="#">Tuyển dụng</a>
-
-            <a href="#">Tin tức & Blog</a>
+          <p>
+            Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng
+            và hương vị gia đình là ưu tiên hàng đầu.
+          </p>
         </div>
 
         <div class="footer-col">
-            <h3>Chính Sách</h3>
+          <h3>Khám Phá</h3>
 
-            <a href="#">Privacy Policy</a>
+          <a href="#">Về chúng tôi</a>
 
-            <a href="#">Terms of Service</a>
+          <a href="#">Thực đơn đặc biệt</a>
 
-            <a href="#">Shipping Info</a>
+          <a href="#">Tuyển dụng</a>
 
-            <a href="#">Hướng dẫn đặt hàng</a>
+          <a href="#">Tin tức & Blog</a>
         </div>
 
         <div class="footer-col">
-            <h3>Liên Hệ</h3>
+          <h3>Chính Sách</h3>
 
-            <p>
-                <i class="fa-solid fa-location-dot"></i>
-                123 Đường Nguyễn Huệ, Quận 1, TP.HCM
-            </p>
+          <a href="#">Privacy Policy</a>
 
-            <p>
-                <i class="fa-solid fa-phone"></i>
-                090 1234 567
-            </p>
+          <a href="#">Terms of Service</a>
 
-            <p>
-                <i class="fa-regular fa-envelope"></i>
-                contact@vinha.com
-            </p>
+          <a href="#">Shipping Info</a>
+
+          <a href="#">Hướng dẫn đặt hàng</a>
         </div>
-    </div>
-</footer>
 
-<script src="/js/thanhtoan.js"></script>
-</body>
+        <div class="footer-col">
+          <h3>Liên Hệ</h3>
+
+          <p>
+            <i class="fa-solid fa-location-dot"></i>
+            123 Đường Nguyễn Huệ, Quận 1, TP.HCM
+          </p>
+
+          <p>
+            <i class="fa-solid fa-phone"></i>
+            090 1234 567
+          </p>
+
+          <p>
+            <i class="fa-regular fa-envelope"></i>
+            contact@vinha.com
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/thanhtoan.js"></script>
+  </body>
 </html>

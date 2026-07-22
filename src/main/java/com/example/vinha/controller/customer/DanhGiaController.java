@@ -38,7 +38,8 @@ public class DanhGiaController {
         item2.put("name", "Cơm rang");
         item2.put("orderCode", "#VN-2024-0618");
         item2.put("completedDate", "25/07/2024");
-        item2.put("image", "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=300&auto=format&fit=crop");
+        item2.put("image",
+                "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=300&auto=format&fit=crop");
         item2.put("isNew", false);
         item2.put("isExpanding", false);
         pendingReviews.add(item2);

@@ -2,292 +2,292 @@
         REGISTER PAGE
 ========================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Be Vietnam Pro',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Be Vietnam Pro', sans-serif;
 }
 
-body{
-    background:#FDFBF9;
-    color:#333;
+body {
+    background: #FDFBF9;
+    color: #333;
 }
 
 /* Main */
 
-main{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:140px 20px 80px;
+main {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 140px 20px 80px;
 }
 
 /* Card */
 
-.register-box{
+.register-box {
 
-    width:100%;
-    max-width:520px;
+    width: 100%;
+    max-width: 520px;
 
-    background:#fff;
+    background: #fff;
 
-    padding:40px;
+    padding: 40px;
 
-    border-radius:14px;
+    border-radius: 14px;
 
-    border:1px solid #EFE8E2;
+    border: 1px solid #EFE8E2;
 
-    box-shadow:0 5px 18px rgba(0,0,0,.05);
-
-}
-
-.register-box h1{
-
-    text-align:center;
-
-    font-size:50px;
-
-    font-weight:700;
-
-    margin-bottom:12px;
-
-    font-family:Georgia, serif;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, .05);
 
 }
 
-.register-box p{
+.register-box h1 {
 
-    text-align:center;
+    text-align: center;
 
-    color:#666;
+    font-size: 50px;
 
-    margin-bottom:35px;
+    font-weight: 700;
 
-    line-height:1.6;
+    margin-bottom: 12px;
+
+    font-family: Georgia, serif;
 
 }
 
-.register-box label{
+.register-box p {
 
-    display:block;
+    text-align: center;
 
-    margin:18px 0 10px;
+    color: #666;
 
-    font-size:15px;
+    margin-bottom: 35px;
 
-    font-weight:500;
+    line-height: 1.6;
+
+}
+
+.register-box label {
+
+    display: block;
+
+    margin: 18px 0 10px;
+
+    font-size: 15px;
+
+    font-weight: 500;
 
 }
 
 /* Input */
 
-.input-group{
+.input-group {
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    background:#F8F5F3;
+    background: #F8F5F3;
 
-    border:1px solid #ECE6E0;
+    border: 1px solid #ECE6E0;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    padding:14px 16px;
-
-}
-
-.input-group img{
-
-    width:18px;
-
-    opacity:.65;
+    padding: 14px 16px;
 
 }
 
-.input-group input{
+.input-group img {
 
-    flex:1;
+    width: 18px;
 
-    border:none;
-
-    background:transparent;
-
-    outline:none;
-
-    margin-left:12px;
-
-    font-size:15px;
+    opacity: .65;
 
 }
 
-.input-group input::placeholder{
+.input-group input {
 
-    color:#C9B4A4;
+    flex: 1;
+
+    border: none;
+
+    background: transparent;
+
+    outline: none;
+
+    margin-left: 12px;
+
+    font-size: 15px;
 
 }
 
-.eye{
+.input-group input::placeholder {
 
-    width:20px;
+    color: #C9B4A4;
 
-    cursor:pointer;
+}
+
+.eye {
+
+    width: 20px;
+
+    cursor: pointer;
 
 }
 
 /* Checkbox */
 
-.terms{
+.terms {
 
-    display:flex;
+    display: flex;
 
-    align-items:flex-start;
+    align-items: flex-start;
 
-    gap:10px;
+    gap: 10px;
 
-    margin:25px 0;
+    margin: 25px 0;
 
-    font-size:15px;
+    font-size: 15px;
 
-    color:#555;
-
-}
-
-.terms input{
-
-    margin-top:4px;
+    color: #555;
 
 }
 
-.terms a{
+.terms input {
 
-    color:#A65A17;
-
-    text-decoration:none;
-
-    font-weight:600;
+    margin-top: 4px;
 
 }
 
-.terms a:hover{
+.terms a {
 
-    text-decoration:underline;
+    color: #A65A17;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+}
+
+.terms a:hover {
+
+    text-decoration: underline;
 
 }
 
 /* Button */
 
-.register-btn{
+.register-btn {
 
-    width:100%;
+    width: 100%;
 
-    height:54px;
+    height: 54px;
 
-    border:none;
+    border: none;
 
-    border-radius:12px;
+    border-radius: 12px;
 
-    background:#FF8A00;
+    background: #FF8A00;
 
-    color:white;
+    color: white;
 
-    font-size:17px;
+    font-size: 17px;
 
-    font-weight:600;
+    font-weight: 600;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    transition:.3s;
+    transition: .3s;
 
 }
 
-.register-btn:hover{
+.register-btn:hover {
 
-    background:#f17300;
+    background: #f17300;
 
 }
 
 /* Bottom */
 
-.login{
+.login {
 
-    margin-top:30px;
+    margin-top: 30px;
 
-    text-align:center;
+    text-align: center;
 
-    font-size:15px;
-
-}
-
-.login a{
-
-    color:#A65A17;
-
-    text-decoration:none;
-
-    font-weight:700;
+    font-size: 15px;
 
 }
 
-.login a:hover{
+.login a {
 
-    text-decoration:underline;
+    color: #A65A17;
+
+    text-decoration: none;
+
+    font-weight: 700;
+
+}
+
+.login a:hover {
+
+    text-decoration: underline;
 
 }
 
 /* Divider */
 
-.divider{
+.divider {
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    justify-content: center;
 
-    align-items:center;
+    align-items: center;
 
-    gap:18px;
+    gap: 18px;
 
-    margin:40px auto;
+    margin: 40px auto;
 
-    color:#C8A88D;
+    color: #C8A88D;
 
 }
 
 .divider::before,
 
-.divider::after{
+.divider::after {
 
-    content:"";
+    content: "";
 
-    width:40px;
+    width: 40px;
 
-    height:1px;
+    height: 1px;
 
-    background:#DCC7B7;
+    background: #DCC7B7;
 
 }
 
-.divider i{
+.divider i {
 
-    font-size:18px;
+    font-size: 18px;
 
 }
 
 /* Responsive */
 
-@media(max-width:768px){
+@media(max-width:768px) {
 
-    .register-box{
+    .register-box {
 
-        padding:30px 24px;
+        padding: 30px 24px;
 
     }
 
-    .register-box h1{
+    .register-box h1 {
 
-        font-size:38px;
+        font-size: 38px;
 
     }
 

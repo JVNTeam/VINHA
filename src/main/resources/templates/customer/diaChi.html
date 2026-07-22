@@ -1,104 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quản lý địa chỉ - Vị Nhà</title>
     <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/quanlydiachi.css}">
-</head>
-<body>
-
-<!-- Main Container -->
-<div class="container account-container">
-    <!-- Sidebar Menu -->
-    <aside class="sidebar">
+    <link rel="stylesheet" th:href="@{/css/quanlydiachi.css}" />
+  </head>
+  <body>
+    <!-- Main Container -->
+    <div class="container account-container">
+      <!-- Sidebar Menu -->
+      <aside class="sidebar">
         <div class="user-profile">
-            <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
-            <p class="user-email" th:text="${user.email}">thuha.nguyen@email.com</p>
+          <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
+          <p class="user-email" th:text="${user.email}">
+            thuha.nguyen@email.com
+          </p>
         </div>
 
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item">
-                <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
-            </a>
-            <a href="#" class="nav-item active">
-                <i class="fa-solid fa-location-dot"></i> Địa Chỉ của Tôi
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá món ăn
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-lock"></i> Đổi mật khẩu
-            </a>
-            <div class="nav-divider"></div>
-            <a href="#" class="nav-item text-danger">
-                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-            </a>
+          <a href="#" class="nav-item">
+            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+          </a>
+          <a href="#" class="nav-item active">
+            <i class="fa-solid fa-location-dot"></i> Địa Chỉ của Tôi
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa-regular fa-star"></i> Đánh giá món ăn
+          </a>
+          <a href="#" class="nav-item">
+            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+          </a>
+          <div class="nav-divider"></div>
+          <a href="#" class="nav-item text-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </a>
         </nav>
-    </aside>
+      </aside>
 
-    <!-- Main Content -->
-    <main class="content">
+      <!-- Main Content -->
+      <main class="content">
         <div class="content-header">
-            <h2 class="page-title">Địa Chỉ của Tôi</h2>
-            <button class="btn-primary btn-add-address" id="btnOpenAddModal">
-                <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
-            </button>
+          <h2 class="page-title">Địa Chỉ của Tôi</h2>
+          <button class="btn-primary btn-add-address" id="btnOpenAddModal">
+            <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
+          </button>
         </div>
 
         <!-- List of Addresses -->
         <div class="address-list">
-            <div class="address-card" th:each="addr : ${addresses}">
-                <div class="address-header">
-                    <div class="user-info">
-                        <span class="name" th:text="${addr.name}">Nguyễn Thu Hà</span>
-                        <span class="badge-default" th:if="${addr.isDefault}">MẶC ĐỊNH</span>
-                    </div>
-                    <div class="address-actions">
-                        <button class="btn-action edit" th:data-id="${addr.id}" onclick="editAddress(this)">
-                            <i class="fa-regular fa-pen-to-square"></i> Sửa
-                        </button>
-                        <button class="btn-action delete" th:data-id="${addr.id}" onclick="deleteAddress(this)">
-                            <i class="fa-regular fa-trash-can"></i> Xóa
-                        </button>
-                    </div>
-                </div>
-                <div class="address-body">
-                    <p class="phone"><i class="fa-solid fa-phone"></i> <span th:text="${addr.phone}">090 123 4567</span></p>
-                    <p class="detail"><i class="fa-solid fa-location-dot"></i> <span th:text="${addr.detail}">123 Đường Lê Lợi...</span></p>
-                </div>
-                <div class="address-footer" th:if="${!addr.isDefault}">
-                    <button class="btn-set-default" th:data-id="${addr.id}" onclick="setDefaultAddress(this)">
-                        Đặt mặc định
-                    </button>
-                </div>
+          <div class="address-card" th:each="addr : ${addresses}">
+            <div class="address-header">
+              <div class="user-info">
+                <span class="name" th:text="${addr.name}">Nguyễn Thu Hà</span>
+                <span class="badge-default" th:if="${addr.isDefault}"
+                  >MẶC ĐỊNH</span
+                >
+              </div>
+              <div class="address-actions">
+                <button
+                  class="btn-action edit"
+                  th:data-id="${addr.id}"
+                  onclick="editAddress(this)"
+                >
+                  <i class="fa-regular fa-pen-to-square"></i> Sửa
+                </button>
+                <button
+                  class="btn-action delete"
+                  th:data-id="${addr.id}"
+                  onclick="deleteAddress(this)"
+                >
+                  <i class="fa-regular fa-trash-can"></i> Xóa
+                </button>
+              </div>
             </div>
+            <div class="address-body">
+              <p class="phone">
+                <i class="fa-solid fa-phone"></i>
+                <span th:text="${addr.phone}">090 123 4567</span>
+              </p>
+              <p class="detail">
+                <i class="fa-solid fa-location-dot"></i>
+                <span th:text="${addr.detail}">123 Đường Lê Lợi...</span>
+              </p>
+            </div>
+            <div class="address-footer" th:if="${!addr.isDefault}">
+              <button
+                class="btn-set-default"
+                th:data-id="${addr.id}"
+                onclick="setDefaultAddress(this)"
+              >
+                Đặt mặc định
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Banner Map Section -->
         <div class="map-banner">
-            <div class="banner-overlay"></div>
-            <div class="delivery-card">
-                <div class="icon-box">
-                    <i class="fa-solid fa-truck-fast"></i>
-                </div>
-                <div class="delivery-info">
-                    <h4>Giao hàng tận tâm</h4>
-                    <p>Chúng tôi luôn đảm bảo món ăn được giao đến nhanh nhất có thể.</p>
-                </div>
+          <div class="banner-overlay"></div>
+          <div class="delivery-card">
+            <div class="icon-box">
+              <i class="fa-solid fa-truck-fast"></i>
             </div>
+            <div class="delivery-info">
+              <h4>Giao hàng tận tâm</h4>
+              <p>
+                Chúng tôi luôn đảm bảo món ăn được giao đến nhanh nhất có thể.
+              </p>
+            </div>
+          </div>
         </div>
-    </main>
-</div>
+      </main>
+    </div>
 
-<!-- JS -->
-<script th:src="@{/js/quanlydiachi.js}"></script>
-</body>
+    <!-- JS -->
+    <script th:src="@{/js/quanlydiachi.js}"></script>
+  </body>
 </html>

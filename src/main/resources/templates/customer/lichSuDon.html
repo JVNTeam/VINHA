@@ -1,140 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lịch sử đơn hàng - Vị Nhà</title>
 
     <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/lichSuDonHang.css}">
-</head>
-<body>
-
-<!-- HEADER -->
-<header class="site-header">
-    <div class="header-container">
+    <link rel="stylesheet" th:href="@{/css/lichSuDonHang.css}" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-container">
         <a th:href="@{/trang-chu}" class="logo-box">
-            <div class="logo-badge">Vị Nhà</div>
-            <span class="logo-text">Vị Nhà</span>
+          <div class="logo-badge">Vị Nhà</div>
+          <span class="logo-text">Vị Nhà</span>
         </a>
 
         <nav class="main-nav">
-            <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
-            <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
-            <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
-            <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
-            <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
+          <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
+          <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
+          <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
+          <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
+          <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
         </nav>
 
         <div class="header-actions">
-            <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge">3</span>
-            </a>
-            <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
-                <i class="fa-regular fa-user"></i>
-            </a>
+          <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">3</span>
+          </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+            <i class="fa-regular fa-user"></i>
+          </a>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- MAIN CONTAINER -->
-<div class="container account-container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <!-- MAIN CONTAINER -->
+    <div class="container account-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
         <div class="user-profile">
-            <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
-            <p class="user-email" th:text="${user.email}">thuha.nguyen@email.com</p>
+          <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
+          <p class="user-email" th:text="${user.email}">
+            thuha.nguyen@email.com
+          </p>
         </div>
 
         <nav class="sidebar-nav">
-            <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
-                <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
-            </a>
-            <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
-                <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
-            </a>
-            <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item active">
-                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
-            </a>
-            <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá món ăn
-            </a>
-            <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
-                <i class="fa-solid fa-lock"></i> Đổi mật khẩu
-            </a>
-            <div class="nav-divider"></div>
-            <a th:href="@{/dang-xuat}" class="nav-item text-danger">
-                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-            </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
+            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+          </a>
+          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+            <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+          </a>
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item active">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+          </a>
+          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+            <i class="fa-regular fa-star"></i> Đánh giá món ăn
+          </a>
+          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+          </a>
+          <div class="nav-divider"></div>
+          <a th:href="@{/dang-xuat}" class="nav-item text-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </a>
         </nav>
-    </aside>
+      </aside>
 
-    <!-- MAIN CONTENT CARD -->
-    <main class="content-card">
+      <!-- MAIN CONTENT CARD -->
+      <main class="content-card">
         <h2 class="page-title">Lịch sử đơn hàng</h2>
 
         <!-- Tab Lọc -->
         <div class="order-tabs">
-            <button class="tab-btn active" onclick="filterOrder('all', this)">Tất cả</button>
-            <button class="tab-btn" onclick="filterOrder('pending', this)">Chờ xác nhận</button>
-            <button class="tab-btn" onclick="filterOrder('completed', this)">Hoàn thành</button>
-            <button class="tab-btn" onclick="filterOrder('cancelled', this)">Đã hủy</button>
+          <button class="tab-btn active" onclick="filterOrder('all', this)">
+            Tất cả
+          </button>
+          <button class="tab-btn" onclick="filterOrder('pending', this)">
+            Chờ xác nhận
+          </button>
+          <button class="tab-btn" onclick="filterOrder('completed', this)">
+            Hoàn thành
+          </button>
+          <button class="tab-btn" onclick="filterOrder('cancelled', this)">
+            Đã hủy
+          </button>
         </div>
 
         <!-- Bảng Đơn Hàng -->
         <div class="table-responsive">
-            <table class="order-table">
-                <thead>
-                <tr>
-                    <th>Mã đơn</th>
-                    <th>Ngày đặt</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                    <th style="text-align: right;">Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="order : ${orders}" th:class="'order-row ' + ${order.statusCode}">
-                    <td class="order-id" th:text="${order.code}">#VN-2024-0812</td>
-                    <td th:text="${order.date}">12/08/2024</td>
-                    <td class="order-price" th:text="${order.price}">245.000đ</td>
-                    <td>
-                                <span th:class="'badge badge-' + ${order.statusCode}"
-                                      th:text="${order.statusText}">Chờ xác nhận</span>
-                    </td>
-                    <td>
-                        <div class="action-group">
-                            <button class="btn-cancel-order"
-                                    th:if="${order.statusCode == 'pending'}"
-                                    th:onclick="cancelOrder([[${order.code}]])">Hủy đơn</button>
-                            <button class="btn-view-detail"
-                                    th:onclick="viewDetail([[${order.code}]])">Xem chi tiết</button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Mã đơn</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th style="text-align: right">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                th:each="order : ${orders}"
+                th:class="'order-row ' + ${order.statusCode}"
+              >
+                <td class="order-id" th:text="${order.code}">#VN-2024-0812</td>
+                <td th:text="${order.date}">12/08/2024</td>
+                <td class="order-price" th:text="${order.price}">245.000đ</td>
+                <td>
+                  <span
+                    th:class="'badge badge-' + ${order.statusCode}"
+                    th:text="${order.statusText}"
+                    >Chờ xác nhận</span
+                  >
+                </td>
+                <td>
+                  <div class="action-group">
+                    <button
+                      class="btn-cancel-order"
+                      th:if="${order.statusCode == 'pending'}"
+                      th:onclick="cancelOrder([[${order.code}]])"
+                    >
+                      Hủy đơn
+                    </button>
+                    <button
+                      class="btn-view-detail"
+                      th:onclick="viewDetail([[${order.code}]])"
+                    >
+                      Xem chi tiết
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <!-- Phân trang -->
         <div class="pagination">
-            <button class="page-item"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="page-item active">1</button>
-            <button class="page-item">2</button>
-            <button class="page-item">3</button>
-            <button class="page-item"><i class="fa-solid fa-chevron-right"></i></button>
+          <button class="page-item">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="page-item active">1</button>
+          <button class="page-item">2</button>
+          <button class="page-item">3</button>
+          <button class="page-item">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
-    </main>
+      </main>
+    </div>
 
-</div>
-
-<!-- Custom JS -->
-<script th:src="@{/js/lichSuDonHang.js}"></script>
-</body>
+    <!-- Custom JS -->
+    <script th:src="@{/js/lichSuDonHang.js}"></script>
+  </body>
 </html>

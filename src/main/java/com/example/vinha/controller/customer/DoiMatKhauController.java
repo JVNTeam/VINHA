@@ -27,9 +27,9 @@ public class DoiMatKhauController {
 
     @PostMapping
     public String processChangePassword(@RequestParam("currentPassword") String currentPassword,
-                                        @RequestParam("newPassword") String newPassword,
-                                        @RequestParam("confirmPassword") String confirmPassword,
-                                        RedirectAttributes redirectAttributes) {
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            RedirectAttributes redirectAttributes) {
 
         // Validate cơ bản phía backend
         if (!newPassword.equals(confirmPassword)) {

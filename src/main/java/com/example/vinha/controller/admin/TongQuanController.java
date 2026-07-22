@@ -8,7 +8,7 @@ public class TongQuanController {
 
     @GetMapping("/admin/thong-ke")
     public String hienThiThongKe() {
-        return "admin/thongKe";
+        return "admin/tongQuan";
     }
 }
 

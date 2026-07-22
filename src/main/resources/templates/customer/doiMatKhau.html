@@ -1,148 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đổi mật khẩu - Vị Nhà</title>
 
     <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/doiMatKhau.css}">
-</head>
-<body>
-
-<!-- HEADER -->
-<header class="site-header">
-    <div class="header-container">
+    <link rel="stylesheet" th:href="@{/css/doiMatKhau.css}" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-container">
         <a th:href="@{/trang-chu}" class="logo-box">
-            <div class="logo-badge">Vị Nhà</div>
-            <span class="logo-text">Vị Nhà</span>
+          <div class="logo-badge">Vị Nhà</div>
+          <span class="logo-text">Vị Nhà</span>
         </a>
 
         <nav class="main-nav">
-            <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
-            <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
-            <a th:href="@{/khuyen-mai}" class="nav-link active">Khuyến mãi</a>
-            <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
-            <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
+          <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
+          <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
+          <a th:href="@{/khuyen-mai}" class="nav-link active">Khuyến mãi</a>
+          <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
+          <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
         </nav>
 
         <div class="header-actions">
-            <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge">3</span>
-            </a>
-            <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
-                <i class="fa-regular fa-user"></i>
-            </a>
+          <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">3</span>
+          </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+            <i class="fa-regular fa-user"></i>
+          </a>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- MAIN CONTAINER -->
-<div class="container account-container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <!-- MAIN CONTAINER -->
+    <div class="container account-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
         <div class="user-profile">
-            <h3 class="user-name" th:text="${user != null ? user['name'] : 'Nguyễn Thu Hà'}">Nguyễn Thu Hà</h3>
-            <p class="user-email" th:text="${user != null ? user['email'] : 'thuha.nguyen@email.com'}">thuha.nguyen@email.com</p>
+          <h3
+            class="user-name"
+            th:text="${user != null ? user['name'] : 'Nguyễn Thu Hà'}"
+          >
+            Nguyễn Thu Hà
+          </h3>
+          <p
+            class="user-email"
+            th:text="${user != null ? user['email'] : 'thuha.nguyen@email.com'}"
+          >
+            thuha.nguyen@email.com
+          </p>
         </div>
 
         <nav class="sidebar-nav">
-            <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
-                <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
-            </a>
-            <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
-                <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
-            </a>
-            <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
-                <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
-            </a>
-            <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá món ăn
-            </a>
-            <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item active">
-                <i class="fa-solid fa-lock"></i> Đổi mật khẩu
-            </a>
-            <div class="nav-divider"></div>
-            <a th:href="@{/dang-xuat}" class="nav-item text-danger">
-                <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-            </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
+            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+          </a>
+          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+            <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+          </a>
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+          </a>
+          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+            <i class="fa-regular fa-star"></i> Đánh giá món ăn
+          </a>
+          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item active">
+            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+          </a>
+          <div class="nav-divider"></div>
+          <a th:href="@{/dang-xuat}" class="nav-item text-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </a>
         </nav>
-    </aside>
+      </aside>
 
-    <!-- MAIN CONTENT CARD -->
-    <main class="password-card">
+      <!-- MAIN CONTENT CARD -->
+      <main class="password-card">
         <div class="card-header-box">
-            <h2 class="page-title">Đổi mật khẩu</h2>
-            <p class="page-subtitle">Để đảm bảo an toàn cho tài khoản, vui lòng nhập mật khẩu hiện tại và mật khẩu mới của bạn.</p>
+          <h2 class="page-title">Đổi mật khẩu</h2>
+          <p class="page-subtitle">
+            Để đảm bảo an toàn cho tài khoản, vui lòng nhập mật khẩu hiện tại và
+            mật khẩu mới của bạn.
+          </p>
         </div>
 
         <!-- Thông báo alert nếu có -->
-        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div
+          th:if="${errorMessage}"
+          class="alert alert-danger"
+          th:text="${errorMessage}"
+        ></div>
+        <div
+          th:if="${successMessage}"
+          class="alert alert-success"
+          th:text="${successMessage}"
+        ></div>
 
-        <form th:action="@{/tai-khoan/doi-mat-khau}" method="post" id="changePasswordForm" class="password-form">
+        <form
+          th:action="@{/tai-khoan/doi-mat-khau}"
+          method="post"
+          id="changePasswordForm"
+          class="password-form"
+        >
+          <!-- 1. Mật khẩu hiện tại -->
+          <div class="form-group">
+            <label class="form-label">Mật khẩu hiện tại</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-lock input-left-icon"></i>
+              <input
+                type="password"
+                name="currentPassword"
+                id="currentPassword"
+                class="form-input"
+                placeholder="Nhập mật khẩu cũ"
+                required
+              />
+              <i
+                class="fa-regular fa-eye toggle-pwd"
+                onclick="togglePasswordVisibility('currentPassword', this)"
+              ></i>
+            </div>
+          </div>
 
-            <!-- 1. Mật khẩu hiện tại -->
-            <div class="form-group">
-                <label class="form-label">Mật khẩu hiện tại</label>
-                <div class="input-icon-wrapper">
-                    <i class="fa-solid fa-lock input-left-icon"></i>
-                    <input type="password" name="currentPassword" id="currentPassword"
-                           class="form-input" placeholder="Nhập mật khẩu cũ" required>
-                    <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('currentPassword', this)"></i>
-                </div>
+          <!-- 2. Mật khẩu mới -->
+          <div class="form-group">
+            <label class="form-label">Mật khẩu mới</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-lock input-left-icon"></i>
+              <input
+                type="password"
+                name="newPassword"
+                id="newPassword"
+                class="form-input"
+                placeholder="Ít nhất 8 ký tự"
+                required
+                oninput="checkPasswordStrength(this.value)"
+              />
+              <i
+                class="fa-regular fa-eye toggle-pwd"
+                onclick="togglePasswordVisibility('newPassword', this)"
+              ></i>
             </div>
 
-            <!-- 2. Mật khẩu mới -->
-            <div class="form-group">
-                <label class="form-label">Mật khẩu mới</label>
-                <div class="input-icon-wrapper">
-                    <i class="fa-solid fa-lock input-left-icon"></i>
-                    <input type="password" name="newPassword" id="newPassword"
-                           class="form-input" placeholder="Ít nhất 8 ký tự" required oninput="checkPasswordStrength(this.value)">
-                    <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('newPassword', this)"></i>
-                </div>
-
-                <!-- Thanh đo độ mạnh Mật Khẩu (Strength Meter) -->
-                <div class="strength-meter">
-                    <div class="strength-bar" id="bar-1"></div>
-                    <div class="strength-bar" id="bar-2"></div>
-                    <div class="strength-bar" id="bar-3"></div>
-                    <div class="strength-bar" id="bar-4"></div>
-                </div>
-                <p class="field-hint">Mẹo: Sử dụng kết hợp chữ hoa, chữ thường và số để mật khẩu mạnh hơn.</p>
+            <!-- Thanh đo độ mạnh Mật Khẩu (Strength Meter) -->
+            <div class="strength-meter">
+              <div class="strength-bar" id="bar-1"></div>
+              <div class="strength-bar" id="bar-2"></div>
+              <div class="strength-bar" id="bar-3"></div>
+              <div class="strength-bar" id="bar-4"></div>
             </div>
+            <p class="field-hint">
+              Mẹo: Sử dụng kết hợp chữ hoa, chữ thường và số để mật khẩu mạnh
+              hơn.
+            </p>
+          </div>
 
-            <!-- 3. Xác nhận mật khẩu mới -->
-            <div class="form-group">
-                <label class="form-label">Xác nhận mật khẩu mới</label>
-                <div class="input-icon-wrapper">
-                    <i class="fa-solid fa-lock input-left-icon"></i>
-                    <input type="password" name="confirmPassword" id="confirmPassword"
-                           class="form-input" placeholder="Nhập lại mật khẩu mới" required>
-                    <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('confirmPassword', this)"></i>
-                </div>
-                <p class="error-msg" id="confirmError">Mật khẩu xác nhận không trùng khớp!</p>
+          <!-- 3. Xác nhận mật khẩu mới -->
+          <div class="form-group">
+            <label class="form-label">Xác nhận mật khẩu mới</label>
+            <div class="input-icon-wrapper">
+              <i class="fa-solid fa-lock input-left-icon"></i>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                class="form-input"
+                placeholder="Nhập lại mật khẩu mới"
+                required
+              />
+              <i
+                class="fa-regular fa-eye toggle-pwd"
+                onclick="togglePasswordVisibility('confirmPassword', this)"
+              ></i>
             </div>
+            <p class="error-msg" id="confirmError">
+              Mật khẩu xác nhận không trùng khớp!
+            </p>
+          </div>
 
-            <!-- Form Buttons -->
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">Đổi mật khẩu</button>
-                <button type="button" class="btn-cancel" onclick="resetForm()">Hủy</button>
-            </div>
-
+          <!-- Form Buttons -->
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Đổi mật khẩu</button>
+            <button type="button" class="btn-cancel" onclick="resetForm()">
+              Hủy
+            </button>
+          </div>
         </form>
-    </main>
+      </main>
+    </div>
 
-</div>
-
-<!-- Custom JS -->
-<script th:src="@{/js/doiMatKhau.js}"></script>
-</body>
+    <!-- Custom JS -->
+    <script th:src="@{/js/doiMatKhau.js}"></script>
+  </body>
 </html>

@@ -1,189 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hồ sơ cá nhân</title>
 
-    <link rel="stylesheet" th:href="@{/css/hoso.css}">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head>
+    <link rel="stylesheet" th:href="@{/css/hoso.css}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
 
-<body>
+  <body>
+    <!-- ================= HEADER ================= -->
 
-<!-- ================= HEADER ================= -->
+    <header>
+      <div class="logo">Vị Nhà</div>
 
-<header>
-
-    <div class="logo">
-        Vị Nhà
-    </div>
-
-    <nav class="menu">
+      <nav class="menu">
         <a href="#">Trang chủ</a>
         <a href="#">Thực đơn</a>
         <a href="#">Khuyến mãi</a>
         <a href="#">Giới thiệu</a>
         <a href="#">Liên hệ</a>
-    </nav>
+      </nav>
 
-    <div class="header-right">
+      <div class="header-right">
         <i class="fa-solid fa-cart-shopping"></i>
         <i class="fa-regular fa-user"></i>
-    </div>
+      </div>
+    </header>
 
-</header>
+    <!-- ================= MAIN ================= -->
 
-<!-- ================= MAIN ================= -->
+    <div class="container">
+      <!-- ===== SIDEBAR ===== -->
 
-<div class="container">
-
-    <!-- ===== SIDEBAR ===== -->
-
-    <aside class="sidebar">
-
+      <aside class="sidebar">
         <div class="user-box">
+          <h3>Nguyễn Thu Hà</h3>
 
-
-            <h3>Nguyễn Thu Hà</h3>
-
-            <p>thuha@gmail.com</p>
-
+          <p>thuha@gmail.com</p>
         </div>
 
         <ul>
+          <li class="active">
+            <a href="#">
+              <i class="fa-regular fa-user"></i>
+              Hồ sơ cá nhân
+            </a>
+          </li>
 
-            <li class="active">
-                <a href="#">
-                    <i class="fa-regular fa-user"></i>
-                    Hồ sơ cá nhân
-                </a>
-            </li>
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-location-dot"></i>
+              Quản lý địa chỉ
+            </a>
+          </li>
 
-            <li>
-                <a href="#">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Quản lý địa chỉ
-                </a>
-            </li>
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              Lịch sử đơn hàng
+            </a>
+          </li>
 
-            <li>
-                <a href="#">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                    Lịch sử đơn hàng
-                </a>
-            </li>
+          <li>
+            <a href="#">
+              <i class="fa-regular fa-star"></i>
+              Đánh giá món ăn
+            </a>
+          </li>
 
-            <li>
-                <a href="#">
-                    <i class="fa-regular fa-star"></i>
-                    Đánh giá món ăn
-                </a>
-            </li>
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-key"></i>
+              Đổi mật khẩu
+            </a>
+          </li>
 
-            <li>
-                <a href="#">
-                    <i class="fa-solid fa-key"></i>
-                    Đổi mật khẩu
-                </a>
-            </li>
-
-            <li>
-                <a class="logout" href="#">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    Đăng xuất
-                </a>
-            </li>
-
+          <li>
+            <a class="logout" href="#">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Đăng xuất
+            </a>
+          </li>
         </ul>
+      </aside>
 
-    </aside>
+      <!-- ===== CONTENT ===== -->
 
-    <!-- ===== CONTENT ===== -->
-
-    <main class="content">
-
+      <main class="content">
         <div class="content-header">
+          <div>
+            <h2>Hồ sơ cá nhân</h2>
 
-            <div>
+            <p>Quản lý thông tin cá nhân của bạn</p>
+          </div>
 
-                <h2>Hồ sơ cá nhân</h2>
-
-                <p>
-                    Quản lý thông tin cá nhân của bạn
-                </p>
-
-            </div>
-
-            <button class="edit-btn">
-                <i class="fa-solid fa-pen"></i>
-                Chỉnh sửa thông tin
-            </button>
-
+          <button class="edit-btn">
+            <i class="fa-solid fa-pen"></i>
+            Chỉnh sửa thông tin
+          </button>
         </div>
 
         <!-- ================= THÔNG TIN ================= -->
 
         <div class="info-grid">
+          <div class="info-item">
+            <label>Họ và tên</label>
+            <span>Nguyễn Thu Hà</span>
+          </div>
 
-            <div class="info-item">
-                <label>Họ và tên</label>
-                <span>Nguyễn Thu Hà</span>
-            </div>
+          <div class="info-item">
+            <label>Email</label>
+            <span>thuha@gmail.com</span>
+          </div>
 
-            <div class="info-item">
-                <label>Email</label>
-                <span>thuha@gmail.com</span>
-            </div>
+          <div class="info-item">
+            <label>Số điện thoại</label>
+            <span>0901234567</span>
+          </div>
 
-            <div class="info-item">
-                <label>Số điện thoại</label>
-                <span>0901234567</span>
-            </div>
+          <div class="info-item">
+            <label>Ngày sinh</label>
+            <span>15/05/1995</span>
+          </div>
 
-            <div class="info-item">
-                <label>Ngày sinh</label>
-                <span>15/05/1995</span>
-            </div>
-
-            <div class="info-item">
-                <label>Giới tính</label>
-                <span>Nữ</span>
-            </div>
-
-
+          <div class="info-item">
+            <label>Giới tính</label>
+            <span>Nữ</span>
+          </div>
         </div>
 
         <!-- ================= THÀNH VIÊN ================= -->
 
         <div class="member-card">
+          <div class="member-icon">
+            <i class="fa-solid fa-crown"></i>
+          </div>
 
-            <div class="member-icon">
+          <div class="member-text">
+            <h3>Thành viên thân thiết</h3>
 
-                <i class="fa-solid fa-crown"></i>
+            <p>Hạng Đồng</p>
 
-            </div>
-
-            <div class="member-text">
-
-                <h3>Thành viên thân thiết</h3>
-
-                <p>Hạng Đồng</p>
-
-                <small>Tích lũy thêm để lên hạng Bạc.</small>
-
-            </div>
-
+            <small>Tích lũy thêm để lên hạng Bạc.</small>
+          </div>
         </div>
+      </main>
+    </div>
 
-    </main>
-
-</div>
-
-<script th:src="@{/js/hoso.js}"></script>
-
-</body>
-
+    <script th:src="@{/js/hoso.js}"></script>
+  </body>
 </html>

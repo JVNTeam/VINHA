@@ -36,4 +36,29 @@ public class HomeController {
         return "/chiTietMonAn";
     }
 
+    @GetMapping("/gioHang")
+    public String gioHang() {
+        return "/gioHang";
+    }
+
+    @GetMapping("/thanhToan")
+    public String thanhToan() {
+        return "/thanhToan";
+    }
+
+    @GetMapping("/khuyenMai")
+    public String khuyenMai() {
+        return "/khuyenMai";
+    }
+
+    @GetMapping("/gioiThieu")
+    public String gioiThieu() {
+        return "/gioiThieu";
+    }
+
+    @GetMapping("/lienHe")
+    public String lienHe() {
+        return "/lienHe";
+    }
+
 }

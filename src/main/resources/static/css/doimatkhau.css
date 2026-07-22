@@ -210,7 +210,8 @@ body {
     text-align: center;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
     background-color: #fdf2eb;
     color: var(--primary-color);
 }

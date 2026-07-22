@@ -1,10 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng - Vị Nhà</title>
+    <!-- Nhúng Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="/css/admin/don-hang.css">
 </head>
 <body>
 
+<div class="wrapper">
+    <!-- SIDEBAR MỚI -->
+    <aside class="sidebar">
+        <div class="logo-box">
+            <div class="logo-icon"><i class="fas fa-utensils"></i></div>
+            <div class="logo-text">
+                <h2>Vị Nhà</h2>
+                <span>Quản trị viên</span>
+            </div>
+        </div>
+
+        <ul class="menu">
+            <li><a href="#"><i class="fas fa-th-large"></i> Bảng điều khiển</a></li>
+            <li><a href="#"><i class="fas fa-hamburger"></i> Quản lý món ăn</a></li>
+            <li><a href="#"><i class="fas fa-list"></i> Quản lý danh mục</a></li>
+            <!-- Mục Đơn hàng đang được chọn -->
+            <li class="active"><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Phân tích</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <button class="btn-create"><i class="fas fa-plus"></i> Tạo món mới</button>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+
+        <div class="header">
+            <h1>Quản lý đơn hàng</h1>
+        </div>
+
+        <!-- 4 THẺ THỐNG KÊ (CARDS) -->
+        <div class="summary-cards">
+            <div class="card">
+                <div class="icon-box bg-orange-light"><i class="fas fa-clipboard-list text-orange"></i></div>
+                <div class="card-info">
+                    <h3>24</h3>
+                    <p>Chờ xác nhận</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="icon-box bg-pink-light"><i class="fas fa-check-circle text-pink"></i></div>
+                <div class="card-info">
+                    <h3>15</h3>
+                    <p>Đã xác nhận</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="icon-box bg-gray-light"><i class="fas fa-fire-burner text-gray"></i></div>
+                <div class="card-info">
+                    <h3>18</h3>
+                    <p>Đang chế biến</p>
+                </div>
+            </div>
+
+            <div class="card bg-brown text-white">
+                <div class="icon-box bg-brown-light"><i class="fas fa-check-circle text-white"></i></div>
+                <div class="card-info">
+                    <h3>12.450k</h3>
+                    <p>Đã hoàn thành</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KHU VỰC LỌC -->
+        <div class="filter-section">
+            <div class="filter-left">
+                <select class="form-control">
+                    <option>Tất cả trạng thái</option>
+                    <option>Chờ xác nhận</option>
+                    <option>Đã xác nhận</option>
+                    <option>Đang chế biến</option>
+                    <option>Đã hoàn thành</option>
+                </select>
+                <input type="text" class="form-control" placeholder="mm/dd/yyyy">
+                <button class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
+            </div>
+            <div class="filter-right">
+                <button class="btn-icon"><i class="fas fa-download"></i></button>
+                <button class="btn-icon"><i class="fas fa-print"></i></button>
+            </div>
+        </div>
+
+        <!-- BẢNG DỮ LIỆU ĐƠN HÀNG (THIẾT KẾ MỚI) -->
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>MÃ ĐƠN HÀNG</th>
+                    <th>KHÁCH HÀNG</th>
+                    <th>NGÀY ĐẶT</th>
+                    <th>TỔNG TIỀN</th>
+                    <th>THANH TOÁN</th>
+                    <th>TRẠNG THÁI</th>
+                    <th>THAO TÁC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Đơn 1 -->
+                <tr>
+                    <td><span class="text-orange font-bold">#VN-29034</span></td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-orange">NT</div>
+                            <div class="details">
+                                <strong>Nguyễn Thành Nam</strong>
+                                <span>0908 123 456</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="date-col">Hôm nay,<br>10:24</td>
+                    <td><strong>450.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-money-check-alt"></i> Chuyển khoản</span></td>
+                    <td>
+                        <!-- Stack Trạng thái MỚI -->
+                        <div class="status-stack">
+                            <button class="status-btn active">Chờ xác nhận</button>
+                            <button class="status-btn">Xác nhận</button>
+                            <button class="status-btn">Đang chế biến</button>
+                            <button class="status-btn">Đã hoàn thành</button>
+                        </div>
+                    </td>
+                    <td class="actions-col">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </td>
+                </tr>
+
+                <!-- Đơn 2 -->
+                <tr>
+                    <td><span class="text-orange font-bold">#VN-29033</span></td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-gray">LH</div>
+                            <div class="details">
+                                <strong>Lê Hồng Hạnh</strong>
+                                <span>0912 987 654</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="date-col">Hôm nay,<br>09:15</td>
+                    <td><strong>1.250.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-money-bill-wave"></i> Tiền mặt</span></td>
+                    <td>
+                        <div class="status-stack">
+                            <button class="status-btn active">Chờ xác nhận</button>
+                            <button class="status-btn">Xác nhận</button>
+                            <button class="status-btn">Đang chế biến</button>
+                            <button class="status-btn">Đã hoàn thành</button>
+                        </div>
+                    </td>
+                    <td class="actions-col">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </td>
+                </tr>
+
+                <!-- Đơn 3 -->
+                <tr>
+                    <td><span class="text-orange font-bold">#VN-29030</span></td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-pink">TP</div>
+                            <div class="details">
+                                <strong>Trần Phương</strong>
+                                <span>0888 555 222</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="date-col">Hôm qua,<br>18:30</td>
+                    <td><strong>890.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-wallet"></i> Ví điện tử</span></td>
+                    <td>
+                        <div class="status-stack">
+                            <button class="status-btn active">Chờ xác nhận</button>
+                            <button class="status-btn">Xác nhận</button>
+                            <button class="status-btn">Đang chế biến</button>
+                            <button class="status-btn">Đã hoàn thành</button>
+                        </div>
+                    </td>
+                    <td class="actions-col">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </td>
+                </tr>
+
+                <!-- Đơn 4 -->
+                <tr>
+                    <td><span class="text-orange font-bold">#VN-29028</span></td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-gray-light text-black">VM</div>
+                            <div class="details">
+                                <strong>Võ Minh</strong>
+                                <span>0934 000 111</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="date-col">25/05/2026</td>
+                    <td><strong>320.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-money-check-alt"></i> Chuyển khoản</span></td>
+                    <td>
+                        <div class="status-stack">
+                            <button class="status-btn active">Chờ xác nhận</button>
+                            <button class="status-btn">Xác nhận</button>
+                            <button class="status-btn">Đang chế biến</button>
+                            <button class="status-btn">Đã hoàn thành</button>
+                        </div>
+                    </td>
+                    <td class="actions-col">
+                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Phân trang -->
+            <div class="table-footer">
+                <span class="hint-text">Hiển thị 1 đến 10 của 120 đơn hàng</span>
+                <div class="pagination">
+                    <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="dots">...</span>
+                    <button class="page-btn">12</button>
+                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="/js/don-hang.js"></script>
 </body>
 </html>

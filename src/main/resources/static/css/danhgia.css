@@ -207,7 +207,8 @@ body {
     text-align: center;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
     background-color: #fdf2eb;
     color: var(--primary-color);
 }
@@ -261,7 +262,7 @@ body {
 .switch-btn.active {
     background-color: #ffffff;
     color: var(--text-main);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Review Card List */
@@ -374,7 +375,8 @@ body {
     margin-bottom: 16px;
 }
 
-.star-rating i.active, .star-rating i:hover {
+.star-rating i.active,
+.star-rating i:hover {
     color: var(--star-gold);
 }
 

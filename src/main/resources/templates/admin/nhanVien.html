@@ -1,10 +1,226 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân viên - Vị Nhà</title>
+    <!-- Nhúng Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nhúng file CSS riêng -->
+    <link rel="stylesheet" href="/css/admin/nhan-vien.css">
 </head>
 <body>
 
+<div class="wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Vị Nhà</h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
+            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a href="#"><i class="fas fa-ticket-alt"></i> Phiếu giảm giá</a></li>
+            <!-- Mục Người dùng đang được chọn -->
+            <li class="active"><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+        <!-- Tiêu đề -->
+        <div class="header">
+            <div class="title">
+                <h1>Quản lý nhân viên</h1>
+                <p>Xem và quản lý thông tin nhân viên trên hệ thống Vị Nhà.</p>
+            </div>
+            <button class="btn btn-add" id="btnThemMoi"><i class="fas fa-plus"></i> Thêm nhân viên mới</button>
+        </div>
+
+        <!-- Khu vực lọc & tìm kiếm -->
+        <div class="filter-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên, email hoặc số điện thoại...">
+            </div>
+
+            <div class="filter-options">
+                <div class="select-group">
+                    <label>Vai trò:</label>
+                    <select>
+                        <option>Tất cả</option>
+                        <option>Nhân viên</option>
+                        <option>Quản lý</option>
+                    </select>
+                </div>
+                <div class="select-group">
+                    <label>Trạng thái:</label>
+                    <select>
+                        <option>Tất cả</option>
+                        <option>Hoạt động</option>
+                        <option>Bị khóa</option>
+                    </select>
+                </div>
+                <button class="btn-filter-icon"><i class="fas fa-filter"></i></button>
+            </div>
+        </div>
+
+        <!-- Bảng dữ liệu -->
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Liên hệ</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Dòng 1 -->
+                <tr>
+                    <td>01</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-orange">NH</div>
+                            <div class="details">
+                                <strong>Nguyễn Văn Hoàng</strong>
+                                <span>ID: VN-2034</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contact-info">
+                            <strong>hoang.nv@gmail.com</strong>
+                            <span>0987 654 321</span>
+                        </div>
+                    </td>
+                    <td><span class="role-badge">Nhân viên</span></td>
+                    <td><span class="status-badge active"><i class="fas fa-circle"></i> Hoạt động</span></td>
+                    <td>15/10/2024</td>
+                    <td class="actions">
+                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Khóa tài khoản" class="btn-lock"><i class="fas fa-lock"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <!-- Dòng 2 -->
+                <tr>
+                    <td>02</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-gray">TL</div>
+                            <div class="details">
+                                <strong>Trần Thị Lan</strong>
+                                <span>ID: VN-2035</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contact-info">
+                            <strong>lan.tran88@viha.vn</strong>
+                            <span>0901 234 567</span>
+                        </div>
+                    </td>
+                    <td><span class="role-badge">Nhân viên</span></td>
+                    <td><span class="status-badge locked"><i class="fas fa-circle"></i> Bị khóa</span></td>
+                    <td>12/10/2024</td>
+                    <td class="actions">
+                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Mở khóa tài khoản" class="btn-unlock"><i class="fas fa-lock-open"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <!-- Dòng 3 -->
+                <tr>
+                    <td>03</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-pink">PM</div>
+                            <div class="details">
+                                <strong>Phạm Minh Mạnh</strong>
+                                <span>ID: VN-2036</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contact-info">
+                            <strong>manh_pm@outlook.com</strong>
+                            <span>0912 888 999</span>
+                        </div>
+                    </td>
+                    <td><span class="role-badge">Nhân viên</span></td>
+                    <td><span class="status-badge active"><i class="fas fa-circle"></i> Hoạt động</span></td>
+                    <td>10/10/2024</td>
+                    <td class="actions">
+                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Khóa tài khoản" class="btn-lock"><i class="fas fa-lock"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                <!-- Dòng 4 -->
+                <tr>
+                    <td>04</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="avatar bg-yellow">LD</div>
+                            <div class="details">
+                                <strong>Lê Diệu Linh</strong>
+                                <span>ID: VN-2037</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contact-info">
+                            <strong>linh_ld@gmail.com</strong>
+                            <span>0345 678 910</span>
+                        </div>
+                    </td>
+                    <td><span class="role-badge">Nhân viên</span></td>
+                    <td><span class="status-badge active"><i class="fas fa-circle"></i> Hoạt động</span></td>
+                    <td>08/10/2024</td>
+                    <td class="actions">
+                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
+                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                        <button title="Khóa tài khoản" class="btn-lock"><i class="fas fa-lock"></i></button>
+                        <button title="Xóa" class="btn-delete"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Khu vực dưới cùng -->
+            <div class="table-footer">
+                <div class="pagination">
+                    <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="dots">...</span>
+                    <button class="page-btn">125</button>
+                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <!-- Đổi nút sang Khách hàng -->
+                <button class="btn btn-customer" id="btnChuyenKhachHang">KHÁCH HÀNG</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Nhúng file JS -->
+<script src="/js/nhan-vien.js"></script>
 </body>
 </html>

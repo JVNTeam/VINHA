@@ -1,0 +1,399 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fcfcfc;
+    color: #333;
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 250px;
+    background-color: #fcfcfc;
+    border-right: 1px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 25px 20px;
+    color: #8c5324;
+    font-size: 1.6rem;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.menu {
+    list-style: none;
+    flex: 1;
+    margin-top: 10px;
+}
+
+.menu li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.menu li a i {
+    width: 25px;
+    color: #777;
+}
+
+.menu li:hover a {
+    background-color: #fff3e6;
+    color: #f19f39;
+}
+
+.menu li.active a {
+    background-color: #f19f39;
+    color: white;
+    border-radius: 6px;
+    margin: 0 15px;
+    padding-left: 15px;
+}
+
+.menu li.active a i {
+    color: white;
+}
+
+.logout {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    margin: 0 15px;
+}
+
+.logout a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+}
+
+/* --- MAIN CONTENT --- */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    background: white;
+}
+
+/* --- HEADER --- */
+.order-header {
+    margin-bottom: 30px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 20px;
+}
+
+.order-title-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.order-title-row h1 {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+.order-title-row h1 span {
+    color: #888;
+    font-style: italic;
+}
+
+.badge-status.pending {
+    background-color: #fdf0e4;
+    color: #d96f13;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.order-date {
+    font-size: 13px;
+    color: #666;
+}
+
+/* --- GRID LAYOUT --- */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.info-card {
+    border: 1px solid #eadbc8;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 20px;
+    background: white;
+}
+
+.card-title {
+    font-size: 15px;
+    color: #8c5324;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* --- CỘT TRÁI --- */
+/* Customer Info */
+.customer-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item .label {
+    font-size: 12px;
+    color: #888;
+}
+
+.info-item .value {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.text-gray {
+    color: #666 !important;
+    font-weight: 400 !important;
+}
+
+/* Food Table */
+.food-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.food-table th {
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 15px;
+}
+
+.food-table td {
+    padding: 15px 0;
+    border-bottom: 1px dashed #eee;
+    font-size: 14px;
+}
+
+.food-table tr:last-child td {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.food-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.food-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    background: #eee;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* --- CỘT PHẢI --- */
+/* Timeline */
+.timeline {
+    list-style: none;
+    position: relative;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 20px;
+    width: 1px;
+    background: #ddd;
+    z-index: 1;
+}
+
+.timeline li {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline li:last-child {
+    margin-bottom: 0;
+}
+
+.timeline .icon {
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.timeline .done .icon {
+    color: #2ecc71;
+}
+
+.timeline .current .icon {
+    color: #f19f39;
+}
+
+.timeline .text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.timeline .text strong {
+    font-size: 14px;
+    color: #333;
+}
+
+.timeline .text span {
+    font-size: 12px;
+    color: #888;
+}
+
+/* Summary */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #555;
+}
+
+.text-red {
+    color: #e74c3c;
+}
+
+.divider {
+    height: 1px;
+    border-bottom: 1px dashed #eee;
+    margin: 15px 0;
+}
+
+.total-row {
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.total-row span:first-child {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.total-price {
+    font-size: 22px;
+    color: #8c5324;
+    font-weight: bold;
+}
+
+/* Payment box */
+.payment-method {
+    background: #fdfcfb;
+    border: 1px solid #f0e6da;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-method i {
+    font-size: 20px;
+}
+
+.method-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.method-info .label {
+    font-size: 11px;
+    color: #888;
+}
+
+.method-info strong {
+    font-size: 13px;
+    color: #333;
+}
+
+/* Admin actions */
+.admin-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+.btn-outline:hover {
+    background: #f9f9f9;
+}
+
+.btn-primary {
+    background: #f19f39;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #d98a2e;
+}

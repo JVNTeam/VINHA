@@ -1,0 +1,418 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 250px;
+    background-color: #fdfaf7;
+    border-right: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 25px 20px;
+    color: #8c5324;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.menu {
+    list-style: none;
+    flex: 1;
+    margin-top: 10px;
+}
+
+.menu li a {
+    display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.menu li a i {
+    width: 25px;
+    color: #777;
+}
+
+.menu li:hover a {
+    background-color: #fff3e6;
+    color: #f19f39;
+}
+
+.menu li.active a {
+    background-color: #f19f39;
+    color: white;
+    border-radius: 6px;
+    margin: 0 15px;
+    padding-left: 15px;
+}
+
+.menu li.active a i {
+    color: white;
+}
+
+.logout {
+    padding: 20px;
+}
+
+.logout a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+}
+
+/* --- MAIN CONTENT & TOPBAR --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 30px;
+    background: transparent;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-profile i {
+    font-size: 12px;
+    color: #666;
+}
+
+/* --- HEADER & BUTTONS --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 22px;
+    color: #8c5324;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Đổi font giống thiết kế */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background: #f19f39;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #d98a2e;
+}
+
+.btn-search {
+    background: #8c5324;
+    color: white;
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+/* --- FILTER SECTION --- */
+.filter-section {
+    background: white;
+    padding: 20px;
+    margin: 0 30px 20px 30px;
+    border-radius: 12px;
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 13px;
+    color: #555;
+    font-weight: 500;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fcfcfc;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0 15px;
+    height: 40px;
+}
+
+.search-box i {
+    color: #aaa;
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+}
+
+.form-control {
+    padding: 0 15px;
+    height: 40px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    outline: none;
+    background: #fcfcfc;
+    color: #333;
+    font-size: 14px;
+    width: 100%;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* --- TABLE --- */
+.table-container {
+    background: white;
+    padding: 10px 20px 30px 20px;
+    margin: 0 30px 30px 30px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 15px 10px;
+    text-align: left;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+th {
+    color: #333;
+    font-weight: 700;
+    background-color: #fafafa;
+}
+
+th:first-child, td:first-child {
+    padding-left: 20px;
+}
+
+/* Code Badges (Mã giảm giá) */
+.code-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.bg-orange-light {
+    background: #fdeee2;
+}
+
+.text-orange {
+    color: #d96f13;
+}
+
+.bg-gray-light {
+    background: #f0f0f0;
+}
+
+.text-gray-dark {
+    color: #666;
+}
+
+.text-gray {
+    color: #888;
+    font-size: 11px;
+}
+
+.date-col {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+/* --- CSS CHO CÔNG TẮC TOGGLE BẬT/TẮT --- */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: #4cd964;
+}
+
+/* Màu xanh lá khi Bật */
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- ACTIONS & PAGINATION --- */
+.actions button {
+    border: none;
+    background: transparent;
+    color: #888;
+    margin-right: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.actions button:hover {
+    color: #8c5324;
+}
+
+.actions .btn-delete:hover {
+    color: #d32f2f;
+}
+
+.pagination {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.page-btn {
+    border: none;
+    background: transparent;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.page-btn.active {
+    background: #8c5324;
+    color: white;
+}
+
+.page-btn:hover:not(.active) {
+    background: #f5f5f5;
+}
+
+.dots {
+    color: #888;
+    letter-spacing: 2px;
+}

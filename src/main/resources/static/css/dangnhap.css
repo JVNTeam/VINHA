@@ -1,26 +1,20 @@
-main {
-    min-height: 100vh;
-    padding-top: 120px;
-    padding-bottom: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:calc(100vh - 80px);
 }
 
-.login-box {
-
-    width: 100%;
-    max-width: 520px;
-
-    background: white;
-
-    padding: 40px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 0 10px rgba(0, 0, 0, .08);
-
+.login-box{
+    width:100%;
+    max-width:520px;
+    background:#fff;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
 }
+
+
 
 .login-box h1 {
 
@@ -47,31 +41,25 @@ main {
     margin: 15px 0 8px;
 
 }
-
-.input-group {
-
-    display: flex;
-
-    align-items: center;
-
-    border: 1px solid #ddd;
-
-    border-radius: 10px;
-
-    padding: 12px;
-
+.input-group{
+    display:flex;
+    align-items:center;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px 15px;
 }
 
-.input-group input {
+.input-group img{
+    width:22px;
+    margin-right:12px; /* khoảng cách icon và input */
+}
 
-    flex: 1;
-
-    border: none;
-
-    outline: none;
-
-    margin-left: 10px;
-
+.input-group input{
+    flex:1;
+    border:none;
+    outline:none;
+    margin-left:0;
+    font-size:16px;
 }
 
 .eye {
@@ -91,23 +79,25 @@ main {
     justify-content: space-between;
 
 }
+.login-box .login-btn{
+    display:block;
+    width:180px;
+    height:50px;
+    margin:30px auto 0;
+    border:none;
+    border-radius:30px;
+    background:#ff7d00;
+    color:#fff;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-.login-submit {
-
-    width: 100%;
-
-    height: 50px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #ff7d00;
-
-    color: white;
-
-    font-size: 18px;
-
+.login-box .login-btn:hover{
+    background:#e66f00;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(255,125,0,.3);
 }
 
 .register {
@@ -124,4 +114,8 @@ main {
 
     font-weight: bold;
 
+}
+
+.eye{
+    margin-left:15px;
 }

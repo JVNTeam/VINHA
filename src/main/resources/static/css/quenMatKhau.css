@@ -110,7 +110,7 @@ label{
 
     outline:none;
 
-    margin-left:12px;
+    margin-left:24px;
 
     background:transparent;
 
@@ -119,6 +119,8 @@ label{
 .eye{
 
     cursor:pointer;
+
+    margin-left:12px;
 
 }
 

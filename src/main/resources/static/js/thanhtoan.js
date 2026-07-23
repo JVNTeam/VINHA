@@ -227,3 +227,27 @@ document
         });
 
     });
+
+const couponSelect = document.getElementById("couponSelect");
+const couponInput = document.getElementById("coupon");
+
+couponSelect.addEventListener("change", function () {
+    couponInput.value = this.value;
+});
+
+const radios = document.querySelectorAll("input[name='payment']");
+const qr = document.getElementById("bankQR");
+
+radios.forEach(radio => {
+
+    radio.addEventListener("change", function(){
+
+        if(this.value==="bank"){
+            qr.style.display="flex";
+        }else{
+            qr.style.display="none";
+        }
+
+    });
+
+});

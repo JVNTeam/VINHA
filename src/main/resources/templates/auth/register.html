@@ -119,6 +119,25 @@
             <input type="text" placeholder="example@gmail.com" />
           </div>
 
+          <label>Giới tính</label>
+
+          <div class="input-group gender-group">
+            <label class="gender-option">
+              <input type="radio" name="gender" value="nam" />
+              <span>Nam</span>
+            </label>
+
+            <label class="gender-option">
+              <input type="radio" name="gender" value="nu" />
+              <span>Nữ</span>
+            </label>
+
+            <label class="gender-option">
+              <input type="radio" name="gender" value="khac" checked />
+              <span>Khác</span>
+            </label>
+          </div>
+
           <label>Mật khẩu</label>
 
           <div class="input-group">
@@ -266,6 +285,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/dangky.js}"></script>
   </body>
 </html>

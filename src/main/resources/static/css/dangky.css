@@ -137,6 +137,33 @@ main {
 
 }
 
+/* Gender */
+
+.gender-group {
+    gap: 20px;
+    padding: 10px 16px;
+}
+
+.gender-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #555;
+}
+
+.gender-option input[type="radio"] {
+    accent-color: #FF8A00;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.gender-option span {
+    user-select: none;
+}
+
 /* Checkbox */
 
 .terms {

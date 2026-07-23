@@ -1,9 +1,12 @@
-# TODO
+# TODO - ĐÃ HOÀN THÀNH
 
-## Mục tiêu: “login thành dangNhap” bằng cách đổi tên file HTML
+## B. Sửa register.html ✅
+- [x] Thêm trường "Giới tính" (radio button Nam/Nữ/Khác) sau trường "Email hoặc SDT"
+- [x] Sửa đường dẫn script từ `@{/js/script.js}` → `@{/js/dangky.js}`
 
-- [ ] Xác định template đăng nhập hiện tại: `src/main/resources/templates/auth/login.html`
-- [ ] Đổi tên file `login.html` → `dangNhap.html`
-- [ ] Cập nhật mọi chỗ tham chiếu đến view `auth/login` (nếu có)
-- [ ] Build/test để đảm bảo app chạy không lỗi view
+## C. Thêm code toggle password vào dangky.js ✅
+- [x] Viết JavaScript toggle password cho cả 2 icon mắt (password + confirmPassword)
+
+## D. Thêm CSS cho giới tính vào dangky.css ✅
+- [x] Thêm CSS cho `.gender-group`, `.gender-option`
 

@@ -35,59 +35,44 @@
     max-width:700px;
 
 }
-
 /* FILTER */
 
 .filter-box{
-
     background:#F4F1EE;
-
     border-radius:18px;
-
     padding:25px;
-
     margin-bottom:35px;
+}
 
+/* Căn các cột theo mép trên */
+.filter-box .row{
+    align-items:flex-start;
 }
 
 .search-food{
-
     display:flex;
-
     align-items:center;
-
     background:#fff;
-
     border-radius:12px;
-
     padding:14px 18px;
-
+    margin-top:30px;   /* Hạ ô tìm kiếm xuống ngang hàng với "Tất cả" */
 }
 
 .search-food input{
-
     border:none;
-
     outline:none;
-
     margin-left:10px;
-
     width:100%;
-
+    background:transparent;
 }
 
 .filter-box label{
-
+    display:block;
     font-size:14px;
-
     font-weight:600;
-
     color:#8d6d57;
-
-    margin-bottom:6px;
-
+    margin-bottom:8px;
 }
-
 /* CARD */
 
 .food-card{
@@ -131,13 +116,13 @@
 }
 
 .food-content h3{
-
-    font-size:26px;
-
-    font-family:Georgia,serif;
-
+    font-size:22px;
+    font-family:'Segoe UI', Arial, sans-serif; /* bỏ Georgia */
+    font-weight:700;
+    line-height:1.4;
+    letter-spacing:0;
+    word-spacing:0;
     margin-bottom:10px;
-
 }
 
 .food-content p{

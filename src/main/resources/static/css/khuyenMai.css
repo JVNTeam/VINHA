@@ -298,6 +298,48 @@ header{
 .copy-btn:hover{
     background:#6f3a0f;
 }
+/*================= ACTION =================*/
+
+.voucher-action{
+    display:flex;
+    gap:10px;
+}
+
+.save-btn,
+.copy-btn{
+    border:none;
+    padding:8px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn{
+    background:#fff;
+    color:#8b4b16;
+    border:1px solid #8b4b16;
+}
+
+.save-btn:hover{
+    background:#8b4b16;
+    color:#fff;
+}
+
+.copy-btn{
+    background:#8b4b16;
+    color:#fff;
+}
+
+.copy-btn:hover{
+    background:#6f3a0f;
+}
+
+.save-btn i,
+.copy-btn i{
+    margin-right:6px;
+}
 
 /* ================= 3 STEPS ================= */
 

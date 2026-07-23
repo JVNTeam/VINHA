@@ -143,14 +143,26 @@
               </h2>
 
               <div class="coupon">
+
+                <select id="couponSelect">
+                  <option value="">-- Chọn mã giảm giá --</option>
+                  <option value="VINHA20">VINHA20 - Giảm 20%</option>
+                  <option value="COMTRUA">COMTRUA - Giảm 30.000đ</option>
+                  <option value="FREESHIP">FREESHIP - Miễn phí vận chuyển</option>
+                </select>
+
                 <input
-                  type="text"
-                  id="coupon"
-                  placeholder="NHẬP MÃ ƯU ĐÃI CỦA BẠN"
+                        type="text"
+                        id="coupon"
+                        placeholder="Hoặc nhập mã ưu đãi"
                 />
 
-                <button id="applyCoupon">Áp dụng</button>
+                <button id="applyCoupon">
+                  Áp dụng
+                </button>
+
               </div>
+
             </div>
 
             <!-- ================= THANH TOÁN ================= -->
@@ -187,6 +199,25 @@
                   Ví điện tử (MoMo / ZaloPay)
                 </span>
               </label>
+            </div>
+
+            <div id="bankQR" class="bank-qr" style="display:none;">
+
+              <img src="https://img.vietqr.io/image/MB-1234567899-compact2.png?amount=150000&addInfo=DH001&accountName=CUA%20HANG%20VI%20NHA">
+              <div class="bank-info">
+                <h4>Thông tin chuyển khoản</h4>
+
+                <p><strong>Ngân hàng:</strong> MB Bank</p>
+
+                <p><strong>Chủ tài khoản:</strong> CỬA HÀNG VỊ NHÀ</p>
+
+                <p><strong>Số tài khoản:</strong> 1234567899</p>
+
+                <p><strong>Nội dung:</strong>
+                  <span id="transferContent">DH001</span>
+                </p>
+              </div>
+
             </div>
 
             <!-- ================= GHI CHÚ ================= -->

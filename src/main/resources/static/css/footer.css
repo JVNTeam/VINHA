@@ -12,6 +12,15 @@
 
 }
 
+.footer .container {
+    margin: 0 auto;
+}
+
+.footer-secondary .container {
+    margin-left: 32%;
+    margin-right: 0;
+}
+
 .footer-logo {
 
     color: #A14F15;
@@ -198,4 +207,27 @@
 
     transform: translateY(-5px);
 
+}
+
+@media (max-width: 991.98px) {
+    .footer {
+        text-align: center;
+    }
+
+    .footer .social {
+        display: flex;
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+.container{
+    max-width: 1320px;
+    margin-left: auto;
+    margin-right: auto;
 }

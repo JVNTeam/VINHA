@@ -102,38 +102,49 @@
 
         <p>Vui lòng điền đầy đủ thông tin để tạo tài khoản.</p>
 
-        <form>
+        <form th:action="@{/dangKy}" method="post" id="registerForm">
+          <div class="alert alert-danger custom-alert" th:if="${error}" th:text="${error}"></div>
+          <div class="alert alert-success custom-alert" th:if="${success}" th:text="${success}"></div>
+
           <label>Họ và tên</label>
 
           <div class="input-group">
             <img th:src="@{/images/user.svg}" alt="" />
 
-            <input type="text" placeholder="Nguyễn Văn A" />
+            <input type="text" name="hoTen" placeholder="Nguyễn Văn A" th:value="${hoTen}" required />
           </div>
 
-          <label>Email hoặc SDT</label>
+          <label>Email</label>
 
           <div class="input-group">
             <img th:src="@{/images/mail.svg}" alt="" />
 
-            <input type="text" placeholder="example@gmail.com" />
+            <input type="email" name="email" placeholder="example@gmail.com" th:value="${email}" required />
+          </div>
+
+          <label>Số điện thoại</label>
+
+          <div class="input-group">
+            <img th:src="@{/images/mail.svg}" alt="" />
+
+            <input type="text" name="soDienThoai" placeholder="0901234567" th:value="${soDienThoai}" required />
           </div>
 
           <label>Giới tính</label>
 
           <div class="input-group gender-group">
             <label class="gender-option">
-              <input type="radio" name="gender" value="nam" />
+              <input type="radio" name="gioiTinh" value="1" th:checked="${gioiTinh == 1}" />
               <span>Nam</span>
             </label>
 
             <label class="gender-option">
-              <input type="radio" name="gender" value="nu" />
+              <input type="radio" name="gioiTinh" value="0" th:checked="${gioiTinh == 0}" />
               <span>Nữ</span>
             </label>
 
             <label class="gender-option">
-              <input type="radio" name="gender" value="khac" checked />
+              <input type="radio" name="gioiTinh" value="2" th:checked="${gioiTinh == null or gioiTinh == 2}" />
               <span>Khác</span>
             </label>
           </div>
@@ -143,7 +154,7 @@
           <div class="input-group">
             <img th:src="@{/images/lock.svg}" alt="" />
 
-            <input type="password" id="password" placeholder="••••••••" />
+            <input type="password" id="password" name="matKhau" placeholder="••••••••" required />
 
             <img
               th:src="@{/images/eye-off.svg}"
@@ -161,7 +172,9 @@
             <input
               type="password"
               id="confirmPassword"
+              name="xacNhanMatKhau"
               placeholder="••••••••"
+              required
             />
 
             <img
@@ -173,7 +186,7 @@
           </div>
 
           <div class="terms">
-            <input type="checkbox" />
+            <input type="checkbox" id="acceptTerms" required />
 
             <span>
               Tôi đồng ý với

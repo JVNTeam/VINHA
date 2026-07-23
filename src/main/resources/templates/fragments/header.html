@@ -1,11 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg" th:fragment="header">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/trangChu}">
+                <img th:src="@{/images/logo.png}" class="logo" />
+                <span class="logo-name">Vị Nhà</span>
+            </a>
 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${activePage == 'trang-chu'} ? ' active' : ''"
+                           th:href="@{/trangChu}">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${activePage == 'thuc-don'} ? ' active' : ''"
+                           th:href="@{/thucDon}">Thực đơn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${activePage == 'khuyen-mai'} ? ' active' : ''"
+                           th:href="@{/khuyenMai}">Khuyến mãi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${activePage == 'gioi-thieu'} ? ' active' : ''"
+                           th:href="@{/gioiThieu}">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           th:classappend="${activePage == 'lien-he'} ? ' active' : ''"
+                           th:href="@{/lienHe}">Liên hệ</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Tìm món ăn..." />
+                    </div>
+
+                    <a th:href="@{/gioHang}" class="cart">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>0</span>
+                    </a>
+
+                    <!-- Kiểm tra đã đăng nhập chưa -->
+                    <div th:if="${session.loggedInUser != null}" class="d-flex align-items-center gap-2">
+                        <a th:href="@{/hoSo}" class="user-icon" title="Hồ sơ">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                        <a th:href="@{/dangXuat}" class="btn btn-outline-danger btn-sm">Đăng xuất</a>
+                    </div>
+                    <a th:unless="${session.loggedInUser != null}" th:href="@{/dangNhap}" class="login-btn">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 </body>
 </html>
 

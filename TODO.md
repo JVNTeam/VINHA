@@ -1,12 +1,17 @@
-# TODO - ĐÃ HOÀN THÀNH
+# TODO - Đồng bộ Header/Footer + Active Menu
 
-## B. Sửa register.html ✅
-- [x] Thêm trường "Giới tính" (radio button Nam/Nữ/Khác) sau trường "Email hoặc SDT"
-- [x] Sửa đường dẫn script từ `@{/js/script.js}` → `@{/js/dangky.js}`
+- [x] Cập nhật fragments/header.html để hỗ trợ active theo `activePage`
+- [x] Tạo fragments/footer.html dùng chung
+- [x] Sửa HomeController truyền `activePage` cho 5 trang
+- [x] Cập nhật trangChu.html dùng fragment header/footer
+- [x] Cập nhật thucDon.html dùng fragment header/footer
+- [x] Cập nhật khuyenMai.html dùng fragment header/footer
+- [x] Cập nhật gioiThieu.html dùng fragment header/footer
+- [x] Cập nhật lienHe.html dùng fragment header/footer
+- [x] Rà soát CSS header/footer và kiểm tra active underline
 
-## C. Thêm code toggle password vào dangky.js ✅
-- [x] Viết JavaScript toggle password cho cả 2 icon mắt (password + confirmPassword)
+# TODO - Điều chỉnh footer mới + header khi đăng nhập
 
-## D. Thêm CSS cho giới tính vào dangky.css ✅
-- [x] Thêm CSS cho `.gender-group`, `.gender-option`
-
+- [x] Cập nhật `footer-secondary` dịch phải 32%
+- [x] Cập nhật header: khi đăng nhập hiển thị icon người thay cho nút đăng nhập
+- [x] Thêm CSS cho icon người ở header

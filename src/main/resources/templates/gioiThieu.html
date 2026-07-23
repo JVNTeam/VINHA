@@ -1,324 +1,233 @@
 <!doctype html>
-<html lang="vi">
-  <head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Giới thiệu | Vị Nhà</title>
+    <title>Giới thiệu - Vị Nhà</title>
 
-    <link rel="stylesheet" href="/css/gioiThieu.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/gioiThieu.css}" />
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-  </head>
-
-  <body>
-    <!-- ================= HEADER ================= -->
-
-    <header>
-      <div class="container nav">
-        <div class="logo">
-          <img src="images/logo.png" alt="Logo" />
-
-          <span>Vị Nhà</span>
-        </div>
-
-        <ul class="menu">
-          <li><a href="/trangChu">Trang chủ</a></li>
-
-          <li><a href="/thucDon">Thực đơn</a></li>
-
-          <li><a href="/khuyenMai">Khuyến mãi</a></li>
-
-          <li><a href="/gioiThieu">Giới thiệu</a></li>
-
-          <li><a href="/lienHe">Liên hệ</a></li>
-        </ul>
-
-        <div class="right">
-          <div class="search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input type="text" placeholder="Tìm món ăn..." />
-          </div>
-
-          <a href="/gioHang" class="cart">
-            <i class="fa-solid fa-cart-shopping"></i>
-
-            <span class="cart-count">2</span>
-          </a>
-
-          <a href="/dangNhap">
-            <i class="fa-regular fa-user"></i>
-          </a>
-        </div>
-      </div>
-    </header>
+<main style="margin-top: 90px;">
 
     <!-- ================= HERO ================= -->
 
     <section class="hero">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <span class="tag"> CHÀO MỪNG TỚI VỊ NHÀ </span>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="tag"> CHÀO MỪNG TỚI VỊ NHÀ </span>
 
-          <h1>
-            Gói ghém<br />
+                <h1>
+                    Gói ghém<br />
 
-            Hương Vị Nhà vào<br />
+                    Hương Vị Nhà vào<br />
 
-            nhịp sống hiện đại.
-          </h1>
+                    nhịp sống hiện đại.
+                </h1>
 
-          <p>
-            Giữa guồng quay hối hả của cuộc sống, chúng tôi tin rằng một bữa cơm
-            ấm cúng không chỉ là dinh dưỡng mà còn là sợi dây kết nối tình thân.
-            Vị Nhà ra đời để mang lại cảm giác thân thuộc của gian bếp mẹ, dù
-            bạn đang ở bất cứ đâu.
-          </p>
+                <p>
+                    Giữa guồng quay hối hả của cuộc sống, chúng tôi tin rằng một bữa cơm
+                    ấm cúng không chỉ là dinh dưỡng mà còn là sợi dây kết nối tình thân.
+                    Vị Nhà ra đời để mang lại cảm giác thân thuộc của gian bếp mẹ, dù
+                    bạn đang ở bất cứ đâu.
+                </p>
 
-          <div class="hero-btn">
-            <a href="thucDon.html" class="btn btn-primary">
-              Khám phá thực đơn
-            </a>
+                <div class="hero-btn">
+                    <a href="thucDon.html" class="btn btn-primary"> Khám phá thực đơn </a>
 
-            <a href="#story" class="btn btn-outline">
-              Câu chuyện của chúng tôi
-            </a>
-          </div>
+                    <a href="#story" class="btn btn-outline">
+                        Câu chuyện của chúng tôi
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="/images/comGaXoiMo.png" alt="Gia đình dùng bữa" />
+            </div>
         </div>
-
-        <div class="hero-image">
-          <img src="/images/comGaXoiMo.png" alt="Gia đình dùng bữa" />
-        </div>
-      </div>
     </section>
 
     <!-- ================= SỨ MỆNH ================= -->
 
     <section class="mission" id="story">
-      <div class="container">
-        <div class="section-title">
-          <h2>Sứ Mệnh Của Chúng Tôi</h2>
+        <div class="container">
+            <div class="section-title">
+                <h2>Sứ Mệnh Của Chúng Tôi</h2>
 
-          <div class="line"></div>
+                <div class="line"></div>
+            </div>
+
+            <div class="mission-list">
+                <div class="mission-card">
+                    <div class="icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+
+                    <h3>Chất Lượng Thượng Hạng</h3>
+
+                    <p>
+                        Chúng tôi tuyển chọn nguyên liệu tươi ngon mỗi ngày, đảm bảo từng
+                        phần cơm đều đạt chuẩn vị nhà.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="icon">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+
+                    <h3>An Toàn & Vệ Sinh</h3>
+
+                    <p>
+                        Quy trình chế biến khép kín, đảm bảo vệ sinh, giúp khách hàng an
+                        tâm trong từng bữa ăn.
+                    </p>
+                </div>
+
+                <div class="mission-card">
+                    <div class="icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+
+                    <h3>Hương Vị Bản Sắc</h3>
+
+                    <p>
+                        Gìn giữ hương vị truyền thống Việt Nam, kết hợp phong cách phục vụ
+                        hiện đại.
+                    </p>
+                </div>
+            </div>
         </div>
-
-        <div class="mission-list">
-          <div class="mission-card">
-            <div class="icon">
-              <i class="fa-solid fa-box"></i>
-            </div>
-
-            <h3>Chất Lượng Thượng Hạng</h3>
-
-            <p>
-              Chúng tôi tuyển chọn nguyên liệu tươi ngon mỗi ngày, đảm bảo từng
-              phần cơm đều đạt chuẩn vị nhà.
-            </p>
-          </div>
-
-          <div class="mission-card">
-            <div class="icon">
-              <i class="fa-solid fa-shield-heart"></i>
-            </div>
-
-            <h3>An Toàn & Vệ Sinh</h3>
-
-            <p>
-              Quy trình chế biến khép kín, đảm bảo vệ sinh, giúp khách hàng an
-              tâm trong từng bữa ăn.
-            </p>
-          </div>
-
-          <div class="mission-card">
-            <div class="icon">
-              <i class="fa-solid fa-utensils"></i>
-            </div>
-
-            <h3>Hương Vị Bản Sắc</h3>
-
-            <p>
-              Gìn giữ hương vị truyền thống Việt Nam, kết hợp phong cách phục vụ
-              hiện đại.
-            </p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- ================= HÀNH TRÌNH ================= -->
 
     <section class="timeline">
-      <div class="container timeline-layout">
-        <div class="timeline-gallery">
-          <img src="/images/gt1.png" alt="" />
-          <img src="/images/gt3.png" alt="" />
-          <img src="/images/gt2.png" alt="" />
-          <img src="/images/gt4.png" alt="" />
+        <div class="container timeline-layout">
+            <div class="timeline-gallery">
+                <img src="/images/gt1.png" alt="" />
+                <img src="/images/gt3.png" alt="" />
+                <img src="/images/gt2.png" alt="" />
+                <img src="/images/gt4.png" alt="" />
+            </div>
+
+            <div class="timeline-content">
+                <h2>Hành Trình Vị Nhà</h2>
+
+                <div class="timeline-item">
+                    <span>2018 - Khởi Nguồn</span>
+
+                    <p>
+                        Khởi đầu từ một căn bếp nhỏ với mong muốn mang bữa cơm nhà đến
+                        nhiều người hơn.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <span>2020 - Đổi Mới</span>
+
+                    <p>
+                        Mở rộng hệ thống giao hàng và cải tiến quy trình chế biến chuyên
+                        nghiệp.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <span>2024 - Vươn Xa</span>
+
+                    <p>Phục vụ hàng nghìn suất ăn mỗi ngày trên khắp thành phố.</p>
+                </div>
+            </div>
         </div>
-
-        <div class="timeline-content">
-          <h2>Hành Trình Vị Nhà</h2>
-
-          <div class="timeline-item">
-            <span>2018 - Khởi Nguồn</span>
-
-            <p>
-              Khởi đầu từ một căn bếp nhỏ với mong muốn mang bữa cơm nhà đến
-              nhiều người hơn.
-            </p>
-          </div>
-
-          <div class="timeline-item">
-            <span>2020 - Đổi Mới</span>
-
-            <p>
-              Mở rộng hệ thống giao hàng và cải tiến quy trình chế biến chuyên
-              nghiệp.
-            </p>
-          </div>
-
-          <div class="timeline-item">
-            <span>2024 - Vươn Xa</span>
-
-            <p>Phục vụ hàng nghìn suất ăn mỗi ngày trên khắp thành phố.</p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- ================= WHY ================= -->
 
     <section class="why">
-      <div class="container">
-        <h2>Tại Sao Chọn Vị Nhà?</h2>
+        <div class="container">
+            <h2>Tại Sao Chọn Vị Nhà?</h2>
 
-        <p class="sub-title">
-          Chúng tôi không chỉ bán thức ăn, chúng tôi mang đến trải nghiệm của
-          một bữa cơm gia đình.
-        </p>
+            <p class="sub-title">
+                Chúng tôi không chỉ bán thức ăn, chúng tôi mang đến trải nghiệm của
+                một bữa cơm gia đình.
+            </p>
 
-        <div class="why-list">
-          <div class="why-card">
-            <i class="fa-solid fa-leaf"></i>
+            <div class="why-list">
+                <div class="why-card">
+                    <i class="fa-solid fa-leaf"></i>
 
-            <h3>Nguyên Liệu Tươi</h3>
+                    <h3>Nguyên Liệu Tươi</h3>
 
-            <p>Nhập mới mỗi sáng từ nhà cung cấp uy tín.</p>
-          </div>
+                    <p>Nhập mới mỗi sáng từ nhà cung cấp uy tín.</p>
+                </div>
 
-          <div class="why-card">
-            <i class="fa-solid fa-bowl-food"></i>
+                <div class="why-card">
+                    <i class="fa-solid fa-bowl-food"></i>
 
-            <h3>Vị Nhà Truyền Thống</h3>
+                    <h3>Vị Nhà Truyền Thống</h3>
 
-            <p>Hương vị thân quen như bữa cơm mẹ nấu.</p>
-          </div>
+                    <p>Hương vị thân quen như bữa cơm mẹ nấu.</p>
+                </div>
 
-          <div class="why-card">
-            <i class="fa-solid fa-bolt"></i>
+                <div class="why-card">
+                    <i class="fa-solid fa-bolt"></i>
 
-            <h3>Giao Nhanh</h3>
+                    <h3>Giao Nhanh</h3>
 
-            <p>Chỉ từ 30 - 45 phút vẫn giữ món ăn nóng hổi.</p>
-          </div>
+                    <p>Chỉ từ 30 - 45 phút vẫn giữ món ăn nóng hổi.</p>
+                </div>
 
-          <div class="why-card">
-            <i class="fa-solid fa-cube"></i>
+                <div class="why-card">
+                    <i class="fa-solid fa-cube"></i>
 
-            <h3>Bao Bì Xanh</h3>
+                    <h3>Bao Bì Xanh</h3>
 
-            <p>Sử dụng hộp giấy thân thiện với môi trường.</p>
-          </div>
+                    <p>Sử dụng hộp giấy thân thiện với môi trường.</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     <!-- ================= NEWSLETTER ================= -->
 
     <section class="newsletter">
-      <div class="container">
-        <div class="newsletter-box">
-          <div>
-            <h2>Nhận Ưu Đãi Mới Nhất</h2>
+        <div class="container">
+            <div class="newsletter-box">
+                <div>
+                    <h2>Nhận Ưu Đãi Mới Nhất</h2>
 
-            <p>
-              Đăng ký email để nhận các chương trình khuyến mãi hấp dẫn mỗi
-              tuần.
-            </p>
-          </div>
+                    <p>
+                        Đăng ký email để nhận các chương trình khuyến mãi hấp dẫn mỗi
+                        tuần.
+                    </p>
+                </div>
 
-          <form class="newsletter-form">
-            <input
-              type="email"
-              id="email"
-              placeholder="Địa chỉ email của bạn"
-            />
+                <form class="newsletter-form">
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="Địa chỉ email của bạn"
+                    />
 
-            <button type="submit">Đăng Ký</button>
-          </form>
+                    <button type="submit">Đăng Ký</button>
+                </form>
+            </div>
         </div>
-      </div>
     </section>
+</main>
 
-    <!-- ================= FOOTER ================= -->
+<div th:replace="~{fragments/footer-secondary :: footerSecondary}"></div>
 
-    <footer>
-      <div class="container footer">
-        <div class="footer-col">
-          <div class="footer-logo">
-            <img src="images/logo.png" alt="" />
-
-            <span>Vị Nhà</span>
-          </div>
-
-          <p>
-            Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng
-            và hương vị gia đình là ưu tiên hàng đầu.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h3>Khám Phá</h3>
-
-          <a href="#">Về chúng tôi</a>
-          <a href="#">Thực đơn đặc biệt</a>
-          <a href="#">Tuyển dụng</a>
-          <a href="#">Tin tức & Blog</a>
-        </div>
-
-        <div class="footer-col">
-          <h3>Chính Sách</h3>
-
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Shipping Info</a>
-          <a href="#">Hướng dẫn đặt hàng</a>
-        </div>
-
-        <div class="footer-col">
-          <h3>Liên Hệ</h3>
-
-          <p>
-            <i class="fa-solid fa-location-dot"></i>
-            123 Nguyễn Huệ, Quận 1, TP.HCM
-          </p>
-
-          <p>
-            <i class="fa-solid fa-phone"></i>
-            090 1234 567
-          </p>
-
-          <p>
-            <i class="fa-regular fa-envelope"></i>
-            contact@vinha.com
-          </p>
-        </div>
-      </div>
-    </footer>
-
-    <script src="/js/gioiThieu.js"></script>
-  </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/gioiThieu.js}"></script>
+</body>
 </html>

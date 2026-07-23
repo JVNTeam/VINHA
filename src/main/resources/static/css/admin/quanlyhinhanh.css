@@ -163,7 +163,7 @@ body {
 }
 
 .group-select {
-    width: 260px;
+    width: 220px;
 }
 
 .filter-label {
@@ -300,6 +300,16 @@ body {
     font-size: 12px;
     font-family: monospace;
     font-weight: 600;
+}
+
+.badge-status-active {
+    background-color: #e6f4ea;
+    color: #1e8e3e;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-block;
 }
 
 .badge-status-lock {

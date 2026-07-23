@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đánh giá - Vị Nhà Admin</title>
+    <!-- Nhúng Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nhúng CSS chuẩn -->
+    <link rel="stylesheet" th:href="@{/css/admin/danh-gia.css}">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- SIDEBAR CHUẨN ĐỒNG BỘ -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Vị Nhà <span class="line">|</span></h2>
+        </div>
+        <ul class="menu">
+            <li><a th:href="@{/admin/dashboard}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a th:href="@{/admin/mon-an}"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
+            <li><a th:href="@{/admin/hinh-anh}"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a th:href="@{/admin/danh-muc}"><i class="fas fa-list"></i> Danh mục</a></li>
+            <!-- MỤC MỚI: Quản lý đánh giá -->
+            <li class="active"><a th:href="@{/admin/danh-gia}"><i class="fas fa-star"></i> Quản lý đánh giá</a></li>
+            <li><a th:href="@{/admin/giam-gia}"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
+            <li><a th:href="@{/admin/nguoi-dung}"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <li><a th:href="@{/admin/don-hang}"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a th:href="@{/admin/thanh-toan}"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li><a th:href="@{/admin/thong-ke}"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+        </ul>
+        <div class="logout">
+            <a th:href="@{/admin/logout}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+        <!-- Tiêu đề -->
+        <div class="header">
+            <div class="title">
+                <h1>Quản lý đánh giá</h1>
+                <p>Kiểm soát phản hồi, đánh giá chất lượng món ăn từ khách hàng.</p>
+            </div>
+        </div>
+
+        <!-- Khu vực Bộ lọc (Filter) -->
+        <div class="filter-section box-panel">
+            <form action="" method="get" class="filter-form">
+                <div class="filter-row">
+                    <!-- Lọc theo tên món ăn -->
+                    <div class="filter-group" style="flex: 2;">
+                        <label>Tên món ăn</label>
+                        <div class="input-group">
+                            <i class="fas fa-search"></i>
+                            <input type="text" name="foodName" placeholder="Nhập tên món ăn cần lọc...">
+                        </div>
+                    </div>
+
+                    <!-- Lọc theo số sao -->
+                    <div class="filter-group">
+                        <label>Mức độ đánh giá</label>
+                        <select name="rating" class="form-control">
+                            <option value="">Tất cả số sao</option>
+                            <option value="5">5 Sao (Tuyệt vời)</option>
+                            <option value="4">4 Sao (Hài lòng)</option>
+                            <option value="3">3 Sao (Bình thường)</option>
+                            <option value="2">2 Sao (Không hài lòng)</option>
+                            <option value="1">1 Sao (Tệ)</option>
+                        </select>
+                    </div>
+
+                    <!-- Lọc theo ngày đánh giá -->
+                    <div class="filter-group">
+                        <label>Ngày đánh giá</label>
+                        <input type="date" name="reviewDate" class="form-control">
+                    </div>
+
+                    <!-- Nút hành động -->
+                    <div class="filter-actions align-items-end">
+                        <button type="submit" class="btn btn-search"><i class="fas fa-filter"></i> Lọc</button>
+                        <a th:href="@{/admin/danh-gia}" class="btn btn-reset"><i class="fas fa-sync-alt"></i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Bảng dữ liệu đánh giá -->
+        <div class="table-container box-panel">
+            <table>
+                <thead>
+                <tr>
+                    <th width="50">STT</th>
+                    <th width="180">KHÁCH HÀNG</th>
+                    <th width="180">MÓN ĂN</th>
+                    <th width="120">MỨC ĐỘ</th>
+                    <th>NỘI DUNG & HÌNH ẢNH</th>
+                    <th width="140">THỜI GIAN</th>
+                    <th width="120" style="text-align: center;">THAO TÁC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Đánh giá 1 (5 sao) -->
+                <tr>
+                    <td>01</td>
+                    <td>
+                        <div class="customer-info">
+                            <strong class="text-main">Nguyễn Văn Hoàng</strong>
+                            <span class="text-muted" style="font-size: 13px;">0987 654 321</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="font-weight-600 text-orange">Cơm Sườn Nướng Đặc Biệt</div>
+                    </td>
+                    <td>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="review-text">Sườn ướp rất đậm vị, thịt mềm không bị khô, nước mắm pha ngon tuyệt vời! Sẽ ủng hộ dài dài.</p>
+                        <div class="review-img-list">
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150&auto=format&fit=crop" alt="Ảnh khách chụp">
+                        </div>
+                    </td>
+                    <td class="text-muted" style="font-size: 13px;">10:24 - 25/10/2026</td>
+                    <td class="actions" style="text-align: center;">
+                        <button title="Phản hồi đánh giá" class="text-blue"><i class="fas fa-reply"></i></button>
+                        <button title="Ẩn đánh giá này" class="text-danger"><i class="fas fa-eye-slash"></i></button>
+                    </td>
+                </tr>
+
+                <!-- Đánh giá 2 (1 sao - Cần gọi điện xin lỗi) -->
+                <tr>
+                    <td>02</td>
+                    <td>
+                        <div class="customer-info">
+                            <strong class="text-main">Trần Thị Lan</strong>
+                            <span class="text-muted" style="font-size: 13px;">0901 234 567</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="font-weight-600 text-orange">Phở Bò Tái Nạm</div>
+                    </td>
+                    <td>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="review-text">Nước dùng nguội ngắt, thịt bò bị dai và ít bánh phở. Thất vọng quá!</p>
+                    </td>
+                    <td class="text-muted" style="font-size: 13px;">08:15 - 25/10/2026</td>
+                    <td class="actions" style="text-align: center;">
+                        <button title="Phản hồi đánh giá" class="text-blue"><i class="fas fa-reply"></i></button>
+                        <button title="Ẩn đánh giá này" class="text-danger"><i class="fas fa-eye-slash"></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Phân trang -->
+            <div class="pagination">
+                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <span class="page-dots">...</span>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

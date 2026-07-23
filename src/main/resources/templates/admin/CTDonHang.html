@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết đơn hàng - Vị Nhà</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Vẫn dùng file CSS này nhé, tí dán đè code CSS là được -->
     <link rel="stylesheet" href="/css/customer/chi-tiet-don.css">
 </head>
 <body>
 
 <div class="wrapper">
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR CŨ CỦA TRANG CHI TIẾT ĐƠN (GIỮ NGUYÊN) -->
     <aside class="sidebar">
         <div class="logo">
             <h2><i class="fas fa-utensils" style="color: #f19f39; margin-right: 8px;"></i>Vị Nhà</h2>
@@ -33,7 +32,7 @@
         </div>
     </aside>
 
-    <!-- NỘI DUNG CHÍNH -->
+    <!-- NỘI DUNG CHÍNH (GIỮ NGUYÊN BỐ CỤC) -->
     <main class="main-content">
 
         <!-- Phần Tiêu đề Đơn hàng -->
@@ -42,6 +41,7 @@
                 <h1>Đơn hàng <span>#VN-29034</span></h1>
                 <span class="badge-status pending">Chờ xác nhận</span>
             </div>
+            <!-- Đã sửa ngày giờ chính xác -->
             <p class="order-date">Ngày đặt: 10:24 - 25/10/2026</p>
         </div>
 
@@ -170,7 +170,7 @@
                     </div>
                 </div>
 
-                <!-- Nút thao tác (Tôi tự thêm cho logic Admin) -->
+                <!-- Nút thao tác -->
                 <div class="admin-actions">
                     <button class="btn btn-outline" id="btnHuy">Hủy đơn</button>
                     <button class="btn btn-primary" id="btnXacNhan">Xác nhận đơn</button>
@@ -181,7 +181,6 @@
     </main>
 </div>
 
-<!-- Vẫn giữ file JS cũ -->
-<script src="/js/chi-tiet-don.js"></script>
+<script src="/js/customer/chi-tiet-don.js"></script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quản lý hình ảnh món ăn - Vị Nhà Admin</title>
 
     <!-- Google Fonts & FontAwesome -->
@@ -15,13 +15,11 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <!-- Đã sửa đúng tên file CSS trong máy bạn -->
-    <link rel="stylesheet" th:href="@{/css/admin/quanlyhinhanh.css}"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/admin/quanLyHinhAnh.css}" />
 </head>
 <body>
-<!-- SỬ DỤNG CLASS ADMIN-WRAPPER ĐỂ KHỚP VỚI CSS -->
 <div class="admin-wrapper">
-
     <!-- ADMIN SIDEBAR -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand">
@@ -61,6 +59,7 @@
 
     <!-- MAIN CONTENT -->
     <main class="admin-main">
+        <!-- Header Title & Action -->
         <div class="page-header">
             <div class="title-group">
                 <h1 class="page-title">Quản lý hình ảnh món ăn</h1>
@@ -103,6 +102,7 @@
                     </select>
                 </div>
 
+                <!-- PHẦN THÊM MỚI: BỘ LỌC TRẠNG THÁI -->
                 <div class="filter-group group-select">
                     <label class="filter-label">Trạng thái ảnh</label>
                     <select name="status" class="filter-select">
@@ -140,6 +140,7 @@
                             Cơm Gà Xối Mỡ
                         </td>
                         <td>
+                            <!-- Load ảnh trực tiếp từ Controller -->
                             <img
                                     th:src="${item.imageUrl}"
                                     alt="Hình món ăn"
@@ -152,9 +153,10 @@
                             >
                         </td>
                         <td>
-                    <span th:class="${item.statusCode == 'ACTIVE' ? 'badge-status-active' : 'badge-status-lock'}"
-                          th:text="${item.statusText}"
-                    >Khóa</span>
+                            <!-- Thay đổi màu Badge theo Status (ACTIVE = xanh, LOCKED = xám) -->
+                            <span th:class="${item.statusCode == 'ACTIVE' ? 'badge-status-active' : 'badge-status-lock'}"
+                                  th:text="${item.statusText}"
+                            >Khóa</span>
                         </td>
                         <td>
                             <div class="action-buttons">
@@ -162,6 +164,7 @@
                                         class="btn-icon"
                                         title="Sửa"
                                         th:data-id="${item.stt}"
+                                        onclick="editImage(this.getAttribute('data-id'))"
                                 >
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
@@ -169,6 +172,7 @@
                                         class="btn-icon"
                                         title="Xóa"
                                         th:data-id="${item.stt}"
+                                        onclick="deleteImage(this.getAttribute('data-id'))"
                                 >
                                     <i class="fa-regular fa-trash-can"></i>
                                 </button>
@@ -181,5 +185,8 @@
         </div>
     </main>
 </div>
+
+<!-- Custom JS -->
+<script th:src="@{/js/quanLyHinhAnh.js}"></script>
 </body>
 </html>

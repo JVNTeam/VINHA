@@ -6,6 +6,8 @@
     --primary-hover: #ea580c;
     --danger-color: #ef4444; /* Đỏ */
     --success-color: #10b981; /* Xanh lá */
+    --warning-color: #f59e0b; /* Vàng sao */
+    --blue-color: #3b82f6; /* Xanh dương */
     --text-main: #1e293b;
     --text-muted: #64748b;
     --bg-body: #f1f5f9;
@@ -13,9 +15,6 @@
     --border-color: #e2e8f0;
 }
 
-/* =========================================
-   Reset & Cơ bản
-========================================= */
 * {
     margin: 0;
     padding: 0;
@@ -39,6 +38,18 @@ ul {
 /* Tiện ích */
 .text-danger {
     color: var(--danger-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-orange {
+    color: var(--primary-color) !important;
+}
+
+.text-blue {
+    color: var(--blue-color) !important;
 }
 
 .text-muted {
@@ -72,7 +83,6 @@ ul {
     min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
     width: 250px;
     background: #fff;
@@ -131,12 +141,9 @@ ul {
 }
 
 /* =========================================
-   Nội dung riêng: Quản lý danh mục
+   Nội dung riêng
 ========================================= */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 24px;
 }
 
@@ -151,7 +158,7 @@ ul {
     margin-top: 5px;
 }
 
-/* NÚT BẤM */
+/* NÚT BẤM CHUẨN */
 .btn {
     padding: 10px 16px;
     border: none;
@@ -163,17 +170,8 @@ ul {
     justify-content: center;
     gap: 8px;
     font-size: 14px;
-    height: 42px; /* Căn chỉnh chiều cao chuẩn */
+    height: 42px;
     transition: 0.2s;
-}
-
-.btn-add {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-add:hover {
-    background-color: var(--primary-hover);
 }
 
 .btn-search {
@@ -210,6 +208,7 @@ ul {
 .filter-group {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .filter-group label {
@@ -221,7 +220,7 @@ ul {
 
 .form-control, .input-group {
     width: 100%;
-    height: 42px; /* Căn bằng với nút bấm */
+    height: 42px;
     background: #fff;
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -264,7 +263,7 @@ ul {
     gap: 10px;
 }
 
-/* BẢNG DỮ LIỆU */
+/* BẢNG DỮ LIỆU ĐÁNH GIÁ */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -288,45 +287,39 @@ td {
     font-size: 14px;
 }
 
-/* CSS cho Cột Hình ảnh */
-.cate-img-wrapper {
-    width: 65px;
-    height: 45px;
+/* Thông tin khách hàng & Sao */
+.customer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.rating-stars {
+    color: var(--warning-color);
+    font-size: 13px;
+    display: flex;
+    gap: 2px;
+}
+
+/* Nội dung bình luận & Ảnh đính kèm */
+.review-text {
+    font-size: 14px;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.review-img-list {
+    display: flex;
+    gap: 8px;
+}
+
+.review-img-list img {
+    width: 60px;
+    height: 60px;
     border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    background: var(--bg-body);
-}
-
-.cate-img-wrapper img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
-}
-
-/* Badges (Trạng thái và Số lượng) */
-.badge {
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.badge-closed {
-    background-color: #f1f5f9;
-    color: var(--text-muted);
-}
-
-.badge-open {
-    background-color: #dcfce7;
-    color: var(--success-color);
-}
-
-.badge-count {
-    background-color: #fff7ed;
-    color: var(--primary-color);
-    border: 1px solid #ffedd5;
+    border: 1px solid var(--border-color);
 }
 
 /* Thao tác (Actions) */
@@ -334,7 +327,7 @@ td {
     border: none;
     background: transparent;
     color: var(--text-muted);
-    margin: 0 5px;
+    margin: 0 6px;
     cursor: pointer;
     font-size: 16px;
     transition: 0.2s;
@@ -342,6 +335,10 @@ td {
 
 .actions button:hover {
     color: var(--primary-color);
+}
+
+.actions button.text-blue:hover {
+    color: var(--blue-color);
 }
 
 .actions button.text-danger:hover {
@@ -354,6 +351,7 @@ td {
     gap: 5px;
     margin-top: 20px;
     justify-content: flex-end;
+    align-items: center;
 }
 
 .page-btn {
@@ -374,4 +372,9 @@ td {
     background: var(--primary-color);
     color: white;
     border-color: var(--primary-color);
+}
+
+.page-dots {
+    color: var(--text-muted);
+    padding: 0 5px;
 }

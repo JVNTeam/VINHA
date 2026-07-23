@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo doanh thu - Vị Nhà</title>
+    <!-- Nhúng Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="/css/admin/thong-ke.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Vị Nhà <span class="line">|</span></h2>
+        </div>
+        <ul class="menu">
+            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
+            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
+            <li><a href="#"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
+            <li><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
+            <li><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li class="active"><a href="#"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="main-content">
+        <!-- Tiêu đề -->
+        <div class="header">
+            <h1>Báo cáo doanh thu</h1>
+        </div>
+
+        <!-- Bộ lọc thời gian -->
+        <div class="filter-section box-panel">
+            <div class="filter-group">
+                <label>Thời gian</label>
+                <select class="form-control" id="filterType">
+                    <option value="year" selected>Theo năm</option>
+                    <option value="month">Theo tháng</option>
+                    <option value="week">Theo tuần</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Từ ngày</label>
+                <input type="date" class="form-control" id="startDate" value="2026-01-01">
+            </div>
+            <div class="filter-group">
+                <label>Đến ngày</label>
+                <input type="date" class="form-control" id="endDate" value="2026-12-31">
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" id="btnThongKe"><i class="fas fa-chart-line"></i> Thống kê</button>
+                <button class="btn btn-outline" id="btnLamMoi">Làm mới</button>
+            </div>
+        </div>
+
+        <!-- 4 Thẻ Tổng quan (Cards) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="card-top">
+                    <div class="icon-box bg-orange-light"><i class="fas fa-money-bill-wave text-orange"></i></div>
+                    <span class="badge badge-up"><i class="fas fa-arrow-trend-up"></i> 12.5%</span>
+                </div>
+                <div class="card-info">
+                    <p>TỔNG DOANH THU</p>
+                    <h3>1.125.400.000đ</h3>
+                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                </div>
+                <div class="card-border border-orange"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-top">
+                    <div class="icon-box bg-red-light"><i class="fas fa-shopping-cart text-red"></i></div>
+                    <span class="badge badge-up"><i class="fas fa-arrow-trend-up"></i> 8.2%</span>
+                </div>
+                <div class="card-info">
+                    <p>TỔNG ĐƠN HÀNG</p>
+                    <h3>12,420</h3>
+                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                </div>
+                <div class="card-border border-red"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-top">
+                    <div class="icon-box bg-gray-light"><i class="fas fa-utensils text-gray"></i></div>
+                    <span class="badge badge-down"><i class="fas fa-arrow-trend-down"></i> 2.1%</span>
+                </div>
+                <div class="card-info">
+                    <p>SỐ MÓN ĐÃ BÁN</p>
+                    <h3>34,850</h3>
+                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                </div>
+                <div class="card-border border-gray"></div>
+            </div>
+
+            <div class="stat-card">
+                <div class="card-top">
+                    <div class="icon-box bg-blue-light"><i class="fas fa-users text-blue"></i></div>
+                    <span class="badge badge-up"><i class="fas fa-arrow-trend-up"></i> 15.4%</span>
+                </div>
+                <div class="card-info">
+                    <p>KHÁCH HÀNG MỚI</p>
+                    <h3>4,528</h3>
+                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                </div>
+                <div class="card-border border-blue"></div>
+            </div>
+        </div>
+
+        <!-- Khu vực Giữa (Biểu đồ & Top món) -->
+        <div class="middle-grid">
+            <!-- Biểu đồ -->
+            <div class="chart-section box-panel">
+                <div class="panel-head">
+                    <h3>Biểu đồ doanh thu năm 2026</h3>
+                    <div class="chart-legend">
+                        <span><i class="fas fa-circle text-orange"></i> Năm nay</span>
+                        <span><i class="fas fa-circle text-gray"></i> Năm trước</span>
+                    </div>
+                </div>
+
+                <div class="css-bar-chart">
+                    <div class="y-axis">
+                        <span>150M</span>
+                        <span>120M</span>
+                        <span>90M</span>
+                        <span>60M</span>
+                        <span>30M</span>
+                        <span>0</span>
+                    </div>
+
+                    <div class="chart-content">
+                        <div class="bars-container">
+                            <div class="bar-group"><span class="bar-value">45M</span><div class="bar" style="height: 30%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">60M</span><div class="bar" style="height: 40%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">55M</span><div class="bar" style="height: 36%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">80M</span><div class="bar" style="height: 53%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">95M</span><div class="bar" style="height: 63%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">75M</span><div class="bar" style="height: 50%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">65M</span><div class="bar" style="height: 43%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">110M</span><div class="bar" style="height: 73%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">100M</span><div class="bar" style="height: 66%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">125M</span><div class="bar active-bar" style="height: 83%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">130M</span><div class="bar" style="height: 86%;"></div></div>
+                            <div class="bar-group"><span class="bar-value">145M</span><div class="bar" style="height: 96%;"></div></div>
+                        </div>
+                        <div class="x-axis">
+                            <span>T1</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span>
+                            <span>T7</span><span>T8</span><span>T9</span><span>T10</span><span>T11</span><span>T12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Top Món -->
+            <div class="top-selling-section box-panel">
+                <!-- Bán chạy -->
+                <div class="panel-head">
+                    <h3 class="text-orange"><i class="fas fa-fire"></i> Top món bán chạy</h3>
+                </div>
+                <div class="top-list">
+                    <div class="top-item">
+                        <div class="item-text"><span>Cơm sườn bì chả</span> <span>2.450 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="top-item">
+                        <div class="item-text"><span>Phở bò Nam Định</span> <span>1.850 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="top-item">
+                        <div class="item-text"><span>Bún chả Hà Nội</span> <span>1.200 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 60%;"></div></div>
+                    </div>
+                </div>
+
+                <!-- Bán chậm -->
+                <div class="panel-head mt-4">
+                    <h3 class="text-danger"><i class="fas fa-arrow-down"></i> Top món bán chậm</h3>
+                </div>
+                <div class="top-list">
+                    <div class="top-item">
+                        <div class="item-text"><span>Canh mướp đắng</span> <span>24 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 8%;"></div></div>
+                    </div>
+                    <div class="top-item">
+                        <div class="item-text"><span>Nộm ngó sen</span> <span>35 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 12%;"></div></div>
+                    </div>
+                    <div class="top-item">
+                        <div class="item-text"><span>Chè khúc bạch</span> <span>48 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 15%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bảng Chi tiết -->
+        <div class="table-section box-panel mt-4">
+            <div class="panel-head">
+                <h3>Chi tiết doanh thu theo món ăn</h3>
+                <button class="btn btn-outline text-orange" id="btnXuatExcel"><i class="fas fa-download"></i> Xuất file Excel</button>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>MÓN ĂN</th>
+                    <th>SỐ LƯỢNG BÁN</th>
+                    <th>DOANH THU</th>
+                    <th>TỶ LỆ</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>01</td>
+                    <td><div class="food-info"><div class="food-img"><i class="fas fa-hamburger"></i></div><span>Cơm sườn bì chả đặc biệt</span></div></td>
+                    <td>2.450</td>
+                    <td><strong>159.600.000đ</strong></td>
+                    <td class="ratio-td"><div class="progress-track small"><div class="progress-fill bg-orange" style="width: 14.1%;"></div></div><span>14.1%</span></td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td><div class="food-info"><div class="food-img"><i class="fas fa-bowl-food"></i></div><span>Phở bò tái nạm</span></div></td>
+                    <td>1.850</td>
+                    <td class="text-orange"><strong>120.250.000đ</strong></td>
+                    <td class="ratio-td"><div class="progress-track small"><div class="progress-fill bg-orange" style="width: 10.6%;"></div></div><span>10.6%</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script src="/js/thong-ke.js"></script>
+</body>
+</html>

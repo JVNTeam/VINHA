@@ -7,29 +7,30 @@
     <!-- Nhúng Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Nhúng file CSS -->
-    <link rel="stylesheet" href="/css/admin/thong-ke.css">
+    <link rel="stylesheet" th:href="@{/css/admin/thong-ke.css}">
 </head>
 <body>
 
 <div class="wrapper">
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR CHUẨN ĐỒNG BỘ -->
     <aside class="sidebar">
         <div class="logo">
             <h2>Vị Nhà <span class="line">|</span></h2>
         </div>
         <ul class="menu">
-            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
-            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
-            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
-            <li><a href="#"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
-            <li><a href="#"><i class="fas fa-user-friends"></i> Người dùng</a></li>
-            <li><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
-            <li class="active"><a href="#"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
+            <li><a th:href="@{/admin/dashboard}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a th:href="@{/admin/mon-an}"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
+            <li><a th:href="@{/admin/hinh-anh}"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
+            <li><a th:href="@{/admin/danh-muc}"><i class="fas fa-list"></i> Danh mục</a></li>
+            <li><a th:href="@{/admin/giam-gia}"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
+            <li><a th:href="@{/admin/khach-hang}"><i class="fas fa-users"></i> Khách hàng</a></li>
+            <li><a th:href="@{/admin/nhan-vien}"><i class="fas fa-user-tie"></i> Nhân viên</a></li>
+            <li><a th:href="@{/admin/don-hang}"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
+            <li><a th:href="@{/admin/thanh-toan}"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
+            <li class="active"><a th:href="@{/admin/thong-ke}"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
         </ul>
         <div class="logout">
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+            <a th:href="@{/admin/logout}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
         </div>
     </aside>
 
@@ -42,25 +43,27 @@
 
         <!-- Bộ lọc thời gian -->
         <div class="filter-section box-panel">
-            <div class="filter-group">
-                <label>Thời gian</label>
-                <select class="form-control" id="filterType">
-                    <option value="year" selected>Theo năm</option>
-                    <option value="month">Theo tháng</option>
-                    <option value="week">Theo tuần</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Từ ngày</label>
-                <input type="date" class="form-control" id="startDate" value="2026-01-01">
-            </div>
-            <div class="filter-group">
-                <label>Đến ngày</label>
-                <input type="date" class="form-control" id="endDate" value="2026-12-31">
-            </div>
-            <div class="filter-actions">
-                <button class="btn btn-primary" id="btnThongKe"><i class="fas fa-chart-line"></i> Thống kê</button>
-                <button class="btn btn-outline" id="btnLamMoi">Làm mới</button>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>Thời gian</label>
+                    <select class="form-control" id="filterType">
+                        <option value="year" selected>Theo năm</option>
+                        <option value="month">Theo tháng</option>
+                        <option value="week">Theo tuần</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Từ ngày</label>
+                    <input type="date" class="form-control" id="startDate" value="2026-01-01">
+                </div>
+                <div class="filter-group">
+                    <label>Đến ngày</label>
+                    <input type="date" class="form-control" id="endDate" value="2026-12-31">
+                </div>
+                <div class="filter-actions align-items-end">
+                    <button class="btn btn-primary" id="btnThongKe"><i class="fas fa-chart-line"></i> Thống kê</button>
+                    <button class="btn btn-outline" id="btnLamMoi">Làm mới</button>
+                </div>
             </div>
         </div>
 
@@ -215,7 +218,7 @@
             <table>
                 <thead>
                 <tr>
-                    <th>STT</th>
+                    <th width="50">STT</th>
                     <th>MÓN ĂN</th>
                     <th>SỐ LƯỢNG BÁN</th>
                     <th>DOANH THU</th>
@@ -243,6 +246,6 @@
     </main>
 </div>
 
-<script src="/js/thong-ke.js"></script>
+<script src="/js/admin/thong-ke.js"></script>
 </body>
 </html>

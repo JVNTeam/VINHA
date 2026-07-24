@@ -178,6 +178,13 @@ ul {
     margin-bottom: 24px;
 }
 
+.filter-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    align-items: flex-end;
+}
+
 .filter-group {
     display: flex;
     flex-direction: column;
@@ -216,6 +223,7 @@ ul {
     border: none;
     transition: 0.2s;
     font-size: 14px;
+    height: 42px;
 }
 
 .btn i {

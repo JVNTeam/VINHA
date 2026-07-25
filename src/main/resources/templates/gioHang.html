@@ -78,65 +78,111 @@
 
           <!-- Item -->
 
-          <div class="cart-item">
+          <div class="cart-item" th:each="item : ${cartItems}">
             <div class="item-image">
-              <img src="/images/comGa.png" alt="" />
+              <img
+                th:src="@{${(item.monAn != null and item.monAn.hinhAnhs != null and !#lists.isEmpty(item.monAn.hinhAnhs) and item.monAn.hinhAnhs[0].duongDan != null and item.monAn.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(item.monAn.hinhAnhs[0].duongDan, '/') ? item.monAn.hinhAnhs[0].duongDan : '/' + item.monAn.hinhAnhs[0].duongDan ) : '/images/foods/comTamSuonBiCha2.webp'}}"
+                th:alt="${item.monAn != null ? item.monAn.ten : 'Món ăn'}"
+              />
             </div>
 
             <div class="item-info">
-              <h3>Cơm Gà</h3>
-
-              <p>Gà nướng mật ong</p>
+              <h3 th:text="${item.monAn != null ? item.monAn.ten : 'Món ăn'}">
+                Tên món
+              </h3>
+              <p
+                th:text="${item.monAn != null && item.monAn.moTa != null ? item.monAn.moTa : 'Đang cập nhật mô tả'}"
+              >
+                Mô tả
+              </p>
             </div>
 
-            <div class="price">65,000đ</div>
+            <div
+              class="price"
+              th:text="${#numbers.formatDecimal(item.donGia, 0, 'COMMA', 0, 'POINT') + 'đ'}"
+            >
+              0đ
+            </div>
 
             <div class="quantity">
-              <button class="minus">-</button>
+              <form
+                th:action="@{/gioHang/capNhatSoLuong}"
+                method="post"
+                style="display: inline"
+              >
+                <input
+                  type="hidden"
+                  name="chiTietGioHangId"
+                  th:value="${item.id}"
+                />
+                <input
+                  type="hidden"
+                  name="soLuong"
+                  th:value="${item.soLuong > 1 ? item.soLuong - 1 : 1}"
+                />
+                <button class="minus" type="submit">-</button>
+              </form>
 
-              <input type="text" value="1" />
+              <input type="text" th:value="${item.soLuong}" readonly />
 
-              <button class="plus">+</button>
+              <form
+                th:action="@{/gioHang/capNhatSoLuong}"
+                method="post"
+                style="display: inline"
+              >
+                <input
+                  type="hidden"
+                  name="chiTietGioHangId"
+                  th:value="${item.id}"
+                />
+                <input
+                  type="hidden"
+                  name="soLuong"
+                  th:value="${item.soLuong + 1}"
+                />
+                <button class="plus" type="submit">+</button>
+              </form>
             </div>
 
-            <div class="total">65,000đ</div>
+            <div
+              class="total"
+              th:text="${#numbers.formatDecimal(item.thanhTien, 0, 'COMMA', 0, 'POINT') + 'đ'}"
+            >
+              0đ
+            </div>
 
             <div class="delete">
-              <i class="fa-regular fa-trash-can"></i>
+              <form th:action="@{/gioHang/xoa}" method="post">
+                <input
+                  type="hidden"
+                  name="chiTietGioHangId"
+                  th:value="${item.id}"
+                />
+                <button
+                  type="submit"
+                  style="
+                    border: none;
+                    background: transparent;
+                    color: inherit;
+                    cursor: pointer;
+                  "
+                  onclick="
+                    return confirm(
+                      'Bạn có muốn xóa món này khỏi giỏ hàng không?',
+                    );
+                  "
+                >
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </form>
             </div>
           </div>
 
-          <!-- Item -->
-
-          <div class="cart-item">
-            <div class="item-image">
-              <img src="/images/ComhitChuaNgot.png" alt="" />
-            </div>
-
-            <div class="item-info">
-              <h3>Cơm Sườn Non</h3>
-
-              <p>Sườn nướng mật ong</p>
-            </div>
-
-            <div class="price">75,000đ</div>
-
-            <div class="quantity">
-              <button class="minus">-</button>
-
-              <input type="text" value="1" />
-
-              <button class="plus">+</button>
-            </div>
-
-            <div class="total">75,000đ</div>
-
-            <div class="delete">
-              <i class="fa-regular fa-trash-can"></i>
-            </div>
+          <div th:if="${cartItems == null || #lists.isEmpty(cartItems)}">
+            <p>Giỏ hàng của bạn đang trống.</p>
           </div>
 
-          <a href="thucDon.html" class="continue">
+          <a href="/thucDon" class="continue">
             <i class="fa-solid fa-arrow-left"></i>
 
             Tiếp tục mua hàng
@@ -151,13 +197,17 @@
             <div class="summary-row">
               <span>Tạm tính</span>
 
-              <span id="subtotal">140,000đ</span>
+              <span
+                id="subtotal"
+                th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT') + 'đ'}"
+                >0đ</span
+              >
             </div>
 
             <div class="summary-row">
               <span>Số lượng món</span>
 
-              <span id="item-count">2</span>
+              <span id="item-count" th:text="${itemCount}">0</span>
             </div>
 
             <hr />
@@ -165,7 +215,11 @@
             <div class="summary-row total-row">
               <strong>Tổng cộng</strong>
 
-              <strong id="grand-total">145,000đ</strong>
+              <strong
+                id="grand-total"
+                th:text="${#numbers.formatDecimal(subtotal, 0, 'COMMA', 0, 'POINT') + 'đ'}"
+                >0đ</strong
+              >
             </div>
 
             <a href="/thanhToan">

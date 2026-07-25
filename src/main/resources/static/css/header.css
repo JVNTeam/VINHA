@@ -261,6 +261,26 @@ body{
     color:#fff;
 }
 
+.logout-btn{
+    border:1px solid #DC2626;
+    color:#DC2626;
+    text-decoration:none;
+    padding:6px 14px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:14px;
+    line-height:1.2;
+    transition:.3s;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.logout-btn:hover{
+    background:#DC2626;
+    color:#fff;
+}
+
 /* Mobile */
 
 .navbar-toggler{

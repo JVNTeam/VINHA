@@ -61,7 +61,7 @@
                         <a th:href="@{/hoSo}" class="user-icon" title="Hồ sơ">
                             <i class="fa-solid fa-user"></i>
                         </a>
-                        <a th:href="@{/dangXuat}" class="btn btn-outline-danger btn-sm">Đăng xuất</a>
+                        <a th:href="@{/dangXuat}" class="logout-btn">Đăng xuất</a>
                     </div>
                     <a th:unless="${session.loggedInUser != null}" th:href="@{/dangNhap}" class="login-btn">Đăng nhập</a>
                 </div>

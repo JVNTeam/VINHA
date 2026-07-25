@@ -32,4 +32,12 @@ public class ChiTietGioHang {
 
     @Column(name = "don_gia", nullable = false, precision = 12, scale = 2)
     private BigDecimal donGia;
+
+    @Transient
+    public BigDecimal getThanhTien() {
+        if (donGia == null || soLuong == null) {
+            return BigDecimal.ZERO;
+        }
+        return donGia.multiply(BigDecimal.valueOf(soLuong.longValue()));
+    }
 }

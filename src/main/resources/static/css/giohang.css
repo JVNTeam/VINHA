@@ -27,8 +27,8 @@ img{
 }
 
 .container{
-    width:1200px;
-    margin:auto;
+    width:min(1200px, calc(100% - 48px));
+    margin:0 auto;
 }
 
 
@@ -146,14 +146,16 @@ header{
 
 .cart-layout{
     display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:40px;
+    grid-template-columns:1fr;
+    gap:24px;
+    align-items:start;
     margin-bottom:70px;
 }
 
 .cart-left h1{
-    margin-bottom:30px;
-    font-size:44px;
+    margin-bottom:24px;
+    font-size:48px;
+    line-height:1.1;
     color:#222;
 }
 
@@ -163,45 +165,50 @@ header{
 .cart-item{
     background:#fff;
     border-radius:14px;
-    padding:25px;
+    padding:18px 16px;
     display:grid;
     grid-template-columns:
-    90px
-    1fr
-    120px
-    140px
-    120px
-    40px;
+    70px
+    minmax(0, 1fr)
+    110px
+    110px
+    110px
+    30px;
     align-items:center;
-    gap:25px;
-    margin-bottom:25px;
+    gap:12px;
+    margin-bottom:16px;
     box-shadow:0 3px 10px rgba(0,0,0,.05);
 }
 
 .item-image img{
-    width:90px;
-    height:90px;
-    border-radius:10px;
+    width:70px;
+    height:70px;
+    border-radius:8px;
     object-fit:cover;
 }
 
 .item-info h3{
-    margin-bottom:8px;
+    margin-bottom:4px;
     font-size:22px;
+    line-height:1.2;
 }
 
 .item-info p{
     color:#777;
     font-size:15px;
+    line-height:1.3;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 .price{
-    font-size:24px;
+    font-size:16px;
     color:#666;
 }
 
 .total{
-    font-size:24px;
+    font-size:16px;
     color:#b06b1d;
     font-weight:700;
 }
@@ -212,18 +219,20 @@ header{
 .quantity{
     display:flex;
     align-items:center;
+    justify-content:center;
     border:1px solid #e7c39d;
     border-radius:10px;
     overflow:hidden;
+    height:40px;
 }
 
 .quantity button{
-    width:42px;
-    height:42px;
+    width:32px;
+    height:38px;
     border:none;
     background:#fff;
     cursor:pointer;
-    font-size:22px;
+    font-size:18px;
     color:#b06b1d;
 }
 
@@ -232,11 +241,12 @@ header{
 }
 
 .quantity input{
-    width:55px;
+    width:42px;
     border:none;
     text-align:center;
-    font-size:18px;
+    font-size:14px;
     outline:none;
+    background:#fff;
 }
 
 .delete{
@@ -271,14 +281,13 @@ header{
     background:#fff;
     border:1px solid #ead8c5;
     border-radius:14px;
-    padding:30px;
-    position:sticky;
-    top:30px;
+    padding:22px;
+    position:static;
 }
 
 .summary h2{
     font-size:32px;
-    margin-bottom:30px;
+    margin-bottom:20px;
     color:#333;
 }
 
@@ -286,7 +295,7 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:22px;
+    margin-bottom:14px;
     font-size:20px;
     color:#666;
 }
@@ -298,7 +307,7 @@ header{
 }
 
 .total-row{
-    font-size:28px;
+    font-size:30px;
     color:#8b4b16;
 }
 
@@ -443,11 +452,12 @@ footer{
 @media(max-width:1200px){
 
     .container{
-        width:95%;
+        width:min(100%, calc(100% - 32px));
     }
 
     .cart-layout{
         grid-template-columns:1fr;
+        gap:20px;
     }
 
     .summary{

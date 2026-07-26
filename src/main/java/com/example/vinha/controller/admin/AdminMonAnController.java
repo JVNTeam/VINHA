@@ -15,7 +15,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin/mon-an")
+@RequestMapping("/abc")
 public class AdminMonAnController {
 
     @GetMapping

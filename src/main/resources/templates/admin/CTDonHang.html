@@ -3,51 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết đơn hàng - Vị Nhà</title>
+    <title>Chi tiết đơn hàng - Vị Nhà Admin</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/css/customer/chi-tiet-don.css">
+
+    <!-- GỌI FILE CSS RIÊNG -->
+    <link rel="stylesheet" th:href="@{/css/admin/chi-tiet-don-khach.css}">
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- SIDEBAR ĐÃ ĐƯỢC ĐỒNG BỘ -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h2><i class="fas fa-utensils" style="color: #f19f39; margin-right: 8px;"></i>Vị Nhà</h2>
+<div class="admin-wrapper">
+    <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
+    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
+        <div class="sidebar-brand">
+            <span class="brand-text">Vị Nhà</span>
         </div>
-        <ul class="menu">
-            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
-            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
-            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
-            <li><a href="#"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Khách hàng</a></li>
-            <li><a href="#"><i class="fas fa-user-tie"></i> Nhân viên</a></li>
-            <!-- Mục Đơn hàng đang được chọn -->
-            <li class="active"><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
-        </ul>
-        <div class="logout">
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+
+        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
+            <a th:href="@{/admin/mon-an}" class="nav-item">
+                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
+            </a>
+            <a th:href="@{/admin/hinh-anh}" class="nav-item">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
+            </a>
+            <a th:href="@{/admin/danh-muc}" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i> Danh mục
+            </a>
+            <a th:href="@{/admin/giam-gia}" class="nav-item">
+                <i class="fa-solid fa-ticket"></i> Mã giảm giá
+            </a>
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
+            </a>
+            <!-- MỤC ĐƠN HÀNG ĐANG ACTIVE -->
+            <a th:href="@{/admin/don-hang}" class="nav-item active">
+                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+            </a>
+            <a th:href="@{/admin/thanh-toan}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i> Thanh toán
+            </a>
+            <a th:href="@{/admin/thong-ke}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i> Thống kê
+            </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
+
+            <!-- Nút Đăng xuất đẩy xuống đáy và fix màu đỏ -->
+            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid var(--border-color); border-radius: 0; padding-top: 16px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </nav>
     </aside>
 
-    <!-- NỘI DUNG CHÍNH (GIỮ NGUYÊN BỐ CỤC) -->
-    <main class="main-content">
-
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="admin-main">
         <!-- Phần Tiêu đề Đơn hàng -->
-        <div class="order-header">
-            <div class="order-title-row">
-                <h1>Đơn hàng <span>#VN-29034</span></h1>
-                <span class="badge-status pending">Chờ xác nhận</span>
+        <div class="page-header">
+            <div class="title-group">
+                <div class="order-title-row">
+                    <h1 class="page-title">Đơn hàng <span style="color: var(--admin-orange);">#VN-29034</span></h1>
+                    <span class="badge badge-pending">Chờ xác nhận</span>
+                </div>
+                <p class="page-subtitle">Ngày đặt: 10:24 - 25/10/2026</p>
             </div>
-            <!-- Đã sửa ngày giờ chính xác -->
-            <p class="order-date">Ngày đặt: 10:24 - 25/10/2026</p>
+            <a th:href="@{/admin/don-hang}" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại</a>
         </div>
 
         <!-- Khung 2 Cột -->
         <div class="content-grid">
-
             <!-- CỘT TRÁI (Thông tin KH & Món ăn) -->
             <div class="left-column">
 
@@ -55,21 +84,21 @@
                 <div class="info-card">
                     <h3 class="card-title">Thông tin khách hàng</h3>
                     <div class="customer-info-grid">
-                        <div class="info-item">
+                        <div class="info-row">
                             <span class="label">Khách hàng</span>
-                            <strong class="value">Nguyễn Văn An</strong>
+                            <strong class="value text-main">Nguyễn Văn An</strong>
                         </div>
-                        <div class="info-item">
-                            <span class="label">Địa chỉ giao hàng</span>
-                            <strong class="value">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</strong>
-                        </div>
-                        <div class="info-item">
+                        <div class="info-row">
                             <span class="label">Số điện thoại</span>
-                            <strong class="value">090 123 4567</strong>
+                            <strong class="value text-main">090 123 4567</strong>
                         </div>
-                        <div class="info-item">
+                        <div class="info-row">
+                            <span class="label">Địa chỉ giao</span>
+                            <strong class="value text-main">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</strong>
+                        </div>
+                        <div class="info-row">
                             <span class="label">Ghi chú</span>
-                            <em class="value text-gray">Giao trước 12h trưa, không lấy hành lá.</em>
+                            <em class="value text-muted" style="background: #fdf8f3; padding: 10px; border-radius: 8px;">Giao trước 12h trưa, không lấy hành lá.</em>
                         </div>
                     </div>
                 </div>
@@ -77,40 +106,42 @@
                 <!-- Card: Danh sách món ăn -->
                 <div class="info-card">
                     <h3 class="card-title">Danh sách món ăn</h3>
-                    <table class="food-table">
-                        <thead>
-                        <tr>
-                            <th>Món ăn</th>
-                            <th class="text-center">SL</th>
-                            <th class="text-right">Đơn giá</th>
-                            <th class="text-right">Thành tiền</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="food-info">
-                                    <div class="food-img"></div>
-                                    <strong>Cơm Sườn Nướng</strong>
-                                </div>
-                            </td>
-                            <td class="text-center">2</td>
-                            <td class="text-right">150.000đ</td>
-                            <td class="text-right"><strong>300.000đ</strong></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="food-info">
-                                    <div class="food-img"></div>
-                                    <strong>Cơm Gà Xối Mỡ</strong>
-                                </div>
-                            </td>
-                            <td class="text-center">1</td>
-                            <td class="text-right">120.000đ</td>
-                            <td class="text-right"><strong>120.000đ</strong></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 50%;">MÓN ĂN</th>
+                                <th style="width: 15%; text-align: center;">SỐ LƯỢNG</th>
+                                <th style="width: 15%; text-align: right;">ĐƠN GIÁ</th>
+                                <th style="width: 20%; text-align: right;">THÀNH TIỀN</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <div class="food-info">
+                                        <div class="food-img" style="background-image: url('https://via.placeholder.com/50');"></div>
+                                        <strong class="text-main">Cơm Sườn Nướng</strong>
+                                    </div>
+                                </td>
+                                <td style="text-align: center;"><strong class="text-main">2</strong></td>
+                                <td style="text-align: right;">150.000đ</td>
+                                <td style="text-align: right;"><strong class="text-main">300.000đ</strong></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="food-info">
+                                        <div class="food-img" style="background-image: url('https://via.placeholder.com/50');"></div>
+                                        <strong class="text-main">Cơm Gà Xối Mỡ</strong>
+                                    </div>
+                                </td>
+                                <td style="text-align: center;"><strong class="text-main">1</strong></td>
+                                <td style="text-align: right;">120.000đ</td>
+                                <td style="text-align: right;"><strong class="text-main">120.000đ</strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -121,18 +152,18 @@
                 <div class="info-card">
                     <h3 class="card-title">Lịch sử trạng thái</h3>
                     <ul class="timeline">
-                        <li class="done">
-                            <div class="icon"><i class="fas fa-check-circle"></i></div>
-                            <div class="text">
-                                <strong>Đã đặt hàng</strong>
-                                <span>10:24 - 25/10/2026</span>
+                        <li class="timeline-item done">
+                            <div class="icon"><i class="fas fa-check"></i></div>
+                            <div class="content">
+                                <strong class="text-main">Đã đặt hàng</strong>
+                                <span class="time text-muted">10:24 - 25/10/2026</span>
                             </div>
                         </li>
-                        <li class="current">
+                        <li class="timeline-item current">
                             <div class="icon"><i class="fas fa-clock"></i></div>
-                            <div class="text">
-                                <strong>Chờ xác nhận</strong>
-                                <span>10:25 - 25/10/2026</span>
+                            <div class="content">
+                                <strong class="text-main" style="color: var(--admin-orange);">Chờ xác nhận</strong>
+                                <span class="time text-muted">10:25 - 25/10/2026</span>
                             </div>
                         </li>
                     </ul>
@@ -141,46 +172,46 @@
                 <!-- Card: Tóm tắt thanh toán -->
                 <div class="info-card">
                     <h3 class="card-title">Tóm tắt thanh toán</h3>
+
                     <div class="summary-row">
-                        <span>Tạm tính</span>
-                        <span>420.000đ</span>
+                        <span class="text-muted font-weight-600">Tạm tính</span>
+                        <span class="text-main font-weight-600">420.000đ</span>
                     </div>
                     <div class="summary-row">
-                        <span>Phí vận chuyển</span>
-                        <span>30.000đ</span>
+                        <span class="text-muted font-weight-600">Phí vận chuyển</span>
+                        <span class="text-main font-weight-600">30.000đ</span>
                     </div>
-                    <div class="summary-row text-red">
-                        <span>Giảm giá</span>
-                        <span>-0đ</span>
+                    <div class="summary-row">
+                        <span class="text-muted font-weight-600">Giảm giá</span>
+                        <span class="font-weight-600" style="color: var(--danger-color);">-0đ</span>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="summary-row total-row">
-                        <span>Tổng cộng</span>
-                        <span class="total-price">450.000đ</span>
+                        <span class="text-main" style="font-size: 16px; font-weight: 800;">Tổng cộng</span>
+                        <span style="font-size: 22px; font-weight: 800; color: var(--admin-orange);">450.000đ</span>
                     </div>
 
                     <div class="payment-method">
-                        <i class="fas fa-university text-gray"></i>
+                        <i class="fas fa-university" style="color: #8c7355; font-size: 20px;"></i>
                         <div class="method-info">
-                            <span class="label">Phương thức thanh toán</span>
-                            <strong>Chuyển khoản</strong>
+                            <span class="text-muted" style="font-size: 12px; font-weight: 600;">Phương thức thanh toán</span>
+                            <strong class="text-main">Chuyển khoản</strong>
                         </div>
                     </div>
                 </div>
 
                 <!-- Nút thao tác -->
                 <div class="admin-actions">
-                    <button class="btn btn-outline" id="btnHuy">Hủy đơn</button>
-                    <button class="btn btn-primary" id="btnXacNhan">Xác nhận đơn</button>
+                    <button class="btn-action btn-danger-outline" id="btnHuy"><i class="fas fa-times"></i> Hủy đơn</button>
+                    <button class="btn-action btn-orange" id="btnXacNhan"><i class="fas fa-check"></i> Xác nhận đơn</button>
                 </div>
-
             </div>
         </div>
     </main>
 </div>
 
-<script src="/js/customer/chi-tiet-don.js"></script>
+<script src="/js/admin/chi-tiet-don.js"></script>
 </body>
 </html>

@@ -3,72 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý đơn hàng - Vị Nhà</title>
+    <title>Quản lý đơn hàng - Vị Nhà Admin</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Đảm bảo file CSS này chứa đoạn code bên dưới -->
-    <link rel="stylesheet" href="/css/admin/don-hang.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/admin/don-hang.css}">
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- SIDEBAR ĐÃ ĐƯỢC ĐỒNG BỘ -->
-    <aside class="sidebar">
-        <div class="logo-box">
-            <div class="logo-icon"><i class="fas fa-utensils"></i></div>
-            <div class="logo-text">
-                <h2>Vị Nhà</h2>
-                <span>Quản trị viên</span>
-            </div>
+<!-- CLASS ADMIN-WRAPPER ĐÃ ĐƯỢC KHỚP ĐÚNG VỚI CSS -->
+<div class="admin-wrapper">
+
+    <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
+    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
+        <div class="sidebar-brand">
+            <span class="brand-text">Vị Nhà</span>
         </div>
 
-        <ul class="menu">
-            <li><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
-            <li><a href="#"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
-            <li><a href="#"><i class="fas fa-list"></i> Danh mục</a></li>
-            <li><a href="#"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Khách hàng</a></li>
-            <li><a href="#"><i class="fas fa-user-tie"></i> Nhân viên</a></li>
-            <li class="active"><a href="#"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-            <li><a href="#"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
-        </ul>
+        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
+            <a th:href="@{/admin/mon-an}" class="nav-item">
+                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
+            </a>
+            <a th:href="@{/admin/hinh-anh}" class="nav-item">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
+            </a>
+            <a th:href="@{/admin/danh-muc}" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i> Danh mục
+            </a>
+            <a th:href="@{/admin/giam-gia}" class="nav-item">
+                <i class="fa-solid fa-ticket"></i> Mã giảm giá
+            </a>
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
+            </a>
+            <a th:href="@{/admin/don-hang}" class="nav-item active">
+                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+            </a>
+            <a th:href="@{/admin/thanh-toan}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i> Thanh toán
+            </a>
+            <a th:href="@{/admin/thong-ke}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i> Thống kê
+            </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
 
-        <div class="sidebar-footer">
-            <button class="btn-create"><i class="fas fa-plus"></i> Tạo món mới</button>
-        </div>
+            <!-- Nút Đăng xuất đẩy xuống đáy và fix màu đỏ -->
+            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid #ebe5df; border-radius: 0; padding-top: 16px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </nav>
     </aside>
 
-    <!-- NỘI DUNG CHÍNH GỐC -->
-    <main class="main-content">
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
 
         <div class="header">
             <h1>Quản lý đơn hàng</h1>
         </div>
 
-        <!-- 4 THẺ THỐNG KÊ (CARDS) -->
+        <!-- 4 THẺ THỐNG KÊ -->
         <div class="summary-cards">
             <div class="card">
                 <div class="icon-box bg-orange-light"><i class="fas fa-clipboard-list text-orange"></i></div>
                 <div class="card-info">
                     <h3>24</h3>
-                    <p>Chờ xác nhận</p>
+                    <p class="text-gray">Chờ xác nhận</p>
                 </div>
             </div>
             <div class="card">
                 <div class="icon-box bg-blue-light"><i class="fas fa-check-circle text-blue"></i></div>
                 <div class="card-info">
                     <h3>15</h3>
-                    <p>Đã xác nhận</p>
+                    <p class="text-gray">Đã xác nhận</p>
                 </div>
             </div>
             <div class="card">
                 <div class="icon-box bg-gray-light"><i class="fas fa-fire-burner text-gray"></i></div>
                 <div class="card-info">
                     <h3>18</h3>
-                    <p>Đang chế biến</p>
+                    <p class="text-gray">Đang chế biến</p>
                 </div>
             </div>
-            <div class="card bg-orange text-white">
+            <div class="card bg-orange text-white border-0">
                 <div class="icon-box bg-white-opacity"><i class="fas fa-check-circle text-white"></i></div>
                 <div class="card-info">
                     <h3 class="text-white">12.450k</h3>
@@ -77,7 +101,7 @@
             </div>
         </div>
 
-        <!-- KHU VỰC LỌC GỐC -->
+        <!-- KHU VỰC LỌC -->
         <div class="filter-section">
             <div class="filter-left">
                 <select class="form-control">
@@ -86,13 +110,10 @@
                     <option>Đã xác nhận</option>
                     <option>Đang chế biến</option>
                     <option>Đã hoàn thành</option>
+                    <option>Đã hủy</option>
                 </select>
                 <input type="date" class="form-control">
                 <button class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
-            </div>
-            <div class="filter-right">
-                <button class="btn-icon"><i class="fas fa-download"></i></button>
-                <button class="btn-icon"><i class="fas fa-print"></i></button>
             </div>
         </div>
 
@@ -101,13 +122,13 @@
             <table>
                 <thead>
                 <tr>
-                    <th>MÃ ĐƠN HÀNG</th>
-                    <th>KHÁCH HÀNG</th>
-                    <th>NGÀY ĐẶT</th>
-                    <th>TỔNG TIỀN</th>
-                    <th>THANH TOÁN</th>
-                    <th>TRẠNG THÁI</th>
-                    <th>THAO TÁC</th>
+                    <th style="width: 13%;">MÃ ĐƠN HÀNG</th>
+                    <th style="width: 20%;">KHÁCH HÀNG</th>
+                    <th style="width: 12%;">NGÀY ĐẶT</th>
+                    <th style="width: 12%;">TỔNG TIỀN</th>
+                    <th style="width: 15%;">THANH TOÁN</th>
+                    <th style="width: 20%;">TRẠNG THÁI</th>
+                    <th style="text-align: center; width: 8%;">THAO TÁC</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -115,32 +136,27 @@
                 <tr>
                     <td><span class="text-orange font-bold">#VN-29034</span></td>
                     <td>
-                        <div class="user-info">
-                            <!-- Đã bỏ Avatar -->
-                            <div class="details">
-                                <strong>Nguyễn Thành Nam</strong>
-                                <span class="text-gray">0908 123 456</span>
-                            </div>
+                        <div class="details">
+                            <strong class="text-main">Nguyễn Thành Nam</strong>
+                            <span class="text-gray text-sm">0908 123 456</span>
                         </div>
                     </td>
-                    <!-- Đã sửa ngày giờ chính xác -->
                     <td class="date-col">
-                        10:24<br>
-                        <span class="text-gray">25/10/2026</span>
+                        <strong class="text-main">10:24</strong><br>
+                        <span class="text-gray text-sm">25/10/2026</span>
                     </td>
-                    <td><strong>450.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-money-check-alt"></i> Chuyển khoản</span></td>
+                    <td><strong class="text-main">450.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-money-check-alt text-gray"></i> Chuyển khoản</span></td>
                     <td>
-                        <!-- Stack Trạng thái 1 chiều (Đi tới) -->
                         <div class="status-stack">
-                            <button class="status-btn active">Chờ xác nhận</button>
-                            <button class="status-btn" disabled>Xác nhận</button>
+                            <button class="status-btn btn-cancel">Hủy</button>
+                            <button class="status-btn active">Xác nhận</button>
                             <button class="status-btn" disabled>Đang chế biến</button>
                             <button class="status-btn" disabled>Đã hoàn thành</button>
                         </div>
                     </td>
-                    <td class="actions-col">
-                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    <td style="text-align: center;">
+                        <button class="btn-detail">Xem chi tiết</button>
                     </td>
                 </tr>
 
@@ -148,30 +164,27 @@
                 <tr>
                     <td><span class="text-orange font-bold">#VN-29033</span></td>
                     <td>
-                        <div class="user-info">
-                            <div class="details">
-                                <strong>Lê Hồng Hạnh</strong>
-                                <span class="text-gray">0912 987 654</span>
-                            </div>
+                        <div class="details">
+                            <strong class="text-main">Lê Hồng Hạnh</strong>
+                            <span class="text-gray text-sm">0912 987 654</span>
                         </div>
                     </td>
                     <td class="date-col">
-                        09:15<br>
-                        <span class="text-gray">25/10/2026</span>
+                        <strong class="text-main">09:15</strong><br>
+                        <span class="text-gray text-sm">25/10/2026</span>
                     </td>
-                    <td><strong>1.250.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-money-bill-wave"></i> Tiền mặt</span></td>
+                    <td><strong class="text-main">1.250.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-money-bill-wave text-gray"></i> Tiền mặt</span></td>
                     <td>
-                        <!-- Đơn này đang chế biến (các bước trước đã completed, bước sau bị disable) -->
                         <div class="status-stack">
-                            <button class="status-btn completed" disabled>Chờ xác nhận</button>
+                            <button class="status-btn" disabled>Hủy</button>
                             <button class="status-btn completed" disabled>Xác nhận</button>
                             <button class="status-btn active">Đang chế biến</button>
                             <button class="status-btn" disabled>Đã hoàn thành</button>
                         </div>
                     </td>
-                    <td class="actions-col">
-                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    <td style="text-align: center;">
+                        <button class="btn-detail">Xem chi tiết</button>
                     </td>
                 </tr>
 
@@ -179,49 +192,33 @@
                 <tr>
                     <td><span class="text-orange font-bold">#VN-29030</span></td>
                     <td>
-                        <div class="user-info">
-                            <div class="details">
-                                <strong>Trần Phương</strong>
-                                <span class="text-gray">0888 555 222</span>
-                            </div>
+                        <div class="details">
+                            <strong class="text-main">Trần Phương</strong>
+                            <span class="text-gray text-sm">0888 555 222</span>
                         </div>
                     </td>
                     <td class="date-col">
-                        18:30<br>
-                        <span class="text-gray">24/10/2026</span>
+                        <strong class="text-main">18:30</strong><br>
+                        <span class="text-gray text-sm">24/10/2026</span>
                     </td>
-                    <td><strong>890.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-wallet"></i> Ví điện tử</span></td>
+                    <td><strong class="text-main">890.000đ</strong></td>
+                    <td><span class="pay-badge"><i class="fas fa-wallet text-gray"></i> Ví điện tử</span></td>
                     <td>
-                        <!-- Đơn đã hoàn thành (disable toàn bộ) -->
                         <div class="status-stack">
-                            <button class="status-btn completed" disabled>Chờ xác nhận</button>
+                            <button class="status-btn" disabled>Hủy</button>
                             <button class="status-btn completed" disabled>Xác nhận</button>
                             <button class="status-btn completed" disabled>Đang chế biến</button>
                             <button class="status-btn completed" disabled>Đã hoàn thành</button>
                         </div>
                     </td>
-                    <td class="actions-col">
-                        <a href="#" class="btn-detail">Xem chi tiết</a>
+                    <td style="text-align: center;">
+                        <button class="btn-detail">Xem chi tiết</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-
-            <!-- Phân trang -->
-            <div class="table-footer">
-                <span class="hint-text text-gray">Hiển thị 1 đến 10 của 120 đơn hàng</span>
-                <div class="pagination">
-                    <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">3</button>
-                    <span class="dots">...</span>
-                    <button class="page-btn">12</button>
-                    <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
         </div>
+
     </main>
 </div>
 

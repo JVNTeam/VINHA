@@ -4,7 +4,7 @@
     --admin-orange-hover: #e07900;
     --admin-dark-brown: #7a3e1d;
     --admin-btn-brown: #7a3e1d;
-    --bg-admin: #f8f6f2;
+    --bg-admin: #e4ded4;
     --card-bg: #ffffff;
     --text-main: #2b2b2b;
     --text-muted: #777777;
@@ -44,6 +44,9 @@ body {
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
+    height: 100vh; /* Cố định chiều cao */
+    position: sticky; /* Menu bám theo cuộn chuột */
+    top: 0;
 }
 
 .sidebar-brand {
@@ -61,6 +64,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    flex: 1; /* Lực đẩy đẩy khối bên dưới (Đăng xuất) xuống tận đáy */
+    overflow-y: auto;
+}
+
+.admin-nav::-webkit-scrollbar {
+    width: 0px;
 }
 
 .nav-item {
@@ -91,6 +100,22 @@ body {
     background-color: var(--admin-orange);
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(255, 138, 0, 0.25);
+}
+
+/* Nút đăng xuất */
+.sidebar-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.logout-item {
+    color: #d32f2f !important;
+}
+
+.logout-item:hover {
+    background-color: #fdeceb !important;
+    color: #b71c1c !important;
 }
 
 /* ================= MAIN CONTENT ================= */
@@ -284,12 +309,17 @@ body {
     color: var(--text-main);
 }
 
+.col-category {
+    color: #6d5b4a;
+    font-weight: 500;
+}
+
 .dish-preview-img {
     width: 80px;
     height: 52px;
     border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .path-code {

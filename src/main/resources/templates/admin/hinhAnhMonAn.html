@@ -6,32 +6,22 @@
     <title>Quản lý hình ảnh món ăn - Vị Nhà Admin</title>
 
     <!-- Google Fonts & FontAwesome -->
-    <link
-            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-            rel="stylesheet"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-    <!-- Đã sửa đúng tên file CSS trong máy bạn -->
+    <!-- File CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/quanlyhinhanh.css}"/>
 </head>
 <body>
-<!-- SỬ DỤNG CLASS ADMIN-WRAPPER ĐỂ KHỚP VỚI CSS -->
 <div class="admin-wrapper">
 
-    <!-- ADMIN SIDEBAR -->
+    <!-- ADMIN SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand">
             <span class="brand-text">Vị Nhà</span>
         </div>
 
         <nav class="admin-nav">
-            <a th:href="@{/admin/dashboard}" class="nav-item">
-                <i class="fa-solid fa-grid-2"></i> Dashboard
-            </a>
             <a th:href="@{/admin/mon-an}" class="nav-item">
                 <i class="fa-solid fa-utensils"></i> Quản lý món ăn
             </a>
@@ -44,8 +34,11 @@
             <a th:href="@{/admin/giam-gia}" class="nav-item">
                 <i class="fa-solid fa-ticket"></i> Mã giảm giá
             </a>
-            <a th:href="@{/admin/nguoi-dung}" class="nav-item">
-                <i class="fa-solid fa-users"></i> Người dùng
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
             </a>
             <a th:href="@{/admin/don-hang}" class="nav-item">
                 <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
@@ -56,7 +49,17 @@
             <a th:href="@{/admin/thong-ke}" class="nav-item">
                 <i class="fa-solid fa-chart-simple"></i> Thống kê
             </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
         </nav>
+
+        <!-- NÚT ĐĂNG XUẤT (Ghim dưới đáy) -->
+        <div class="sidebar-footer">
+            <a th:href="@{/admin/logout}" class="nav-item logout-item">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </div>
     </aside>
 
     <!-- MAIN CONTENT -->
@@ -125,21 +128,25 @@
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <th width="70">STT</th>
-                        <th width="220">MÓN ĂN</th>
-                        <th width="160">HÌNH ẢNH</th>
-                        <th>ĐƯỜNG DẪN</th>
-                        <th width="140">TRẠNG THÁI</th>
-                        <th width="120" style="text-align: center">THAO TÁC</th>
+                        <th style="width: 5%; text-align: center;">STT</th>
+                        <th style="width: 22%;">MÓN ĂN</th>
+                        <th style="width: 15%;">DANH MỤC</th>
+                        <th style="width: 12%; text-align: center;">HÌNH ẢNH</th>
+                        <th style="width: 26%;">ĐƯỜNG DẪN</th>
+                        <th style="width: 12%; text-align: center;">TRẠNG THÁI</th>
+                        <th style="width: 8%; text-align: center;">THAO TÁC</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="item : ${imageList}">
-                        <td class="col-stt" th:text="${item.stt}">01</td>
+                        <td class="col-stt" style="text-align: center;" th:text="${item.stt}">01</td>
                         <td class="col-dish-name" th:text="${item.dishName}">
                             Cơm Gà Xối Mỡ
                         </td>
-                        <td>
+                        <td class="col-category">
+                            Món Cơm
+                        </td>
+                        <td style="text-align: center;">
                             <img
                                     th:src="${item.imageUrl}"
                                     alt="Hình món ăn"
@@ -147,16 +154,13 @@
                             />
                         </td>
                         <td>
-                            <code class="path-code" th:text="${item.path}"
-                            >/images/dishes/com-ga-xoi-mo.jpg</code
-                            >
+                            <code class="path-code" th:text="${item.path}">/images/dishes/com-ga-xoi-mo.jpg</code>
                         </td>
-                        <td>
-                    <span th:class="${item.statusCode == 'ACTIVE' ? 'badge-status-active' : 'badge-status-lock'}"
-                          th:text="${item.statusText}"
-                    >Khóa</span>
+                        <td style="text-align: center;">
+                            <span th:class="${item.statusCode == 'ACTIVE' ? 'badge-status-active' : 'badge-status-lock'}"
+                                  th:text="${item.statusText}">Đang sử dụng</span>
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             <div class="action-buttons">
                                 <button
                                         class="btn-icon"

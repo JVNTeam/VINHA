@@ -3,168 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý phiếu giảm giá - Vị Nhà</title>
-    <!-- Nhúng Font Awesome -->
+    <title>Quản lý phiếu giảm giá - Vị Nhà Admin</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Nhúng CSS chuẩn -->
+
+    <!-- Nhúng CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/phieu-giam-gia.css}">
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- SIDEBAR CHUẨN ĐỒNG BỘ -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h2>Vị Nhà <span class="line">|</span></h2>
+<div class="admin-wrapper">
+    <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
+    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
+        <div class="sidebar-brand">
+            <span class="brand-text">Vị Nhà</span>
         </div>
-        <ul class="menu">
-            <li><a th:href="@{/admin/dashboard}"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a th:href="@{/admin/mon-an}"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
-            <li><a th:href="@{/admin/hinh-anh}"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
-            <li><a th:href="@{/admin/danh-muc}"><i class="fas fa-list"></i> Danh mục</a></li>
-            <li class="active"><a th:href="@{/admin/giam-gia}"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
-            <li><a th:href="@{/admin/khach-hang}"><i class="fas fa-users"></i> Khách hàng</a></li>
-            <li><a th:href="@{/admin/nhan-vien}"><i class="fas fa-user-tie"></i> Nhân viên</a></li>
-            <li><a th:href="@{/admin/don-hang}"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-            <li><a th:href="@{/admin/thanh-toan}"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
-        </ul>
-        <div class="logout">
-            <a th:href="@{/admin/logout}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+
+        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
+            <a th:href="@{/admin/mon-an}" class="nav-item">
+                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
+            </a>
+            <a th:href="@{/admin/hinh-anh}" class="nav-item">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
+            </a>
+            <a th:href="@{/admin/danh-muc}" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i> Danh mục
+            </a>
+            <a th:href="@{/admin/giam-gia}" class="nav-item active">
+                <i class="fa-solid fa-ticket"></i> Mã giảm giá
+            </a>
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
+            </a>
+            <a th:href="@{/admin/don-hang}" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+            </a>
+            <a th:href="@{/admin/thanh-toan}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i> Thanh toán
+            </a>
+            <a th:href="@{/admin/thong-ke}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i> Thống kê
+            </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
+
+            <!-- Nút Đăng xuất đẩy xuống đáy -->
+            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid var(--border-color); border-radius: 0; padding-top: 16px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </nav>
     </aside>
 
     <!-- NỘI DUNG CHÍNH -->
-    <main class="main-content">
-        <!-- Tiêu đề -->
-        <div class="header">
-            <div class="title">
-                <h1>Quản lý phiếu giảm giá</h1>
-                <p>Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
+    <main class="admin-main">
+        <!-- Tiêu đề & Nút bấm -->
+        <div class="page-header">
+            <div class="title-group">
+                <!-- ĐÃ FIX: ÉP MÃ HTML "&#7871;" ĐỂ KHÔNG BAO GIỜ BỊ TÁCH DẤU CHỮ "Ế" NỮA -->
+                <h1 class="page-title">Quản lý phi&#7871;u giảm giá</h1>
+                <p class="page-subtitle">Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
             </div>
-            <button class="btn btn-add"><i class="fas fa-plus"></i> Thêm mã mới</button>
+
+            <div class="header-actions">
+                <button class="btn-save"><i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi</button>
+                <button class="btn-add"><i class="fas fa-plus"></i> Thêm mã mới</button>
+            </div>
         </div>
 
-        <!-- Khu vực Bộ lọc -->
-        <div class="filter-section box-panel">
+        <!-- KHU VỰC BỘ LỌC -->
+        <div class="filter-card">
             <form action="" method="get" class="filter-form">
-                <div class="filter-row">
-                    <div class="filter-group" style="flex: 2;">
-                        <label>Tìm kiếm mã</label>
-                        <div class="input-group">
-                            <i class="fas fa-search"></i>
-                            <input type="text" name="keyword" placeholder="VD: VINHA2026...">
-                        </div>
+                <div class="filter-group group-search" style="flex: 2;">
+                    <label class="filter-label">Tìm kiếm mã</label>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" name="keyword" class="filter-input" placeholder="VD: VINHA2026...">
                     </div>
+                </div>
 
-                    <div class="filter-group">
-                        <label>Trạng thái</label>
-                        <select name="status" class="form-control">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="ACTIVE">Đang bật</option>
-                            <option value="DISABLED">Đã tắt</option>
-                        </select>
-                    </div>
+                <div class="filter-group group-select" style="flex: 1;">
+                    <label class="filter-label">Trạng thái</label>
+                    <select name="status" class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="ACTIVE">Đang bật</option>
+                        <option value="DISABLED">Đã tắt</option>
+                    </select>
+                </div>
 
-                    <div class="filter-group">
-                        <label>Lọc theo số lượng</label>
-                        <select name="quantity" class="form-control">
-                            <option value="">Tất cả số lượng</option>
-                            <option value="under_50">Dưới 50 mã</option>
-                            <option value="50_200">Từ 50 - 200 mã</option>
-                            <option value="over_200">Trên 200 mã</option>
-                        </select>
-                    </div>
+                <div class="filter-group group-select" style="flex: 1;">
+                    <label class="filter-label">Lọc theo số lượng</label>
+                    <select name="quantity" class="filter-select">
+                        <option value="">Tất cả số lượng</option>
+                        <option value="under_50">Dưới 50 mã</option>
+                        <option value="50_200">Từ 50 - 200 mã</option>
+                        <option value="over_200">Trên 200 mã</option>
+                    </select>
+                </div>
 
-                    <div class="filter-actions align-items-end">
-                        <button type="submit" class="btn btn-search"><i class="fas fa-filter"></i> Lọc dữ liệu</button>
-                        <a th:href="@{/admin/giam-gia}" class="btn btn-reset"><i class="fas fa-sync-alt"></i></a>
-                    </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
+                    <a th:href="@{/admin/giam-gia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>
         </div>
 
         <!-- Bảng dữ liệu -->
-        <div class="table-container box-panel">
-            <table>
-                <thead>
-                <tr>
-                    <th width="40">STT</th>
-                    <th>MÃ GIẢM GIÁ</th>
-                    <th>% GIẢM</th>
-                    <th>GIẢM TỐI ĐA</th>
-                    <th>ĐƠN TỐI THIỂU</th>
-                    <th>SỐ LƯỢNG</th>
-                    <th width="140">HẠN SỬ DỤNG</th>
-                    <th width="140">TRẠNG THÁI</th>
-                    <th width="100" style="text-align: center;">THAO TÁC</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>01</td>
-                    <td><span class="code-badge">VINHAHAVET</span></td>
-                    <td class="font-weight-600 text-orange">20%</td>
-                    <td>50,000đ</td>
-                    <td>150,000đ</td>
-                    <td><strong>150</strong> <span class="text-muted">/ 200</span></td>
-                    <td>
-                        <div class="date-col">
-                            <span>01/10/2026</span>
-                            <span class="text-muted" style="font-size: 12px;">Đến: 31/10/2026</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="status-toggle">
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="slider"></span>
-                            </label>
-                            <span class="status-text text-success">Đang bật</span>
-                        </div>
-                    </td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Xóa" class="text-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th style="width: 5%; text-align: center;">STT</th>
+                        <th style="width: 15%;">MÃ GIẢM GIÁ</th>
+                        <th style="width: 10%;">MỨC GIẢM</th>
+                        <!-- Cột điều kiện đã gộp -->
+                        <th style="width: 25%;">ĐIỀU KIỆN</th>
+                        <th style="width: 12%;">SỐ LƯỢNG</th>
+                        <th style="width: 15%;">HẠN SỬ DỤNG</th>
+                        <th style="width: 10%; text-align: center;">TRẠNG THÁI</th>
+                        <th style="width: 8%; text-align: center;">THAO TÁC</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Dòng 1 -->
+                    <tr>
+                        <td class="col-stt" style="text-align: center;">01</td>
+                        <td><span class="code-badge">VINHAHAVET</span></td>
+                        <td class="col-highlight text-orange">20%</td>
 
-                <tr>
-                    <td>02</td>
-                    <td><span class="code-badge expired">WELCOMEHOME</span></td>
-                    <td class="font-weight-600">15%</td>
-                    <td>30,000đ</td>
-                    <td>100,000đ</td>
-                    <td><strong>0</strong> <span class="text-muted">/ 200</span></td>
-                    <td>
-                        <div class="date-col">
-                            <span>01/11/2026</span>
-                            <span class="text-muted" style="font-size: 12px;">Đến: 30/11/2026</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="status-toggle">
-                            <label class="toggle-switch">
-                                <input type="checkbox">
-                                <span class="slider"></span>
-                            </label>
-                            <span class="status-text text-muted">Đã tắt</span>
-                        </div>
-                    </td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Xóa" class="text-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <!-- Nội dung cột điều kiện -->
+                        <td>
+                            <div class="condition-col">
+                                <span class="font-weight-600 text-main">Đơn tối thiểu 150,000đ</span>
+                                <span class="text-muted" style="font-size: 12px;">Giảm tối đa 50,000đ</span>
+                            </div>
+                        </td>
 
-            <!-- Phân trang -->
-            <div class="pagination">
-                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <span class="page-dots">...</span>
-                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                        <td><strong class="text-main">150</strong> <span class="text-muted">/ 200</span></td>
+                        <td>
+                            <div class="date-col">
+                                <span class="font-weight-600">01/10/2026</span>
+                                <span class="text-muted" style="font-size: 12px;">Đến: 31/10/2026</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="status-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-text text-success">Đang bật</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Sửa"><i class="fas fa-pen"></i></button>
+                                <button class="btn-icon text-danger" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Dòng 2 -->
+                    <tr>
+                        <td class="col-stt" style="text-align: center;">02</td>
+                        <td><span class="code-badge expired">WELCOMEHOME</span></td>
+                        <td class="col-highlight">15%</td>
+
+                        <!-- Nội dung cột điều kiện -->
+                        <td>
+                            <div class="condition-col">
+                                <span class="font-weight-600 text-main">Đơn tối thiểu 100,000đ</span>
+                                <span class="text-muted" style="font-size: 12px;">Giảm tối đa 30,000đ</span>
+                            </div>
+                        </td>
+
+                        <td><strong class="text-main">0</strong> <span class="text-muted">/ 200</span></td>
+                        <td>
+                            <div class="date-col">
+                                <span class="font-weight-600">01/11/2026</span>
+                                <span class="text-muted" style="font-size: 12px;">Đến: 30/11/2026</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="status-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-text text-muted">Đã tắt</span>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Sửa"><i class="fas fa-pen"></i></button>
+                                <button class="btn-icon text-danger" title="Xóa"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>

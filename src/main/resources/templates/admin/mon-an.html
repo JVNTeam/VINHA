@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý món ăn - Vị Nhà Admin</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Riêng -->
+    <link rel="stylesheet" th:href="@{/css/admin/mon-an.css}">
+</head>
+<body>
+
+<div class="admin-wrapper">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-text">Vị Nhà</span>
+        </div>
+
+        <nav class="admin-nav">
+            <!-- Đang ở trang Món ăn nên set active ở đây -->
+            <a th:href="@{/admin/mon-an}" class="nav-item active">
+                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
+            </a>
+            <a th:href="@{/admin/hinh-anh}" class="nav-item">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
+            </a>
+            <a th:href="@{/admin/danh-muc}" class="nav-item">
+                <i class="fa-solid fa-layer-group"></i> Danh mục
+            </a>
+            <a th:href="@{/admin/giam-gia}" class="nav-item">
+                <i class="fa-solid fa-ticket"></i> Mã giảm giá
+            </a>
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
+            </a>
+            <a th:href="@{/admin/don-hang}" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+            </a>
+            <a th:href="@{/admin/thanh-toan}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i> Thanh toán
+            </a>
+            <a th:href="@{/admin/thong-ke}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i> Thống kê
+            </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a th:href="@{/admin/logout}" class="nav-item logout-item">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="admin-main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+            <h1 class="page-title">Quản lý món ăn</h1>
+            <button class="btn-add-new" id="btnThemMon">
+                <i class="fas fa-plus"></i> Thêm món ăn mới
+            </button>
+        </div>
+
+        <!-- BỘ LỌC (Form thiết kế y hệt ảnh) -->
+        <div class="filter-card">
+            <form action="" method="GET" class="filter-form">
+                <!-- Group Tìm kiếm -->
+                <div class="form-group search-group">
+                    <label>Tìm kiếm</label>
+                    <input type="text" name="keyword" class="form-control" placeholder="Tên món ăn...">
+                </div>
+
+                <!-- Group Danh mục -->
+                <div class="form-group">
+                    <label>Danh mục</label>
+                    <select name="category" class="form-control">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="1">Cơm Sườn</option>
+                        <option value="2">Cơm Gà</option>
+                        <option value="3">Cơm Bò</option>
+                    </select>
+                </div>
+
+                <!-- Group Trạng thái -->
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select name="status" class="form-control">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="ACTIVE">Đang bán</option>
+                        <option value="OUT_OF_STOCK">Hết hàng</option>
+                        <option value="STOPPED">Ngừng bán</option>
+                    </select>
+                </div>
+
+                <!-- Nút thao tác lọc -->
+                <div class="filter-actions">
+                    <button type="submit" class="btn-search">Tìm kiếm</button>
+                    <a th:href="@{/admin/mon-an}" class="btn-refresh" title="Làm mới"><i class="fas fa-redo-alt"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <!-- BẢNG DỮ LIỆU MÓN ĂN -->
+        <div class="table-card">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th style="width: 5%;">STT</th>
+                    <th style="width: 10%;">HÌNH ẢNH</th>
+                    <th style="width: 20%;">TÊN MÓN</th>
+                    <th style="width: 15%;">DANH MỤC</th>
+                    <th style="width: 12%;">GIÁ (VNĐ)</th>
+                    <th style="width: 10%;">SỐ LƯỢNG</th>
+                    <th style="width: 10%;">ĐÃ BÁN</th>
+                    <th style="width: 10%;">TRẠNG THÁI</th>
+                    <th style="width: 8%; text-align: center;">THAO TÁC</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <!-- Dòng 1 -->
+                <tr>
+                    <td>01</td>
+                    <td>
+                        <div class="food-thumbnail" style="background-image: url('https://via.placeholder.com/60');"></div>
+                    </td>
+                    <td><strong class="text-main">Cơm Sườn Nướng</strong></td>
+                    <td>Cơm Sườn</td>
+                    <td><strong class="text-price">45.000đ</strong></td>
+                    <td>120</td>
+                    <td>1.254</td>
+                    <td><span class="badge badge-active">Đang bán</span></td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="icon-btn btn-view" title="Xem chi tiết"><i class="far fa-eye"></i></button>
+                            <button class="icon-btn btn-edit" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                            <button class="icon-btn btn-delete" title="Xóa"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Dòng 2 -->
+                <tr>
+                    <td>02</td>
+                    <td>
+                        <div class="food-thumbnail" style="background-image: url('https://via.placeholder.com/60');"></div>
+                    </td>
+                    <td><strong class="text-main">Cơm Gà Xối Mỡ</strong></td>
+                    <td>Cơm Gà</td>
+                    <td><strong class="text-price">55.000đ</strong></td>
+                    <td>0</td>
+                    <td>842</td>
+                    <td><span class="badge badge-warning">Hết hàng</span></td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="icon-btn btn-view" title="Xem chi tiết"><i class="far fa-eye"></i></button>
+                            <button class="icon-btn btn-edit" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                            <button class="icon-btn btn-delete" title="Xóa"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Dòng 3 -->
+                <tr>
+                    <td>03</td>
+                    <td>
+                        <div class="food-thumbnail" style="background-image: url('https://via.placeholder.com/60');"></div>
+                    </td>
+                    <td><strong class="text-main">Cơm Bò Lúc Lắc</strong></td>
+                    <td>Cơm Bò</td>
+                    <td><strong class="text-price">75.000đ</strong></td>
+                    <td>45</td>
+                    <td>312</td>
+                    <td><span class="badge badge-danger">Ngừng bán</span></td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <button class="icon-btn btn-view" title="Xem chi tiết"><i class="far fa-eye"></i></button>
+                            <button class="icon-btn btn-edit" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
+                            <button class="icon-btn btn-delete" title="Xóa"><i class="far fa-trash-alt"></i></button>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<!-- Nhúng JS -->
+<script th:src="@{/js/admin/mon-an.js}"></script>
+</body>
+</html>

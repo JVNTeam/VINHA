@@ -72,77 +72,30 @@
           </div>
 
           <div class="voucher-list">
-            <!-- Voucher 1 -->
+            <div th:if="${#lists.isEmpty(vouchers)}" class="voucher-empty">
+              <p>Hiện chưa có mã giảm giá nào. Hãy quay lại sau nhé!</p>
+            </div>
 
-            <div class="voucher-card">
-              <div class="voucher-left orange">
-                <h3>-20%</h3>
-
+            <div class="voucher-card" th:each="voucher, stat : ${vouchers}">
+              <div class="voucher-left"
+                   th:classappend="${stat.index % 3 == 0} ? ' orange' : (${stat.index % 3 == 1} ? ' light-orange' : ' blue')">
+                <h3 th:text="${T(com.example.vinha.service.VoucherService).formatGiaTriGiam(voucher)}">-20%</h3>
                 <span>GIẢM GIÁ</span>
               </div>
 
               <div class="voucher-right">
-                <h4>VINHA20</h4>
-
-                <p>Áp dụng cho đơn từ 150.000đ, giảm tối đa 30.000đ.</p>
-
-                <div class="voucher-bottom">
-                  <small>HSD: 30/12/2026</small>
-
-                  <button class="copy-btn" data-code="VINHA20">Sao chép</button>
-                  <button class="save-btn" data-code="VINHA20">
-                    <i class="fa-regular fa-bookmark"></i> Lưu
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Voucher 2 -->
-
-            <div class="voucher-card">
-              <div class="voucher-left light-orange">
-                <h3>-30K</h3>
-
-                <span>TRƯA HÈ</span>
-              </div>
-
-              <div class="voucher-right">
-                <h4>COMTRUA</h4>
-
-                <p>Giảm trực tiếp 30.000đ cho thực đơn cơm văn phòng.</p>
+                <h4 th:text="${voucher.ma}">VINHA20</h4>
+                <p th:text="${voucher.moTa != null and !voucher.moTa.isEmpty() ? voucher.moTa : 'Áp dụng cho đơn từ ' + T(com.example.vinha.service.VoucherService).formatCurrency(voucher.donToiThieu)}">
+                  Áp dụng cho đơn từ 150.000đ
+                </p>
 
                 <div class="voucher-bottom">
-                  <small>HSD: 15/12/2026</small>
+                  <small th:text="${voucher.ngayKetThuc != null ? 'HSD: ' + #temporals.format(voucher.ngayKetThuc, 'dd/MM/yyyy') : 'HSD: Không giới hạn'}">
+                    HSD: 30/12/2026
+                  </small>
 
-                  <button class="copy-btn" data-code="COMTRUA">Sao chép</button>
-                  <button class="save-btn" data-code="VINHA20">
-                    <i class="fa-regular fa-bookmark"></i> Lưu
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Voucher 3 -->
-
-            <div class="voucher-card">
-              <div class="voucher-left blue">
-                <h3>Free</h3>
-
-                <span>SHIP</span>
-              </div>
-
-              <div class="voucher-right">
-                <h4>FREESHIP</h4>
-
-                <p>Miễn phí giao hàng trong bán kính 3km.</p>
-
-                <div class="voucher-bottom">
-                  <small>HSD: Không giới hạn</small>
-
-                  <button class="copy-btn" data-code="FREESHIP">
-                    Sao chép
-                  </button>
-                  <button class="save-btn" data-code="FREESHIP">
+                  <button class="copy-btn" th:attr="data-code=${voucher.ma}">Sao chép</button>
+                  <button class="save-btn" th:attr="data-code=${voucher.ma}">
                     <i class="fa-regular fa-bookmark"></i> Lưu
                   </button>
                 </div>

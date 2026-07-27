@@ -5,44 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý phiếu giảm giá - Vị Nhà Admin</title>
 
-    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Nhúng CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/phieu-giam-gia.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
-
-    <!-- GỌI FRAGMENT MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
     <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
 
-    <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
-        <!-- Tiêu đề & Nút bấm -->
         <div class="page-header">
             <div class="title-group">
-                <!-- Vẫn giữ nguyên mã HTML "&#7871;" để không bao giờ bị tách dấu chữ "Ế" -->
-                <h1 class="page-title">Quản lý phi&#7871;u giảm giá</h1>
+                <h1 class="page-title">Quản lý phiếu giảm giá</h1>
                 <p class="page-subtitle">Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
             </div>
 
             <div class="header-actions">
-                <button class="btn-save"><i class="fa-regular fa-floppy-disk"></i> Lưu thay đổi</button>
-                <button class="btn-add"><i class="fas fa-plus"></i> Thêm mã mới</button>
+                <a th:href="@{/admin/phieuGiamGia/them}" class="btn-add">
+                    <i class="fas fa-plus"></i> Thêm mã mới
+                </a>
             </div>
         </div>
 
-        <!-- KHU VỰC BỘ LỌC -->
+        <div th:if="${message}" class="alert-box alert-success">
+            <i class="fa-solid fa-circle-check"></i>
+            <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert-box alert-error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span th:text="${error}"></span>
+        </div>
+
         <div class="filter-card">
-            <form action="" method="get" class="filter-form">
+            <form th:action="@{/admin/phieuGiamGia}" method="get" class="filter-form">
                 <div class="filter-group group-search" style="flex: 2;">
                     <label class="filter-label">Tìm kiếm mã</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="keyword" class="filter-input" placeholder="VD: VINHA2026...">
+                        <input type="text" name="keyword" class="filter-input" placeholder="VD: VINHA2026..."
+                               th:value="${keyword}">
                     </div>
                 </div>
 
@@ -50,8 +52,8 @@
                     <label class="filter-label">Trạng thái</label>
                     <select name="status" class="filter-select">
                         <option value="">Tất cả trạng thái</option>
-                        <option value="ACTIVE">Đang bật</option>
-                        <option value="DISABLED">Đã tắt</option>
+                        <option value="ACTIVE" th:selected="${selectedStatus == 'ACTIVE'}">Đang bật</option>
+                        <option value="DISABLED" th:selected="${selectedStatus == 'DISABLED'}">Đã tắt</option>
                     </select>
                 </div>
 
@@ -59,21 +61,19 @@
                     <label class="filter-label">Lọc theo số lượng</label>
                     <select name="quantity" class="filter-select">
                         <option value="">Tất cả số lượng</option>
-                        <option value="under_50">Dưới 50 mã</option>
-                        <option value="50_200">Từ 50 - 200 mã</option>
-                        <option value="over_200">Trên 200 mã</option>
+                        <option value="under_50" th:selected="${selectedQuantity == 'under_50'}">Dưới 50 mã</option>
+                        <option value="50_200" th:selected="${selectedQuantity == '50_200'}">Từ 50 - 200 mã</option>
+                        <option value="over_200" th:selected="${selectedQuantity == 'over_200'}">Trên 200 mã</option>
                     </select>
                 </div>
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <!-- Link làm mới trang chuẩn xác -->
                     <a th:href="@{/admin/phieuGiamGia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>
         </div>
 
-        <!-- Bảng dữ liệu -->
         <div class="table-card">
             <div class="table-responsive">
                 <table class="admin-table">
@@ -90,72 +90,77 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Dòng 1 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">01</td>
-                        <td><span class="code-badge">VINHAHAVET</span></td>
-                        <td class="col-highlight text-orange">20%</td>
-                        <td>
-                            <div class="condition-col">
-                                <span class="font-weight-600 text-main">Đơn tối thiểu 150,000đ</span>
-                                <span class="text-muted" style="font-size: 12px;">Giảm tối đa 50,000đ</span>
-                            </div>
-                        </td>
-                        <td><strong class="text-main">150</strong> <span class="text-muted">/ 200</span></td>
-                        <td>
-                            <div class="date-col">
-                                <span class="font-weight-600">01/10/2026</span>
-                                <span class="text-muted" style="font-size: 12px;">Đến: 31/10/2026</span>
-                            </div>
-                        </td>
-                        <td style="text-align: center;">
-                            <div class="status-toggle">
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="status-text text-success">Đang bật</span>
-                            </div>
-                        </td>
-                        <td style="text-align: center;">
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-danger" title="Xóa"><i class="fas fa-trash"></i></button>
-                            </div>
+                    <tr th:if="${#lists.isEmpty(vouchers)}">
+                        <td colspan="8" style="text-align: center; padding: 40px; color: #777;">
+                            Chưa có mã giảm giá nào. Nhấn "Thêm mã mới" để tạo chương trình khuyến mãi.
                         </td>
                     </tr>
-
-                    <!-- Dòng 2 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">02</td>
-                        <td><span class="code-badge expired">WELCOMEHOME</span></td>
-                        <td class="col-highlight">15%</td>
+                    <tr th:each="item, stat : ${vouchers}">
+                        <td class="col-stt" style="text-align: center;"
+                            th:text="${#numbers.formatInteger(stat.count, 2)}">01</td>
+                        <td>
+                            <span class="code-badge"
+                                  th:classappend="${!item.voucher.trangThai} ? ' expired' : ''"
+                                  th:text="${item.voucher.ma}">VINHA20</span>
+                        </td>
+                        <td class="col-highlight text-orange"
+                            th:text="${T(com.example.vinha.service.VoucherService).formatGiaTriGiam(item.voucher)}">20%</td>
                         <td>
                             <div class="condition-col">
-                                <span class="font-weight-600 text-main">Đơn tối thiểu 100,000đ</span>
-                                <span class="text-muted" style="font-size: 12px;">Giảm tối đa 30,000đ</span>
+                                <span class="font-weight-600 text-main"
+                                      th:text="'Đơn tối thiểu ' + ${T(com.example.vinha.service.VoucherService).formatCurrency(item.voucher.donToiThieu)}">
+                                    Đơn tối thiểu 150,000đ
+                                </span>
+                                <span class="text-muted" style="font-size: 12px;"
+                                      th:if="${item.voucher.giamToiDa != null}"
+                                      th:text="'Giảm tối đa ' + ${T(com.example.vinha.service.VoucherService).formatCurrency(item.voucher.giamToiDa)}">
+                                    Giảm tối đa 50,000đ
+                                </span>
+                                <span class="text-muted" style="font-size: 12px;"
+                                      th:if="${item.voucher.moTa != null and !item.voucher.moTa.isEmpty()}"
+                                      th:text="${item.voucher.moTa}"></span>
                             </div>
                         </td>
-                        <td><strong class="text-main">0</strong> <span class="text-muted">/ 200</span></td>
+                        <td>
+                            <strong class="text-main" th:text="${item.daNhan}">0</strong>
+                            <span class="text-muted" th:text="'/ ' + ${item.voucher.soLuong}">/ 200</span>
+                        </td>
                         <td>
                             <div class="date-col">
-                                <span class="font-weight-600">01/11/2026</span>
-                                <span class="text-muted" style="font-size: 12px;">Đến: 30/11/2026</span>
+                                <span class="font-weight-600"
+                                      th:text="${item.voucher.ngayBatDau != null ? #temporals.format(item.voucher.ngayBatDau, 'dd/MM/yyyy') : 'Không giới hạn'}">
+                                    01/10/2026
+                                </span>
+                                <span class="text-muted" style="font-size: 12px;"
+                                      th:text="${item.voucher.ngayKetThuc != null ? 'Đến: ' + #temporals.format(item.voucher.ngayKetThuc, 'dd/MM/yyyy') : ''}">
+                                    Đến: 31/10/2026
+                                </span>
                             </div>
                         </td>
                         <td style="text-align: center;">
                             <div class="status-toggle">
-                                <label class="toggle-switch">
-                                    <input type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="status-text text-muted">Đã tắt</span>
+                                <a th:href="@{/admin/phieuGiamGia/toggle(id=${item.voucher.id})}"
+                                   class="toggle-switch"
+                                   th:title="${item.voucher.trangThai} ? 'Nhấn để tắt' : 'Nhấn để bật'">
+                                    <span class="slider"
+                                          th:classappend="${item.voucher.trangThai} ? ' on' : ''"></span>
+                                </a>
+                                <span class="status-text"
+                                      th:classappend="${item.voucher.trangThai} ? ' text-success' : ' text-muted'"
+                                      th:text="${item.voucher.trangThai} ? 'Đang bật' : 'Đã tắt'">Đang bật</span>
                             </div>
                         </td>
                         <td style="text-align: center;">
                             <div class="action-buttons">
-                                <button class="btn-icon" title="Sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-danger" title="Xóa"><i class="fas fa-trash"></i></button>
+                                <a th:href="@{/admin/phieuGiamGia/sua(id=${item.voucher.id})}"
+                                   class="btn-icon" title="Sửa">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a th:href="@{/admin/phieuGiamGia/xoa(id=${item.voucher.id})}"
+                                   class="btn-icon text-danger btn-delete" title="Xóa"
+                                   th:data-ma="${item.voucher.ma}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -166,6 +171,6 @@
     </main>
 </div>
 
-<script src="/js/admin/phieu-giam-gia.js"></script>
+<script th:src="@{/js/admin/phieu-giam-gia.js}"></script>
 </body>
 </html>

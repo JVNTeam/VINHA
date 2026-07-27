@@ -219,6 +219,16 @@ header{
     gap:25px;
 }
 
+.voucher-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 20px;
+    color: #777;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px dashed #e0d5c8;
+}
+
 .voucher-card{
     display:flex;
     background:#fff;

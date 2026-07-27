@@ -2,11 +2,13 @@ package com.example.vinha.controller.customer;
 
 import com.example.vinha.entity.ChiTietGioHang;
 import com.example.vinha.entity.GioHang;
+import com.example.vinha.entity.MaGiamGia;
 import com.example.vinha.entity.MonAn;
 import com.example.vinha.entity.NguoiDung;
 import com.example.vinha.repository.ChiTietGioHangRepository;
 import com.example.vinha.repository.GioHangRepository;
 import com.example.vinha.service.FoodService;
+import com.example.vinha.service.VoucherService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +25,18 @@ public class HomeController {
     private final FoodService foodService;
     private final GioHangRepository gioHangRepository;
     private final ChiTietGioHangRepository chiTietGioHangRepository;
+    private final VoucherService voucherService;
 
     public HomeController(
             FoodService foodService,
             GioHangRepository gioHangRepository,
-            ChiTietGioHangRepository chiTietGioHangRepository
+            ChiTietGioHangRepository chiTietGioHangRepository,
+            VoucherService voucherService
     ) {
         this.foodService = foodService;
         this.gioHangRepository = gioHangRepository;
         this.chiTietGioHangRepository = chiTietGioHangRepository;
+        this.voucherService = voucherService;
     }
 
     @GetMapping("/trangChu")
@@ -121,6 +126,7 @@ public class HomeController {
     @GetMapping("/khuyenMai")
     public String khuyenMai(Model model) {
         model.addAttribute("activePage", "khuyen-mai");
+        model.addAttribute("vouchers", voucherService.layMaDangHoatDong());
         return "/khuyenMai";
     }
 

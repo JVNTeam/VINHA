@@ -10,5 +10,6 @@ import java.util.List;
 public interface NguoiDungMaGiamGiaRepository extends JpaRepository<NguoiDungMaGiamGia, Long> {
     List<NguoiDungMaGiamGia> findByNguoiDungId(Long nguoiDungId);
     List<NguoiDungMaGiamGia> findByNguoiDungIdAndTrangThai(Long nguoiDungId, String trangThai);
+    long countByMaGiamGiaId(Long maGiamGiaId);
 }
 

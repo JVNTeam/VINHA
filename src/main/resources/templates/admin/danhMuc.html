@@ -15,51 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
-
-<<<<<<< Updated upstream
-        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
-            <a th:href="@{/admin/mon-an}" class="nav-item">
-                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
-            </a>
-            <a th:href="@{/admin/hinh-anh}" class="nav-item">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
-            </a>
-            <!-- Mục Danh mục Đang Active -->
-            <a th:href="@{/admin/danh-muc}" class="nav-item active">
-                <i class="fa-solid fa-layer-group"></i> Danh mục
-            </a>
-            <a th:href="@{/admin/giam-gia}" class="nav-item">
-                <i class="fa-solid fa-ticket"></i> Mã giảm giá
-            </a>
-            <a th:href="@{/admin/khach-hang}" class="nav-item">
-                <i class="fa-solid fa-users"></i> Khách hàng
-            </a>
-            <a th:href="@{/admin/nhan-vien}" class="nav-item">
-                <i class="fa-solid fa-user-tie"></i> Nhân viên
-            </a>
-            <a th:href="@{/admin/don-hang}" class="nav-item">
-                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
-            </a>
-            <a th:href="@{/admin/thanh-toan}" class="nav-item">
-                <i class="fa-solid fa-wallet"></i> Thanh toán
-            </a>
-            <a th:href="@{/admin/thong-ke}" class="nav-item">
-                <i class="fa-solid fa-chart-simple"></i> Thống kê
-            </a>
-            <a th:href="@{/admin/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá
-            </a>
-
-            <!-- Nút Đăng xuất đẩy xuống đáy -->
-            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid var(--border-color); border-radius: 0; padding-top: 16px;">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-            </a>
-        </nav>
-    </aside>
-=======
-    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "DANH MỤC" -->
     <div th:replace="~{admin/sidebar :: sidebar('danhMuc')}"></div>
->>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -69,28 +25,39 @@
                 <h1 class="page-title">Quản lý danh mục</h1>
                 <p class="page-subtitle">Quản lý và phân loại các nhóm thực đơn phục vụ khách hàng.</p>
             </div>
-            <a href="#" class="btn-add">
+            <a th:href="@{/admin/danhMuc/them}" class="btn-add">
                 <i class="fa-solid fa-plus"></i> Thêm danh mục mới
             </a>
         </div>
 
+        <div th:if="${message}" class="alert-box alert-success" style="margin: 0 24px 16px;">
+            <i class="fa-solid fa-circle-check"></i>
+            <span th:text="${message}">Thao tác thành công.</span>
+        </div>
+        <div th:if="${error}" class="alert-box alert-error" style="margin: 0 24px 16px;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span th:text="${error}">Có lỗi xảy ra.</span>
+        </div>
         <!-- Filter Card -->
         <div class="filter-card">
-            <form action="" method="get" class="filter-form" style="flex-wrap: wrap;">
+            <form th:action="@{/admin/danhMuc}" method="get" class="filter-form" style="flex-wrap: wrap;">
                 <div class="filter-group group-search" style="flex: 2;">
                     <label class="filter-label">Tên danh mục</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="keyword" class="filter-input" placeholder="Nhập tên danh mục cần tìm...">
+                        <input type="text" name="keyword" class="filter-input" placeholder="Nhập tên danh mục cần tìm..." th:value="${keyword}">
                     </div>
                 </div>
 
                 <div class="filter-group group-select" style="flex: 1;">
                     <label class="filter-label">Trạng thái</label>
-                    <select name="status" class="filter-select">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="OPEN">Đang mở</option>
-                        <option value="CLOSED">Đã đóng</option>
+                    <select id="statusFilter" name="status" class="filter-select">
+                        <option value="" th:selected="${selectedStatus == ''}">Tất cả trạng thái</option>
+                        <option th:each="st : ${statusOptions}"
+                                th:value="${st}"
+                                th:text="${st}"
+                                th:selected="${st == selectedStatus}">
+                        </option>
                     </select>
                 </div>
 
@@ -117,75 +84,53 @@
                         <th width="120" style="text-align: center;">THAO TÁC</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!-- Row 1 -->
-                    <tr>
-                        <td class="col-stt">01</td>
+                    <tbody th:if="${danhMucs != null and !#lists.isEmpty(danhMucs)}">
+                    <tr th:each="dm, idx : ${danhMucs}" th:attr="data-status=${dm.trangThai}">
+                        <td class="col-stt" th:text="${idx.index + 1}">01</td>
                         <td>
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150&auto=format&fit=crop" alt="Cơm sườn" class="dish-preview-img">
+                            <img th:if="${dm.anh != null and dm.anh != ''}"
+                                 th:src="${dm.anh}"
+                                 alt="Danh mục" class="dish-preview-img"
+                                 onerror="this.style.display='none'" />
+                            <img th:if="${(dm.anh == null or dm.anh == '') and !#lists.isEmpty(dm.monAns) and !#lists.isEmpty(dm.monAns[0].hinhAnhs)}"
+                                 th:src="${dm.monAns[0].hinhAnhs[0].duongDan}"
+                                 alt="Danh mục" class="dish-preview-img"
+                                 onerror="this.style.display='none'" />
+                            <img th:if="${(dm.anh == null or dm.anh == '') and (#lists.isEmpty(dm.monAns) or #lists.isEmpty(dm.monAns[0].hinhAnhs))}"
+                                 src="https://images.unsplash.com/photo-1528735607220-8f59e29c74f4?q=80&w=150&auto=format&fit=crop"
+                                 alt="Danh mục" class="dish-preview-img" />
                         </td>
-                        <td class="col-dish-name">Cơm sườn</td>
-                        <td style="color: var(--text-muted);">Các loại cơm sườn nướng, kho, ram, bì chả.</td>
-                        <td><span class="badge-status-lock">Đã đóng</span></td>
-                        <td><span class="path-code">12 món</span></td>
+                        <td class="col-dish-name" th:text="${dm.ten}">Tên danh mục</td>
+                        <td style="color: var(--text-muted);" th:text="${dm.moTa != null ? dm.moTa : '-'}">Mô tả</td>
+                        <td>
+                            <span th:text="${dm.trangThai}"
+                                  th:classappend="${dm.trangThai == 'Mở'} ? ' badge-status-active' : ' badge-status-lock'">
+                                Đang mở
+                            </span>
+                        </td>
+                        <td>
+                            <span class="path-code"
+                                  th:text="${#lists.size(dm.monAns)} + ' món'">0 món</span>
+                        </td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
-                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 2 -->
-                    <tr>
-                        <td class="col-stt">02</td>
-                        <td>
-                            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=150&auto=format&fit=crop" alt="Cơm gà" class="dish-preview-img">
-                        </td>
-                        <td class="col-dish-name">Cơm gà</td>
-                        <td style="color: var(--text-muted);">Cơm gà xối mỡ, gà luộc, gà chiên mắm.</td>
-                        <td><span class="badge-status-active">Đang mở</span></td>
-                        <td><span class="path-code">8 món</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
-                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 3 -->
-                    <tr>
-                        <td class="col-stt">03</td>
-                        <td>
-                            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=150&auto=format&fit=crop" alt="Cơm niêu" class="dish-preview-img">
-                        </td>
-                        <td class="col-dish-name">Cơm niêu</td>
-                        <td style="color: var(--text-muted);">Cơm niêu đất đập, cơm niêu gia đình.</td>
-                        <td><span class="badge-status-active">Đang mở</span></td>
-                        <td><span class="path-code">15 món</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
-                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
-                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+                                <a th:href="@{/admin/danhMuc/sua(id=${dm.id})}" class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a th:href="@{/admin/danhMuc/xoa(id=${dm.id})}" class="btn-icon text-danger btn-delete" title="Xóa"><i class="fa-regular fa-trash-can"></i></a>
                             </div>
                         </td>
                     </tr>
                     </tbody>
+                    <tbody th:if="${danhMucs == null or #lists.isEmpty(danhMucs)}">
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">Không tìm thấy danh mục nào.</td>
+                    </tr>
+                    </tbody>
                 </table>
-            </div>
-
-            <!-- Phân trang chuẩn -->
-            <div class="pagination">
-                <button class="page-btn"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
     </main>
 </div>
 
+<script th:src="@{/js/admin/danh-muc.js}"></script>
 </body>
 </html>

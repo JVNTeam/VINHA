@@ -27,7 +27,11 @@ public class FileStorageService {
             }
 
             String originalFileName = file.getOriginalFilename();
-            String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFileName;
+            if (originalFileName == null) {
+                throw new RuntimeException("Tên file không hợp lệ.");
+            }
+            String safeFileName = originalFileName.replaceAll("[^a-zA-Z0-9._-]", "_");
+            String uniqueFileName = UUID.randomUUID().toString() + "_" + safeFileName;
 
             Path destinationFile = this.rootLocation.resolve(Paths.get(uniqueFileName))
                     .normalize().toAbsolutePath();

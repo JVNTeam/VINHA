@@ -1,0 +1,111 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Thêm Hình Ảnh - Vị Nhà Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/admin/quanlyhinhanh.css}"/>
+    <style>
+        .form-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); max-width: 800px; }
+        .form-group { margin-bottom: 24px; }
+        .form-label { display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b; }
+        .form-control { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit; font-size: 15px; }
+        .form-control:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1); }
+        .preview-box { margin-top: 15px; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px; text-align: center; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px; }
+        .preview-box img { max-width: 100%; max-height: 300px; border-radius: 8px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .preview-text { color: #64748b; font-size: 15px; }
+        .preview-text i { font-size: 40px; color: #94a3b8; margin-bottom: 10px; display: block; }
+        .btn-submit { background-color: #d97706; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 16px; width: 100%; margin-top: 10px; }
+        .btn-submit:hover { background-color: #b45309; }
+        .btn-back { color: #64748b; text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 20px; }
+        .btn-back:hover { color: #d97706; }
+    </style>
+</head>
+<body>
+<div class="admin-wrapper">
+    <div th:replace="~{admin/sidebar :: sidebar('hinhAnh')}"></div>
+    <main class="admin-main">
+        <a th:href="@{/admin/hinhAnh}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
+        <div class="form-card">
+            <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+                <div th:if="${error}" class="alert alert-danger" style="color: red; margin-bottom: 15px; font-weight: bold;">
+                    <span th:text="${error}"></span>
+                </div>
+
+                <input type="hidden" name="id" th:if="${image != null and image.id != null}" th:value="${image.id}" />
+
+                <div class="form-group">
+                    <label class="form-label">Chọn món ăn</label>
+                    <select name="monAnId" class="form-control" required>
+                        <option value="">-- Vui lòng chọn món ăn --</option>
+                        <option th:each="monAn : ${monAnList}"
+                                th:value="${monAn.id}"
+                                th:text="${monAn.ten}"
+                                th:selected="${image != null and image.monAn != null and image.monAn.id == monAn.id}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tải tệp hình ảnh</label>
+                    <input type="file" id="fileInput" name="fileAnh" class="form-control" th:required="${image == null or image.id == null}" />
+                    <div class="preview-box" id="previewBox">
+                        <img id="imagePreview" th:if="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)}" th:src="@{${image.duongDan}}" alt="Preview ảnh" />
+                        <div id="previewText" class="preview-text" th:style="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)} ? 'display:none' : ''">
+                            <i class="fa-regular fa-image"></i>
+                            Hình ảnh xem trước sẽ hiển thị ở đây
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <select name="trangThai" class="form-control">
+                        <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}" th:selected="${image != null and image.trangThai == st}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Lưu hình ảnh</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewText = document.getElementById('previewText');
+    const previewBox = document.getElementById('previewBox');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Kích thước file không được vượt quá 5MB!');
+                    this.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    previewText.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                if (imagePreview) {
+                    imagePreview.style.display = 'none';
+                }
+                if (previewText) {
+                    previewText.style.display = 'block';
+                }
+                previewBox.style.padding = '30px';
+            }
+        });
+    }
+</script>
+</body>
+</html>

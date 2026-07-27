@@ -1,0 +1,333 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${formTitle}">Thêm danh mục</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/admin/danh-muc.css}"/>
+    <style>
+        .form-card {
+            background: #fff;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #3f3d56;
+        }
+        .form-control,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+            color: #1f2937;
+        }
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .file-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #d9d1c4;
+            color: #334155;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .file-input-button:hover {
+            background-color: #eef2ff;
+            border-color: #94a3b8;
+        }
+        .file-input-filename {
+            flex: 1;
+            font-size: 14px;
+            color: #64748b;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            background: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .file-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #d9d1c4;
+            color: #334155;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .file-input-button:hover {
+            background-color: #eef2ff;
+            border-color: #94a3b8;
+        }
+        .file-input-filename {
+            flex: 1;
+            font-size: 14px;
+            color: #64748b;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            background: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .image-preview {
+            margin-top: 12px;
+            border: 2px dashed #d9d1c4;
+            border-radius: 16px;
+            background: #f8fafc;
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
+            gap: 14px;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 260px;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1px solid #d9d1c4;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+            display: none;
+        }
+        .image-preview .placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 14px;
+            text-align: center;
+            gap: 10px;
+        }
+        .image-preview .placeholder i {
+            font-size: 32px;
+        }
+        .image-preview.active img {
+            display: block;
+        }
+        .image-preview.active .placeholder {
+            display: none;
+        }
+        .form-select {
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%), linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+            background-position: calc(100% - 16px) calc(1em + 2px), calc(100% - 12px) calc(1em + 2px);
+            background-size: 8px 8px, 8px 8px;
+            background-repeat: no-repeat;
+        }
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 14px;
+            background-color: #f59e0b;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.25s ease;
+        }
+        .btn-submit:hover {
+            background-color: #d97706;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4b5563;
+            margin-bottom: 24px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-back:hover {
+            color: #f59e0b;
+        }
+        .alert-box {
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background: #ecfdf5;
+            color: #166534;
+        }
+        .alert-error {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+<body>
+<div class="admin-wrapper">
+    <div th:replace="~{admin/sidebar :: sidebar('danhMuc')}"></div>
+    <main class="admin-main">
+        <a th:href="@{/admin/danhMuc}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại danh mục</a>
+
+        <div class="page-header" style="margin-bottom: 18px;">
+            <div class="title-group">
+                <h1 class="page-title" th:text="${formTitle}">Thêm danh mục mới</h1>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <div th:if="${error}" class="alert-box alert-error">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span th:text="${error}"></span>
+            </div>
+            <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" th:value="${danhMuc.id}"/>
+
+                <div class="form-group">
+                    <label class="form-label">Tên danh mục</label>
+                    <input type="text" name="ten" class="form-control" placeholder="Nhập tên danh mục" th:value="${danhMuc.ten}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mô tả</label>
+                    <textarea name="moTa" class="form-textarea" placeholder="Mô tả ngắn gọn cho danh mục">[[${danhMuc.moTa}]]</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <select name="trangThai" class="form-select" required>
+                        <option value="">Chọn trạng thái</option>
+                        <option th:each="st : ${statusOptions}"
+                                th:value="${st}"
+                                th:text="${st}"
+                                th:selected="${st == danhMuc.trangThai}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Chọn ảnh</label>
+                    <div class="file-input-wrapper">
+                        <label for="fileAnh" class="file-input-button"><i class="fa-regular fa-folder-open"></i> Chọn tệp ảnh</label>
+                        <span class="file-input-filename" id="fileName">Chưa có tệp nào được chọn</span>
+                    </div>
+                    <input type="file" id="fileAnh" name="fileAnh" accept="image/png, image/jpeg, image/jpg" class="form-control file-input-hidden" />
+                    <small style="color: #6b7280; display: block; margin-top: 8px;">Hoặc dán đường dẫn ảnh phía dưới nếu đã có URL.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ảnh đại diện danh mục</label>
+                    <input id="anhInput" type="text" name="anh" class="form-control" placeholder="Nhập đường dẫn ảnh hoặc URL" th:value="${danhMuc.anh}" />
+                    <div class="image-preview" id="imagePreviewBox">
+                        <div class="placeholder" id="previewPlaceholder">
+                            <i class="fa-regular fa-image"></i>
+                            <span>Chưa có ảnh. Nhập URL ảnh để xem trước.</span>
+                        </div>
+                        <img id="previewImage" alt="Ảnh danh mục" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Số lượng món</label>
+                    <input type="number" name="soLuong" min="0" class="form-control" placeholder="Nhập số lượng món" th:value="${danhMuc.soLuong}" />
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-save"></i>
+                    <span th:text="${formTitle}">Lưu</span>
+                </button>
+            </form>
+        </div>
+    </main>
+</div>
+<script>
+    const anhInput = document.getElementById('anhInput');
+    const previewImage = document.getElementById('previewImage');
+    const previewBox = document.getElementById('imagePreviewBox');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
+    const fileAnh = document.getElementById('fileAnh');
+    const fileName = document.getElementById('fileName');
+
+    function updateCategoryImagePreview() {
+        const url = anhInput.value?.trim();
+        if (url) {
+            previewImage.src = url;
+            previewImage.style.display = 'block';
+            previewBox.classList.add('active');
+        } else {
+            previewImage.style.display = 'none';
+            previewImage.removeAttribute('src');
+            previewBox.classList.remove('active');
+        }
+    }
+
+    fileAnh.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            fileName.textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                anhInput.value = e.target.result;
+                updateCategoryImagePreview();
+            }
+            reader.readAsDataURL(file);
+        } else {
+            fileName.textContent = 'Chưa có tệp nào được chọn';
+        }
+    });
+
+    anhInput.addEventListener('input', updateCategoryImagePreview);
+    document.addEventListener('DOMContentLoaded', updateCategoryImagePreview);
+</script>
+</body>
+</html>

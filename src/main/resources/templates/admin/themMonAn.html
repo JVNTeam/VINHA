@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${formTitle}">Thêm món ăn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/admin/mon-an.css}">
+    <style>
+        .form-card { max-width: 900px; background: #fff; padding: 28px; border-radius: 18px; box-shadow: 0 10px 30px rgba(15,23,42,.08); }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 10px; font-weight: 600; color: #1f2937; }
+        .form-control { width: 100%; min-height: 46px; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 14px; }
+        .form-control:focus { outline: none; border-color: #fb923c; box-shadow: 0 0 0 3px rgba(251,146,60,.15); }
+        .textarea-control { min-height: 130px; resize: vertical; }
+        .grid-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+        .preview-box { margin-top: 12px; min-height: 220px; border: 2px dashed #cbd5e1; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
+        .preview-box img { max-width: 100%; max-height: 220px; border-radius: 12px; }
+        .btn-submit { display: inline-flex; align-items: center; gap: 10px; justify-content: center; width: 100%; padding: 14px 18px; border: none; border-radius: 14px; background: #fb923c; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
+        .btn-submit:hover { background: #f97316; }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #334155; text-decoration: none; margin-bottom: 20px; }
+        .file-input-hidden { display: none; }
+        .file-input-button { display: inline-flex; gap: 8px; align-items: center; padding: 12px 18px; border-radius: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; cursor: pointer; }
+        .file-input-button:hover { background: #e2e8f0; }
+        .file-info { margin-top: 10px; color: #475569; font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="admin-wrapper">
+    <div th:replace="~{admin/sidebar :: sidebar('monAn')}"></div>
+    <main class="admin-main">
+        <a th:href="@{/admin/monAn}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Trở về danh sách món ăn</a>
+        <div class="page-header">
+            <h1 class="page-title" th:text="${formTitle}">Thêm món ăn</h1>
+        </div>
+
+        <div class="form-card">
+            <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+                <div th:if="${error}" style="margin-bottom: 18px; padding: 16px; border-radius: 12px; background: #fee2e2; color: #991b1b;">
+                    <span th:text="${error}"></span>
+                </div>
+
+                <input type="hidden" name="id" th:if="${monAn != null and monAn.id != null}" th:value="${monAn.id}" />
+
+                <div class="grid-two">
+                    <div class="form-group">
+                        <label class="form-label">Danh mục</label>
+                        <select name="danhMucId" class="form-control" required>
+                            <option value="">-- Chọn danh mục --</option>
+                            <option th:each="dm : ${categories}"
+                                    th:value="${dm.id}"
+                                    th:text="${dm.ten}"
+                                    th:selected="${monAn != null and monAn.danhMuc != null and dm.id == monAn.danhMuc.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tên món ăn</label>
+                        <input type="text" name="ten" class="form-control" placeholder="Nhập tên món ăn" required th:value="${monAn != null ? monAn.ten : ''}" />
+                    </div>
+                </div>
+
+                <div class="grid-two">
+                    <div class="form-group">
+                        <label class="form-label">Giá bán (VNĐ)</label>
+                        <input type="number" name="gia" class="form-control" min="0" max="9999999999.99" step="0.01" placeholder="Nhập giá" required th:value="${monAn != null and monAn.gia != null ? monAn.gia : ''}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Số lượng còn</label>
+                        <input type="number" name="soLuongCon" class="form-control" min="0" max="2147483647" placeholder="Số lượng" required th:value="${monAn != null and monAn.soLuongCon != null ? monAn.soLuongCon : 0}" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mô tả</label>
+                    <textarea name="moTa" class="form-control textarea-control" placeholder="Mô tả món ăn">[[${monAn != null ? monAn.moTa : ''}]]</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Thành phần</label>
+                    <textarea name="thanhPhan" class="form-control textarea-control" placeholder="Thành phần chính">[[${monAn != null ? monAn.thanhPhan : ''}]]</textarea>
+                </div>
+
+                <div class="grid-two">
+                    <div class="form-group">
+                        <label class="form-label">Trạng thái</label>
+                        <select name="trangThai" class="form-control" required>
+                            <option value="">-- Chọn trạng thái --</option>
+                            <option th:each="st : ${statusOptions}"
+                                    th:value="${st}"
+                                    th:text="${st}"
+                                    th:selected="${monAn != null and monAn.trangThai == st}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <label for="fileAnh" class="file-input-button"><i class="fa-regular fa-image"></i> Chọn ảnh</label>
+                        <input type="file" id="fileAnh" name="fileAnh" accept="image/png, image/jpeg, image/jpg" class="file-input-hidden" />
+                        <div class="file-info" id="fileName">Chưa chọn file</div>
+                        <div class="preview-box" id="previewBox">
+                            <div th:if="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}">
+                                <img th:src="@{${monAn.hinhAnhs[0].duongDan}}" alt="Ảnh món" />
+                            </div>
+                            <div th:if="${monAn == null or monAn.hinhAnhs == null or #lists.isEmpty(monAn.hinhAnhs)}" style="color:#64748b; text-align:center; padding: 22px;">
+                                <i class="fa-regular fa-image" style="font-size: 32px; display:block; margin-bottom: 10px;"></i>
+                                Ảnh xem trước sẽ hiển thị ở đây
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> <span th:text="${formTitle}">Lưu món ăn</span></button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileAnh');
+    const fileName = document.getElementById('fileName');
+    const previewBox = document.getElementById('previewBox');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (!file) {
+                fileName.textContent = 'Chưa chọn file';
+                return;
+            }
+            fileName.textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                previewBox.innerHTML = '<img src="' + e.target.result + '" alt="Ảnh món" />';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+</script>
+</body>
+</html>

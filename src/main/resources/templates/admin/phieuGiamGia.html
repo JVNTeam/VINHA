@@ -15,12 +15,9 @@
 <body>
 
 <div class="admin-wrapper">
-    <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
-    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
-        <div class="sidebar-brand">
-            <span class="brand-text">Vị Nhà</span>
-        </div>
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
             <a th:href="@{/admin/thong-ke}" class="nav-item">
                 <i class="fa-solid fa-chart-simple"></i> Tổng quan
@@ -58,13 +55,20 @@
             </a>
         </div>
     </aside>
+=======
+    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
+    <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
+>>>>>>> Stashed changes
+=======
+    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
+    <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
+>>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
         <!-- Tiêu đề & Nút bấm -->
         <div class="page-header">
             <div class="title-group">
-                <!-- ĐÃ FIX: ÉP MÃ HTML "&#7871;" ĐỂ KHÔNG BAO GIỜ BỊ TÁCH DẤU CHỮ "Ế" NỮA -->
                 <h1 class="page-title">Quản lý phi&#7871;u giảm giá</h1>
                 <p class="page-subtitle">Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
             </div>
@@ -107,7 +111,8 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <a th:href="@{/admin/giam-gia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
+                    <!-- ĐÃ FIX: Sửa lại link của nút làm mới không còn dấu gạch ngang -->
+                    <a th:href="@{/admin/phieuGiamGia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>
         </div>
@@ -121,7 +126,6 @@
                         <th style="width: 5%; text-align: center;">STT</th>
                         <th style="width: 15%;">MÃ GIẢM GIÁ</th>
                         <th style="width: 10%;">MỨC GIẢM</th>
-                        <!-- Cột điều kiện đã gộp -->
                         <th style="width: 25%;">ĐIỀU KIỆN</th>
                         <th style="width: 12%;">SỐ LƯỢNG</th>
                         <th style="width: 15%;">HẠN SỬ DỤNG</th>
@@ -135,15 +139,12 @@
                         <td class="col-stt" style="text-align: center;">01</td>
                         <td><span class="code-badge">VINHAHAVET</span></td>
                         <td class="col-highlight text-orange">20%</td>
-
-                        <!-- Nội dung cột điều kiện -->
                         <td>
                             <div class="condition-col">
                                 <span class="font-weight-600 text-main">Đơn tối thiểu 150,000đ</span>
                                 <span class="text-muted" style="font-size: 12px;">Giảm tối đa 50,000đ</span>
                             </div>
                         </td>
-
                         <td><strong class="text-main">150</strong> <span class="text-muted">/ 200</span></td>
                         <td>
                             <div class="date-col">
@@ -173,15 +174,12 @@
                         <td class="col-stt" style="text-align: center;">02</td>
                         <td><span class="code-badge expired">WELCOMEHOME</span></td>
                         <td class="col-highlight">15%</td>
-
-                        <!-- Nội dung cột điều kiện -->
                         <td>
                             <div class="condition-col">
                                 <span class="font-weight-600 text-main">Đơn tối thiểu 100,000đ</span>
                                 <span class="text-muted" style="font-size: 12px;">Giảm tối đa 30,000đ</span>
                             </div>
                         </td>
-
                         <td><strong class="text-main">0</strong> <span class="text-muted">/ 200</span></td>
                         <td>
                             <div class="date-col">

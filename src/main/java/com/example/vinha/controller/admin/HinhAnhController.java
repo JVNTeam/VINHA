@@ -1,96 +1,184 @@
 package com.example.vinha.controller.admin;
 
+import com.example.vinha.entity.HinhAnhMonAn;
+import com.example.vinha.entity.MonAn;
+import com.example.vinha.repository.DanhMucRepository;
+import com.example.vinha.repository.HinhAnhMonAnRepository;
+import com.example.vinha.repository.MonAnRepository;
+import com.example.vinha.service.FileStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin/hinh-anh") // ĐÃ SỬA: Thêm "/admin" để khớp với href trong HTML và fix lỗi 404
+@RequestMapping({"/admin/hinhAnh", "/admin/hinh-anh"})
 public class HinhAnhController {
 
-        @GetMapping
-        public String showImageManagementPage(
-                @RequestParam(value = "keyword", required = false) String keyword,
-                @RequestParam(value = "category", required = false) String category,
-                @RequestParam(value = "status", required = false) String status, // Tham số nhận bộ lọc Trạng thái
-                Model model) {
+    @Autowired
+    private HinhAnhMonAnRepository hinhAnhMonAnRepository;
 
-                // 1. Danh sách Danh mục cho Dropdown Lọc
-                List<String> categories = List.of("Cơm gà", "Cơm sườn", "Cơm cá", "Cơm bò", "Cơm niêu");
+    @Autowired
+    private MonAnRepository monAnRepository;
 
-                // 2. Tạo danh sách Hình ảnh món ăn mẫu (Mock Data)
-                List<Map<String, Object>> allImages = new ArrayList<>();
+    @Autowired
+    private DanhMucRepository danhMucRepository;
 
-                allImages.add(createImageItem("Cơm Gà Xối Mỡ",
-                        "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=150&auto=format&fit=crop",
-                        "/images/dishes/com-ga-xoi-mo.jpg", "ACTIVE", "Đang sử dụng", "Cơm gà"));
+    @Autowired
+    private FileStorageService fileStorageService;
 
-                allImages.add(createImageItem("Cơm Sườn",
-                        "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150&auto=format&fit=crop",
-                        "/images/dishes/com-suon-nuong.jpg", "LOCKED", "Khóa", "Cơm sườn"));
+    @GetMapping
+    public String showImageManagementPage(
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "status", required = false) String status,
+            Model model) {
 
-                allImages.add(createImageItem("Cơm Cá Lóc Kho Tộ",
-                        "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=150&auto=format&fit=crop",
-                        "/images/dishes/ca-loc-kho-to.jpg", "ACTIVE", "Đang sử dụng", "Cơm cá"));
+        String kw = keyword != null ? keyword.trim() : "";
+        String cat = category != null ? category.trim() : "";
+        String st = status != null ? status.trim() : "";
 
-                allImages.add(createImageItem("Cơm Bò Lúc Lắc",
-                        "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=150&auto=format&fit=crop",
-                        "/images/dishes/bo-luc-lac.jpg", "ACTIVE", "Đang sử dụng", "Cơm bò"));
+        List<HinhAnhMonAn> allImages = hinhAnhMonAnRepository.search(
+                kw.isEmpty() ? null : kw,
+                cat.isEmpty() ? null : cat,
+                st.isEmpty() ? null : st
+        );
 
-                allImages.add(createImageItem("Cơm Niêu Cháy Cạnh",
-                        "https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=150&auto=format&fit=crop",
-                        "/images/dishes/com-nieu.jpg", "LOCKED", "Khóa", "Cơm niêu"));
+        List<String> categories = danhMucRepository.findAll().stream()
+                .map(dm -> dm.getTen())
+                .filter(name -> name != null && !name.isBlank())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+        categories.add(0, "Chưa phân loại");
 
-                // 3. Thực hiện LỌC DỮ LIỆU
-                List<Map<String, Object>> filteredImages = allImages.stream()
-                        // Lọc theo Tên món ăn (Keyword)
-                        .filter(item -> keyword == null || keyword.trim().isEmpty() ||
-                                item.get("dishName").toString().toLowerCase().contains(keyword.toLowerCase().trim()))
-                        // Lọc theo Danh mục (Category)
-                        .filter(item -> category == null || category.trim().isEmpty() ||
-                                item.get("category").toString().equalsIgnoreCase(category))
-                        // Lọc theo Trạng thái (Status - ACTIVE/LOCKED)
-                        .filter(item -> status == null || status.trim().isEmpty() ||
-                                item.get("statusCode").toString().equalsIgnoreCase(status))
-                        .collect(Collectors.toList());
+        model.addAttribute("categories", categories);
+        model.addAttribute("statusOptions", List.of("Mở", "Khóa"));
+        model.addAttribute("imageList", allImages);
+        model.addAttribute("keyword", kw);
+        model.addAttribute("selectedCategory", cat);
+        model.addAttribute("selectedStatus", st);
+        model.addAttribute("message", model.asMap().get("message"));
+        model.addAttribute("error", model.asMap().get("error"));
 
-                // 4. Cập nhật lại STT (01, 02...) sau khi lọc để bảng luôn đánh số liên tục
-                for (int i = 0; i < filteredImages.size(); i++) {
-                        filteredImages.get(i).put("stt", String.format("%02d", i + 1));
-                }
+        return "admin/hinhAnhMonAn";
+    }
 
-                // 5. Gửi dữ liệu ra file HTML
-                model.addAttribute("categories", categories);
-                model.addAttribute("imageList", filteredImages);
+    @GetMapping("/them")
+    public String showAddImageForm(Model model) {
+        model.addAttribute("monAnList", monAnRepository.findAll());
+        model.addAttribute("categories", danhMucRepository.findAll());
+        model.addAttribute("statusOptions", List.of("Mở", "Khóa"));
+        model.addAttribute("formTitle", "Thêm hình ảnh mới");
+        model.addAttribute("formAction", "/admin/hinhAnh/them");
+        model.addAttribute("image", new HinhAnhMonAn());
+        return "admin/themHinhAnh";
+    }
 
-                // Gửi lại các giá trị đang lọc để hiển thị giữ nguyên trạng thái trên thanh tìm kiếm
-                model.addAttribute("keyword", keyword);
-                model.addAttribute("selectedCategory", category);
-                model.addAttribute("selectedStatus", status);
+    @PostMapping("/them")
+    public String uploadImage(
+            @RequestParam("monAnId") Long monAnId,
+            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
+            @RequestParam(value = "trangThai", required = false) String trangThai,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+        try {
+            if (fileAnh == null || fileAnh.isEmpty()) {
+                throw new IllegalArgumentException("Vui lòng chọn ảnh để tải lên.");
+            }
 
-                // Trả về đúng tên file HTML trong thư mục templates/admin/
-                return "admin/hinhAnhMonAn";
+            MonAn monAn = monAnRepository.findById(monAnId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy món ăn được chọn."));
+
+            String imageUrl = fileStorageService.storeFile(fileAnh);
+            HinhAnhMonAn image = HinhAnhMonAn.builder()
+                    .monAn(monAn)
+                    .duongDan(imageUrl)
+                    .trangThai(trangThai != null && !trangThai.isBlank() ? trangThai : "Mở")
+                    .build();
+            hinhAnhMonAnRepository.save(image);
+
+            redirectAttributes.addFlashAttribute("message", "Tải ảnh lên thành công.");
+            return "redirect:/admin/hinhAnh";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi tải ảnh: " + e.getMessage());
+            model.addAttribute("monAnList", monAnRepository.findAll());
+            model.addAttribute("categories", danhMucRepository.findAll());
+            model.addAttribute("statusOptions", List.of("Mở", "Khóa"));
+            model.addAttribute("formTitle", "Thêm hình ảnh mới");
+            model.addAttribute("formAction", "/admin/hinhAnh/them");
+            model.addAttribute("image", new HinhAnhMonAn());
+            return "admin/themHinhAnh";
         }
+    }
 
-        // Hàm helper để khởi tạo data
-        private Map<String, Object> createImageItem(String dishName, String imageUrl, String path,
-                                                    String statusCode, String statusText, String category) {
-                Map<String, Object> item = new HashMap<>();
-                // Thuộc tính stt không cần truyền ở đây, sẽ được đánh số lại ở Bước 4
-                item.put("dishName", dishName);
-                item.put("imageUrl", imageUrl);
-                item.put("path", path);
-                item.put("statusCode", statusCode); // Mã trạng thái để lọc (ACTIVE, LOCKED)
-                item.put("statusText", statusText); // Chữ hiển thị ra giao diện HTML (Đang sử dụng, Khóa)
-                item.put("category", category);     // Danh mục để lọc
-                return item;
+    @GetMapping("/sua")
+    public String showEditImageForm(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+        HinhAnhMonAn image = hinhAnhMonAnRepository.findById(id).orElse(null);
+        if (image == null) {
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy hình ảnh cần chỉnh sửa.");
+            return "redirect:/admin/hinhAnh";
         }
+        model.addAttribute("monAnList", monAnRepository.findAll());
+        model.addAttribute("categories", danhMucRepository.findAll());
+        model.addAttribute("statusOptions", List.of("Mở", "Khóa"));
+        model.addAttribute("formTitle", "Chỉnh sửa hình ảnh");
+        model.addAttribute("formAction", "/admin/hinhAnh/sua");
+        model.addAttribute("image", image);
+        return "admin/themHinhAnh";
+    }
+
+    @PostMapping("/sua")
+    public String updateImage(
+            @RequestParam("id") Long id,
+            @RequestParam("monAnId") Long monAnId,
+            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
+            @RequestParam(value = "trangThai", required = false) String trangThai,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+        try {
+            HinhAnhMonAn image = hinhAnhMonAnRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy hình ảnh cần chỉnh sửa."));
+            MonAn monAn = monAnRepository.findById(monAnId)
+                    .orElseThrow(() -> new RuntimeException("Không tìm thấy món ăn được chọn."));
+
+            image.setMonAn(monAn);
+            if (fileAnh != null && !fileAnh.isEmpty()) {
+                image.setDuongDan(fileStorageService.storeFile(fileAnh));
+            }
+            image.setTrangThai(trangThai != null && !trangThai.isBlank() ? trangThai : image.getTrangThai());
+            hinhAnhMonAnRepository.save(image);
+
+            redirectAttributes.addFlashAttribute("message", "Cập nhật hình ảnh thành công.");
+            return "redirect:/admin/hinhAnh";
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi chỉnh sửa ảnh: " + e.getMessage());
+            model.addAttribute("monAnList", monAnRepository.findAll());
+            model.addAttribute("categories", danhMucRepository.findAll());
+            model.addAttribute("statusOptions", List.of("Mở", "Khóa"));
+            model.addAttribute("formTitle", "Chỉnh sửa hình ảnh");
+            model.addAttribute("formAction", "/admin/hinhAnh/sua");
+            model.addAttribute("image", hinhAnhMonAnRepository.findById(id).orElse(new HinhAnhMonAn()));
+            return "admin/themHinhAnh";
+        }
+    }
+
+    @GetMapping("/xoa")
+    public String deleteImage(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+        if (hinhAnhMonAnRepository.existsById(id)) {
+            hinhAnhMonAnRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Xóa hình ảnh thành công.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy hình ảnh để xóa.");
+        }
+        return "redirect:/admin/hinhAnh";
+    }
 }

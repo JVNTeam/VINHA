@@ -54,6 +54,8 @@ CREATE TABLE danh_muc (
     id BIGINT IDENTITY(1,1) PRIMARY KEY,
     ten NVARCHAR(100) NOT NULL,
     mo_ta NVARCHAR(MAX),
+    anh VARCHAR(500),
+    so_luong INT DEFAULT 0,
     trang_thai NVARCHAR(20)DEFAULT N'Mở' CHECK(trang_thai IN(N'Mở',N'Khóa'))
 
 );

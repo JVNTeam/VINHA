@@ -16,7 +16,7 @@ public class ThongKeController {
          * model.addAttribute("tongDoanhThu", ...);
          */
 
-        // Trả về đúng file tongQuan.html trong thư mục templates/admin/
-        return "/admin/tongQuan";
+        // Trả về đúng file thong-ke.html trong thư mục templates/admin/
+        return "admin/thong-ke";
     }
 }

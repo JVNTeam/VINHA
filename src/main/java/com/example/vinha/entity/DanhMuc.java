@@ -28,6 +28,12 @@ public class DanhMuc {
     @Column(name = "trang_thai", length = 20)
     private String trangThai;
 
+    @Column(name = "anh", length = 500)
+    private String anh;
+
+    @Column(name = "so_luong")
+    private Integer soLuong;
+
     @OneToMany(mappedBy = "danhMuc")
     private List<MonAn> monAns;
 }

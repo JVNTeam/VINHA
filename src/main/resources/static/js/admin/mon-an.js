@@ -1,41 +1,49 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-    // 1. Xử lý sự kiện click Nút "Thêm món ăn mới"
+﻿document.addEventListener('DOMContentLoaded', function() {
     const btnThemMon = document.getElementById('btnThemMon');
-    if(btnThemMon) {
+    if (btnThemMon) {
         btnThemMon.addEventListener('click', function() {
-            // Chuyển hướng sang trang form thêm món ăn (Bạn có thể đổi URL cho phù hợp)
-            window.location.href = '/admin/mon-an/them-moi';
+            window.location.href = '/admin/monAn/them';
         });
     }
 
-    // 2. Xử lý sự kiện click Nút "Xóa" (Biểu tượng thùng rác)
-    const deleteButtons = document.querySelectorAll('.btn-delete');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
+    const searchKeyword = document.getElementById('searchKeyword');
+    const filterCategory = document.getElementById('filterCategory');
+    const filterStatus = document.getElementById('filterStatus');
+    const btnSearch = document.getElementById('btnSearch');
+    const tableBody = document.querySelector('.admin-table tbody');
 
-            // Tìm tên món ăn trên cùng dòng đó để hiển thị thông báo
-            const row = this.closest('tr');
-            const foodName = row.querySelector('.text-main').innerText;
+    if (!tableBody || !btnSearch || !searchKeyword || !filterCategory || !filterStatus) {
+        return;
+    }
 
-            const isConfirm = confirm(`Bạn có chắc chắn muốn xóa món: "${foodName}" không?`);
+    const rows = Array.from(tableBody.querySelectorAll('tr[data-name]'));
 
-            if (isConfirm) {
-                // TODO: Gọi API hoặc Submit Form để xóa món ăn trong CSDL
-                alert('Đã xóa thành công!');
-                // row.remove(); // Code tạm thời ẩn dòng dữ liệu đi
-            }
+    const filterRows = () => {
+        const keyword = searchKeyword.value.trim().toLowerCase();
+        const categoryId = filterCategory.value;
+        const status = filterStatus.value.trim().toLowerCase();
+
+        rows.forEach(row => {
+            const name = (row.dataset.name || '').toLowerCase();
+            const rowCategoryId = row.dataset.categoryId || '';
+            const rowStatus = (row.dataset.status || '').toLowerCase();
+
+            const matchesKeyword = !keyword || name.includes(keyword);
+            const matchesCategory = !categoryId || rowCategoryId === categoryId;
+            const matchesStatus = !status || rowStatus === status;
+
+            row.style.display = matchesKeyword && matchesCategory && matchesStatus ? '' : 'none';
         });
-    });
+    };
 
-    // 3. Xử lý sự kiện click Nút "Chỉnh sửa"
-    const editButtons = document.querySelectorAll('.btn-edit');
-    editButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            // TODO: Chuyển hướng sang màn hình sửa món ăn
-            alert("Chuyển sang giao diện chỉnh sửa món ăn!");
-        });
+    btnSearch.addEventListener('click', filterRows);
+    searchKeyword.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            filterRows();
+        }
     });
+    searchKeyword.addEventListener('input', filterRows);
+    filterCategory.addEventListener('change', filterRows);
+    filterStatus.addEventListener('change', filterRows);
 });

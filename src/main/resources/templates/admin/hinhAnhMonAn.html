@@ -4,92 +4,65 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Quản lý hình ảnh món ăn - Vị Nhà Admin</title>
-
-    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
-    <!-- File CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/quanlyhinhanh.css}"/>
+    <style>
+        .dish-preview-container {
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dish-preview-img {
+            max-width: 90px;
+            max-height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .dish-preview-placeholder {
+            color: #64748b;
+            font-size: 13px;
+            padding: 10px 14px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            text-align: center;
+            min-width: 90px;
+        }
+    </style>
 </head>
 <body>
 <div class="admin-wrapper">
-
-    <!-- ADMIN SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
-    <aside class="admin-sidebar">
-        <div class="sidebar-brand">
-            <span class="brand-text">Vị Nhà</span>
-        </div>
-
-        <nav class="admin-nav">
-            <a th:href="@{/admin/mon-an}" class="nav-item">
-                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
-            </a>
-            <a th:href="@{/admin/hinh-anh}" class="nav-item active">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
-            </a>
-            <a th:href="@{/admin/danh-muc}" class="nav-item">
-                <i class="fa-solid fa-layer-group"></i> Danh mục
-            </a>
-            <a th:href="@{/admin/giam-gia}" class="nav-item">
-                <i class="fa-solid fa-ticket"></i> Mã giảm giá
-            </a>
-            <a th:href="@{/admin/khach-hang}" class="nav-item">
-                <i class="fa-solid fa-users"></i> Khách hàng
-            </a>
-            <a th:href="@{/admin/nhan-vien}" class="nav-item">
-                <i class="fa-solid fa-user-tie"></i> Nhân viên
-            </a>
-            <a th:href="@{/admin/don-hang}" class="nav-item">
-                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
-            </a>
-            <a th:href="@{/admin/thanh-toan}" class="nav-item">
-                <i class="fa-solid fa-wallet"></i> Thanh toán
-            </a>
-            <a th:href="@{/admin/thong-ke}" class="nav-item">
-                <i class="fa-solid fa-chart-simple"></i> Thống kê
-            </a>
-            <a th:href="@{/admin/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá
-            </a>
-        </nav>
-
-        <!-- NÚT ĐĂNG XUẤT (Ghim dưới đáy) -->
-        <div class="sidebar-footer">
-            <a th:href="@{/admin/logout}" class="nav-item logout-item">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-            </a>
-        </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
+    <div th:replace="~{admin/sidebar :: sidebar('hinhAnh')}"></div>
     <main class="admin-main">
         <div class="page-header">
             <div class="title-group">
                 <h1 class="page-title">Quản lý hình ảnh món ăn</h1>
-                <p class="page-subtitle">
-                    Cập nhật và quản lý hình ảnh cho thực đơn món ăn của Vị Nhà.
-                </p>
+                <p class="page-subtitle">Cập nhật và quản lý hình ảnh cho thực đơn món ăn của Vị Nhà.</p>
             </div>
-            <a th:href="@{/admin/hinh-anh/them}" class="btn-add-image">
+            <a th:href="@{/admin/hinhAnh/them}" class="btn-add-image">
                 <i class="fa-regular fa-image"></i> Thêm hình ảnh
             </a>
         </div>
 
+        <!-- KHỐI THÔNG BÁO TỪ CONTROLLER TRẢ VỀ (MỚI THÊM) -->
+        <div th:if="${message}" class="alert alert-success" style="padding: 15px; background-color: #d4edda; color: #155724; border-radius: 8px; margin-bottom: 20px;">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger" style="padding: 15px; background-color: #f8d7da; color: #721c24; border-radius: 8px; margin-bottom: 20px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+        </div>
+
         <!-- Filter Card -->
         <div class="filter-card">
-            <form th:action="@{/admin/hinh-anh}" method="get" class="filter-form">
+            <form th:action="@{/admin/hinhAnh}" method="get" class="filter-form">
                 <div class="filter-group group-search">
                     <label class="filter-label">Tên món ăn</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input
-                                type="text"
-                                name="keyword"
-                                th:value="${keyword}"
-                                class="filter-input"
-                                placeholder="Nhập tên món ăn..."
-                        />
+                        <input type="text" name="keyword" th:value="${keyword}" class="filter-input" placeholder="Nhập tên món ăn..."/>
                     </div>
                 </div>
 
@@ -97,12 +70,11 @@
                     <label class="filter-label">Chọn danh mục</label>
                     <select name="category" class="filter-select">
                         <option value="">Tất cả danh mục</option>
-                        <option
-                                th:each="cat : ${categories}"
+                        <option th:each="cat : ${categories}"
                                 th:value="${cat}"
                                 th:text="${cat}"
-                                th:selected="${cat == selectedCategory}"
-                        ></option>
+                                th:selected="${cat == selectedCategory}">
+                        </option>
                     </select>
                 </div>
 
@@ -110,14 +82,17 @@
                     <label class="filter-label">Trạng thái ảnh</label>
                     <select name="status" class="filter-select">
                         <option value="">Tất cả trạng thái</option>
-                        <option value="ACTIVE" th:selected="${selectedStatus == 'ACTIVE'}">Đang sử dụng</option>
-                        <option value="LOCKED" th:selected="${selectedStatus == 'LOCKED'}">Khóa</option>
+                        <option th:each="st : ${statusOptions}"
+                                th:value="${st}"
+                                th:text="${st}"
+                                th:selected="${st == selectedStatus}">
+                        </option>
                     </select>
                 </div>
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search">Tìm kiếm</button>
-                    <a th:href="@{/admin/hinh-anh}" class="btn-reset">Làm mới</a>
+                    <a th:href="@{/admin/hinhAnh}" class="btn-reset">Làm mới</a>
                 </div>
             </form>
         </div>
@@ -138,46 +113,37 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="item : ${imageList}">
-                        <td class="col-stt" style="text-align: center;" th:text="${item.stt}">01</td>
-                        <td class="col-dish-name" th:text="${item.dishName}">
-                            Cơm Gà Xối Mỡ
-                        </td>
-                        <td class="col-category">
-                            Món Cơm
-                        </td>
+                    <tr th:each="item, iterStat : ${imageList}" th:data-dish="${item.monAn.ten.toLowerCase()}" th:data-category="${item.monAn.danhMuc != null ? item.monAn.danhMuc.ten.toLowerCase() : 'chưa phân loại'}" th:data-status="${item.trangThai.toLowerCase()}">
+                        <td class="col-stt" style="text-align: center;" th:text="${iterStat.index + 1}">01</td>
+                        <td class="col-dish-name" th:text="${item.monAn.ten}">Cơm Gà Xối Mỡ</td>
+                        <td class="col-category" th:text="${item.monAn.danhMuc != null ? item.monAn.danhMuc.ten : 'Chưa phân loại'}">Món Cơm</td>
                         <td style="text-align: center;">
-                            <img
-                                    th:src="${item.imageUrl}"
-                                    alt="Hình món ăn"
-                                    class="dish-preview-img"
-                            />
+                            <div class="dish-preview-container">
+                                <img th:if="${item.duongDan != null and item.duongDan != ''}"
+                                     th:src="@{${item.duongDan}}"
+                                     alt="Hình món ăn"
+                                     class="dish-preview-img"
+                                     onerror="this.style.display='none'"/>
+                                <div th:if="${item.duongDan == null or item.duongDan == ''}" class="dish-preview-placeholder">
+                                    Chưa có ảnh
+                                </div>
+                            </div>
                         </td>
                         <td>
-                            <code class="path-code" th:text="${item.path}">/images/dishes/com-ga-xoi-mo.jpg</code>
+                            <code class="path-code" th:text="${item.duongDan}">/uploads/com-ga-xoi-mo.jpg</code>
                         </td>
                         <td style="text-align: center;">
-                            <span th:class="${item.statusCode == 'ACTIVE' ? 'badge-status-active' : 'badge-status-lock'}"
-                                  th:text="${item.statusText}">Đang sử dụng</span>
+                            <span th:class="${item.trangThai == 'Mở' ? 'badge-status-active' : 'badge-status-lock'}" th:text="${item.trangThai == 'Mở' ? 'Mở' : 'Khóa'}">Mở</span>
                         </td>
                         <td style="text-align: center;">
                             <div class="action-buttons">
-                                <button
-                                        class="btn-icon"
-                                        title="Sửa"
-                                        th:data-id="${item.stt}"
-                                >
-                                    <i class="fa-regular fa-pen-to-square"></i>
-                                </button>
-                                <button
-                                        class="btn-icon"
-                                        title="Xóa"
-                                        th:data-id="${item.stt}"
-                                >
-                                    <i class="fa-regular fa-trash-can"></i>
-                                </button>
+                                <a th:href="@{/admin/hinhAnh/sua(id=${item.id})}" class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a th:href="@{/admin/hinhAnh/xoa(id=${item.id})}" class="btn-icon" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa ảnh này?');"><i class="fa-regular fa-trash-can"></i></a>
                             </div>
                         </td>
+                    </tr>
+                    <tr class="no-results" style="display:none;">
+                        <td colspan="7" style="text-align:center; padding: 24px; color: #555;">Không tìm thấy kết quả phù hợp.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -185,5 +151,49 @@
         </div>
     </main>
 </div>
+
+<script>
+    const searchInput = document.querySelector('input[name="keyword"]');
+    const categorySelect = document.querySelector('select[name="category"]');
+    const statusSelect = document.querySelector('select[name="status"]');
+    const tableRows = document.querySelectorAll('tbody tr:not(.no-results)');
+    const noResultsRow = document.querySelector('tbody .no-results');
+
+    function applyTableFilter() {
+        const keyword = searchInput.value.trim().toLowerCase();
+        const category = categorySelect.value.trim().toLowerCase();
+        const status = statusSelect.value.trim().toLowerCase();
+
+        let visibleCount = 0;
+
+        tableRows.forEach(row => {
+            const dish = row.dataset.dish || '';
+            const cat = row.dataset.category || '';
+            const st = row.dataset.status || '';
+
+            const matchesKeyword = !keyword || dish.includes(keyword);
+            const matchesCategory = !category || category === cat;
+            const matchesStatus = !status || status === st;
+
+            if (matchesKeyword && matchesCategory && matchesStatus) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (noResultsRow) {
+            noResultsRow.style.display = visibleCount === 0 ? '' : 'none';
+        }
+    }
+
+    if (searchInput && categorySelect && statusSelect) {
+        searchInput.addEventListener('input', applyTableFilter);
+        categorySelect.addEventListener('change', applyTableFilter);
+        statusSelect.addEventListener('change', applyTableFilter);
+        window.addEventListener('DOMContentLoaded', applyTableFilter);
+    }
+</script>
 </body>
 </html>

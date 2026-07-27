@@ -16,53 +16,8 @@
 
 <div class="admin-wrapper">
 
-<<<<<<< Updated upstream:src/main/resources/templates/admin/danh-gia.html
-<<<<<<< Updated upstream:src/main/resources/templates/admin/danh-gia.html
-        <nav class="admin-nav">
-            <a th:href="@{/admin/thong-ke}" class="nav-item">
-                <i class="fa-solid fa-chart-simple"></i> Tổng quan
-            </a>
-            <a th:href="@{/admin/mon-an}" class="nav-item">
-                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
-            </a>
-            <a th:href="@{/admin/hinh-anh}" class="nav-item">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh món ăn
-            </a>
-            <a th:href="@{/admin/danh-muc}" class="nav-item">
-                <i class="fa-solid fa-layer-group"></i>Quản lý danh mục
-            </a>
-            <a th:href="@{/admin/phieu-giam-gia}" class="nav-item">
-                <i class="fa-solid fa-ticket"></i>Quản lý mã giảm giá
-            </a>
-            <a th:href="@{/admin/khach-hang}" class="nav-item">
-                <i class="fa-solid fa-users"></i>Quản lý khách hàng
-            </a>
-            <a th:href="@{/admin/nhan-vien}" class="nav-item">
-                <i class="fa-solid fa-user-tie"></i>Quản lý nhân viên
-            </a>
-            <!-- MỤC ĐƠN HÀNG ĐANG ACTIVE -->
-            <a th:href="@{/admin/don-hang}" class="nav-item active">
-                <i class="fa-solid fa-cart-shopping"></i>Quản lý dơn hàng
-            </a>
-            <a th:href="@{/admin/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i>Quản lý đánh giá
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            <a th:href="@{/admin/logout}" class="nav-item logout-item">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-            </a>
-        </div>
-    </aside>
-=======
-    <!-- ĐÃ FIX: XÓA MENU CŨ DÀI NGOẰNG, NHÚNG DÒNG NÀY ĐỂ BẬT SÁNG NÚT "ĐÁNH GIÁ" -->
+    <!-- GỌI FRAGMENT MENU (Truyền tham số 'danhGia' để nó bôi cam đúng mục này) -->
     <div th:replace="~{admin/sidebar :: sidebar('danhGia')}"></div>
->>>>>>> Stashed changes:src/main/resources/templates/admin/danhGia.html
-=======
-    <!-- ĐÃ FIX: XÓA MENU CŨ DÀI NGOẰNG, NHÚNG DÒNG NÀY ĐỂ BẬT SÁNG NÚT "ĐÁNH GIÁ" -->
-    <div th:replace="~{admin/sidebar :: sidebar('danhGia')}"></div>
->>>>>>> Stashed changes:src/main/resources/templates/admin/danhGia.html
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -265,7 +220,6 @@
                 </tbody>
             </table>
         </div>
-
     </main>
 </div>
 

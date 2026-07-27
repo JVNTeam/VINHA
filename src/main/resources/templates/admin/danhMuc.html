@@ -4,162 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý danh mục - Vị Nhà</title>
-    <!-- Nhúng Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts & FontAwesome chuẩn theo dự án -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <!-- Nhúng CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/danh-muc.css}">
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- SIDEBAR CHUẨN ĐỒNG BỘ -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h2>Vị Nhà <span class="line">|</span></h2>
+<div class="admin-wrapper">
+    <!-- ADMIN SIDEBAR CHUẨN ĐỒNG BỘ -->
+    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
+        <div class="sidebar-brand">
+            <span class="brand-text">Vị Nhà</span>
         </div>
-        <ul class="menu">
-            <li><a th:href="@{/admin/dashboard}"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a th:href="@{/admin/mon-an}"><i class="fas fa-utensils"></i> Quản lý món ăn</a></li>
-            <li><a th:href="@{/admin/hinh-anh}"><i class="fas fa-image"></i> Quản lý hình ảnh</a></li>
-            <li class="active"><a th:href="@{/admin/danh-muc}"><i class="fas fa-list"></i> Danh mục</a></li>
-            <li><a th:href="@{/admin/giam-gia}"><i class="fas fa-ticket-alt"></i> Mã giảm giá</a></li>
-            <li><a th:href="@{/admin/khach-hang}"><i class="fas fa-users"></i> Khách hàng</a></li>
-            <li><a th:href="@{/admin/nhan-vien}"><i class="fas fa-user-tie"></i> Nhân viên</a></li>
-            <li><a th:href="@{/admin/don-hang}"><i class="fas fa-shopping-cart"></i> Đơn hàng</a></li>
-            <li><a th:href="@{/admin/thanh-toan}"><i class="fas fa-money-bill-wave"></i> Thanh toán</a></li>
-        </ul>
-        <div class="logout">
-            <a th:href="@{/admin/logout}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+
+        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
+            <a th:href="@{/admin/mon-an}" class="nav-item">
+                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
+            </a>
+            <a th:href="@{/admin/hinh-anh}" class="nav-item">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
+            </a>
+            <!-- Mục Danh mục Đang Active -->
+            <a th:href="@{/admin/danh-muc}" class="nav-item active">
+                <i class="fa-solid fa-layer-group"></i> Danh mục
+            </a>
+            <a th:href="@{/admin/giam-gia}" class="nav-item">
+                <i class="fa-solid fa-ticket"></i> Mã giảm giá
+            </a>
+            <a th:href="@{/admin/khach-hang}" class="nav-item">
+                <i class="fa-solid fa-users"></i> Khách hàng
+            </a>
+            <a th:href="@{/admin/nhan-vien}" class="nav-item">
+                <i class="fa-solid fa-user-tie"></i> Nhân viên
+            </a>
+            <a th:href="@{/admin/don-hang}" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+            </a>
+            <a th:href="@{/admin/thanh-toan}" class="nav-item">
+                <i class="fa-solid fa-wallet"></i> Thanh toán
+            </a>
+            <a th:href="@{/admin/thong-ke}" class="nav-item">
+                <i class="fa-solid fa-chart-simple"></i> Thống kê
+            </a>
+            <a th:href="@{/admin/danh-gia}" class="nav-item">
+                <i class="fa-regular fa-star"></i> Đánh giá
+            </a>
+
+            <!-- Nút Đăng xuất đẩy xuống đáy -->
+            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid var(--border-color); border-radius: 0; padding-top: 16px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+            </a>
+        </nav>
     </aside>
 
     <!-- NỘI DUNG CHÍNH -->
-    <main class="main-content">
+    <main class="admin-main">
         <!-- Tiêu đề -->
-        <div class="header">
-            <div class="title">
-                <h1>Quản lý danh mục</h1>
-                <p>Quản lý và phân loại các nhóm thực đơn phục vụ khách hàng.</p>
+        <div class="page-header">
+            <div class="title-group">
+                <h1 class="page-title">Quản lý danh mục</h1>
+                <p class="page-subtitle">Quản lý và phân loại các nhóm thực đơn phục vụ khách hàng.</p>
             </div>
-            <button class="btn btn-add"><i class="fas fa-plus"></i> Thêm danh mục mới</button>
+            <a href="#" class="btn-add">
+                <i class="fa-solid fa-plus"></i> Thêm danh mục mới
+            </a>
         </div>
 
-        <!-- Khu vực Bộ lọc -->
-        <div class="filter-section box-panel">
-            <form action="" method="get" class="filter-form">
-                <div class="filter-row">
-                    <!-- Lọc theo tên -->
-                    <div class="filter-group" style="flex: 2;">
-                        <label>Tên danh mục</label>
-                        <div class="input-group">
-                            <i class="fas fa-search"></i>
-                            <input type="text" name="keyword" placeholder="Nhập tên danh mục cần tìm...">
-                        </div>
+        <!-- Filter Card -->
+        <div class="filter-card">
+            <form action="" method="get" class="filter-form" style="flex-wrap: wrap;">
+                <div class="filter-group group-search" style="flex: 2;">
+                    <label class="filter-label">Tên danh mục</label>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" name="keyword" class="filter-input" placeholder="Nhập tên danh mục cần tìm...">
                     </div>
+                </div>
 
-                    <!-- Lọc theo trạng thái (THÊM MỚI) -->
-                    <div class="filter-group" style="flex: 1;">
-                        <label>Trạng thái</label>
-                        <select name="status" class="form-control">
-                            <option value="">Tất cả trạng thái</option>
-                            <option value="OPEN">Đang mở</option>
-                            <option value="CLOSED">Đã đóng</option>
-                        </select>
-                    </div>
+                <div class="filter-group group-select" style="flex: 1;">
+                    <label class="filter-label">Trạng thái</label>
+                    <select name="status" class="filter-select">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="OPEN">Đang mở</option>
+                        <option value="CLOSED">Đã đóng</option>
+                    </select>
+                </div>
 
-                    <!-- Nút hành động -->
-                    <div class="filter-actions align-items-end">
-                        <button type="submit" class="btn btn-search"><i class="fas fa-filter"></i> Lọc dữ liệu</button>
-                        <a th:href="@{/admin/danh-muc}" class="btn btn-reset"><i class="fas fa-sync-alt"></i></a>
-                    </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn-search">Tìm kiếm</button>
+                    <a th:href="@{/admin/danh-muc}" class="btn-reset">Làm mới</a>
                 </div>
             </form>
         </div>
 
-        <!-- Bảng dữ liệu -->
-        <div class="table-container box-panel">
-            <table>
-                <thead>
-                <tr>
-                    <th width="50">STT</th>
-                    <th width="100">HÌNH ẢNH</th>
-                    <th width="200">TÊN DANH MỤC</th>
-                    <th>MÔ TẢ</th>
-                    <th width="120">TRẠNG THÁI</th>
-                    <th width="120">SỐ MÓN ĂN</th>
-                    <th width="120" style="text-align: center;">THAO TÁC</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Row 1 -->
-                <tr>
-                    <td>01</td>
-                    <td>
-                        <div class="cate-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150&auto=format&fit=crop" alt="Cơm sườn">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="font-weight-600 text-main">Cơm sườn</div>
-                    </td>
-                    <td class="text-muted">Các loại cơm sườn nướng, kho, ram, bì chả.</td>
-                    <td><span class="badge badge-closed">Đã đóng</span></td>
-                    <td><span class="badge badge-count">12 món</span></td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Xóa" class="text-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <!-- Row 2 -->
-                <tr>
-                    <td>02</td>
-                    <td>
-                        <div class="cate-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=150&auto=format&fit=crop" alt="Cơm gà">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="font-weight-600 text-main">Cơm gà</div>
-                    </td>
-                    <td class="text-muted">Cơm gà xối mỡ, gà luộc, gà chiên mắm.</td>
-                    <td><span class="badge badge-open">Đang mở</span></td>
-                    <td><span class="badge badge-count">8 món</span></td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Xóa" class="text-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                <!-- Row 3 -->
-                <tr>
-                    <td>03</td>
-                    <td>
-                        <div class="cate-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=150&auto=format&fit=crop" alt="Cơm niêu">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="font-weight-600 text-main">Cơm niêu</div>
-                    </td>
-                    <td class="text-muted">Cơm niêu đất đập, cơm niêu gia đình.</td>
-                    <td><span class="badge badge-open">Đang mở</span></td>
-                    <td><span class="badge badge-count">15 món</span></td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Xóa" class="text-danger"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- Data Table Card -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th width="70">STT</th>
+                        <th width="120">HÌNH ẢNH</th>
+                        <th width="200">TÊN DANH MỤC</th>
+                        <th>MÔ TẢ</th>
+                        <th width="140">TRẠNG THÁI</th>
+                        <th width="120">SỐ MÓN ĂN</th>
+                        <th width="120" style="text-align: center;">THAO TÁC</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Row 1 -->
+                    <tr>
+                        <td class="col-stt">01</td>
+                        <td>
+                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150&auto=format&fit=crop" alt="Cơm sườn" class="dish-preview-img">
+                        </td>
+                        <td class="col-dish-name">Cơm sườn</td>
+                        <td style="color: var(--text-muted);">Các loại cơm sườn nướng, kho, ram, bì chả.</td>
+                        <td><span class="badge-status-lock">Đã đóng</span></td>
+                        <td><span class="path-code">12 món</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr>
+                        <td class="col-stt">02</td>
+                        <td>
+                            <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=150&auto=format&fit=crop" alt="Cơm gà" class="dish-preview-img">
+                        </td>
+                        <td class="col-dish-name">Cơm gà</td>
+                        <td style="color: var(--text-muted);">Cơm gà xối mỡ, gà luộc, gà chiên mắm.</td>
+                        <td><span class="badge-status-active">Đang mở</span></td>
+                        <td><span class="path-code">8 món</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Row 3 -->
+                    <tr>
+                        <td class="col-stt">03</td>
+                        <td>
+                            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?q=80&w=150&auto=format&fit=crop" alt="Cơm niêu" class="dish-preview-img">
+                        </td>
+                        <td class="col-dish-name">Cơm niêu</td>
+                        <td style="color: var(--text-muted);">Cơm niêu đất đập, cơm niêu gia đình.</td>
+                        <td><span class="badge-status-active">Đang mở</span></td>
+                        <td><span class="path-code">15 món</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></button>
+                                <button class="btn-icon text-danger" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <!-- Phân trang -->
+            <!-- Phân trang chuẩn -->
             <div class="pagination">
-                <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn"><i class="fa-solid fa-chevron-left"></i></button>
                 <button class="page-btn active">1</button>
                 <button class="page-btn">2</button>
-                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
     </main>

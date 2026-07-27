@@ -1,177 +1,132 @@
 /* =========================================
-   RESET & BIẾN CƠ BẢN
+   BIẾN TOÀN CỤC - VỊ NHÀ ADMIN THEME
+========================================= */
+:root {
+    --admin-orange: #ff8a00;
+    --admin-orange-hover: #e07900;
+    --admin-dark-brown: #7a3e1d;
+    --bg-admin: #e4ded4;
+}
+
+/* =========================================
+   RESET CƠ BẢN
 ========================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 body {
-    background-color: #f8f9fa;
+    background-color: var(--bg-admin) !important;
     color: #333;
-}
-
-a {
-    text-decoration: none;
-}
-
-ul {
-    list-style: none;
-}
-
-/* Tiện ích */
-.text-orange {
-    color: #f97316 !important;
-}
-
-.text-blue {
-    color: #3b82f6 !important;
-}
-
-.text-gray {
-    color: #888 !important;
-}
-
-.text-white {
-    color: #fff !important;
-}
-
-.font-bold {
-    font-weight: 700;
-}
-
-.bg-orange {
-    background-color: #f97316 !important;
-}
-
-.bg-orange-light {
-    background-color: #ffedd5 !important;
-}
-
-.bg-blue-light {
-    background-color: #dbeafe !important;
-}
-
-.bg-gray-light {
-    background-color: #f1f5f9 !important;
-}
-
-.bg-white-opacity {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-/* =========================================
-   LAYOUT
-========================================= */
-.wrapper {
-    display: flex;
     min-height: 100vh;
 }
 
+a { text-decoration: none; }
+ul { list-style: none; }
+
+/* Utility Classes */
+.text-orange { color: #f97316 !important; }
+.text-blue { color: #3b82f6 !important; }
+.text-gray { color: #888 !important; }
+.text-white { color: #fff !important; }
+.text-main { color: #222; }
+.font-bold { font-weight: 700; }
+.text-sm { font-size: 13px; }
+.border-0 { border: none !important; }
+
+.bg-orange { background-color: #f97316 !important; }
+.bg-orange-light { background-color: #ffedd5 !important; }
+.bg-blue-light { background-color: #dbeafe !important; }
+.bg-gray-light { background-color: #f1f5f9 !important; }
+.bg-white-opacity { background-color: rgba(255, 255, 255, 0.2) !important; }
+
 /* =========================================
-   SIDEBAR (Đúng form cũ của bạn)
+   LAYOUT GRID 2 CỘT (FIX KHỚP HOÀN TOÀN)
 ========================================= */
-.sidebar {
-    width: 260px;
-    background-color: #fff;
-    border-right: 1px solid #eaeaea;
+.admin-wrapper {
+    display: grid !important;
+    grid-template-columns: 260px 1fr !important;
+    min-height: 100vh;
+}
+
+/* SIDEBAR BAN CŨ */
+.admin-sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #ebe5df;
+    padding: 24px 16px;
     display: flex;
     flex-direction: column;
-    padding: 20px 0;
 }
 
-.logo-box {
+.sidebar-brand {
+    padding: 0 12px 28px;
+}
+
+.brand-text {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--admin-dark-brown);
+    font-family: 'Georgia', serif;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.nav-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 0 20px 30px 20px;
-}
-
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: #f97316;
-    color: white;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.logo-text h2 {
-    font-size: 20px;
-    color: #333;
-}
-
-.logo-text span {
-    font-size: 12px;
-    color: #888;
-}
-
-.menu {
-    flex: 1;
-}
-
-.menu li a {
-    display: flex;
-    align-items: center;
-    padding: 12px 24px;
-    color: #666;
-    font-weight: 500;
-    transition: 0.2s;
+    gap: 14px;
+    padding: 12px 16px;
+    color: #555555;
+    font-weight: 600;
     font-size: 14px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
 }
 
-.menu li a i {
-    width: 25px;
+.nav-item i {
     font-size: 16px;
+    width: 20px;
+    text-align: center;
 }
 
-.menu li:hover a {
-    color: #f97316;
-    background: #fff7ed;
-    border-right: 3px solid #f97316;
+.nav-item:hover {
+    background-color: #fcf5ee;
+    color: var(--admin-orange);
 }
 
-.menu li.active a {
-    color: #f97316;
-    background: #fff7ed;
-    border-right: 3px solid #f97316;
+.nav-item.active {
+    background-color: var(--admin-orange);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 138, 0, 0.25);
 }
 
 .sidebar-footer {
-    padding: 20px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #ebe5df;
 }
 
-.btn-create {
-    width: 100%;
-    padding: 12px;
-    background: #f97316;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+.logout-item {
+    color: #d32f2f !important;
 }
 
-.btn-create:hover {
-    background: #ea580c;
+.logout-item:hover {
+    background-color: #fdeceb !important;
+    color: #b71c1c !important;
 }
 
 /* =========================================
-   MAIN CONTENT & HEADER
+   NỘI DUNG CHÍNH (SIDE RIGHT)
 ========================================= */
-.main-content {
-    flex: 1;
-    padding: 30px;
+.admin-main {
+    padding: 30px 40px;
 }
 
 .header {
@@ -179,13 +134,13 @@ ul {
 }
 
 .header h1 {
-    font-size: 24px;
-    color: #222;
+    font-size: 28px;
+    color: var(--admin-dark-brown);
+    font-weight: 800;
+    font-family: 'Georgia', serif;
 }
 
-/* =========================================
-   THỐNG KÊ (4 CARDS)
-========================================= */
+/* CARDS THỐNG KÊ */
 .summary-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -201,6 +156,7 @@ ul {
     align-items: center;
     gap: 15px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ebdccb;
 }
 
 .icon-box {
@@ -216,78 +172,67 @@ ul {
 .card-info h3 {
     font-size: 22px;
     margin-bottom: 2px;
+    font-weight: 700;
 }
 
 .card-info p {
     font-size: 13px;
-    color: #888;
+    font-weight: 600;
 }
 
-/* =========================================
-   KHU VỰC LỌC
-========================================= */
+/* KHU VỰC LỌC GỐC */
 .filter-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid #ebdccb;
 }
 
 .filter-left {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 .form-control {
     padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     outline: none;
     font-size: 14px;
+    color: #333;
     background: #fff;
+}
+
+.form-control:focus {
+    border-color: #f97316;
 }
 
 .btn-outline {
     background: #fff;
-    border: 1px solid #ddd;
+    border: 1px solid #e2e8f0;
     padding: 10px 15px;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-outline:hover {
     background: #f8f9fa;
 }
 
-.filter-right {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-icon {
-    background: #fff;
-    border: 1px solid #ddd;
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #555;
-}
-
-.btn-icon:hover {
-    background: #f8f9fa;
-}
-
-/* =========================================
-   BẢNG DỮ LIỆU ĐƠN HÀNG
-========================================= */
+/* BẢNG DỮ LIỆU ĐƠN HÀNG GỐC */
 .table-container {
     background: #fff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ebdccb;
 }
 
 table {
@@ -309,32 +254,14 @@ th {
     text-transform: uppercase;
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .details {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.details strong {
-    font-size: 14px;
-    color: #222;
-}
-
-.details span {
-    font-size: 12px;
-}
-
-.date-col {
-    font-size: 13px;
-    line-height: 1.5;
-}
-
+.details strong { font-size: 14px; }
+.date-col { line-height: 1.5; }
 .pay-badge {
     font-size: 13px;
     font-weight: 500;
@@ -343,94 +270,61 @@ th {
     gap: 6px;
 }
 
-/* Trạng thái 1 chiều theo yêu cầu */
+/* TRẠNG THÁI GRID 2X2 */
 .status-stack {
-    display: flex;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 8px;
+    width: 220px;
 }
 
 .status-btn {
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 12px;
     font-weight: 600;
     border: none;
+    text-align: center;
     transition: 0.2s;
 }
 
-/* Nút bị khóa (Disabled) */
 .status-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
     background: #f1f5f9;
     color: #94a3b8;
+    cursor: not-allowed;
 }
 
-/* Nút hiện tại (Active) */
 .status-btn.active {
     background: #f97316;
     color: white;
     cursor: pointer;
 }
 
-/* Nút đã xong (Completed - Màu xanh lá) */
 .status-btn.completed {
-    background: #10b981;
-    color: white;
-    cursor: not-allowed; /* Không cho bấm lùi */
+    background: #e6f4ea;
+    color: #1e8e3e;
+    cursor: not-allowed;
 }
 
+.status-btn.btn-cancel:not(:disabled) {
+    background: #fdeceb;
+    color: #d32f2f;
+    cursor: pointer;
+}
+
+/* NÚT XEM CHI TIẾT */
 .btn-detail {
-    color: #888;
+    color: #8c7355;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
+    background: #f5ede4;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-detail:hover {
-    color: #f97316;
-}
-
-/* =========================================
-   TABLE FOOTER & PHÂN TRANG
-========================================= */
-.table-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.hint-text {
-    font-size: 13px;
-}
-
-.pagination {
-    display: flex;
-    gap: 5px;
-}
-
-.page-btn {
-    border: 1px solid #ddd;
-    background: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-.page-btn:hover {
-    background: #f8f9fa;
-}
-
-.page-btn.active {
-    background: #f97316;
-    color: white;
-    border-color: #f97316;
-}
-
-.dots {
-    padding: 0 5px;
-    color: #888;
+    background: #e6dcd0;
 }

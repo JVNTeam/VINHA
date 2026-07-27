@@ -77,7 +77,7 @@ public class HinhAnhController {
                 model.addAttribute("selectedStatus", status);
 
                 // Trả về đúng tên file HTML trong thư mục templates/admin/
-                return "admin/quan-ly-mon-an";
+                return "admin/hinhAnhMonAn";
         }
 
         // Hàm helper để khởi tạo data

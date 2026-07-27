@@ -1,17 +1,17 @@
 package com.example.vinha.controller.admin;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// Đặt tên tường minh cho Controller của Admin
-@Controller("adminDanhGiaController")
-@RequestMapping("/admin/danh-gia")
-public class DanhGiaController {
+@Controller("quanLyMonAnController") // Đổi tên này thành một tên khác hoàn toàn độc lập
+@RequestMapping("/admin/mon-an")
+public class MonAnController {
 
     @GetMapping
-    public String hienThiTrangDanhGia(Model model) {
-        return "admin/danh-gia";
+    public String hienThiQuanLyMonAn(Model model) {
+        return "admin/mon-an";
     }
 }

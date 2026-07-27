@@ -15,61 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
-<<<<<<< Updated upstream:src/main/resources/templates/admin/CTDonHang.html
-<<<<<<< Updated upstream:src/main/resources/templates/admin/CTDonHang.html
-    <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
-    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
-        <div class="sidebar-brand">
-            <span class="brand-text">Vị Nhà</span>
-        </div>
-
-        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
-            <a th:href="@{/admin/mon-an}" class="nav-item">
-                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
-            </a>
-            <a th:href="@{/admin/hinh-anh}" class="nav-item">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
-            </a>
-            <a th:href="@{/admin/danh-muc}" class="nav-item">
-                <i class="fa-solid fa-layer-group"></i> Danh mục
-            </a>
-            <a th:href="@{/admin/giam-gia}" class="nav-item">
-                <i class="fa-solid fa-ticket"></i> Mã giảm giá
-            </a>
-            <a th:href="@{/admin/khach-hang}" class="nav-item">
-                <i class="fa-solid fa-users"></i> Khách hàng
-            </a>
-            <a th:href="@{/admin/nhan-vien}" class="nav-item">
-                <i class="fa-solid fa-user-tie"></i> Nhân viên
-            </a>
-            <!-- MỤC ĐƠN HÀNG ĐANG ACTIVE -->
-            <a th:href="@{/admin/don-hang}" class="nav-item active">
-                <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
-            </a>
-            <a th:href="@{/admin/thanh-toan}" class="nav-item">
-                <i class="fa-solid fa-wallet"></i> Thanh toán
-            </a>
-            <a th:href="@{/admin/thong-ke}" class="nav-item">
-                <i class="fa-solid fa-chart-simple"></i> Thống kê
-            </a>
-            <a th:href="@{/admin/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i> Đánh giá
-            </a>
-
-            <!-- Nút Đăng xuất đẩy xuống đáy và fix màu đỏ -->
-            <a th:href="@{/admin/logout}" class="nav-item logout-item" style="margin-top: auto; border-top: 1px solid var(--border-color); border-radius: 0; padding-top: 16px;">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-            </a>
-        </nav>
-    </aside>
-=======
-    <!-- ĐÃ FIX: TRUYỀN 'donHang' ĐỂ GIỮ SÁNG MÀU NÚT ĐƠN HÀNG KHI Ở TRANG CHI TIẾT -->
     <div th:replace="~{admin/sidebar :: sidebar('donHang')}"></div>
->>>>>>> Stashed changes:src/main/resources/templates/admin/ChiTietDonHang.html
-=======
-    <!-- ĐÃ FIX: TRUYỀN 'donHang' ĐỂ GIỮ SÁNG MÀU NÚT ĐƠN HÀNG KHI Ở TRANG CHI TIẾT -->
-    <div th:replace="~{admin/sidebar :: sidebar('donHang')}"></div>
->>>>>>> Stashed changes:src/main/resources/templates/admin/ChiTietDonHang.html
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">

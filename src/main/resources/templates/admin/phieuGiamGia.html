@@ -16,59 +16,15 @@
 
 <div class="admin-wrapper">
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
-            <a th:href="@{/admin/thong-ke}" class="nav-item">
-                <i class="fa-solid fa-chart-simple"></i> Tổng quan
-            </a>
-            <a th:href="@{/admin/mon-an}" class="nav-item">
-                <i class="fa-solid fa-utensils"></i> Quản lý món ăn
-            </a>
-            <a th:href="@{/admin/hinh-anh}" class="nav-item">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh món ăn
-            </a>
-            <a th:href="@{/admin/danh-muc}" class="nav-item">
-                <i class="fa-solid fa-layer-group"></i>Quản lý danh mục
-            </a>
-            <a th:href="@{/admin/phieu-giam-gia}" class="nav-item">
-                <i class="fa-solid fa-ticket"></i>Quản lý mã giảm giá
-            </a>
-            <a th:href="@{/admin/khach-hang}" class="nav-item">
-                <i class="fa-solid fa-users"></i>Quản lý khách hàng
-            </a>
-            <a th:href="@{/admin/nhan-vien}" class="nav-item">
-                <i class="fa-solid fa-user-tie"></i>Quản lý nhân viên
-            </a>
-            <!-- MỤC ĐƠN HÀNG ĐANG ACTIVE -->
-            <a th:href="@{/admin/don-hang}" class="nav-item active">
-                <i class="fa-solid fa-cart-shopping"></i>Quản lý dơn hàng
-            </a>
-            <a th:href="@{/admin/danh-gia}" class="nav-item">
-                <i class="fa-regular fa-star"></i>Quản lý đánh giá
-            </a>
-        </nav>
-        <!-- Nút Đăng xuất được đẩy xuống đáy bằng CSS Flexbox -->
-        <div class="sidebar-footer">
-            <a th:href="@{/admin/logout}" class="nav-item logout-item">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
-            </a>
-        </div>
-    </aside>
-=======
-    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
+    <!-- GỌI FRAGMENT MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
     <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
->>>>>>> Stashed changes
-=======
-    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
-    <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
->>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
         <!-- Tiêu đề & Nút bấm -->
         <div class="page-header">
             <div class="title-group">
+                <!-- Vẫn giữ nguyên mã HTML "&#7871;" để không bao giờ bị tách dấu chữ "Ế" -->
                 <h1 class="page-title">Quản lý phi&#7871;u giảm giá</h1>
                 <p class="page-subtitle">Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
             </div>
@@ -111,7 +67,7 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <!-- ĐÃ FIX: Sửa lại link của nút làm mới không còn dấu gạch ngang -->
+                    <!-- Link làm mới trang chuẩn xác -->
                     <a th:href="@{/admin/phieuGiamGia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>

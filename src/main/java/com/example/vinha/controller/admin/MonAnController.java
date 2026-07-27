@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Controller("quanLyMonAnController")
+// CHỐT CHUẨN ĐƯỜNG DẪN LÀ: /admin/monAn (Chữ A viết Hoa)
 @RequestMapping("/admin/monAn")
 public class MonAnController {
 
@@ -67,7 +68,7 @@ public class MonAnController {
         model.addAttribute("selectedStatus", st);
         model.addAttribute("message", model.asMap().get("message"));
         model.addAttribute("error", model.asMap().get("error"));
-        return "admin/mon-an";
+        return "admin/monan";
     }
 
     @GetMapping("/them")
@@ -78,7 +79,10 @@ public class MonAnController {
         model.addAttribute("categories", danhMucRepository.findAll());
         model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
         model.addAttribute("formTitle", "Thêm món ăn mới");
+
+        // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
         model.addAttribute("formAction", "/admin/monAn/them");
+
         return "admin/themMonAn";
     }
 
@@ -147,7 +151,10 @@ public class MonAnController {
             model.addAttribute("categories", danhMucRepository.findAll());
             model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
             model.addAttribute("formTitle", "Thêm món ăn mới");
+
+            // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
             model.addAttribute("formAction", "/admin/monAn/them");
+
             return "admin/themMonAn";
         }
     }
@@ -157,6 +164,8 @@ public class MonAnController {
         MonAn monAn = monAnRepository.findByIdWithHinhAnh(id).orElse(null);
         if (monAn == null) {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy món ăn cần chỉnh sửa.");
+
+            // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
             return "redirect:/admin/monAn";
         }
         model.addAttribute("monAn", monAn);

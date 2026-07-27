@@ -9,6 +9,6 @@ public class tongQuancontroller {
 
     @GetMapping("/admin/tongQuan")
     public String hienThiTrangThongKe(Model model) {
-        return "admin/thong-ke";
+        return "admin/tongQuan";
     }
 }

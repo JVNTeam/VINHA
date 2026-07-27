@@ -4,77 +4,283 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Thêm Hình Ảnh - Vị Nhà Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/quanlyhinhanh.css}"/>
+
     <style>
-        .form-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); max-width: 800px; }
-        .form-group { margin-bottom: 24px; }
-        .form-label { display: block; font-weight: 600; margin-bottom: 8px; color: #1e293b; }
-        .form-control { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit; font-size: 15px; }
-        .form-control:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1); }
-        .preview-box { margin-top: 15px; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px; text-align: center; background: #f8fafc; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px; }
-        .preview-box img { max-width: 100%; max-height: 300px; border-radius: 8px; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .preview-text { color: #64748b; font-size: 15px; }
-        .preview-text i { font-size: 40px; color: #94a3b8; margin-bottom: 10px; display: block; }
-        .btn-submit { background-color: #d97706; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 16px; width: 100%; margin-top: 10px; }
-        .btn-submit:hover { background-color: #b45309; }
-        .btn-back { color: #64748b; text-decoration: none; font-weight: 500; display: inline-block; margin-bottom: 20px; }
-        .btn-back:hover { color: #d97706; }
+        /* ================= TÙY CHỈNH LAYOUT FORM CHUẨN ẢNH GỐC ================= */
+        :root {
+            --admin-orange: #ff8a00;
+            --admin-dark-brown: #7a3e1d;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            margin-bottom: 24px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .btn-back:hover {
+            color: var(--admin-orange);
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--admin-dark-brown);
+            font-family: 'Georgia', serif;
+            margin-bottom: 24px;
+        }
+
+        /* KHUNG FORM TO RỘNG - CĂN GIỮA */
+        .form-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            max-width: 850px; /* Độ rộng to ra giống ảnh */
+            margin: 0 auto; /* Căn giữa màn hình */
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-size: 15px;
+        }
+
+        /* INPUT NỀN TRẮNG - VIỀN XÁM NHẠT */
+        .form-control, .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1f2937;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--admin-orange);
+            box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.1);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+
+        /* GIAO DIỆN UPLOAD FILE CHUẨN Y HỆT ẢNH */
+        .file-input-hidden {
+            display: none;
+        }
+
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .file-upload-btn {
+            background-color: #f9fafb; /* Nền xám nhạt */
+            padding: 14px 20px;
+            border-right: 1px solid #d1d5db;
+            color: #374151;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #f3f4f6;
+        }
+
+        .file-upload-text {
+            flex: 1;
+            padding: 14px 16px;
+            color: #9ca3af;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* KHUNG PREVIEW ẢNH NÉT ĐỨT */
+        .preview-box {
+            margin-top: 16px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 40px 20px;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
+        }
+
+        .preview-box img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .preview-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            font-size: 14px;
+            gap: 12px;
+        }
+
+        .preview-text i {
+            font-size: 40px;
+            color: #94a3b8;
+        }
+
+        /* NÚT SUBMIT TO DÀI */
+        .btn-submit {
+            background-color: var(--admin-orange);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: block;
+            width: 100%; /* Kéo dài full form */
+            margin-top: 32px;
+        }
+
+        .btn-submit:hover {
+            background-color: #e07900;
+        }
     </style>
 </head>
 <body>
 <div class="admin-wrapper">
+    <!-- GỌI MENU -->
     <div th:replace="~{admin/sidebar :: sidebar('hinhAnh')}"></div>
+
     <main class="admin-main">
-        <a th:href="@{/admin/hinhAnh}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại danh sách</a>
-        <div class="form-card">
-            <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
-                <div th:if="${error}" class="alert alert-danger" style="color: red; margin-bottom: 15px; font-weight: bold;">
-                    <span th:text="${error}"></span>
-                </div>
 
-                <input type="hidden" name="id" th:if="${image != null and image.id != null}" th:value="${image.id}" />
+        <!-- Code HTML được bao bọc trong một thẻ div căn giữa -->
+        <div style="max-width: 850px; margin: 0 auto;">
+            <a th:href="@{/admin/hinhAnh}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Quay lại danh
+                sách</a>
 
-                <div class="form-group">
-                    <label class="form-label">Chọn món ăn</label>
-                    <select name="monAnId" class="form-control" required>
-                        <option value="">-- Vui lòng chọn món ăn --</option>
-                        <option th:each="monAn : ${monAnList}"
-                                th:value="${monAn.id}"
-                                th:text="${monAn.ten}"
-                                th:selected="${image != null and image.monAn != null and image.monAn.id == monAn.id}"></option>
-                    </select>
-                </div>
+            <h1 class="page-title" th:text="${formTitle != null ? formTitle : 'Thêm Hình Ảnh Mới'}">Thêm Hình Ảnh</h1>
 
-                <div class="form-group">
-                    <label class="form-label">Tải tệp hình ảnh</label>
-                    <input type="file" id="fileInput" name="fileAnh" class="form-control" th:required="${image == null or image.id == null}" />
-                    <div class="preview-box" id="previewBox">
-                        <img id="imagePreview" th:if="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)}" th:src="@{${image.duongDan}}" alt="Preview ảnh" />
-                        <div id="previewText" class="preview-text" th:style="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)} ? 'display:none' : ''">
-                            <i class="fa-regular fa-image"></i>
-                            Hình ảnh xem trước sẽ hiển thị ở đây
+            <div class="form-card">
+                <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+                    <div th:if="${error}"
+                         style="padding: 16px; background: #fef2f2; color: #dc2626; border-radius: 8px; border: 1px solid #fecaca; margin-bottom: 24px; font-weight: 600;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+                    </div>
+
+                    <input type="hidden" name="id" th:if="${image != null and image.id != null}"
+                           th:value="${image.id}"/>
+
+                    <!-- Dòng 1: Chọn món ăn -->
+                    <div class="form-group">
+                        <label class="form-label">Chọn món ăn</label>
+                        <select name="monAnId" class="form-select" required>
+                            <option value="">-- Vui lòng chọn món ăn --</option>
+                            <option th:each="monAn : ${monAnList}"
+                                    th:value="${monAn.id}"
+                                    th:text="${monAn.ten}"
+                                    th:selected="${image != null and image.monAn != null and image.monAn.id == monAn.id}"></option>
+                        </select>
+                    </div>
+
+                    <!-- Dòng 2: Tải file & Xem trước -->
+                    <div class="form-group">
+                        <label class="form-label">Tải tệp hình ảnh</label>
+
+                        <!-- UI Mới của ô Upload File -->
+                        <div class="file-upload-wrapper">
+                            <label for="fileInput" class="file-upload-btn">
+                                <i class="fa-solid fa-folder-open"></i> Chọn tệp ảnh
+                            </label>
+                            <div class="file-upload-text" id="fileNameText">Chưa có tệp nào được chọn</div>
+                        </div>
+
+                        <!-- Input ẩn -->
+                        <input type="file" id="fileInput" name="fileAnh" class="file-input-hidden"
+                               th:required="${image == null or image.id == null}"/>
+
+                        <!-- Box Preview -->
+                        <div class="preview-box" id="previewBox">
+                            <img id="imagePreview"
+                                 th:if="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)}"
+                                 th:src="@{${image.duongDan}}" alt="Preview ảnh" style="display: block;"/>
+                            <img id="imagePreview"
+                                 th:unless="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)}"
+                                 src="" alt="Preview ảnh"/>
+
+                            <div id="previewText" class="preview-text"
+                                 th:style="${image != null and image.duongDan != null and !#strings.isEmpty(image.duongDan)} ? 'display:none' : ''">
+                                <i class="fa-regular fa-image"></i>
+                                <span>Chưa có ảnh. Vui lòng tải ảnh lên để xem trước.</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Trạng thái</label>
-                    <select name="trangThai" class="form-control">
-                        <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}" th:selected="${image != null and image.trangThai == st}"></option>
-                    </select>
-                </div>
+                    <!-- Dòng 3: Trạng thái -->
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Trạng thái</label>
+                        <select name="trangThai" class="form-select">
+                            <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}"
+                                    th:selected="${image != null and image.trangThai == st}"></option>
+                        </select>
+                    </div>
 
-                <button type="submit" class="btn-submit">Lưu hình ảnh</button>
-            </form>
+                    <button type="submit" class="btn-submit">Lưu hình ảnh</button>
+                </form>
+            </div>
         </div>
     </main>
 </div>
 
 <script>
     const fileInput = document.getElementById('fileInput');
-    const imagePreview = document.getElementById('imagePreview');
+    const fileNameText = document.getElementById('fileNameText');
+    const imagePreview = document.querySelectorAll('#imagePreview');
     const previewText = document.getElementById('previewText');
     const previewBox = document.getElementById('previewBox');
 
@@ -85,24 +291,37 @@
                 if (file.size > 5 * 1024 * 1024) {
                     alert('Kích thước file không được vượt quá 5MB!');
                     this.value = '';
+                    fileNameText.textContent = 'Chưa có tệp nào được chọn';
+                    fileNameText.style.color = '#9ca3af';
                     return;
                 }
 
+                // Cập nhật tên file
+                fileNameText.textContent = file.name;
+                fileNameText.style.color = '#1f2937'; // Đổi màu chữ tối đi khi đã chọn file
+
+                // Hiển thị ảnh
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    previewText.style.display = 'none';
+                    imagePreview.forEach(img => {
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                    });
+                    if (previewText) previewText.style.display = 'none';
+                    previewBox.style.padding = '10px'; // Bóp padding lại cho đẹp khi có ảnh
+                    previewBox.style.background = '#ffffff';
                 };
                 reader.readAsDataURL(file);
             } else {
-                if (imagePreview) {
-                    imagePreview.style.display = 'none';
-                }
-                if (previewText) {
-                    previewText.style.display = 'block';
-                }
-                previewBox.style.padding = '30px';
+                fileNameText.textContent = 'Chưa có tệp nào được chọn';
+                fileNameText.style.color = '#9ca3af';
+                imagePreview.forEach(img => {
+                    img.style.display = 'none';
+                    img.removeAttribute('src');
+                });
+                if (previewText) previewText.style.display = 'flex';
+                previewBox.style.padding = '40px 20px';
+                previewBox.style.background = '#f8fafc';
             }
         });
     }

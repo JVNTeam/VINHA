@@ -3,138 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${formTitle}">Thêm món ăn</title>
+    <title th:text="${formTitle != null ? formTitle : 'Thêm Món Ăn - Vị Nhà Admin'}">Thêm món ăn</title>
+
+    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/admin/mon-an.css}">
+
     <style>
-        .form-card { max-width: 900px; background: #fff; padding: 28px; border-radius: 18px; box-shadow: 0 10px 30px rgba(15,23,42,.08); }
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; margin-bottom: 10px; font-weight: 600; color: #1f2937; }
-        .form-control { width: 100%; min-height: 46px; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 12px; font-size: 14px; }
-        .form-control:focus { outline: none; border-color: #fb923c; box-shadow: 0 0 0 3px rgba(251,146,60,.15); }
-        .textarea-control { min-height: 130px; resize: vertical; }
-        .grid-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-        .preview-box { margin-top: 12px; min-height: 220px; border: 2px dashed #cbd5e1; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #f8fafc; }
-        .preview-box img { max-width: 100%; max-height: 220px; border-radius: 12px; }
-        .btn-submit { display: inline-flex; align-items: center; gap: 10px; justify-content: center; width: 100%; padding: 14px 18px; border: none; border-radius: 14px; background: #fb923c; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; }
-        .btn-submit:hover { background: #f97316; }
-        .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #334155; text-decoration: none; margin-bottom: 20px; }
+        /* ================= TÙY CHỈNH LAYOUT FORM CĂN GIỮA ================= */
+        :root {
+            --admin-orange: #ff8a00;
+            --admin-dark-brown: #7a3e1d;
+            --bg-admin: #e4ded4;
+            --text-main: #2b2b2b;
+            --text-muted: #777777;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            margin-bottom: 24px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        .btn-back:hover { color: var(--admin-orange); }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--admin-dark-brown);
+            font-family: 'Georgia', serif;
+            margin-bottom: 24px;
+        }
+
+        /* KHUNG FORM TO RỘNG - CĂN GIỮA */
+        .form-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            max-width: 900px; /* Form Món ăn nhiều trường nên để rộng 900px */
+            margin: 0 auto;   /* Căn giữa màn hình */
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        /* CHIA 2 CỘT CHO GỌN FORM */
+        .grid-two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .grid-two .form-group { margin-bottom: 0; }
+
+        /* INPUT CHUẨN XÁM NHẠT */
+        .form-control, .form-select, .textarea-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #ffffff;
+            color: #1f2937;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus, .textarea-control:focus {
+            border-color: var(--admin-orange);
+            box-shadow: 0 0 0 3px rgba(255, 138, 0, 0.1);
+        }
+
+        .textarea-control {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            cursor: pointer;
+        }
+
+        /* GIAO DIỆN UPLOAD FILE CHUẨN */
         .file-input-hidden { display: none; }
-        .file-input-button { display: inline-flex; gap: 8px; align-items: center; padding: 12px 18px; border-radius: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; cursor: pointer; }
-        .file-input-button:hover { background: #e2e8f0; }
-        .file-info { margin-top: 10px; color: #475569; font-size: 14px; }
+
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            background: #ffffff;
+            overflow: hidden;
+        }
+
+        .file-upload-btn {
+            background-color: #f9fafb;
+            padding: 14px 20px;
+            border-right: 1px solid #d1d5db;
+            color: #374151;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .file-upload-btn:hover { background-color: #f3f4f6; }
+
+        .file-upload-text {
+            flex: 1;
+            padding: 14px 16px;
+            color: #9ca3af;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* KHUNG PREVIEW ẢNH NÉT ĐỨT */
+        .preview-box {
+            margin-top: 16px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
+            text-align: center;
+        }
+
+        .preview-box img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .preview-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            font-size: 14px;
+            gap: 12px;
+        }
+
+        .preview-text i {
+            font-size: 36px;
+            color: #cbd5e1;
+        }
+
+        /* NÚT SUBMIT TO DÀI */
+        .btn-submit {
+            background-color: var(--admin-orange);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 32px;
+        }
+
+        .btn-submit:hover {
+            background-color: #e07900;
+        }
     </style>
 </head>
 <body>
 <div class="admin-wrapper">
+    <!-- GỌI MENU -->
     <div th:replace="~{admin/sidebar :: sidebar('monAn')}"></div>
+
     <main class="admin-main">
-        <a th:href="@{/admin/monAn}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Trở về danh sách món ăn</a>
-        <div class="page-header">
-            <h1 class="page-title" th:text="${formTitle}">Thêm món ăn</h1>
-        </div>
 
-        <div class="form-card">
-            <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
-                <div th:if="${error}" style="margin-bottom: 18px; padding: 16px; border-radius: 12px; background: #fee2e2; color: #991b1b;">
-                    <span th:text="${error}"></span>
-                </div>
+        <!-- BAO BỌC CONTENT BẰNG THẺ DIV CĂN GIỮA 900PX -->
+        <div style="max-width: 900px; margin: 0 auto; width: 100%;">
+            <a th:href="@{/admin/monAn}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Trở về danh sách món ăn</a>
 
-                <input type="hidden" name="id" th:if="${monAn != null and monAn.id != null}" th:value="${monAn.id}" />
+            <h1 class="page-title" th:text="${formTitle != null ? formTitle : 'Thêm Món Ăn Mới'}">Thêm món ăn</h1>
 
-                <div class="grid-two">
-                    <div class="form-group">
-                        <label class="form-label">Danh mục</label>
-                        <select name="danhMucId" class="form-control" required>
-                            <option value="">-- Chọn danh mục --</option>
-                            <option th:each="dm : ${categories}"
-                                    th:value="${dm.id}"
-                                    th:text="${dm.ten}"
-                                    th:selected="${monAn != null and monAn.danhMuc != null and dm.id == monAn.danhMuc.id}">
-                            </option>
-                        </select>
+            <div class="form-card">
+                <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+
+                    <!-- Alert Báo Lỗi -->
+                    <div th:if="${error}" style="margin-bottom: 24px; padding: 16px 20px; border-radius: 10px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 600; display: flex; gap: 10px; align-items: center;">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span th:text="${error}"></span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Tên món ăn</label>
-                        <input type="text" name="ten" class="form-control" placeholder="Nhập tên món ăn" required th:value="${monAn != null ? monAn.ten : ''}" />
-                    </div>
-                </div>
 
-                <div class="grid-two">
-                    <div class="form-group">
-                        <label class="form-label">Giá bán (VNĐ)</label>
-                        <input type="number" name="gia" class="form-control" min="0" max="9999999999.99" step="0.01" placeholder="Nhập giá" required th:value="${monAn != null and monAn.gia != null ? monAn.gia : ''}" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Số lượng còn</label>
-                        <input type="number" name="soLuongCon" class="form-control" min="0" max="2147483647" placeholder="Số lượng" required th:value="${monAn != null and monAn.soLuongCon != null ? monAn.soLuongCon : 0}" />
-                    </div>
-                </div>
+                    <input type="hidden" name="id" th:if="${monAn != null and monAn.id != null}" th:value="${monAn.id}"/>
 
-                <div class="form-group">
-                    <label class="form-label">Mô tả</label>
-                    <textarea name="moTa" class="form-control textarea-control" placeholder="Mô tả món ăn">[[${monAn != null ? monAn.moTa : ''}]]</textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Thành phần</label>
-                    <textarea name="thanhPhan" class="form-control textarea-control" placeholder="Thành phần chính">[[${monAn != null ? monAn.thanhPhan : ''}]]</textarea>
-                </div>
-
-                <div class="grid-two">
-                    <div class="form-group">
-                        <label class="form-label">Trạng thái</label>
-                        <select name="trangThai" class="form-control" required>
-                            <option value="">-- Chọn trạng thái --</option>
-                            <option th:each="st : ${statusOptions}"
-                                    th:value="${st}"
-                                    th:text="${st}"
-                                    th:selected="${monAn != null and monAn.trangThai == st}">
-                            </option>
-                        </select>
+                    <!-- Dòng 1: Danh mục + Tên món -->
+                    <div class="grid-two">
+                        <div class="form-group">
+                            <label class="form-label">Danh mục <span style="color: #dc2626;">*</span></label>
+                            <select name="danhMucId" class="form-select" required>
+                                <option value="">-- Chọn danh mục --</option>
+                                <option th:each="dm : ${categories}"
+                                        th:value="${dm.id}"
+                                        th:text="${dm.ten}"
+                                        th:selected="${monAn != null and monAn.danhMuc != null and dm.id == monAn.danhMuc.id}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tên món ăn <span style="color: #dc2626;">*</span></label>
+                            <input type="text" name="ten" class="form-control" placeholder="VD: Cơm sườn nướng, Cơm gà xối mỡ..." required
+                                   th:value="${monAn != null ? monAn.ten : ''}"/>
+                        </div>
                     </div>
+
+                    <!-- Dòng 2: Giá bán + Số lượng -->
+                    <div class="grid-two">
+                        <div class="form-group">
+                            <label class="form-label">Giá bán (VNĐ) <span style="color: #dc2626;">*</span></label>
+                            <input type="number" name="gia" class="form-control" min="0" max="9999999999.99" step="0.01"
+                                   placeholder="VD: 45000" required
+                                   th:value="${monAn != null and monAn.gia != null ? monAn.gia : ''}"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Số lượng còn <span style="color: #dc2626;">*</span></label>
+                            <input type="number" name="soLuongCon" class="form-control" min="0" max="2147483647"
+                                   placeholder="VD: 50" required
+                                   th:value="${monAn != null and monAn.soLuongCon != null ? monAn.soLuongCon : 0}"/>
+                        </div>
+                    </div>
+
+                    <!-- Dòng 3: Mô tả (Full width) -->
                     <div class="form-group">
-                        <label class="form-label">Ảnh đại diện</label>
-                        <label for="fileAnh" class="file-input-button"><i class="fa-regular fa-image"></i> Chọn ảnh</label>
-                        <input type="file" id="fileAnh" name="fileAnh" accept="image/png, image/jpeg, image/jpg" class="file-input-hidden" />
-                        <div class="file-info" id="fileName">Chưa chọn file</div>
-                        <div class="preview-box" id="previewBox">
-                            <div th:if="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}">
-                                <img th:src="@{${monAn.hinhAnhs[0].duongDan}}" alt="Ảnh món" />
+                        <label class="form-label">Mô tả ngắn</label>
+                        <textarea name="moTa" class="form-control textarea-control" placeholder="Mô tả hấp dẫn về món ăn để thu hút khách hàng...">[[${monAn != null ? monAn.moTa : ''}]]</textarea>
+                    </div>
+
+                    <!-- Dòng 4: Thành phần (Full width) -->
+                    <div class="form-group">
+                        <label class="form-label">Thành phần chính</label>
+                        <textarea name="thanhPhan" class="form-control textarea-control" placeholder="Ghi chú các nguyên liệu chính (VD: Cơm trắng, Sườn heo, Nước mắm...)">[[${monAn != null ? monAn.thanhPhan : ''}]]</textarea>
+                    </div>
+
+                    <!-- Dòng 5: Trạng thái + Upload Ảnh -->
+                    <div class="grid-two">
+                        <div class="form-group">
+                            <label class="form-label">Trạng thái hiển thị <span style="color: #dc2626;">*</span></label>
+                            <select name="trangThai" class="form-select" required>
+                                <option value="">-- Chọn trạng thái --</option>
+                                <option th:each="st : ${statusOptions}"
+                                        th:value="${st}"
+                                        th:text="${st == 'OPEN' ? 'Đang mở (Được bán)' : (st == 'CLOSED' ? 'Đã đóng (Ngừng bán)' : st)}"
+                                        th:selected="${monAn != null and monAn.trangThai == st}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Ảnh đại diện món ăn</label>
+
+                            <!-- Giao diện nút Upload chuẩn -->
+                            <div class="file-upload-wrapper">
+                                <label for="fileAnh" class="file-upload-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Chọn ảnh
+                                </label>
+                                <div class="file-upload-text" id="fileNameText">Chưa có tệp nào được chọn</div>
                             </div>
-                            <div th:if="${monAn == null or monAn.hinhAnhs == null or #lists.isEmpty(monAn.hinhAnhs)}" style="color:#64748b; text-align:center; padding: 22px;">
-                                <i class="fa-regular fa-image" style="font-size: 32px; display:block; margin-bottom: 10px;"></i>
-                                Ảnh xem trước sẽ hiển thị ở đây
+                            <input type="file" id="fileAnh" name="fileAnh" accept="image/png, image/jpeg, image/jpg" class="file-input-hidden"/>
+
+                            <!-- Box Preview Nét Đứt -->
+                            <div class="preview-box" id="previewBox">
+                                <!-- Render ảnh nếu đang ở mode Edit (có dữ liệu ảnh) -->
+                                <img id="imagePreview"
+                                     th:if="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}"
+                                     th:src="@{${monAn.hinhAnhs[0].duongDan}}"
+                                     alt="Ảnh món" style="display: block;"/>
+
+                                <!-- Render thẻ img rỗng nếu là form Add -->
+                                <img id="imagePreview"
+                                     th:unless="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}"
+                                     src="" alt="Ảnh món"/>
+
+                                <!-- Placeholder text -->
+                                <div id="previewText" class="preview-text"
+                                     th:style="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)} ? 'display:none' : ''">
+                                    <i class="fa-regular fa-image"></i>
+                                    <span>Ảnh xem trước sẽ hiển thị ở đây</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <button type="submit" class="btn-submit"><i class="fa-solid fa-check"></i> <span th:text="${formTitle}">Lưu món ăn</span></button>
-            </form>
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-floppy-disk"></i> <span th:text="${formTitle != null ? formTitle : 'Lưu món ăn'}">Lưu món ăn</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </main>
 </div>
 
 <script>
     const fileInput = document.getElementById('fileAnh');
-    const fileName = document.getElementById('fileName');
+    const fileNameText = document.getElementById('fileNameText');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewText = document.getElementById('previewText');
     const previewBox = document.getElementById('previewBox');
 
     if (fileInput) {
         fileInput.addEventListener('change', function () {
             const file = this.files[0];
-            if (!file) {
-                fileName.textContent = 'Chưa chọn file';
-                return;
+            if (file) {
+                // Ràng buộc 5MB
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Kích thước file không được vượt quá 5MB!');
+                    this.value = '';
+                    fileNameText.textContent = 'Chưa có tệp nào được chọn';
+                    fileNameText.style.color = '#9ca3af';
+                    return;
+                }
+
+                fileNameText.textContent = file.name;
+                fileNameText.style.color = '#1f2937';
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    if (previewText) previewText.style.display = 'none';
+                    previewBox.style.background = '#ffffff';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileNameText.textContent = 'Chưa có tệp nào được chọn';
+                fileNameText.style.color = '#9ca3af';
+
+                // Nếu chưa có file nào được chọn thì ẩn ảnh đi
+                imagePreview.style.display = 'none';
+                imagePreview.removeAttribute('src');
+
+                if (previewText) previewText.style.display = 'flex';
+                previewBox.style.background = '#f8fafc';
             }
-            fileName.textContent = file.name;
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewBox.innerHTML = '<img src="' + e.target.result + '" alt="Ảnh món" />';
-            };
-            reader.readAsDataURL(file);
         });
     }
 </script>

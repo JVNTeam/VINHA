@@ -38,6 +38,7 @@
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span th:text="${error}">Có lỗi xảy ra.</span>
         </div>
+
         <!-- Filter Card -->
         <div class="filter-card">
             <form th:action="@{/admin/danhMuc}" method="get" class="filter-form" style="flex-wrap: wrap;">
@@ -84,9 +85,9 @@
                         <th width="120" style="text-align: center;">THAO TÁC</th>
                     </tr>
                     </thead>
-                    <tbody th:if="${danhMucs != null and !#lists.isEmpty(danhMucs)}">
+                    <tbody id="categoryTableBody" th:if="${danhMucs != null and !#lists.isEmpty(danhMucs)}">
                     <tr th:each="dm, idx : ${danhMucs}" th:attr="data-status=${dm.trangThai}">
-                        <td class="col-stt" th:text="${idx.index + 1}">01</td>
+                        <td class="col-stt" th:text="${idx.index + 1 < 10 ? '0' + (idx.index + 1) : idx.index + 1}">01</td>
                         <td>
                             <img th:if="${dm.anh != null and dm.anh != ''}"
                                  th:src="${dm.anh}"
@@ -132,5 +133,56 @@
 </div>
 
 <script th:src="@{/js/admin/danh-muc.js}"></script>
+
+<!-- JS THÊM VÀO ĐỂ LỌC TRẠNG THÁI -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusFilter = document.getElementById('statusFilter');
+        const tableRows = document.querySelectorAll('#categoryTableBody tr[data-status]');
+
+        if (statusFilter && tableRows.length > 0) {
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value.trim();
+                let visibleCount = 0;
+
+                tableRows.forEach(row => {
+                    const rowStatus = row.getAttribute('data-status').trim();
+
+                    // Nếu chọn "Tất cả" hoặc khớp với trạng thái của dòng
+                    if (selectedStatus === "" || rowStatus === selectedStatus) {
+                        row.style.display = ''; // Hiện dòng
+                        visibleCount++;
+
+                        // Đánh lại số thứ tự (STT) cho đẹp
+                        const sttCell = row.querySelector('.col-stt');
+                        if (sttCell) {
+                            sttCell.textContent = visibleCount < 10 ? '0' + visibleCount : visibleCount;
+                        }
+                    } else {
+                        row.style.display = 'none'; // Ẩn dòng
+                    }
+                });
+
+                // Xử lý thông báo nếu lọc không ra kết quả nào
+                let emptyRow = document.getElementById('empty-js-row');
+                const tbody = document.getElementById('categoryTableBody');
+
+                if (visibleCount === 0) {
+                    if (!emptyRow) {
+                        emptyRow = document.createElement('tr');
+                        emptyRow.id = 'empty-js-row';
+                        emptyRow.innerHTML = '<td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">Không có danh mục nào phù hợp với trạng thái đã chọn.</td>';
+                        tbody.appendChild(emptyRow);
+                    } else {
+                        emptyRow.style.display = '';
+                    }
+                } else if (emptyRow) {
+                    emptyRow.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+
 </body>
 </html>

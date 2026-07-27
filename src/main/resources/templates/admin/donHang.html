@@ -60,13 +60,14 @@
         <!-- KHU VỰC LỌC -->
         <div class="filter-section">
             <div class="filter-left">
-                <select class="form-control">
-                    <option>Tất cả trạng thái</option>
-                    <option>Chờ xác nhận</option>
-                    <option>Đã xác nhận</option>
-                    <option>Đang chế biến</option>
-                    <option>Đã hoàn thành</option>
-                    <option>Đã hủy</option>
+                <!-- THÊM ID VÀ VALUE CHO THẺ SELECT ĐỂ JS BẮT SỰ KIỆN -->
+                <select id="statusFilter" class="form-control">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Chờ xác nhận">Chờ xác nhận</option>
+                    <option value="Đã xác nhận">Đã xác nhận</option>
+                    <option value="Đang chế biến">Đang chế biến</option>
+                    <option value="Đã hoàn thành">Đã hoàn thành</option>
+                    <option value="Đã hủy">Đã hủy</option>
                 </select>
                 <input type="date" class="form-control">
                 <button class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
@@ -87,9 +88,11 @@
                     <th style="text-align: center; width: 8%;">THAO TÁC</th>
                 </tr>
                 </thead>
-                <tbody>
-                <!-- Đơn 1 -->
-                <tr>
+                <!-- THÊM ID CHO TBODY -->
+                <tbody id="orderTableBody">
+
+                <!-- Đơn 1: Gắn data-status tương ứng -->
+                <tr data-status="Chờ xác nhận">
                     <td><span class="text-orange font-bold">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -112,13 +115,12 @@
                         </div>
                     </td>
                     <td style="text-align: center;">
-                        <!-- Thêm th:href trỏ sang link của trang chi tiết -->
                         <a th:href="@{/admin/chiTietDon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
                     </td>
                 </tr>
 
-                <!-- Đơn 2 -->
-                <tr>
+                <!-- Đơn 2: Gắn data-status tương ứng -->
+                <tr data-status="Đang chế biến">
                     <td><span class="text-orange font-bold">#VN-29033</span></td>
                     <td>
                         <div class="details">
@@ -145,8 +147,8 @@
                     </td>
                 </tr>
 
-                <!-- Đơn 3 -->
-                <tr>
+                <!-- Đơn 3: Gắn data-status tương ứng -->
+                <tr data-status="Đã hoàn thành">
                     <td><span class="text-orange font-bold">#VN-29030</span></td>
                     <td>
                         <div class="details">
@@ -178,6 +180,50 @@
 
     </main>
 </div>
+
+<!-- SCRIPT LỌC TRẠNG THÁI -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusFilter = document.getElementById('statusFilter');
+        const tableRows = document.querySelectorAll('#orderTableBody tr[data-status]');
+
+        if (statusFilter && tableRows.length > 0) {
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value.trim();
+                let visibleCount = 0;
+
+                tableRows.forEach(row => {
+                    const rowStatus = row.getAttribute('data-status').trim();
+
+                    // Hiện dòng nếu chọn "Tất cả" hoặc khớp với trạng thái
+                    if (selectedStatus === "" || rowStatus === selectedStatus) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none'; // Ẩn các dòng không khớp
+                    }
+                });
+
+                // Hiển thị thông báo nếu không có đơn hàng nào khớp
+                let emptyRow = document.getElementById('empty-js-row');
+                const tbody = document.getElementById('orderTableBody');
+
+                if (visibleCount === 0) {
+                    if (!emptyRow) {
+                        emptyRow = document.createElement('tr');
+                        emptyRow.id = 'empty-js-row';
+                        emptyRow.innerHTML = '<td colspan="7" style="text-align: center; color: #777777; padding: 24px; font-weight: 500;">Không có đơn hàng nào phù hợp với trạng thái đã chọn.</td>';
+                        tbody.appendChild(emptyRow);
+                    } else {
+                        emptyRow.style.display = '';
+                    }
+                } else if (emptyRow) {
+                    emptyRow.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
 
 </body>
 </html>

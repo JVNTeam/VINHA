@@ -11,6 +11,6 @@ public class DanhGiaController {
 
     @GetMapping
     public String hienThiTrangDanhGia(Model model) {
-        return "admin/danh-gia";
+        return "admin/danhgia";
     }
 }

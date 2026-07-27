@@ -15,6 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
+<<<<<<< Updated upstream
     <!-- ADMIN SIDEBAR CHUẨN ĐỒNG BỘ -->
     <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
         <div class="sidebar-brand">
@@ -60,6 +61,10 @@
             </a>
         </nav>
     </aside>
+=======
+    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "NHÂN VIÊN" -->
+    <div th:replace="~{admin/sidebar :: sidebar('nhanVien')}"></div>
+>>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -95,7 +100,8 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <a th:href="@{/admin/nhan-vien}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
+                    <!-- ĐÃ FIX: Bỏ dấu gạch ngang ở link nút Làm mới -->
+                    <a th:href="@{/admin/nhanVien}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>
         </div>
@@ -106,7 +112,6 @@
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <!-- ĐÃ XÓA CỘT VAI TRÒ VÀ CHIA LẠI % CHO CÂN ĐỐI -->
                         <th style="width: 5%; text-align: center;">STT</th>
                         <th style="width: 35%;">HỌ TÊN</th>
                         <th style="width: 30%;">LIÊN HỆ</th>
@@ -214,7 +219,6 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Đã gỡ bỏ hoàn toàn thanh phân trang -->
         </div>
     </main>
 </div>

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DanhMucController {
 
     // Tạo đường dẫn URL để truy cập trên trình duyệt
-    @GetMapping("/admin/danh-muc")
+    @GetMapping("/admin/danhMuc")
     public String hienThiDanhMuc() {
         // Trả về đúng tên thư mục và tên file HTML của ông (không cần gõ chữ .html)
         // Vì nãy ông lưu ở templates/admin/danhMuc.html

@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PhieuGiamGiaController { // Đổi tên Class
+public class PhieuGiamGiaController {
 
-    @GetMapping("/admin/phieu-giam-gia") // Đổi link hiển thị trên web
+    // Đã sửa thành camelCase cho chuẩn phong cách code
+    @GetMapping("/admin/phieuGiamGia")
     public String hienThiPhieuGiamGia() {
-        return "admin/phieuGiamGia"; // Trả về đúng tên file phieuGiamGia.html
+        return "admin/phieuGiamGia";
     }
 }

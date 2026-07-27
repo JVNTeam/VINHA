@@ -15,12 +15,8 @@
 <body>
 
 <div class="admin-wrapper">
-    <!-- ADMIN SIDEBAR CHUẨN ĐỒNG BỘ -->
-    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
-        <div class="sidebar-brand">
-            <span class="brand-text">Vị Nhà</span>
-        </div>
 
+<<<<<<< Updated upstream
         <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
             <a th:href="@{/admin/mon-an}" class="nav-item">
                 <i class="fa-solid fa-utensils"></i> Quản lý món ăn
@@ -60,6 +56,10 @@
             </a>
         </nav>
     </aside>
+=======
+    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "DANH MỤC" -->
+    <div th:replace="~{admin/sidebar :: sidebar('danhMuc')}"></div>
+>>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -96,7 +96,8 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search">Tìm kiếm</button>
-                    <a th:href="@{/admin/danh-muc}" class="btn-reset">Làm mới</a>
+                    <!-- ĐÃ FIX: Đổi link thành /admin/danhMuc (bỏ dấu gạch ngang) -->
+                    <a th:href="@{/admin/danhMuc}" class="btn-reset">Làm mới</a>
                 </div>
             </form>
         </div>

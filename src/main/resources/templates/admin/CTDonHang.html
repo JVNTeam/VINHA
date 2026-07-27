@@ -15,6 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
+<<<<<<< Updated upstream:src/main/resources/templates/admin/CTDonHang.html
     <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
     <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
         <div class="sidebar-brand">
@@ -60,6 +61,10 @@
             </a>
         </nav>
     </aside>
+=======
+    <!-- ĐÃ FIX: TRUYỀN 'donHang' ĐỂ GIỮ SÁNG MÀU NÚT ĐƠN HÀNG KHI Ở TRANG CHI TIẾT -->
+    <div th:replace="~{admin/sidebar :: sidebar('donHang')}"></div>
+>>>>>>> Stashed changes:src/main/resources/templates/admin/ChiTietDonHang.html
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -72,7 +77,8 @@
                 </div>
                 <p class="page-subtitle">Ngày đặt: 10:24 - 25/10/2026</p>
             </div>
-            <a th:href="@{/admin/don-hang}" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại</a>
+            <!-- ĐÃ FIX: Nút quay lại trỏ về trang Quản lý đơn hàng -->
+            <a th:href="@{/admin/donHang}" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại</a>
         </div>
 
         <!-- Khung 2 Cột -->

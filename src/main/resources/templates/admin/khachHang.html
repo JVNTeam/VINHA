@@ -15,6 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
+<<<<<<< Updated upstream
     <!-- SIDEBAR ĐỒNG BỘ CHUẨN THIẾT KẾ -->
     <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
         <div class="sidebar-brand">
@@ -60,6 +61,10 @@
             </a>
         </nav>
     </aside>
+=======
+    <!-- ĐÃ FIX: NHÚNG MENU VÀ LÀM SÁNG NÚT "KHÁCH HÀNG" -->
+    <div th:replace="~{admin/sidebar :: sidebar('khachHang')}"></div>
+>>>>>>> Stashed changes
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -98,7 +103,8 @@
                     <!-- Nút hành động -->
                     <div class="filter-actions align-items-end">
                         <button type="submit" class="btn btn-search"><i class="fas fa-filter"></i> Lọc dữ liệu</button>
-                        <a th:href="@{/admin/khach-hang}" class="btn btn-reset"><i class="fas fa-sync-alt"></i></a>
+                        <!-- ĐÃ FIX: Đổi link làm mới thành /admin/khachHang -->
+                        <a th:href="@{/admin/khachHang}" class="btn btn-reset"><i class="fas fa-sync-alt"></i></a>
                     </div>
                 </div>
             </form>

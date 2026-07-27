@@ -7,11 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 // Đặt tên tường minh cho Controller của Admin
 @Controller("adminDanhGiaController")
-@RequestMapping("/admin/danh-gia")
+@RequestMapping("/admin/danhGia")
 public class DanhGiaController {
 
     @GetMapping
     public String hienThiTrangDanhGia(Model model) {
+<<<<<<< Updated upstream
         return "admin/danh-gia";
+=======
+        return "/admin/danhGia";
+>>>>>>> Stashed changes
     }
 }

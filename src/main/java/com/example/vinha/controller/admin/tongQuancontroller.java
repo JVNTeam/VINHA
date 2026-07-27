@@ -5,10 +5,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ThongKeController {
+public class tongQuancontroller {
 
-    // Đây là đường dẫn duy nhất và chính chủ cho trang Thống kê doanh thu
-    @GetMapping("/admin/thong-ke")
+    // Đường dẫn để vào trang này là localhost:8080/admin/tongQuan
+    @GetMapping("/admin/tongQuan")
     public String hienThiTrangThongKe(Model model) {
 
         /*
@@ -16,7 +16,12 @@ public class ThongKeController {
          * model.addAttribute("tongDoanhThu", ...);
          */
 
+<<<<<<< Updated upstream:src/main/java/com/example/vinha/controller/admin/ThongKeController.java
         // Trả về đúng file thong-ke.html trong thư mục templates/admin/
         return "admin/thong-ke";
+=======
+        // ĐÃ FIX: Bỏ dấu "/" ở đầu. Trả về đúng file tongQuan.html trong templates/admin/
+        return "admin/tongQuan";
+>>>>>>> Stashed changes:src/main/java/com/example/vinha/controller/admin/tongQuancontroller.java
     }
 }

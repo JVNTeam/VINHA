@@ -15,6 +15,7 @@
 <body>
 
 <div class="admin-wrapper">
+<<<<<<< Updated upstream:src/main/resources/templates/admin/mon-an.html
     <!-- SIDEBAR -->
     <aside class="admin-sidebar">
         <div class="sidebar-brand">
@@ -61,6 +62,10 @@
             </a>
         </div>
     </aside>
+=======
+    <!-- ĐÃ FIX: CHỈ CẦN 1 DÒNG NÀY ĐỂ GỌI MENU VÀ LÀM SÁNG MÀU NÚT "MÓN ĂN" -->
+    <div th:replace="~{admin/sidebar :: sidebar('monAn')}"></div>
+>>>>>>> Stashed changes:src/main/resources/templates/admin/monAn.html
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
@@ -107,7 +112,8 @@
                 <!-- Nút thao tác lọc -->
                 <div class="filter-actions">
                     <button type="submit" class="btn-search">Tìm kiếm</button>
-                    <a th:href="@{/admin/mon-an}" class="btn-refresh" title="Làm mới"><i class="fas fa-redo-alt"></i></a>
+                    <!-- ĐÃ FIX: Sửa link làm mới thành /admin/monAn -->
+                    <a th:href="@{/admin/monAn}" class="btn-refresh" title="Làm mới"><i class="fas fa-redo-alt"></i></a>
                 </div>
             </form>
         </div>

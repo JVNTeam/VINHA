@@ -66,7 +66,7 @@ public class AdminMonAnController {
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
 
-        // Trả về tên file HTML: src/main/resources/templates/admin/quan-ly-mon-an.html
+        // Trả về tên file HTML: src/main/resources/templates/admin/quan-ly-monAn.html
         return "admin/quan-ly-mon-an";
     }
 

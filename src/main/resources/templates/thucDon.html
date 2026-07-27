@@ -163,12 +163,12 @@
         <div class="row g-4 mt-3">
           <div class="col-lg-3 col-md-6" th:each="mon : ${danhSachMonAn}">
             <div class="food-card">
-              <span class="rating"
-                >⭐
-                <span th:text="${mon.danhGia != null ? mon.danhGia : 0}"
-                  >0</span
-                ></span
-              >
+<!--              <span class="rating"-->
+<!--                >-->
+<!--                <span th:text="${mon.danhGia != null ? mon.danhGia : 0}"-->
+<!--                  >0</span-->
+<!--                ></span-->
+<!--              >-->
 
               <img
                 th:src="@{${(mon.hinhAnhs != null and !#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null and mon.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(mon.hinhAnhs[0].duongDan, '/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan ) : '/images/comGa.png'}}"

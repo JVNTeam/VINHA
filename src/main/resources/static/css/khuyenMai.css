@@ -677,3 +677,27 @@ footer{
 main{
     padding-bottom:120px;
 }
+
+
+/* ================= nút lưu ================= */
+.save-btn{
+    background:#fff;
+    border:1px solid #ff7a00;
+    color:#ff7a00;
+    padding:8px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#ff7a00;
+    color:#fff;
+}
+
+.save-btn.saved{
+    background:#28a745;
+    border-color:#28a745;
+    color:#fff;
+}

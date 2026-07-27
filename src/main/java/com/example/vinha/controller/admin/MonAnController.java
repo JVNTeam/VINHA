@@ -12,6 +12,6 @@ public class MonAnController {
 
     @GetMapping
     public String hienThiQuanLyMonAn(Model model) {
-        return "admin/mon-an";
+        return "monAn";
     }
 }

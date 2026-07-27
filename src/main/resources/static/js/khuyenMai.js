@@ -140,3 +140,40 @@ window.addEventListener("load", () => {
     console.log("Trang Khuyến mãi đã tải thành công.");
 
 });
+
+// ======================= Nút Lưu =======================
+
+// Sao chép mã giảm giá
+document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        const code = btn.dataset.code;
+
+        navigator.clipboard.writeText(code);
+
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép';
+
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fa-regular fa-copy"></i> Sao chép';
+        }, 1500);
+
+    });
+});
+
+
+//Lưu mã giảm
+document.querySelectorAll(".save-btn").forEach(button => {
+    button.addEventListener("click", function () {
+
+        // Đổi nội dung và màu nút
+        this.innerHTML = '<i class="fa-solid fa-check"></i> Đã lưu';
+        this.classList.add("saved");
+
+        // Sau 2 giây trở về trạng thái ban đầu
+        setTimeout(() => {
+            this.innerHTML = '<i class="fa-regular fa-bookmark"></i> Lưu';
+            this.classList.remove("saved");
+        }, 2000);
+
+    });
+});

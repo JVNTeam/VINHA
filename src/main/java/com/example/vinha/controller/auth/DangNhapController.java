@@ -60,7 +60,7 @@ public class DangNhapController {
         String roleTen = user.getVaiTro().getTen();
 
         if ("Admin".equals(roleTen)) {
-            return "redirect:/admin/thong-ke";
+            return "redirect:/admin/tongQuan";
         }
 
         // Mặc định: Khách hàng -> Trang chủ

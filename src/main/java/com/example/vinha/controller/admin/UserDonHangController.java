@@ -10,6 +10,6 @@ public class UserDonHangController {
     @GetMapping("/admin/chitietdon")
     public String xemChiTietDonHang() {
         // Sửa chữ "admin" thành "user" để nó mò đúng vào thư mục user tìm file
-        return "ChiTietDonHang";
+        return "admin/CTDonHang";
     }
 }

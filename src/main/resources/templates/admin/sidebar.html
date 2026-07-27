@@ -8,7 +8,8 @@
         </div>
 
         <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
-            <a th:href="@{/admin/tongQuan}" class="nav-item" th:classappend="${activePage == 'tongQuan'} ? 'active' : ''">
+            <a th:href="@{/admin/tongQuan}" class="nav-item"
+               th:classappend="${activePage == 'tongQuan'} ? 'active' : ''">
                 <i class="fa-solid fa-chart-simple"></i> Tổng quan
             </a>
             <a th:href="@{/admin/monAn}" class="nav-item" th:classappend="${activePage == 'monAn'} ? 'active' : ''">
@@ -20,13 +21,16 @@
             <a th:href="@{/admin/danhMuc}" class="nav-item" th:classappend="${activePage == 'danhMuc'} ? 'active' : ''">
                 <i class="fa-solid fa-layer-group"></i> Quản lý danh mục
             </a>
-            <a th:href="@{/admin/phieuGiamGia}" class="nav-item" th:classappend="${activePage == 'giamGia'} ? 'active' : ''">
+            <a th:href="@{/admin/phieuGiamGia}" class="nav-item"
+               th:classappend="${activePage == 'giamGia'} ? 'active' : ''">
                 <i class="fa-solid fa-ticket"></i> Quản lý mã giảm giá
             </a>
-            <a th:href="@{/admin/khachHang}" class="nav-item" th:classappend="${activePage == 'khachHang'} ? 'active' : ''">
+            <a th:href="@{/admin/khachHang}" class="nav-item"
+               th:classappend="${activePage == 'khachHang'} ? 'active' : ''">
                 <i class="fa-solid fa-users"></i> Quản lý khách hàng
             </a>
-            <a th:href="@{/admin/nhanVien}" class="nav-item" th:classappend="${activePage == 'nhanVien'} ? 'active' : ''">
+            <a th:href="@{/admin/nhanVien}" class="nav-item"
+               th:classappend="${activePage == 'nhanVien'} ? 'active' : ''">
                 <i class="fa-solid fa-user-tie"></i> Quản lý nhân viên
             </a>
             <!-- ĐÃ FIX: Xóa class="nav-item active" bị ghim cứng ở đây -->

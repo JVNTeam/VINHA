@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý món ăn - Vị Nhà Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/admin/mon-an.css}">
+</head>
+<body>
+<div class="admin-wrapper">
+    <div th:replace="~{admin/sidebar :: sidebar('monAn')}"></div>
+
+    <!-- NỘI DUNG CHÍNH -->
+    <main class="admin-main">
+        <div class="page-header">
+            <h1 class="page-title">Quản lý món ăn</h1>
+            <a th:href="@{/admin/monAn/them}" class="btn-add-new">
+                <i class="fas fa-plus"></i> Thêm món ăn mới
+            </a>
+        </div>
+
+        <div th:if="${message}" class="alert alert-success" style="padding: 14px; background: #dcfce7; color: #166534; border-radius: 12px; margin-bottom: 18px;">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger" style="padding: 14px; background: #fee2e2; color: #991b1b; border-radius: 12px; margin-bottom: 18px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+        </div>
+
+        <div class="filter-card">
+            <form id="filterForm" action="" method="GET" class="filter-form">
+                <div class="form-group search-group">
+                    <label>Tìm kiếm</label>
+                    <input id="searchKeyword" type="text" name="keyword" class="form-control" placeholder="Tên món ăn..." th:value="${keyword}" />
+                </div>
+                <div class="form-group">
+                    <label>Danh mục</label>
+                    <select id="filterCategory" name="category" class="form-control">
+                        <option value="">Tất cả danh mục</option>
+                        <option th:each="dm : ${categories}" th:value="${dm.id}" th:text="${dm.ten}" th:selected="${dm.id == selectedCategory}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select id="filterStatus" name="status" class="form-control">
+                        <option value="">Tất cả trạng thái</option>
+                        <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}" th:selected="${st == selectedStatus}"></option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="btn-search">Tìm kiếm</button>
+                    <a th:href="@{/admin/monAn}" class="btn-refresh" title="Làm mới"><i class="fas fa-redo-alt"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-card">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th style="width: 5%;">STT</th>
+                    <th style="width: 10%;">HÌNH ẢNH</th>
+                    <th style="width: 20%;">TÊN MÓN</th>
+                    <th style="width: 15%;">DANH MỤC</th>
+                    <th style="width: 12%;">GIÁ (VNĐ)</th>
+                    <th style="width: 10%;">SỐ LƯỢNG</th>
+                    <th style="width: 10%;">ĐÃ BÁN</th>
+                    <th style="width: 10%;">TRẠNG THÁI</th>
+                    <th style="width: 8%; text-align: center;">THAO TÁC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="mon, iterStat : ${monAnList}"
+                    th:data-name="${#strings.toLowerCase(mon.ten)}"
+                    th:data-category-id="${mon.danhMuc != null ? mon.danhMuc.id : ''}"
+                    th:data-category="${mon.danhMuc != null ? #strings.toLowerCase(mon.danhMuc.ten) : 'chưa phân loại'}"
+                    th:data-status="${mon.trangThai != null ? #strings.toLowerCase(mon.trangThai) : 'chưa rõ'}">
+                    <td th:text="${iterStat.index + 1}">1</td>
+                    <td>
+                        <div class="food-thumbnail"
+                             th:style="${#lists.isEmpty(mon.hinhAnhs) or mon.hinhAnhs[0].duongDan == null ? 'background-image: url(/images/foods/placeholder.png)' : 'background-image: url(' + (mon.hinhAnhs[0].duongDan.startsWith('/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan) + ')'}">
+                        </div>
+                    </td>
+                    <td><strong class="text-main" th:text="${mon.ten}">Tên món</strong></td>
+                    <td th:text="${mon.danhMuc != null ? mon.danhMuc.ten : 'Chưa phân loại'}">Danh mục</td>
+                    <td><strong class="text-price" th:text="${mon.gia != null ? #numbers.formatDecimal(mon.gia, 0, 'COMMA', 2, 'POINT') + ' đ' : '0 đ'}"></strong></td>
+                    <td th:text="${mon.soLuongCon}">0</td>
+                    <td th:text="${mon.daBan}">0</td>
+                    <td>
+                        <span th:classappend="${mon.trangThai == 'Đang bán' ? 'badge badge-active' : (mon.trangThai == 'Hết hàng' ? 'badge badge-warning' : 'badge badge-danger')}"
+                              th:text="${mon.trangThai != null ? mon.trangThai : 'Chưa rõ'}">Đang bán</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <div class="action-buttons">
+                            <a th:href="@{/admin/monAn/sua(id=${mon.id})}" class="icon-btn btn-edit" title="Chỉnh sửa"><i class="fas fa-pen"></i></a>
+                            <a th:href="@{/admin/monAn/xoa(id=${mon.id})}" class="icon-btn btn-delete" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa món này?');"><i class="far fa-trash-alt"></i></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(monAnList)}">
+                    <td colspan="9" style="text-align:center; padding: 24px; color: #475569;">Chưa có món ăn nào.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script th:src="@{/js/admin/mon-an.js}"></script>
+</body>
+</html>

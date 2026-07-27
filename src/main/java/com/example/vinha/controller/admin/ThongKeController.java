@@ -17,6 +17,6 @@ public class ThongKeController {
          */
 
         // Trả về đúng file tongQuan.html trong thư mục templates/admin/
-        return "tongQuan";
+        return "/admin/tongQuan";
     }
 }

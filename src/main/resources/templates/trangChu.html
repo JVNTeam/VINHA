@@ -1,406 +1,434 @@
 <!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vị Nhà - Cơm ngon như bữa cơm nhà</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vị Nhà - Cơm ngon như bữa cơm nhà</title>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+          href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet"
+  />
 
-    <link rel="stylesheet" th:href="@{/css/header.css}" />
-    <link rel="stylesheet" th:href="@{/css/trangChu.css}" />
-    <link rel="stylesheet" th:href="@{/css/footer.css}" />
-  </head>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/trangChu.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
 
-  <body>
-    <div th:replace="~{fragments/header :: header}"></div>
+  <!-- Thêm hiệu ứng cuộn mượt khi bấm link # -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
 
-    <main style="margin-top: 90px">
-      <!-- ================= HERO ================= -->
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
 
-      <section class="hero">
-        <div class="hero-overlay"></div>
+<main style="margin-top: 90px">
+  <!-- ================= HERO ================= -->
 
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-6">
-              <span class="hero-tag"> Mâm Cơm Việt Hiện Đại </span>
+  <section class="hero">
+    <div class="hero-overlay"></div>
 
-              <h1>
-                Cơm ngon như
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <span class="hero-tag"> Mâm Cơm Việt Hiện Đại </span>
 
-                <br />
+          <h1>
+            Cơm ngon như
 
-                <span> bữa cơm nhà </span>
-              </h1>
+            <br />
 
-              <p class="hero-description">
-                Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Mỗi
-                hạt cơm, mỗi món ăn đều được chăm chút bằng tất cả tình yêu
-                thương.
-              </p>
+            <span> bữa cơm nhà </span>
+          </h1>
 
-              <div class="hero-button">
-                <a href="#" class="btn-order"> Đặt món ngay </a>
+          <p class="hero-description">
+            Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Mỗi
+            hạt cơm, mỗi món ăn đều được chăm chút bằng tất cả tình yêu
+            thương.
+          </p>
 
-                <a href="/thucDon" class="btn-menu"> Xem thực đơn </a>
-              </div>
-            </div>
+          <div class="hero-button">
+            <!-- SỬA TẠI ĐÂY: Trỏ href tới #category-section -->
+            <a href="#category-section" class="btn-order"> Đặt món ngay </a>
 
-            <div class="col-lg-6"></div>
+            <a th:href="@{/thucDon}" class="btn-menu"> Xem thực đơn </a>
           </div>
         </div>
-      </section>
 
-      <!-- ================= CATEGORY ================= -->
+        <div class="col-lg-6"></div>
+      </div>
+    </div>
+  </section>
 
-      <section class="category-section">
-        <div class="container">
-          <div class="section-header">
-            <span class="sub-title"> Danh mục nổi bật </span>
+  <!-- ================= CATEGORY ================= -->
 
-            <h2>Khám Phá Danh Mục</h2>
+  <!-- SỬA TẠI ĐÂY: Thêm id="category-section" -->
+  <section id="category-section" class="category-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="sub-title"> Danh mục nổi bật </span>
+
+        <h2>Khám Phá Danh Mục</h2>
+
+        <p>
+          Những món cơm Việt quen thuộc được chế biến từ nguyên liệu tươi
+          ngon mỗi ngày.
+        </p>
+      </div>
+
+      <div class="row g-4 mt-4">
+        <!-- Item 1 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/comGaXoiMo.png}" alt="Cơm Gà" />
+            </div>
+
+            <h5>Cơm Gà</h5>
+
+            <span>12 món</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/comTamSuonBiCha.png}" alt="Cơm Sườn" />
+            </div>
+
+            <h5>Cơm Sườn</h5>
+
+            <span>18 món</span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/comThitKho.png}" alt="Cơm Bò" />
+            </div>
+
+            <h5>Cơm Bò</h5>
+
+            <span>9 món</span>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/comCaKho.png}" alt="Cơm Cá" />
+            </div>
+
+            <h5>Cơm Cá</h5>
+
+            <span>8 món</span>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/comRang.png}" alt="Cơm Chay" />
+            </div>
+
+            <h5>Cơm Chay</h5>
+
+            <span>10 món</span>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <div class="category-card">
+            <div class="category-image">
+              <img th:src="@{/images/ComhitChuaNgot.png}" alt="Đặc Biệt" />
+            </div>
+
+            <h5>Đặc Biệt</h5>
+
+            <span>6 món</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BEST SELLER ================= -->
+
+  <section class="best-seller">
+    <div class="container">
+      <div class="section-header">
+        <span class="sub-title"> Best Seller </span>
+
+        <h2>Món Bán Chạy Nhất</h2>
+
+        <p>
+          Những món ăn được khách hàng yêu thích và đặt nhiều nhất tại Vị
+          Nhà.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Food 1 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="food-card">
+            <div class="food-image">
+              <span class="badge-hot"> HOT </span>
+
+              <img
+                      th:src="@{/images/foods/comTamSuonBiCha2.webp}"
+                      alt="Cơm Tấm"
+              />
+            </div>
+
+            <div class="food-body">
+              <div class="food-rating"></div>
+
+              <h5>Cơm Tấm Sườn Bì Chả</h5>
+
+              <p>Sườn nướng mật ong, bì, chả trứng, dưa chua.</p>
+
+              <div class="food-footer">
+                <div>
+                  <span class="price"> 65.000đ </span>
+                </div>
+
+                <a th:href="@{/gioHang}" class="btn border-0 p-0">
+                  <button>
+                    <i class="fa-solid fa-cart-plus"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food 2 -->
+
+        <div class="col-lg-3 col-md-6">
+          <div class="food-card">
+            <div class="food-image">
+              <img th:src="@{/images/foods/comGaXoiMo2.jpg}" />
+            </div>
+
+            <div class="food-body">
+              <div class="food-rating"></div>
+
+              <h5>Cơm Gà Xối Mỡ</h5>
+
+              <p>Gà giòn rụm ăn kèm cơm chiên và rau.</p>
+
+              <div class="food-footer">
+                <span class="price"> 59.000đ </span>
+
+                <a th:href="@{/gioHang}" class="btn border-0 p-0">
+                  <button>
+                    <i class="fa-solid fa-cart-plus"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food 3 -->
+
+        <div class="col-lg-3 col-md-6">
+          <div class="food-card">
+            <div class="food-image">
+              <img th:src="@{/images/foods/com-bo-luc-lac.avif}" />
+            </div>
+
+            <div class="food-body">
+              <div class="food-rating"></div>
+
+              <h5>Cơm Bò Lúc Lắc</h5>
+
+              <p>Bò mềm, thơm, sốt tiêu đen đậm vị.</p>
+
+              <div class="food-footer">
+                <span class="price"> 79.000đ </span>
+
+                <a th:href="@{/gioHang}" class="btn border-0 p-0">
+                  <button>
+                    <i class="fa-solid fa-cart-plus"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food 4 -->
+
+        <div class="col-lg-3 col-md-6">
+          <div class="food-card">
+            <div class="food-image">
+              <img th:src="@{/images/foods/com-ca-kho.jpg}" />
+            </div>
+
+            <div class="food-body">
+              <div class="food-rating"></div>
+
+              <h5>Cơm Cá Kho Tộ</h5>
+
+              <p>Cá kho truyền thống ăn cùng cơm nóng.</p>
+
+              <div class="food-footer">
+                <span class="price"> 62.000đ </span>
+
+                <a th:href="@{/gioHang}" class="btn border-0 p-0">
+                  <button>
+                    <i class="fa-solid fa-cart-plus"></i>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <a th:href="@{/thucDon}" class="btn-all-food">
+          Xem toàn bộ thực đơn
+
+          <i class="fa-solid fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!--==================== REVIEW ====================-->
+
+  <section class="review-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="sub-title"> Khách hàng nói gì? </span>
+
+        <h2>Đánh Giá Từ Khách Hàng</h2>
+
+        <p>
+          Hàng nghìn khách hàng đã tin tưởng và lựa chọn Vị Nhà cho bữa cơm
+          mỗi ngày.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Review 1 -->
+        <div class="col-lg-4">
+          <div class="review-card">
+            <div class="quote">
+              <i class="fa-solid fa-quote-left"></i>
+            </div>
+
+            <div class="review-star">★★★★★</div>
 
             <p>
-              Những món cơm Việt quen thuộc được chế biến từ nguyên liệu tươi
-              ngon mỗi ngày.
+              Cơm rất ngon, giao nhanh và đóng gói cẩn thận. Mình đặt cho cả
+              văn phòng ai cũng thích.
             </p>
-          </div>
 
-          <div class="row g-4 mt-4">
-            <!-- Item 1 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/comGaXoiMo.png" alt="Cơm Gà" />
-                </div>
+            <div class="customer">
+              <div>
+                <h5>Nguyễn Minh Anh</h5>
 
-                <h5>Cơm Gà</h5>
-
-                <span>12 món</span>
-              </div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/comTamSuonBiCha.png" alt="Cơm Sườn" />
-                </div>
-
-                <h5>Cơm Sườn</h5>
-
-                <span>18 món</span>
-              </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/comThitKho.png" alt="Cơm Bò" />
-                </div>
-
-                <h5>Cơm Bò</h5>
-
-                <span>9 món</span>
-              </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/comCaKho.png" alt="Cơm Cá" />
-                </div>
-
-                <h5>Cơm Cá</h5>
-
-                <span>8 món</span>
-              </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/comRang.png" alt="Cơm Chay" />
-                </div>
-
-                <h5>Cơm Chay</h5>
-
-                <span>10 món</span>
-              </div>
-            </div>
-
-            <!-- Item 6 -->
-            <div class="col-lg-2 col-md-4 col-6">
-              <div class="category-card">
-                <div class="category-image">
-                  <img src="/images/ComhitChuaNgot.png" alt="Đặc Biệt" />
-                </div>
-
-                <h5>Đặc Biệt</h5>
-
-                <span>6 món</span>
+                <span> Nhân viên văn phòng </span>
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <!-- ================= BEST SELLER ================= -->
 
-      <section class="best-seller">
-        <div class="container">
-          <div class="section-header">
-            <span class="sub-title"> Best Seller </span>
+        <!-- Review 2 -->
 
-            <h2>Món Bán Chạy Nhất</h2>
+        <div class="col-lg-4">
+          <div class="review-card">
+            <div class="quote">
+              <i class="fa-solid fa-quote-left"></i>
+            </div>
+
+            <div class="review-star">★★★★★</div>
 
             <p>
-              Những món ăn được khách hàng yêu thích và đặt nhiều nhất tại Vị
-              Nhà.
+              Món ăn đúng vị cơm nhà. Cá kho và canh chua cực kỳ ngon. Giá
+              hợp lý.
             </p>
-          </div>
 
-          <div class="row g-4">
-            <!-- Food 1 -->
-            <div class="col-lg-3 col-md-6">
-              <div class="food-card">
-                <div class="food-image">
-                  <span class="badge-hot"> HOT </span>
+            <div class="customer">
+              <div>
+                <h5>Trần Hoàng Nam</h5>
 
-                  <img
-                    src="/images/foods/comTamSuonBiCha2.webp"
-                    alt="Cơm Tấm"
-                  />
-                </div>
-
-                <div class="food-body">
-                  <div class="food-rating"></div>
-
-                  <h5>Cơm Tấm Sườn Bì Chả</h5>
-
-                  <p>Sườn nướng mật ong, bì, chả trứng, dưa chua.</p>
-
-                  <div class="food-footer">
-                    <div>
-                      <span class="price"> 65.000đ </span>
-                    </div>
-
-                    <button>
-                      <i class="fa-solid fa-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
+                <span> Kỹ sư phần mềm </span>
               </div>
             </div>
-
-            <!-- Food 2 -->
-
-            <div class="col-lg-3 col-md-6">
-              <div class="food-card">
-                <div class="food-image">
-                  <img src="/images/foods/comGaXoiMo2.jpg" />
-                </div>
-
-                <div class="food-body">
-                  <div class="food-rating"></div>
-
-                  <h5>Cơm Gà Xối Mỡ</h5>
-
-                  <p>Gà giòn rụm ăn kèm cơm chiên và rau.</p>
-
-                  <div class="food-footer">
-                    <span class="price"> 59.000đ </span>
-
-                    <button>
-                      <i class="fa-solid fa-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Food 3 -->
-
-            <div class="col-lg-3 col-md-6">
-              <div class="food-card">
-                <div class="food-image">
-                  <img src="/images/foods/com-bo-luc-lac.avif" />
-                </div>
-
-                <div class="food-body">
-                  <div class="food-rating"></div>
-
-                  <h5>Cơm Bò Lúc Lắc</h5>
-
-                  <p>Bò mềm, thơm, sốt tiêu đen đậm vị.</p>
-
-                  <div class="food-footer">
-                    <span class="price"> 79.000đ </span>
-
-                    <button>
-                      <i class="fa-solid fa-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Food 4 -->
-
-            <div class="col-lg-3 col-md-6">
-              <div class="food-card">
-                <div class="food-image">
-                  <img src="/images/foods/com-ca-kho.jpg" />
-                </div>
-
-                <div class="food-body">
-                  <div class="food-rating"></div>
-
-                  <h5>Cơm Cá Kho Tộ</h5>
-
-                  <p>Cá kho truyền thống ăn cùng cơm nóng.</p>
-
-                  <div class="food-footer">
-                    <span class="price"> 62.000đ </span>
-
-                    <button>
-                      <i class="fa-solid fa-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="text-center mt-5">
-            <a href="/thucDon" class="btn-all-food">
-              Xem toàn bộ thực đơn
-
-              <i class="fa-solid fa-arrow-right ms-2"></i>
-            </a>
           </div>
         </div>
-      </section>
 
-      <!--==================== REVIEW ====================-->
+        <!-- Review 3 -->
 
-      <section class="review-section">
-        <div class="container">
-          <div class="section-header">
-            <span class="sub-title"> Khách hàng nói gì? </span>
+        <div class="col-lg-4">
+          <div class="review-card">
+            <div class="quote">
+              <i class="fa-solid fa-quote-left"></i>
+            </div>
 
-            <h2>Đánh Giá Từ Khách Hàng</h2>
+            <div class="review-star">★★★★★</div>
 
             <p>
-              Hàng nghìn khách hàng đã tin tưởng và lựa chọn Vị Nhà cho bữa cơm
-              mỗi ngày.
+              Đặt món gần như mỗi tuần. Đồ ăn nóng, nhiều món để lựa chọn và
+              nhân viên rất thân thiện.
             </p>
-          </div>
 
-          <div class="row g-4">
-            <!-- Review 1 -->
-            <div class="col-lg-4">
-              <div class="review-card">
-                <div class="quote">
-                  <i class="fa-solid fa-quote-left"></i>
-                </div>
+            <div class="customer">
+              <div>
+                <h5>Lê Thu Hà</h5>
 
-                <div class="review-star">★★★★★</div>
-
-                <p>
-                  Cơm rất ngon, giao nhanh và đóng gói cẩn thận. Mình đặt cho cả
-                  văn phòng ai cũng thích.
-                </p>
-
-                <div class="customer">
-                  <!--                        <img src="/images/review/user1.jpg">-->
-
-                  <div>
-                    <h5>Nguyễn Minh Anh</h5>
-
-                    <span> Nhân viên văn phòng </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Review 2 -->
-
-            <div class="col-lg-4">
-              <div class="review-card">
-                <div class="quote">
-                  <i class="fa-solid fa-quote-left"></i>
-                </div>
-
-                <div class="review-star">★★★★★</div>
-
-                <p>
-                  Món ăn đúng vị cơm nhà. Cá kho và canh chua cực kỳ ngon. Giá
-                  hợp lý.
-                </p>
-
-                <div class="customer">
-                  <!--                        <img src="/images/review/user2.jpg">-->
-
-                  <div>
-                    <h5>Trần Hoàng Nam</h5>
-
-                    <span> Kỹ sư phần mềm </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Review 3 -->
-
-            <div class="col-lg-4">
-              <div class="review-card">
-                <div class="quote">
-                  <i class="fa-solid fa-quote-left"></i>
-                </div>
-
-                <div class="review-star">★★★★★</div>
-
-                <p>
-                  Đặt món gần như mỗi tuần. Đồ ăn nóng, nhiều món để lựa chọn và
-                  nhân viên rất thân thiện.
-                </p>
-
-                <div class="customer">
-                  <!--                        <img src="/images/review/user3.jpg">-->
-
-                  <div>
-                    <h5>Lê Thu Hà</h5>
-
-                    <span> Khách hàng thân thiết </span>
-                  </div>
-                </div>
+                <span> Khách hàng thân thiết </span>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
+  </section>
+</main>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/home.js}"></script>
-  </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/home.js}"></script>
+
+<!-- Script chuyển hướng giỏ hàng -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cartIcon = document.querySelector("header .fa-cart-shopping, header .fa-shopping-cart");
+    if (cartIcon) {
+      const parentContainer = cartIcon.closest(".position-relative") || cartIcon.parentElement;
+      if (parentContainer && parentContainer.tagName !== "A") {
+        parentContainer.style.cursor = "pointer";
+        parentContainer.addEventListener("click", function () {
+          window.location.href = "/gioHang";
+        });
+      }
+    }
+  });
+</script>
+</body>
 </html>

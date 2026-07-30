@@ -46,6 +46,34 @@ function updateCart() {
     if (badge) {
         badge.innerText = totalQuantity;
     }
+
+    updateHeaderCartIcon(totalQuantity);
+}
+
+function updateHeaderCartIcon(totalQuantity) {
+    const cartLink = document.querySelector(".right .cart");
+    const cartIcon = cartLink ? cartLink.querySelector("i") : null;
+
+    if (!cartLink || !cartIcon) {
+        return;
+    }
+
+    cartLink.classList.remove("cart-1", "cart-2", "cart-3", "cart-empty");
+    cartIcon.classList.remove("fa-cart-shopping", "fa-cart-plus", "fa-bag-shopping");
+
+    if (totalQuantity === 1) {
+        cartLink.classList.add("cart-1");
+        cartIcon.classList.add("fa-cart-shopping");
+    } else if (totalQuantity === 2) {
+        cartLink.classList.add("cart-2");
+        cartIcon.classList.add("fa-cart-plus");
+    } else if (totalQuantity >= 3) {
+        cartLink.classList.add("cart-3");
+        cartIcon.classList.add("fa-bag-shopping");
+    } else {
+        cartLink.classList.add("cart-empty");
+        cartIcon.classList.add("fa-cart-shopping");
+    }
 }
 
 // ================== TĂNG GIẢM ==================
@@ -131,6 +159,8 @@ function updateAfterDelete() {
     if (badge) {
         badge.innerText = totalQuantity;
     }
+
+    updateHeaderCartIcon(totalQuantity);
 
     // Nếu giỏ hàng trống
     if (items.length === 0) {

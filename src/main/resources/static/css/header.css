@@ -186,6 +186,22 @@ body{
 
 }
 
+.cart.cart-1 i{
+    color:#1f2937;
+}
+
+.cart.cart-2 i{
+    color:#0f766e;
+}
+
+.cart.cart-3 i{
+    color:#b45309;
+}
+
+.cart.cart-empty i{
+    color:#6b7280;
+}
+
 .cart span{
 
     position:absolute;

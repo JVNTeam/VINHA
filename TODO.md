@@ -52,6 +52,14 @@
 - [ ] Cập nhật `thucDon.html` thêm form POST "Thêm vào giỏ hàng" cho từng món
 - [ ] Cập nhật redirect sau thêm giỏ hàng để hiển thị ngay trang giỏ
 
+# TODO - Cập nhật icon giỏ hàng theo số lượng
+
+- [ ] Tạo `cartItemCount` chung cho tất cả trang dùng header bằng `@ModelAttribute` hoặc `@ControllerAdvice`
+- [ ] Tính tổng số lượng sản phẩm trong `giỏ hàng` từ session guest hoặc `ChiTietGioHang` của user đăng nhập
+- [ ] Cập nhật `fragments/header.html` hiển thị `cartItemCount` trong `span`
+- [ ] Cập nhật class/icon trong header để hiển thị khác nhau với `1`, `2`, `3` món
+- [ ] Kiểm tra hiển thị header với 1, 2, 3 món và verify khi reload trang
+
 # TODO - Chỉ bắt đăng nhập khi thanh toán
 
 - [ ] Cập nhật `CartController` cho phép guest thêm/cập nhật/xóa giỏ hàng bằng session

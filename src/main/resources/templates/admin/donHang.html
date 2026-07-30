@@ -30,29 +30,29 @@
             <div class="card">
                 <div class="icon-box bg-orange-light"><i class="fas fa-clipboard-list text-orange"></i></div>
                 <div class="card-info">
-                    <h3>24</h3>
+                    <h3 th:text="${choXacNhan != null ? choXacNhan : '24'}">24</h3>
                     <p class="text-gray">Chờ xác nhận</p>
                 </div>
             </div>
             <div class="card">
                 <div class="icon-box bg-blue-light"><i class="fas fa-check-circle text-blue"></i></div>
                 <div class="card-info">
-                    <h3>15</h3>
+                    <h3 th:text="${daXacNhan != null ? daXacNhan : '15'}">15</h3>
                     <p class="text-gray">Đã xác nhận</p>
                 </div>
             </div>
             <div class="card">
                 <div class="icon-box bg-gray-light"><i class="fas fa-fire-burner text-gray"></i></div>
                 <div class="card-info">
-                    <h3>18</h3>
+                    <h3 th:text="${dangCheBien != null ? dangCheBien : '18'}">18</h3>
                     <p class="text-gray">Đang chế biến</p>
                 </div>
             </div>
             <div class="card bg-orange text-white border-0">
                 <div class="icon-box bg-white-opacity"><i class="fas fa-check-circle text-white"></i></div>
                 <div class="card-info">
-                    <h3 class="text-white">12.450k</h3>
-                    <p class="text-white">Đã hoàn thành</p>
+                    <h3 class="text-white" th:text="${doanhThu != null ? #numbers.formatDecimal(doanhThu, 0, 'COMMA', 0, 'POINT') + 'đ' : '12.450k'}">12.450k</h3>
+                    <p class="text-white">Doanh thu hoàn thành</p>
                 </div>
             </div>
         </div>
@@ -69,8 +69,8 @@
                     <option value="Đã hoàn thành">Đã hoàn thành</option>
                     <option value="Đã hủy">Đã hủy</option>
                 </select>
-                <input type="date" class="form-control">
-                <button class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
+                <input type="date" id="dateFilter" class="form-control">
+                <button type="button" id="btnFilter" class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
             </div>
         </div>
 
@@ -91,8 +91,66 @@
                 <!-- THÊM ID CHO TBODY -->
                 <tbody id="orderTableBody">
 
-                <!-- Đơn 1: Gắn data-status tương ứng -->
-                <tr data-status="Chờ xác nhận">
+                <!-- Render động từ DB nếu có donHangs -->
+                <tr th:each="dh : ${donHangs}"
+                    th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
+                    th:data-status="${dh.trangThai}"
+                    th:data-date="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'yyyy-MM-dd') : ''}">
+                    <td><span class="text-orange font-bold" th:text="'#VN-' + ${dh.id}">#VN-29034</span></td>
+                    <td>
+                        <div class="details">
+                            <strong class="text-main" th:text="${dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null && dh.diaChi.tenNguoiNhan != null ? dh.diaChi.tenNguoiNhan : 'Khách vãng lai')}">Nguyễn Thành Nam</strong>
+                            <span class="text-gray text-sm" th:text="${dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : '')}">0908 123 456</span>
+                        </div>
+                    </td>
+                    <td class="date-col">
+                        <strong class="text-main" th:text="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'HH:mm') : '--:--'}">10:24</strong><br>
+                        <span class="text-gray text-sm" th:text="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'dd/MM/yyyy') : '--/--/----'}">25/10/2026</span>
+                    </td>
+                    <td><strong class="text-main" th:text="${dh.tongTien != null ? #numbers.formatDecimal(dh.tongTien, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">450.000đ</strong></td>
+                    <td>
+                        <span class="pay-badge">
+                            <i class="fas fa-money-check-alt text-gray"></i>
+                            <span th:text="${dh.hinhThucThanhToan != null ? dh.hinhThucThanhToan : 'Tiền mặt'}">Chuyển khoản</span>
+                        </span>
+                    </td>
+                    <td>
+                        <form th:action="@{/admin/donHang/updateStatus}" method="post" style="display: inline;">
+                            <input type="hidden" name="id" th:value="${dh.id}">
+                            <div class="status-stack">
+                                <!-- Nút Hủy -->
+                                <button type="submit" name="status" value="Đã hủy"
+                                        class="status-btn btn-cancel"
+                                        th:classappend="${dh.trangThai == 'Đã hủy' ? 'active' : ''}"
+                                        th:disabled="${dh.trangThai == 'Đã hoàn thành' || dh.trangThai == 'Đã hủy'}">Hủy</button>
+
+                                <!-- Nút Xác nhận -->
+                                <button type="submit" name="status" value="Đã xác nhận"
+                                        class="status-btn"
+                                        th:classappend="${dh.trangThai == 'Đã xác nhận' ? 'active' : (dh.trangThai != 'Chờ xác nhận' && dh.trangThai != 'Đã hủy' ? 'completed' : '')}"
+                                        th:disabled="${dh.trangThai != 'Chờ xác nhận'}">Xác nhận</button>
+
+                                <!-- Nút Đang chế biến -->
+                                <button type="submit" name="status" value="Đang chế biến"
+                                        class="status-btn"
+                                        th:classappend="${dh.trangThai == 'Đang chế biến' ? 'active' : (dh.trangThai == 'Đã hoàn thành' ? 'completed' : '')}"
+                                        th:disabled="${dh.trangThai != 'Đã xác nhận'}">Chế biến</button>
+
+                                <!-- Nút Hoàn thành -->
+                                <button type="submit" name="status" value="Đã hoàn thành"
+                                        class="status-btn"
+                                        th:classappend="${dh.trangThai == 'Đã hoàn thành' ? 'active' : ''}"
+                                        th:disabled="${dh.trangThai != 'Đang chế biến'}">Xong</button>
+                            </div>
+                        </form>
+                    </td>
+                    <td style="text-align: center;">
+                        <a th:href="@{'/admin/chiTietDon/' + ${dh.id}}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
+                    </td>
+                </tr>
+
+                <!-- Đơn mẫu 1 (khi chưa có dữ liệu DB) -->
+                <tr data-status="Chờ xác nhận" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
                     <td><span class="text-orange font-bold">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -119,8 +177,8 @@
                     </td>
                 </tr>
 
-                <!-- Đơn 2: Gắn data-status tương ứng -->
-                <tr data-status="Đang chế biến">
+                <!-- Đơn mẫu 2 (khi chưa có dữ liệu DB) -->
+                <tr data-status="Đang chế biến" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
                     <td><span class="text-orange font-bold">#VN-29033</span></td>
                     <td>
                         <div class="details">
@@ -143,12 +201,12 @@
                         </div>
                     </td>
                     <td style="text-align: center;">
-                        <button class="btn-detail">Xem chi tiết</button>
+                        <a th:href="@{/admin/chiTietDon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
                     </td>
                 </tr>
 
-                <!-- Đơn 3: Gắn data-status tương ứng -->
-                <tr data-status="Đã hoàn thành">
+                <!-- Đơn mẫu 3 (khi chưa có dữ liệu DB) -->
+                <tr data-status="Đã hoàn thành" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
                     <td><span class="text-orange font-bold">#VN-29030</span></td>
                     <td>
                         <div class="details">
@@ -171,7 +229,7 @@
                         </div>
                     </td>
                     <td style="text-align: center;">
-                        <button class="btn-detail">Xem chi tiết</button>
+                        <a th:href="@{/admin/chiTietDon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
                     </td>
                 </tr>
                 </tbody>

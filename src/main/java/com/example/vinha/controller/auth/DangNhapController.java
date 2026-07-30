@@ -18,7 +18,7 @@ public class DangNhapController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping("/dangNhap")
+        @GetMapping("/dangNhap")
     public String showLoginForm(HttpSession session) {
         // Nếu đã đăng nhập thì chuyển hướng
         if (session.getAttribute("loggedInUser") != null) {

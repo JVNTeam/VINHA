@@ -23,10 +23,10 @@
         <div class="page-header">
             <div class="title-group">
                 <div class="order-title-row">
-                    <h1 class="page-title">Đơn hàng <span style="color: var(--admin-orange);">#VN-29034</span></h1>
-                    <span class="badge badge-pending">Chờ xác nhận</span>
+                    <h1 class="page-title">Đơn hàng <span style="color: var(--admin-orange);" th:text="${donHang != null ? '#VN-' + donHang.id : '#VN-29034'}">#VN-29034</span></h1>
+                    <span class="badge" th:classappend="${donHang != null && donHang.trangThai == 'Đã hoàn thành' ? 'badge-success' : (donHang != null && donHang.trangThai == 'Đã hủy' ? 'badge-danger' : 'badge-pending')}" th:text="${donHang != null ? donHang.trangThai : 'Chờ xác nhận'}">Chờ xác nhận</span>
                 </div>
-                <p class="page-subtitle">Ngày đặt: 10:24 - 25/10/2026</p>
+                <p class="page-subtitle">Ngày đặt: <span th:text="${donHang != null && donHang.ngayTao != null ? #temporals.format(donHang.ngayTao, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span></p>
             </div>
             <!-- ĐÃ FIX: Nút quay lại trỏ về trang Quản lý đơn hàng -->
             <a th:href="@{/admin/donHang}" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại</a>
@@ -43,19 +43,19 @@
                     <div class="customer-info-grid">
                         <div class="info-row">
                             <span class="label">Khách hàng</span>
-                            <strong class="value text-main">Nguyễn Văn An</strong>
+                            <strong class="value text-main" th:text="${donHang != null && donHang.nguoiDung != null ? donHang.nguoiDung.hoTen : (donHang != null && donHang.diaChi != null && donHang.diaChi.tenNguoiNhan != null ? donHang.diaChi.tenNguoiNhan : 'Nguyễn Văn An')}">Nguyễn Văn An</strong>
                         </div>
                         <div class="info-row">
                             <span class="label">Số điện thoại</span>
-                            <strong class="value text-main">090 123 4567</strong>
+                            <strong class="value text-main" th:text="${donHang != null && donHang.nguoiDung != null ? donHang.nguoiDung.soDienThoai : (donHang != null && donHang.diaChi != null ? donHang.diaChi.sdtNguoiNhan : '090 123 4567')}">090 123 4567</strong>
                         </div>
                         <div class="info-row">
                             <span class="label">Địa chỉ giao</span>
-                            <strong class="value text-main">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</strong>
+                            <strong class="value text-main" th:text="${donHang != null && donHang.diaChi != null ? donHang.diaChi.diaChi : '123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh'}">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</strong>
                         </div>
                         <div class="info-row">
                             <span class="label">Ghi chú</span>
-                            <em class="value text-muted" style="background: #fdf8f3; padding: 10px; border-radius: 8px;">Giao trước 12h trưa, không lấy hành lá.</em>
+                            <em class="value text-muted" style="background: #fdf8f3; padding: 10px; border-radius: 8px;" th:text="${donHang != null && donHang.ghiChu != null && !donHang.ghiChu.isEmpty() ? donHang.ghiChu : 'Giao trước 12h trưa, không lấy hành lá.'}">Giao trước 12h trưa, không lấy hành lá.</em>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            <tr th:each="ct : ${donHang != null && donHang.chiTietDonHangs != null ? donHang.chiTietDonHangs : {}}">
+                                <td>
+                                    <div class="food-info">
+                                        <div class="food-img" th:style="'background-image: url(' + @{${ct.monAn != null && ct.monAn.hinhAnhs != null && !ct.monAn.hinhAnhs.isEmpty() ? '/uploads/' + ct.monAn.hinhAnhs[0].duongDan : 'https://via.placeholder.com/50'}} + ');'"></div>
+                                        <strong class="text-main" th:text="${ct.monAn != null ? ct.monAn.ten : 'Cơm Sườn Nướng'}">Cơm Sườn Nướng</strong>
+                                    </div>
+                                </td>
+                                <td style="text-align: center;"><strong class="text-main" th:text="${ct.soLuong}">2</strong></td>
+                                <td style="text-align: right;" th:text="${ct.donGia != null ? #numbers.formatDecimal(ct.donGia, 0, 'COMMA', 0, 'POINT') + 'đ' : '150.000đ'}">150.000đ</td>
+                                <td style="text-align: right;"><strong class="text-main" th:text="${ct.thanhTien != null ? #numbers.formatDecimal(ct.thanhTien, 0, 'COMMA', 0, 'POINT') + 'đ' : (ct.donGia != null ? #numbers.formatDecimal(ct.donGia * ct.soLuong, 0, 'COMMA', 0, 'POINT') + 'đ' : '300.000đ')}">300.000đ</strong></td>
+                            </tr>
+                            <tr th:if="${donHang == null || #lists.isEmpty(donHang.chiTietDonHangs)}">
                                 <td>
                                     <div class="food-info">
                                         <div class="food-img" style="background-image: url('https://via.placeholder.com/50');"></div>
@@ -84,17 +95,6 @@
                                 <td style="text-align: center;"><strong class="text-main">2</strong></td>
                                 <td style="text-align: right;">150.000đ</td>
                                 <td style="text-align: right;"><strong class="text-main">300.000đ</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="food-info">
-                                        <div class="food-img" style="background-image: url('https://via.placeholder.com/50');"></div>
-                                        <strong class="text-main">Cơm Gà Xối Mỡ</strong>
-                                    </div>
-                                </td>
-                                <td style="text-align: center;"><strong class="text-main">1</strong></td>
-                                <td style="text-align: right;">120.000đ</td>
-                                <td style="text-align: right;"><strong class="text-main">120.000đ</strong></td>
                             </tr>
                             </tbody>
                         </table>
@@ -109,18 +109,18 @@
                 <div class="info-card">
                     <h3 class="card-title">Lịch sử trạng thái</h3>
                     <ul class="timeline">
-                        <li class="timeline-item done">
+                        <li class="timeline-item done" th:each="ls : ${donHang != null && donHang.lichSuTrangThais != null ? donHang.lichSuTrangThais : {}}">
+                            <div class="icon"><i class="fas fa-check"></i></div>
+                            <div class="content">
+                                <strong class="text-main" th:text="${ls.trangThai}">Đã đặt hàng</strong>
+                                <span class="time text-muted" th:text="${ls.thoiGian != null ? #temporals.format(ls.thoiGian, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span>
+                            </div>
+                        </li>
+                        <li class="timeline-item done" th:if="${donHang == null || #lists.isEmpty(donHang.lichSuTrangThais)}">
                             <div class="icon"><i class="fas fa-check"></i></div>
                             <div class="content">
                                 <strong class="text-main">Đã đặt hàng</strong>
                                 <span class="time text-muted">10:24 - 25/10/2026</span>
-                            </div>
-                        </li>
-                        <li class="timeline-item current">
-                            <div class="icon"><i class="fas fa-clock"></i></div>
-                            <div class="content">
-                                <strong class="text-main" style="color: var(--admin-orange);">Chờ xác nhận</strong>
-                                <span class="time text-muted">10:25 - 25/10/2026</span>
                             </div>
                         </li>
                     </ul>
@@ -132,37 +132,40 @@
 
                     <div class="summary-row">
                         <span class="text-muted font-weight-600">Tạm tính</span>
-                        <span class="text-main font-weight-600">420.000đ</span>
+                        <span class="text-main font-weight-600" th:text="${donHang != null && donHang.tamTinh != null ? #numbers.formatDecimal(donHang.tamTinh, 0, 'COMMA', 0, 'POINT') + 'đ' : '420.000đ'}">420.000đ</span>
                     </div>
                     <div class="summary-row">
                         <span class="text-muted font-weight-600">Phí vận chuyển</span>
-                        <span class="text-main font-weight-600">30.000đ</span>
+                        <span class="text-main font-weight-600" th:text="${donHang != null && donHang.phiGiaoHang != null ? #numbers.formatDecimal(donHang.phiGiaoHang, 0, 'COMMA', 0, 'POINT') + 'đ' : '30.000đ'}">30.000đ</span>
                     </div>
                     <div class="summary-row">
                         <span class="text-muted font-weight-600">Giảm giá</span>
-                        <span class="font-weight-600" style="color: var(--danger-color);">-0đ</span>
+                        <span class="font-weight-600" style="color: var(--danger-color);" th:text="'-' + ${donHang != null && donHang.tienGiam != null ? #numbers.formatDecimal(donHang.tienGiam, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">-0đ</span>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="summary-row total-row">
                         <span class="text-main" style="font-size: 16px; font-weight: 800;">Tổng cộng</span>
-                        <span style="font-size: 22px; font-weight: 800; color: var(--admin-orange);">450.000đ</span>
+                        <span style="font-size: 22px; font-weight: 800; color: var(--admin-orange);" th:text="${donHang != null && donHang.tongTien != null ? #numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT') + 'đ' : '450.000đ'}">450.000đ</span>
                     </div>
 
                     <div class="payment-method">
                         <i class="fas fa-university" style="color: #8c7355; font-size: 20px;"></i>
                         <div class="method-info">
                             <span class="text-muted" style="font-size: 12px; font-weight: 600;">Phương thức thanh toán</span>
-                            <strong class="text-main">Chuyển khoản</strong>
+                            <strong class="text-main" th:text="${donHang != null && donHang.hinhThucThanhToan != null ? donHang.hinhThucThanhToan : 'Chuyển khoản'}">Chuyển khoản</strong>
                         </div>
                     </div>
                 </div>
 
                 <!-- Nút thao tác -->
                 <div class="admin-actions">
-                    <button class="btn-action btn-danger-outline" id="btnHuy"><i class="fas fa-times"></i> Hủy đơn</button>
-                    <button class="btn-action btn-orange" id="btnXacNhan"><i class="fas fa-check"></i> Xác nhận đơn</button>
+                    <form th:action="@{/admin/donHang/updateStatus}" method="post" style="display: flex; gap: 12px; width: 100%;">
+                        <input type="hidden" name="id" th:value="${donHang != null ? donHang.id : ''}">
+                        <button type="submit" name="status" value="Đã hủy" class="btn-action btn-danger-outline" id="btnHuy"><i class="fas fa-times"></i> Hủy đơn</button>
+                        <button type="submit" name="status" value="Đã xác nhận" class="btn-action btn-orange" id="btnXacNhan"><i class="fas fa-check"></i> Xác nhận đơn</button>
+                    </form>
                 </div>
             </div>
         </div>

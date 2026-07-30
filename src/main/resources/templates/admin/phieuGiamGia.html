@@ -12,6 +12,7 @@
 <body>
 
 <div class="admin-wrapper">
+    <!-- GỌI FRAGMENT MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
     <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
 
     <main class="admin-main">
@@ -69,6 +70,7 @@
 
                 <div class="filter-actions">
                     <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
+                    <!-- Link làm mới trang chuẩn xác -->
                     <a th:href="@{/admin/phieuGiamGia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
                 </div>
             </form>

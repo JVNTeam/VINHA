@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface DonHangRepository extends JpaRepository<DonHang, Long> {
+    List<DonHang> findAllByOrderByNgayTaoDesc();
     List<DonHang> findByNguoiDungIdOrderByNgayTaoDesc(Long nguoiDungId);
     List<DonHang> findByTrangThai(String trangThai);
     List<DonHang> findByNguoiDungIdAndTrangThai(Long nguoiDungId, String trangThai);

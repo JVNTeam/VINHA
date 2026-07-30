@@ -47,18 +47,35 @@ ul {
 }
 
 /* Tiện ích */
-.text-danger { color: var(--danger-color) !important; }
-.text-success { color: var(--success-color) !important; }
-.text-orange { color: var(--admin-orange) !important; }
-.text-muted { color: var(--text-muted) !important; }
-.text-main { color: var(--text-main) !important; }
-.font-weight-600 { font-weight: 700; }
+.text-danger {
+    color: var(--danger-color) !important;
+}
+
+.text-success {
+    color: var(--success-color) !important;
+}
+
+.text-orange {
+    color: var(--admin-orange) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-main {
+    color: var(--text-main) !important;
+}
+
+.font-weight-600 {
+    font-weight: 700;
+}
 
 /* ================= LAYOUT ================= */
 .admin-wrapper {
     display: grid;
     grid-template-columns: 260px 1fr;
-    min-height: 100vh; /* Đã xóa chữ MAIN thừa ở đây */
+    min-height: 100vh;
 }
 
 /* ================= SIDEBAR ================= */
@@ -81,7 +98,6 @@ ul {
     font-size: 26px;
     font-weight: 800;
     color: var(--admin-dark-brown);
-    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .admin-nav {
@@ -92,7 +108,9 @@ ul {
     overflow-y: auto;
 }
 
-.admin-nav::-webkit-scrollbar { width: 0; }
+.admin-nav::-webkit-scrollbar {
+    width: 0;
+}
 
 .nav-item {
     display: flex;
@@ -144,10 +162,6 @@ ul {
     color: #b71c1c !important;
 }
 
-.nav-item.logout-item:hover i {
-    color: #b71c1c !important;
-}
-
 /* ================= MAIN CONTENT ================= */
 .admin-main {
     padding: 32px 40px;
@@ -165,7 +179,6 @@ ul {
     font-weight: 800;
     color: var(--admin-dark-brown);
     margin-bottom: 4px;
-    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .page-subtitle {
@@ -361,6 +374,7 @@ ul {
     font-size: 15px;
 }
 
+/* Code Badge */
 .code-badge {
     padding: 6px 12px;
     border-radius: 8px;
@@ -412,7 +426,10 @@ ul {
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: #cbd5e1;
     transition: .4s;
     border-radius: 34px;
@@ -505,7 +522,10 @@ a.toggle-switch {
 a.toggle-switch .slider {
     position: absolute;
     cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: #cbd5e1;
     transition: .4s;
     border-radius: 34px;

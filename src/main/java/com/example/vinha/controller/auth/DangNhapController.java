@@ -2,6 +2,7 @@ package com.example.vinha.controller.auth;
 
 import com.example.vinha.entity.NguoiDung;
 import com.example.vinha.service.AuthService;
+import com.example.vinha.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -18,12 +20,23 @@ public class DangNhapController {
     @Autowired
     private AuthService authService;
 
-        @GetMapping("/dangNhap")
-    public String showLoginForm(HttpSession session) {
-        // Nếu đã đăng nhập thì chuyển hướng
+    @Autowired
+    private CartService cartService;
+
+    @GetMapping("/dangNhap")
+    public String showLoginForm(
+            @RequestParam(value = "returnUrl", required = false) String returnUrl,
+            HttpSession session,
+            Model model
+    ) {
         if (session.getAttribute("loggedInUser") != null) {
+            if (returnUrl != null && returnUrl.startsWith("/")) {
+                return "redirect:" + returnUrl;
+            }
             return "redirect:/trangChu";
         }
+
+        model.addAttribute("returnUrl", returnUrl);
         return "/auth/login";
     }
 
@@ -41,6 +54,7 @@ public class DangNhapController {
     public String processLogin(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
+            @RequestParam(value = "returnUrl", required = false) String returnUrl,
             HttpSession session,
             Model model) {
 
@@ -53,17 +67,26 @@ public class DangNhapController {
 
         NguoiDung user = userOpt.get();
 
-        // Lưu thông tin user vào session
         session.setAttribute("loggedInUser", user);
 
-        // Kiểm tra role để chuyển hướng
+        Object guestCartObj = session.getAttribute("guestCart");
+        if (guestCartObj instanceof Map<?, ?> mapObj) {
+            @SuppressWarnings("unchecked")
+            Map<Long, Integer> guestCart = (Map<Long, Integer>) mapObj;
+            cartService.mergeGuestCart(user.getId(), guestCart);
+            session.removeAttribute("guestCart");
+        }
+
         String roleTen = user.getVaiTro().getTen();
 
         if ("Admin".equals(roleTen)) {
             return "redirect:/admin/tongQuan";
         }
 
-        // Mặc định: Khách hàng -> Trang chủ
+        if (returnUrl != null && returnUrl.startsWith("/")) {
+            return "redirect:" + returnUrl;
+        }
+
         return "redirect:/trangChu";
     }
 

@@ -7,6 +7,7 @@ import com.example.vinha.entity.MonAn;
 import com.example.vinha.entity.NguoiDung;
 import com.example.vinha.repository.ChiTietGioHangRepository;
 import com.example.vinha.repository.GioHangRepository;
+import com.example.vinha.repository.MonAnRepository;
 import com.example.vinha.service.FoodService;
 import com.example.vinha.service.VoucherService;
 import jakarta.servlet.http.HttpSession;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -26,17 +29,20 @@ public class HomeController {
     private final GioHangRepository gioHangRepository;
     private final ChiTietGioHangRepository chiTietGioHangRepository;
     private final VoucherService voucherService;
+    private final MonAnRepository monAnRepository;
 
     public HomeController(
             FoodService foodService,
             GioHangRepository gioHangRepository,
             ChiTietGioHangRepository chiTietGioHangRepository,
-            VoucherService voucherService
+            VoucherService voucherService,
+            MonAnRepository monAnRepository
     ) {
         this.foodService = foodService;
         this.gioHangRepository = gioHangRepository;
         this.chiTietGioHangRepository = chiTietGioHangRepository;
         this.voucherService = voucherService;
+        this.monAnRepository = monAnRepository;
     }
 
     @GetMapping("/trangChu")
@@ -89,18 +95,54 @@ public class HomeController {
         return "/chiTietMonAn";
     }
 
+    @SuppressWarnings("unchecked")
+    private List<ChiTietGioHang> convertGuestCartToItems(Map<Long, Integer> guestCart) {
+        if (guestCart == null || guestCart.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<ChiTietGioHang> items = new ArrayList<>();
+        for (Map.Entry<Long, Integer> entry : guestCart.entrySet()) {
+            Long monAnId = entry.getKey();
+            Integer soLuong = entry.getValue();
+            if (monAnId == null || soLuong == null || soLuong < 1) {
+                continue;
+            }
+
+            MonAn monAn = monAnRepository.findById(monAnId).orElse(null);
+            if (monAn == null) {
+                continue;
+            }
+
+            BigDecimal donGia = monAn.getGia() != null ? monAn.getGia() : BigDecimal.ZERO;
+            ChiTietGioHang item = ChiTietGioHang.builder()
+                    .id(monAnId)
+                    .monAn(monAn)
+                    .soLuong(soLuong)
+                    .donGia(donGia)
+                    .build();
+            items.add(item);
+        }
+        return items;
+    }
+
     @GetMapping("/gioHang")
     public String gioHang(HttpSession session, Model model) {
         Object userObj = session.getAttribute("loggedInUser");
-        if (!(userObj instanceof NguoiDung)) {
-            return "redirect:/dangNhap";
-        }
+        List<ChiTietGioHang> cartItems;
 
-        NguoiDung nguoiDung = (NguoiDung) userObj;
-        List<ChiTietGioHang> cartItems = gioHangRepository.findByNguoiDungId(nguoiDung.getId())
-                .map(GioHang::getId)
-                .map(chiTietGioHangRepository::findByGioHangId)
-                .orElse(Collections.emptyList());
+        if (userObj instanceof NguoiDung nguoiDung) {
+            cartItems = gioHangRepository.findByNguoiDungId(nguoiDung.getId())
+                    .map(GioHang::getId)
+                    .map(chiTietGioHangRepository::findByGioHangId)
+                    .orElse(Collections.emptyList());
+        } else {
+            Object guestCartObj = session.getAttribute("guestCart");
+            Map<Long, Integer> guestCart = (guestCartObj instanceof Map<?, ?>)
+                    ? (Map<Long, Integer>) guestCartObj
+                    : Collections.emptyMap();
+            cartItems = convertGuestCartToItems(guestCart);
+        }
 
         BigDecimal subtotal = cartItems.stream()
                 .map(item -> item.getDonGia().multiply(BigDecimal.valueOf(item.getSoLuong())))
@@ -119,7 +161,11 @@ public class HomeController {
     }
 
     @GetMapping("/thanhToan")
-    public String thanhToan() {
+    public String thanhToan(HttpSession session) {
+        Object userObj = session.getAttribute("loggedInUser");
+        if (!(userObj instanceof NguoiDung)) {
+            return "redirect:/dangNhap?returnUrl=/thanhToan";
+        }
         return "/thanhToan";
     }
 

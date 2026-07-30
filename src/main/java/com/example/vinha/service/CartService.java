@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Service
 public class CartService {
@@ -112,5 +113,21 @@ public class CartService {
         }
 
         chiTietGioHangRepository.delete(chiTiet);
+    }
+
+    @Transactional
+    public void mergeGuestCart(Long nguoiDungId, Map<Long, Integer> guestCart) {
+        if (nguoiDungId == null || guestCart == null || guestCart.isEmpty()) {
+            return;
+        }
+
+        for (Map.Entry<Long, Integer> entry : guestCart.entrySet()) {
+            Long monAnId = entry.getKey();
+            Integer soLuong = entry.getValue();
+            if (monAnId == null || soLuong == null || soLuong < 1) {
+                continue;
+            }
+            addToCart(nguoiDungId, monAnId, soLuong);
+        }
     }
 }

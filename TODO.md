@@ -51,3 +51,11 @@
 - [ ] Cập nhật `gioHang.html` hiển thị dữ liệu giỏ hàng thật bằng Thymeleaf
 - [ ] Cập nhật `thucDon.html` thêm form POST "Thêm vào giỏ hàng" cho từng món
 - [ ] Cập nhật redirect sau thêm giỏ hàng để hiển thị ngay trang giỏ
+
+# TODO - Chỉ bắt đăng nhập khi thanh toán
+
+- [ ] Cập nhật `CartController` cho phép guest thêm/cập nhật/xóa giỏ hàng bằng session
+- [ ] Cập nhật `HomeController#/gioHang` cho guest xem giỏ hàng, `#/thanhToan` bắt buộc đăng nhập
+- [ ] Cập nhật `DangNhapController` hỗ trợ `returnUrl` và merge guest cart sau đăng nhập
+- [ ] Cập nhật `CartService` bổ sung hàm merge session cart vào DB cart
+- [ ] Rà soát và cập nhật JS liên quan (`chiTietMonAn.js`, `giohang.js`, `thanhtoan.js`) theo flow mới

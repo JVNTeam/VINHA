@@ -215,18 +215,18 @@ header{
 
 .voucher-list{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(2,1fr);
     gap:25px;
 }
 
-.voucher-empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 48px 20px;
-    color: #777;
-    background: #fff;
-    border-radius: 14px;
-    border: 1px dashed #e0d5c8;
+.voucher-empty{
+    grid-column:1 / -1;
+    text-align:center;
+    padding:48px 20px;
+    color:#777;
+    background:#fff;
+    border-radius:14px;
+    border:1px dashed #e0d5c8;
 }
 
 .voucher-card{
@@ -244,12 +244,14 @@ header{
 }
 
 .voucher-left{
-    width:120px;
+    width:145px;      /* tăng từ 120px lên 145px */
+    flex-shrink:0;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
     color:#fff;
+    padding:0 10px;
 }
 
 .orange{
@@ -266,15 +268,16 @@ header{
 
 .voucher-left h3{
     font-size:32px;
+    margin-bottom:6px;
 }
 
 .voucher-left span{
     font-size:14px;
-    margin-top:5px;
 }
 
 .voucher-right{
     flex:1;
+    min-width:0;
     padding:20px;
 }
 
@@ -289,41 +292,35 @@ header{
     margin-bottom:20px;
 }
 
-.voucher-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.copy-btn{
-    border:none;
-    background:#8b4b16;
-    color:#fff;
-    padding:8px 18px;
-    border-radius:20px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.copy-btn:hover{
-    background:#6f3a0f;
-}
 /*================= ACTION =================*/
 
 .voucher-action{
     display:flex;
-    gap:10px;
+    align-items:center;
+    gap:12px;
+    flex-shrink:0;
 }
 
-.save-btn,
-.copy-btn{
-    border:none;
-    padding:8px 16px;
-    border-radius:20px;
-    cursor:pointer;
+.copy-btn,
+.save-btn{
+    min-width:95px;
+    height:42px;
+    padding:0 18px;
+    border-radius:22px;
     font-size:14px;
     font-weight:600;
+    cursor:pointer;
     transition:.3s;
+}
+
+.copy-btn{
+    background:#8b4b16;
+    color:#fff;
+    border:none;
+}
+
+.copy-btn:hover{
+    background:#6f3a0f;
 }
 
 .save-btn{
@@ -337,72 +334,9 @@ header{
     color:#fff;
 }
 
-.copy-btn{
-    background:#8b4b16;
-    color:#fff;
-}
-
-.copy-btn:hover{
-    background:#6f3a0f;
-}
-
-.save-btn i,
-.copy-btn i{
+.save-btn i{
     margin-right:6px;
 }
-
-/* ================= 3 STEPS ================= */
-
-.steps{
-    background:#fff2e8;
-    padding:80px 0;
-    text-align:center;
-}
-
-.steps h2{
-    font-size:46px;
-    color:#8b4b16;
-    margin-bottom:60px;
-}
-
-.step-list{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:40px;
-}
-
-.step{
-    padding:20px;
-}
-
-.icon{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    background:#fff;
-    margin:0 auto 25px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-}
-
-.icon i{
-    font-size:34px;
-    color:#b86b1d;
-}
-
-.step h3{
-    font-size:24px;
-    margin-bottom:15px;
-    color:#333;
-}
-
-.step p{
-    color:#666;
-    line-height:1.7;
-}
-
 
 /* ================= SPECIAL ================= */
 
@@ -480,6 +414,125 @@ header{
     background:#8d5315;
 }
 
+/* ================= 3 BƯỚC ================= */
+
+.steps{
+    padding:90px 0;
+    background:#fff8f2;
+}
+
+.steps h2{
+    text-align:center;
+    font-size:46px;
+    color:#8b4b16;
+    font-weight:700;
+    margin-bottom:60px;
+}
+
+.step-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.step{
+    background:#fff;
+    padding:40px 30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.step:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.12);
+}
+
+.step .icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 25px;
+    border-radius:50%;
+    background:#fff3e6;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:.3s;
+}
+
+.step .icon i{
+    font-size:32px;
+    color:#ff8a00;
+    transition:.3s;
+}
+
+.step:hover .icon{
+    background:#ff8a00;
+}
+
+.step:hover .icon i{
+    color:#fff;
+}
+
+.step h3{
+    font-size:32px;
+    color:#333;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.step p{
+    color:#666;
+    font-size:16px;
+    line-height:1.8;
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+
+    .step-list{
+        grid-template-columns:1fr;
+    }
+
+    .steps h2{
+        font-size:38px;
+        margin-bottom:40px;
+    }
+
+    .step{
+        padding:35px 25px;
+    }
+}
+
+@media(max-width:500px){
+
+    .steps{
+        padding:60px 0;
+    }
+
+    .steps h2{
+        font-size:30px;
+    }
+
+    .step{
+        padding:30px 20px;
+    }
+
+    .step h3{
+        font-size:24px;
+    }
+
+    .step .icon{
+        width:65px;
+        height:65px;
+    }
+
+    .step .icon i{
+        font-size:26px;
+    }
+}
 
 /* ================= FOOTER ================= */
 

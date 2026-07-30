@@ -68,7 +68,7 @@
               <p>Lưu ngay mã ưu đãi để nhận giá tốt cho bữa trưa hôm nay</p>
             </div>
 
-            <a href="#">Xem tất cả <i class="fa-solid fa-angle-right"></i></a>
+<!--            <a href="#">Xem tất cả <i class="fa-solid fa-angle-right"></i></a>-->
           </div>
 
           <div class="voucher-list">
@@ -90,28 +90,39 @@
                 </p>
 
                 <div class="voucher-bottom">
-                  <small th:text="${voucher.ngayKetThuc != null ? 'HSD: ' + #temporals.format(voucher.ngayKetThuc, 'dd/MM/yyyy') : 'HSD: Không giới hạn'}">
-                    HSD: 30/12/2026
-                  </small>
+                  <div class="voucher-info">
+                    <small
+                            th:text="${voucher.ngayKetThuc != null ? 'HSD: ' + #temporals.format(voucher.ngayKetThuc, 'dd/MM/yyyy') : 'HSD: Không giới hạn'}">
+                      HSD: 30/12/2026
+                    </small>
+                  </div>
 
-                  <button class="copy-btn" th:attr="data-code=${voucher.ma}">Sao chép</button>
-                  <button class="save-btn" th:attr="data-code=${voucher.ma}">
-                    <i class="fa-regular fa-bookmark"></i> Lưu
-                  </button>
+                  <div class="voucher-action">
+                    <button class="copy-btn"
+                            th:attr="data-code=${voucher.ma}">
+                      Sao chép
+                    </button>
+
+                    <button class="save-btn"
+                            th:attr="data-code=${voucher.ma}">
+                      <i class="fa-regular fa-bookmark"></i>
+                      Lưu
+                    </button>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ================= 3 BƯỚC ================= -->
-
       <section class="steps">
         <div class="container">
           <h2>Chỉ với 3 bước nhận ưu đãi</h2>
 
           <div class="step-list">
+
             <div class="step">
               <div class="icon">
                 <i class="fa-solid fa-utensils"></i>
@@ -119,7 +130,9 @@
 
               <h3>1. Chọn món</h3>
 
-              <p>Lựa chọn những món ăn yêu thích từ thực đơn của Vị Nhà.</p>
+              <p>
+                Lựa chọn những món ăn yêu thích từ thực đơn của Vị Nhà.
+              </p>
             </div>
 
             <div class="step">
@@ -129,7 +142,9 @@
 
               <h3>2. Nhập mã</h3>
 
-              <p>Nhập mã ưu đãi tại bước thanh toán để được giảm giá.</p>
+              <p>
+                Nhập mã ưu đãi tại bước thanh toán để được giảm giá.
+              </p>
             </div>
 
             <div class="step">
@@ -139,52 +154,15 @@
 
               <h3>3. Nhận giảm giá</h3>
 
-              <p>Hệ thống tự động áp dụng ưu đãi cho đơn hàng.</p>
+              <p>
+                Hệ thống tự động áp dụng ưu đãi cho đơn hàng.
+              </p>
             </div>
+
           </div>
         </div>
       </section>
 
-      <!-- ================= CHƯƠNG TRÌNH ĐẶC BIỆT ================= -->
-
-      <section class="special">
-        <div class="container">
-          <h2>Chương trình đặc biệt</h2>
-
-          <div class="special-list">
-            <div class="special-card">
-              <img src="images/coffee.jpg" alt="" />
-
-              <div class="special-content">
-                <span>THỨ 2 HÀNG TUẦN</span>
-
-                <h3>Mua 1 Tặng 1 Cà Phê</h3>
-
-                <p>
-                  Nạp đầy năng lượng đầu tuần với ưu đãi mua 1 tặng 1 áp dụng
-                  cho toàn bộ đồ uống.
-                </p>
-
-                <a href="#">Tìm hiểu thêm</a>
-              </div>
-            </div>
-
-            <div class="special-card">
-              <img src="images/ship.jpg" alt="" />
-
-              <div class="special-content">
-                <span>ƯU ĐÃI GIAO HÀNG</span>
-
-                <h3>Miễn phí 2km đầu tiên</h3>
-
-                <p>Áp dụng cho mọi đơn hàng trong bán kính dưới 2km.</p>
-
-                <a href="#">Đặt giao ngay</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <div th:replace="~{fragments/footer-secondary :: footerSecondary}"></div>

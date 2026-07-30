@@ -58,7 +58,7 @@ ul {
 .admin-wrapper {
     display: grid;
     grid-template-columns: 260px 1fr;
-    min-height: 100vh;
+    min-height: 100vh; /* Đã xóa chữ MAIN thừa ở đây */
 }
 
 /* ================= SIDEBAR ================= */
@@ -68,7 +68,7 @@ ul {
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Chốt cứng chiều cao */
+    height: 100vh;
     position: sticky;
     top: 0;
 }
@@ -81,14 +81,14 @@ ul {
     font-size: 26px;
     font-weight: 800;
     color: var(--admin-dark-brown);
-    font-family: 'Georgia', serif;
+    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .admin-nav {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    flex: 1; /* Lực đẩy đẩy nút đăng xuất xuống đáy */
+    flex: 1;
     overflow-y: auto;
 }
 
@@ -124,7 +124,6 @@ ul {
     box-shadow: 0 4px 12px rgba(255, 138, 0, 0.25);
 }
 
-/* NÚT ĐĂNG XUẤT ĐÃ CẤU HÌNH FIX MÀU HOVER CHUẨN */
 .sidebar-footer {
     margin-top: auto;
     padding-top: 16px;
@@ -165,8 +164,8 @@ ul {
     font-size: 28px;
     font-weight: 800;
     color: var(--admin-dark-brown);
-    font-family: 'Georgia', serif;
     margin-bottom: 4px;
+    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .page-subtitle {
@@ -174,7 +173,6 @@ ul {
     color: var(--text-muted);
 }
 
-/* NÚT BẤM CHUNG */
 .header-actions {
     display: flex;
     gap: 12px;
@@ -363,7 +361,6 @@ ul {
     font-size: 15px;
 }
 
-/* Code Badge */
 .code-badge {
     padding: 6px 12px;
     border-radius: 8px;

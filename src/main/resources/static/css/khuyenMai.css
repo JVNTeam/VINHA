@@ -27,6 +27,13 @@ img{
     margin:auto;
 }
 
+/* ================= MAIN FIX (SỬA LỖI KHOẢNG TRẮNG) ================= */
+
+main{
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 /* ================= HEADER ================= */
 
 header{
@@ -419,6 +426,7 @@ header{
 .steps{
     padding:90px 0;
     background:#fff8f2;
+    margin-bottom:0 !important; /* Loại bỏ lề dưới nếu có */
 }
 
 .steps h2{
@@ -736,11 +744,6 @@ footer{
     }
 
 }
-
-main{
-    padding-bottom:120px;
-}
-
 
 /* ================= nút lưu ================= */
 .save-btn{

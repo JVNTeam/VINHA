@@ -91,6 +91,7 @@
                 <!-- THÊM ID CHO TBODY -->
                 <tbody id="orderTableBody">
 
+<<<<<<< HEAD
                 <!-- Render động từ DB nếu có donHangs -->
                 <tr th:each="dh : ${donHangs}"
                     th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
@@ -151,6 +152,10 @@
 
                 <!-- Đơn mẫu 1 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Chờ xác nhận" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
+=======
+                <!-- Đơn 1: Gắn data-status tương ứng -->
+                <tr data-status="Chờ xác nhận">
+>>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -177,8 +182,13 @@
                     </td>
                 </tr>
 
+<<<<<<< HEAD
                 <!-- Đơn mẫu 2 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Đang chế biến" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
+=======
+                <!-- Đơn 2: Gắn data-status tương ứng -->
+                <tr data-status="Đang chế biến">
+>>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29033</span></td>
                     <td>
                         <div class="details">
@@ -205,8 +215,13 @@
                     </td>
                 </tr>
 
+<<<<<<< HEAD
                 <!-- Đơn mẫu 3 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Đã hoàn thành" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
+=======
+                <!-- Đơn 3: Gắn data-status tương ứng -->
+                <tr data-status="Đã hoàn thành">
+>>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29030</span></td>
                     <td>
                         <div class="details">

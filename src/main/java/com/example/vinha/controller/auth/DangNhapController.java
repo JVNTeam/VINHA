@@ -18,7 +18,7 @@ public class DangNhapController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping("/dangNhap")
+        @GetMapping("/dangNhap")
     public String showLoginForm(HttpSession session) {
         // Nếu đã đăng nhập thì chuyển hướng
         if (session.getAttribute("loggedInUser") != null) {
@@ -60,7 +60,7 @@ public class DangNhapController {
         String roleTen = user.getVaiTro().getTen();
 
         if ("Admin".equals(roleTen)) {
-            return "redirect:/admin/thong-ke";
+            return "redirect:/admin/tongQuan";
         }
 
         // Mặc định: Khách hàng -> Trang chủ

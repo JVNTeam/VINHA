@@ -330,5 +330,20 @@ main {
         font-size: 38px;
 
     }
+    .input-group {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Định vị icon con mắt nằm ở góc phải bên trong ô input */
+    .input-group .eye {
+        position: absolute;
+        right: 14px;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        z-index: 10;
+    }
 
 }

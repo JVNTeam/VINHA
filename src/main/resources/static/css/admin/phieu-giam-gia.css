@@ -527,10 +527,14 @@ a.toggle-switch {
 a.toggle-switch .slider {
     position: absolute;
     cursor: pointer;
+<<<<<<< HEAD
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+=======
+    top: 0; left: 0; right: 0; bottom: 0;
+>>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
     background-color: #cbd5e1;
     transition: .4s;
     border-radius: 34px;

@@ -14,7 +14,6 @@
 </head>
 <body>
 
-<!-- CLASS ADMIN-WRAPPER ĐÃ ĐƯỢC KHỚP ĐÚNG VỚI CSS -->
 <div class="admin-wrapper">
     <div th:replace="~{admin/sidebar :: sidebar('donHang')}"></div>
 
@@ -60,7 +59,6 @@
         <!-- KHU VỰC LỌC -->
         <div class="filter-section">
             <div class="filter-left">
-                <!-- THÊM ID VÀ VALUE CHO THẺ SELECT ĐỂ JS BẮT SỰ KIỆN -->
                 <select id="statusFilter" class="form-control">
                     <option value="">Tất cả trạng thái</option>
                     <option value="Chờ xác nhận">Chờ xác nhận</option>
@@ -88,10 +86,8 @@
                     <th style="text-align: center; width: 8%;">THAO TÁC</th>
                 </tr>
                 </thead>
-                <!-- THÊM ID CHO TBODY -->
                 <tbody id="orderTableBody">
 
-<<<<<<< HEAD
                 <!-- Render động từ DB nếu có donHangs -->
                 <tr th:each="dh : ${donHangs}"
                     th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
@@ -152,10 +148,6 @@
 
                 <!-- Đơn mẫu 1 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Chờ xác nhận" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-=======
-                <!-- Đơn 1: Gắn data-status tương ứng -->
-                <tr data-status="Chờ xác nhận">
->>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -182,13 +174,8 @@
                     </td>
                 </tr>
 
-<<<<<<< HEAD
                 <!-- Đơn mẫu 2 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Đang chế biến" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-=======
-                <!-- Đơn 2: Gắn data-status tương ứng -->
-                <tr data-status="Đang chế biến">
->>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29033</span></td>
                     <td>
                         <div class="details">
@@ -215,13 +202,8 @@
                     </td>
                 </tr>
 
-<<<<<<< HEAD
                 <!-- Đơn mẫu 3 (khi chưa có dữ liệu DB) -->
                 <tr data-status="Đã hoàn thành" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-=======
-                <!-- Đơn 3: Gắn data-status tương ứng -->
-                <tr data-status="Đã hoàn thành">
->>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
                     <td><span class="text-orange font-bold">#VN-29030</span></td>
                     <td>
                         <div class="details">
@@ -268,16 +250,14 @@
                 tableRows.forEach(row => {
                     const rowStatus = row.getAttribute('data-status').trim();
 
-                    // Hiện dòng nếu chọn "Tất cả" hoặc khớp với trạng thái
                     if (selectedStatus === "" || rowStatus === selectedStatus) {
                         row.style.display = '';
                         visibleCount++;
                     } else {
-                        row.style.display = 'none'; // Ẩn các dòng không khớp
+                        row.style.display = 'none';
                     }
                 });
 
-                // Hiển thị thông báo nếu không có đơn hàng nào khớp
                 let emptyRow = document.getElementById('empty-js-row');
                 const tbody = document.getElementById('orderTableBody');
 

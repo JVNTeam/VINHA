@@ -75,7 +75,7 @@ ul {
 .admin-wrapper {
     display: grid;
     grid-template-columns: 260px 1fr;
-    min-height: 100vh; /* Đã xóa chữ MAIN thừa ở đây */
+    min-height: 100vh;
 }
 
 /* ================= SIDEBAR ================= */
@@ -98,7 +98,6 @@ ul {
     font-size: 26px;
     font-weight: 800;
     color: var(--admin-dark-brown);
-    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .admin-nav {
@@ -163,10 +162,6 @@ ul {
     color: #b71c1c !important;
 }
 
-.nav-item.logout-item:hover i {
-    color: #b71c1c !important;
-}
-
 /* ================= MAIN CONTENT ================= */
 .admin-main {
     padding: 32px 40px;
@@ -184,7 +179,6 @@ ul {
     font-weight: 800;
     color: var(--admin-dark-brown);
     margin-bottom: 4px;
-    /* Đã xóa font-family Georgia để fix lỗi tiếng Việt */
 }
 
 .page-subtitle {
@@ -380,6 +374,7 @@ ul {
     font-size: 15px;
 }
 
+/* Code Badge */
 .code-badge {
     padding: 6px 12px;
     border-radius: 8px;
@@ -527,14 +522,10 @@ a.toggle-switch {
 a.toggle-switch .slider {
     position: absolute;
     cursor: pointer;
-<<<<<<< HEAD
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-=======
-    top: 0; left: 0; right: 0; bottom: 0;
->>>>>>> 63d8df739200b83c887ce2ed4c59df1c43faf785
     background-color: #cbd5e1;
     transition: .4s;
     border-radius: 34px;

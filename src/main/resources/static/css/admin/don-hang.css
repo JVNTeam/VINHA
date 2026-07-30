@@ -44,7 +44,7 @@ ul { list-style: none; }
 .bg-white-opacity { background-color: rgba(255, 255, 255, 0.2) !important; }
 
 /* =========================================
-   LAYOUT GRID 2 CỘT (FIX KHỚP HOÀN TOÀN)
+   LAYOUT GRID 2 CỘT
 ========================================= */
 .admin-wrapper {
     display: grid !important;
@@ -52,7 +52,7 @@ ul { list-style: none; }
     min-height: 100vh;
 }
 
-/* SIDEBAR BAN CŨ */
+/* SIDEBAR */
 .admin-sidebar {
     background-color: #ffffff;
     border-right: 1px solid #ebe5df;
@@ -180,7 +180,7 @@ ul { list-style: none; }
     font-weight: 600;
 }
 
-/* KHU VỰC LỌC GỐC */
+/* KHU VỰC LỌC */
 .filter-section {
     background: #fff;
     border-radius: 12px;
@@ -226,7 +226,7 @@ ul { list-style: none; }
     background: #f8f9fa;
 }
 
-/* BẢNG DỮ LIỆU ĐƠN HÀNG GỐC */
+/* BẢNG DỮ LIỆU ĐƠN HÀNG */
 .table-container {
     background: #fff;
     border-radius: 12px;

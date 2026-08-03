@@ -2,6 +2,16 @@
 
 const autoFill = document.querySelector(".auto-fill");
 
+// Disable order button if no items in cart
+document.addEventListener("DOMContentLoaded", function() {
+    const orderBtn = document.getElementById("orderBtn");
+    const cartItems = document.querySelectorAll(".order-item");
+    
+    if (orderBtn) {
+        orderBtn.disabled = cartItems.length === 0;
+    }
+});
+
 function applyCustomerData() {
     const fullname = autoFill?.dataset.fullname || "";
     const phone = autoFill?.dataset.phone || "";
@@ -168,21 +178,6 @@ function parsePrice(value) {
     return Number(value || 0);
 }
 
-function getDiscountAmount(code, amount) {
-    const normalized = code.toUpperCase();
-    if (normalized === "VINHA20") {
-        return Math.round(amount * 0.2);
-    }
-    if (normalized === "COMTRUA") {
-        return Math.min(30000, amount);
-    }
-    if (normalized === "FREESHIP") {
-        shipping = 0;
-        return 0;
-    }
-    return 0;
-}
-
 couponBtn.onclick = function () {
 
     const code =
@@ -198,24 +193,37 @@ couponBtn.onclick = function () {
         return;
     }
 
-    const discountAmount = getDiscountAmount(code, subtotal);
-    if (discountAmount > 0 || code === "FREESHIP") {
-        discount = discountAmount;
-        if (code === "FREESHIP") {
+    // Call API to validate and apply voucher
+    fetch('/api/voucher/apply', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+            'code': code,
+            'subtotal': subtotal
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            discount = data.discountAmount;
             shipping = 0;
+            alert(`Áp dụng mã ${code} thành công.`);
         } else {
+            discount = 0;
             shipping = 0;
+            alert(data.message || "Mã giảm giá không hợp lệ");
         }
-        alert(`Áp dụng mã ${code} thành công.`);
-    } else {
+        updateMoney();
+    })
+    .catch(error => {
+        console.error('Error:', error);
         discount = 0;
         shipping = 0;
-        alert("Mã giảm giá không hợp lệ");
+        alert("Lỗi khi xử lý mã giảm giá");
         updateMoney();
-        return;
-    }
-
-    updateMoney();
+    });
 
 };
 
@@ -247,7 +255,12 @@ updateMoney();
 // ================= ĐẶT HÀNG =================
 
 document.querySelector(".order-btn")
-    .addEventListener("click", ()=>{
+    .addEventListener("click", function(e){
+
+        if (this.disabled) {
+            alert("Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi đặt hàng.");
+            return;
+        }
 
         const fullname =
             document.getElementById("fullname").value.trim();
@@ -258,48 +271,77 @@ document.querySelector(".order-btn")
         const address =
             document.getElementById("address").value.trim();
 
+        const note =
+            document.getElementById("note").value.trim();
+
         if(fullname===""){
-
             alert("Vui lòng nhập họ tên.");
-
             return;
+        }
 
+        if(phone===""){
+            alert("Vui lòng nhập số điện thoại.");
+            return;
         }
 
         if(!/^0\d{9}$/.test(phone)){
-
-            alert("Số điện thoại không hợp lệ.");
-
+            alert("Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số.");
             return;
-
         }
 
         if(address===""){
-
             alert("Vui lòng nhập địa chỉ.");
-
             return;
-
         }
 
         const payment =
             document.querySelector(
                 "input[name='payment']:checked"
-            ).nextElementSibling.innerText;
+            ).value;
 
-        alert(
+        const province =
+            document.getElementById("province").value;
 
-            `Đặt hàng thành công!
+        // Get discount and subtotal from display
+        const discountText = document.getElementById("discount").innerText || "0đ";
+        const subtotalText = document.getElementById("subtotal").innerText || "0đ";
+        
+        const finalDiscount = parseInt(discountText.replace(/[^\d]/g, ""), 10) || 0;
+        const finalSubtotal = parseInt(subtotalText.replace(/[^\d]/g, ""), 10) || 0;
+        
+        // Build request data
+        const formData = new URLSearchParams({
+            'fullname': fullname,
+            'phone': phone,
+            'address': address,
+            'province': province,
+            'payment': payment,
+            'note': note,
+            'discount': finalDiscount,
+            'subtotal': finalSubtotal
+        });
 
-Khách hàng: ${fullname}
-
-Thanh toán:
-${payment}
-
-Tổng tiền:
-${document.getElementById("grandTotal").innerText}`
-
-        );
+        // Call checkout API
+        fetch('/api/checkout/place-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Đặt hàng thành công! Đơn hàng của bạn đang được xử lý.");
+                window.location.href = data.redirectUrl;
+            } else {
+                alert(data.message || "Lỗi khi đặt hàng");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Lỗi khi xử lý đơn hàng");
+        });
 
     });
 

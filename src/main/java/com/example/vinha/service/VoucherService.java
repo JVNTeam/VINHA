@@ -53,6 +53,13 @@ public class VoucherService {
         return maGiamGiaRepository.findById(id).orElse(null);
     }
 
+    public MaGiamGia layTheoMa(String ma) {
+        if (ma == null || ma.trim().isEmpty()) {
+            return null;
+        }
+        return maGiamGiaRepository.findByMa(ma.toUpperCase().trim()).orElse(null);
+    }
+
     @Transactional
     public MaGiamGia taoMaGiamGia(MaGiamGia voucher) {
         return maGiamGiaRepository.save(voucher);

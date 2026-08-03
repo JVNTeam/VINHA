@@ -65,7 +65,7 @@
           <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
             <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
           </a>
-          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item active">
+          <a th:href="@{/lichsudonhang}" class="nav-item active">
             <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
           </a>
           <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
@@ -116,30 +116,31 @@
             <tbody>
               <tr
                 th:each="order : ${orders}"
-                th:class="'order-row ' + ${order.statusCode}"
+                th:class="|order-row ${order.statusCode}|"
               >
                 <td class="order-id" th:text="${order.code}">#VN-2024-0812</td>
                 <td th:text="${order.date}">12/08/2024</td>
                 <td class="order-price" th:text="${order.price}">245.000đ</td>
                 <td>
                   <span
-                    th:class="'badge badge-' + ${order.statusCode}"
+                    th:class="|badge badge-${order.statusCode}|"
                     th:text="${order.statusText}"
-                    >Chờ xác nhận</span
-                  >
+                  >Chờ xác nhận</span>
                 </td>
                 <td>
                   <div class="action-group">
                     <button
                       class="btn-cancel-order"
                       th:if="${order.statusCode == 'pending'}"
-                      th:onclick="cancelOrder([[${order.code}]])"
+                      th:data-code="${order.code}"
+                      onclick="cancelOrder(this.getAttribute('data-code'))"
                     >
                       Hủy đơn
                     </button>
                     <button
                       class="btn-view-detail"
-                      th:onclick="viewDetail([[${order.code}]])"
+                      th:data-code="${order.code}"
+                      onclick="viewDetail(this.getAttribute('data-code'))"
                     >
                       Xem chi tiết
                     </button>

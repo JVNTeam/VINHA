@@ -162,6 +162,12 @@ function updateAfterDelete() {
 
     updateHeaderCartIcon(totalQuantity);
 
+    // Disable checkout button if cart is empty
+    const checkoutBtn = document.querySelector(".checkout-btn");
+    if (checkoutBtn) {
+        checkoutBtn.disabled = items.length === 0;
+    }
+
     // Nếu giỏ hàng trống
     if (items.length === 0) {
 
@@ -175,7 +181,7 @@ function updateAfterDelete() {
 
                 <p>Hãy chọn những món ăn yêu thích nhé.</p>
 
-                <a href="menu.html" class="continue">
+                <a href="/thucDon" class="continue">
                     <i class="fa-solid fa-arrow-left"></i>
                     Quay lại thực đơn
                 </a>
@@ -190,13 +196,15 @@ function updateAfterDelete() {
 
 // ================== THANH TOÁN ==================
 
-const checkoutBtn = document.querySelector(".checkout-btn");
-
-checkoutBtn.onclick = function () {
-
-    alert("Chuyển sang trang thanh toán.");
-
-};
+const checkoutBtn = document.getElementById("checkoutBtn");
+if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", function(e) {
+        if (this.disabled) {
+            e.preventDefault();
+            alert("Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.");
+        }
+    });
+}
 
 // ================== KHỞI TẠO ==================
 

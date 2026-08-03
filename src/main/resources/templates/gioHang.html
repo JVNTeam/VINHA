@@ -225,8 +225,8 @@
               >
             </div>
 
-            <a th:href="@{/thanhToan}">
-              <button type="button" class="checkout-btn">
+            <a th:href="@{/thanhToan}" id="checkoutLink" onclick="return !document.getElementById('checkoutBtn').disabled">
+              <button type="button" class="checkout-btn" id="checkoutBtn" th:disabled="${itemCount == null or itemCount == 0}">
                 Thanh toán
                 <i class="fa-solid fa-arrow-right"></i>
               </button>

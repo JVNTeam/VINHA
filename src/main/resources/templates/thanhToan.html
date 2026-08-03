@@ -351,7 +351,7 @@
                 <strong id="grandTotal" th:text="${#numbers.formatDecimal(subtotal != null ? subtotal : 0, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</strong>
               </div>
 
-              <button class="order-btn">
+              <button class="order-btn" id="orderBtn" th:disabled="${cartItems == null or #lists.isEmpty(cartItems)}">
                 Đặt hàng ngay
 
                 <i class="fa-solid fa-arrow-right"></i>

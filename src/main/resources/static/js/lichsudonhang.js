@@ -25,14 +25,37 @@ function filterOrder(status, btnElement) {
 
 // Hủy đơn hàng
 function cancelOrder(orderCode) {
-    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng ' + orderCode + ' không?')) {
-        alert('Đã gửi yêu cầu hủy đơn hàng ' + orderCode);
-        // Có thể bổ sung fetch API gửi yêu cầu hủy lên Controller tại đây
+    if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng ' + orderCode + ' không?')) {
+        return;
     }
+
+    // Extract orderId từ orderCode (#VN-1 => 1)
+    const orderId = orderCode.replace('#VN-', '');
+
+    fetch('/api/order/cancel/' + orderId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Hủy đơn hàng thành công');
+            location.reload();
+        } else {
+            alert('Lỗi: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Lỗi khi hủy đơn hàng');
+    });
 }
 
 // Xem chi tiết đơn hàng
 function viewDetail(orderCode) {
-    alert('Mở chi tiết đơn hàng: ' + orderCode);
-    // window.location.href = '/tai-khoan/don-hang/' + orderCode;
+    // Extract orderId từ orderCode (#VN-1 => 1)
+    const orderId = orderCode.replace('#VN-', '');
+    window.location.href = '/tai-khoan/chi-tiet-don-hang/' + orderId;
 }

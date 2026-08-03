@@ -158,9 +158,9 @@
             </div>
 
             <div class="food-btn">
-              <button class="detail-btn" onclick="event.stopPropagation(); window.location.href=this.parentElement.querySelector('form').action;" type="button" style="visibility: hidden; width: 0; padding: 0;">
+              <a th:href="@{/chiTietMonAn(id=${mon.id})}" class="detail-btn" onclick="event.stopPropagation();">
                 Chi tiết
-              </button>
+              </a>
 
               <form th:action="@{/gioHang/them}" method="post" onclick="event.stopPropagation();">
                 <input type="hidden" name="monAnId" th:value="${mon.id}" />

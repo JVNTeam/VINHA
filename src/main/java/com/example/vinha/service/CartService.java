@@ -48,6 +48,8 @@ public class CartService {
         MonAn monAn = monAnRepository.findById(monAnId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy món ăn."));
 
+        int maxQuantity = monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+
         GioHang gioHang = gioHangRepository.findByNguoiDungId(nguoiDungId)
                 .orElseGet(() -> gioHangRepository.save(
                         GioHang.builder()
@@ -61,8 +63,14 @@ public class CartService {
 
         if (chiTiet != null) {
             int soLuongMoi = chiTiet.getSoLuong() + soLuongHopLe;
+            if (soLuongMoi > maxQuantity) {
+                soLuongMoi = maxQuantity;
+            }
             chiTiet.setSoLuong(soLuongMoi);
         } else {
+            if (soLuongHopLe > maxQuantity) {
+                soLuongHopLe = maxQuantity;
+            }
             BigDecimal donGia = monAn.getGia() != null ? monAn.getGia() : BigDecimal.ZERO;
             chiTiet = ChiTietGioHang.builder()
                     .gioHang(gioHang)
@@ -90,6 +98,13 @@ public class CartService {
                 || chiTiet.getGioHang().getNguoiDung() == null
                 || !chiTiet.getGioHang().getNguoiDung().getId().equals(nguoiDungId)) {
             throw new IllegalArgumentException("Không có quyền cập nhật sản phẩm trong giỏ hàng này.");
+        }
+
+        MonAn monAn = chiTiet.getMonAn();
+        int maxQuantity = monAn != null && monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+        
+        if (soLuongHopLe > maxQuantity) {
+            soLuongHopLe = maxQuantity;
         }
 
         chiTiet.setSoLuong(soLuongHopLe);

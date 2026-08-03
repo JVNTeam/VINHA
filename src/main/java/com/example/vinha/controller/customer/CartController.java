@@ -14,9 +14,11 @@ import java.util.Map;
 public class CartController {
 
     private final CartService cartService;
+    private final com.example.vinha.repository.MonAnRepository monAnRepository;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, com.example.vinha.repository.MonAnRepository monAnRepository) {
         this.cartService = cartService;
+        this.monAnRepository = monAnRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -43,8 +45,17 @@ public class CartController {
             cartService.addToCart(nguoiDung.getId(), monAnId, soLuongHopLe);
         } else {
             Map<Long, Integer> guestCart = getOrCreateGuestCart(session);
-            guestCart.merge(monAnId, soLuongHopLe, Integer::sum);
-            session.setAttribute("guestCart", guestCart);
+            com.example.vinha.entity.MonAn monAn = monAnRepository.findById(monAnId).orElse(null);
+            if (monAn != null) {
+                int maxQ = monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+                int currentQ = guestCart.getOrDefault(monAnId, 0);
+                int newQ = currentQ + soLuongHopLe;
+                if (newQ > maxQ) {
+                    newQ = maxQ;
+                }
+                guestCart.put(monAnId, newQ);
+                session.setAttribute("guestCart", guestCart);
+            }
         }
 
         return "redirect:/gioHang";
@@ -63,8 +74,16 @@ public class CartController {
         } else {
             Map<Long, Integer> guestCart = getOrCreateGuestCart(session);
             int soLuongHopLe = (soLuong == null || soLuong < 1) ? 1 : soLuong;
-            guestCart.put(chiTietGioHangId, soLuongHopLe);
-            session.setAttribute("guestCart", guestCart);
+            
+            com.example.vinha.entity.MonAn monAn = monAnRepository.findById(chiTietGioHangId).orElse(null);
+            if (monAn != null) {
+                int maxQ = monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+                if (soLuongHopLe > maxQ) {
+                    soLuongHopLe = maxQ;
+                }
+                guestCart.put(chiTietGioHangId, soLuongHopLe);
+                session.setAttribute("guestCart", guestCart);
+            }
         }
 
         return "redirect:/gioHang";

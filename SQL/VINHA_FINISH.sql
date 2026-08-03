@@ -398,3 +398,51 @@ WHERE mon_an_id = 1;
 UPDATE hinh_anh_mon_an
 SET duong_dan = '/images/comBoLucLac.jpg'
 WHERE mon_an_id = 2;
+
+-- =========================
+-- 1. XÓA DỮ LIỆU CŨ
+-- =========================
+--DELETE FROM mon_an;
+--DELETE FROM danh_muc;
+
+-- (Tùy chọn) Nếu ID của bạn là kiểu số tự tăng (IDENTITY), hãy chạy 2 dòng dưới đây để reset ID về 1.
+-- Nếu bạn tự nhập ID bằng tay thì không cần chạy 2 dòng này.
+--DBCC CHECKIDENT ('mon_an', RESEED, 0);
+--DBCC CHECKIDENT ('danh_muc', RESEED, 0);
+
+-- =========================
+-- 2. THÊM 5 DANH MỤC MỚI
+-- =========================
+INSERT INTO danh_muc (ten, mo_ta, trang_thai, anh, so_luong)
+VALUES
+    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'com-ga.jpg', 15),
+    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'com-bo.jpg', 10),
+    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'com-heo.jpg', 20),
+    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'com-hai-san.jpg', 12),
+    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'com-chay.jpg', 8);
+
+-- =========================
+-- 3. THÊM 10 MÓN ĂN MỚI
+-- =========================
+-- Giả sử ID danh mục tương ứng từ 1 đến 5 (theo thứ tự vừa thêm ở trên)
+INSERT INTO mon_an (danh_muc_id, ten, mo_ta, thanh_phan, gia, so_luong_con, da_ban)
+VALUES
+    -- Danh mục 1: Cơm gà
+    (3, N'Cơm gà xào nấm', N'Thịt gà mềm xào cùng nấm hương', N'Gà, nấm, cơm, hành tây', 45000, 30, 15),
+    (3, N'Cơm gà xối mỡ', N'Đùi gà chiên xối mỡ giòn rụm', N'Đùi gà, cơm chiên, cà chua', 50000, 40, 25),
+    (3, N'Cơm gà quay', N'Gà quay tẩm ướp đậm đà', N'Gà quay, dưa chuột, cơm trắng', 55000, 20, 10),
+
+    -- Danh mục 2: Cơm bò
+    (4, N'Cơm bò lúc lắc', N'Thịt bò thái khối xào mọng nước', N'Thịt bò, ớt chuông, hành tây, cơm', 65000, 25, 20),
+    (4, N'Cơm bò xào dưa chua', N'Bò xào dưa chua đưa cơm', N'Thịt bò, dưa cải chua, tỏi, cơm', 55000, 30, 12),
+
+    -- Danh mục 3: Cơm heo
+    (5, N'Cơm ba chỉ rang cháy cạnh', N'Thịt ba chỉ rang xém cạnh đậm vị', N'Thịt ba chỉ, hành lá, cơm', 40000, 50, 40),
+    (5, N'Cơm sườn nướng', N'Sườn nướng than hoa thơm lừng', N'Sườn cốt lết, đồ chua, cơm tấm', 50000, 45, 35),
+    (5, N'Cơm thịt băm sốt cà chua', N'Thịt băm sốt cà chua dễ ăn', N'Thịt heo băm, cà chua, hành, cơm', 35000, 35, 18),
+
+    -- Danh mục 4: Cơm hải sản
+    (6, N'Cơm mực xào chua ngọt', N'Mực tươi xào sốt chua ngọt', N'Mực, dứa, cà chua, tỏi, cơm', 60000, 20, 8),
+
+    -- Danh mục 5: Cơm chay
+    (7, N'Cơm đậu hũ xào rau nấm', N'Món chay thanh đạm đủ chất', N'Đậu hũ, nấm, cải thìa, cơm', 30000, 15, 5);

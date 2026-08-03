@@ -47,8 +47,7 @@
           <a th:href="@{/gioHang}"
              class="cart"
              th:classappend="${cartItemCount == 1} ? ' cart-1' : (${cartItemCount == 2} ? ' cart-2' : (${cartItemCount >= 3} ? ' cart-3' : ' cart-empty'))">
-            <i class="fa-solid"
-               th:classappend="${cartItemCount == 2} ? ' fa-cart-plus' : (${cartItemCount >= 3} ? ' fa-bag-shopping' : ' fa-cart-shopping')"></i>
+            <i class="fa-solid fa-cart-shopping"></i>
             <span class="cart-count" th:text="${cartItemCount}">0</span>
           </a>
 

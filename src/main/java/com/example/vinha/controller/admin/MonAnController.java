@@ -99,6 +99,12 @@ public class MonAnController {
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
+            if (ten == null || ten.trim().isEmpty()) {
+                throw new IllegalArgumentException("Tên món ăn không được để trống.");
+            }
+            if (monAnRepository.findByTen(ten.trim()).isPresent()) {
+                throw new IllegalArgumentException("Tên món ăn đã tồn tại. Vui lòng chọn tên khác.");
+            }
             if (gia == null) {
                 throw new IllegalArgumentException("Giá món ăn không được để trống.");
             }
@@ -190,6 +196,13 @@ public class MonAnController {
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
+            if (ten == null || ten.trim().isEmpty()) {
+                throw new IllegalArgumentException("Tên món ăn không được để trống.");
+            }
+            java.util.Optional<MonAn> existingMonAn = monAnRepository.findByTen(ten.trim());
+            if (existingMonAn.isPresent() && !existingMonAn.get().getId().equals(id)) {
+                throw new IllegalArgumentException("Tên món ăn đã tồn tại. Vui lòng chọn tên khác.");
+            }
             if (gia == null) {
                 throw new IllegalArgumentException("Giá món ăn không được để trống.");
             }
@@ -247,9 +260,12 @@ public class MonAnController {
 
     @GetMapping("/xoa")
     public String deleteMonAn(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        if (monAnRepository.existsById(id)) {
-            monAnRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Xóa món ăn thành công.");
+        java.util.Optional<MonAn> monAnOpt = monAnRepository.findById(id);
+        if (monAnOpt.isPresent()) {
+            MonAn monAn = monAnOpt.get();
+            monAn.setTrangThai("Ngừng bán");
+            monAnRepository.save(monAn);
+            redirectAttributes.addFlashAttribute("message", "Đã xóa mềm món ăn (chuyển trạng thái thành Ngừng bán).");
         } else {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy món ăn để xóa.");
         }

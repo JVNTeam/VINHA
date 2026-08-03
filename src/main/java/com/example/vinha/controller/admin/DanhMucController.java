@@ -73,7 +73,13 @@ public class DanhMucController {
 
         if (ten == null || ten.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục không được để trống.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(soLuong).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(0).build());
+            return "redirect:/admin/danhMuc/them";
+        }
+
+        if (danhMucRepository.findByTen(ten.trim()).isPresent()) {
+            redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(0).build());
             return "redirect:/admin/danhMuc/them";
         }
 
@@ -87,7 +93,7 @@ public class DanhMucController {
                 .moTa(moTa != null ? moTa.trim() : "")
                 .trangThai(trangThai != null && !trangThai.isBlank() ? trangThai : "Mở")
                 .anh(imagePath)
-                .soLuong(soLuong != null ? soLuong : 0)
+                .soLuong(0)
                 .build();
         danhMucRepository.save(danhMuc);
         redirectAttributes.addFlashAttribute("message", "Thêm danh mục thành công.");
@@ -127,7 +133,14 @@ public class DanhMucController {
 
         if (ten == null || ten.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục không được để trống.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(soLuong).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(danhMuc.getSoLuong()).build());
+            return "redirect:/admin/danhMuc/sua?id=" + id;
+        }
+
+        java.util.Optional<DanhMuc> existingDM = danhMucRepository.findByTen(ten.trim());
+        if (existingDM.isPresent() && !existingDM.get().getId().equals(id)) {
+            redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(danhMuc.getSoLuong()).build());
             return "redirect:/admin/danhMuc/sua?id=" + id;
         }
 
@@ -139,7 +152,7 @@ public class DanhMucController {
         danhMuc.setMoTa(moTa != null ? moTa.trim() : "");
         danhMuc.setTrangThai(trangThai != null && !trangThai.isBlank() ? trangThai : "Mở");
         danhMuc.setAnh(imagePath);
-        danhMuc.setSoLuong(soLuong != null ? soLuong : 0);
+        // Khong cap nhat so luong tu request vi da bi an tren form
         danhMucRepository.save(danhMuc);
 
         redirectAttributes.addFlashAttribute("message", "Cập nhật danh mục thành công.");
@@ -148,9 +161,12 @@ public class DanhMucController {
 
     @GetMapping("/xoa")
     public String deleteDanhMuc(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        if (danhMucRepository.existsById(id)) {
-            danhMucRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Xóa danh mục thành công.");
+        java.util.Optional<DanhMuc> danhMucOpt = danhMucRepository.findById(id);
+        if (danhMucOpt.isPresent()) {
+            DanhMuc danhMuc = danhMucOpt.get();
+            danhMuc.setTrangThai("Khóa");
+            danhMucRepository.save(danhMuc);
+            redirectAttributes.addFlashAttribute("message", "Đã xóa mềm danh mục (chuyển trạng thái thành Khóa).");
         } else {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy danh mục cần xóa.");
         }

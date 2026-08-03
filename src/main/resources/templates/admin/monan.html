@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -79,7 +79,7 @@
                     <td th:text="${iterStat.index + 1}">1</td>
                     <td>
                         <div class="food-thumbnail"
-                             th:style="${#lists.isEmpty(mon.hinhAnhs) or mon.hinhAnhs[0].duongDan == null ? 'background-image: url(/images/foods/placeholder.png)' : 'background-image: url(' + (mon.hinhAnhs[0].duongDan.startsWith('/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan) + ')'}">
+                             th:style="${#lists.isEmpty(mon.hinhAnhs) or mon.hinhAnhs[0].duongDan == null or mon.hinhAnhs[0].duongDan.trim() == '' ? 'background-image: url(/images/foods/placeholder.png)' : 'background-image: url(' + (mon.hinhAnhs[0].duongDan.startsWith('http') ? mon.hinhAnhs[0].duongDan : (mon.hinhAnhs[0].duongDan.startsWith('/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan)) + ')'}">
                         </div>
                     </td>
                     <td><strong class="text-main" th:text="${mon.ten}">Tên món</strong></td>

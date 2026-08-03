@@ -90,11 +90,11 @@
                         <td class="col-stt" th:text="${idx.index + 1 < 10 ? '0' + (idx.index + 1) : idx.index + 1}">01</td>
                         <td>
                             <img th:if="${dm.anh != null and dm.anh != ''}"
-                                 th:src="${dm.anh}"
+                                 th:src="${dm.anh.startsWith('http') ? dm.anh : (dm.anh.startsWith('/') ? dm.anh : '/' + dm.anh)}"
                                  alt="Danh mục" class="dish-preview-img"
                                  onerror="this.style.display='none'" />
                             <img th:if="${(dm.anh == null or dm.anh == '') and !#lists.isEmpty(dm.monAns) and !#lists.isEmpty(dm.monAns[0].hinhAnhs)}"
-                                 th:src="${dm.monAns[0].hinhAnhs[0].duongDan}"
+                                 th:src="${dm.monAns[0].hinhAnhs[0].duongDan.startsWith('http') ? dm.monAns[0].hinhAnhs[0].duongDan : (dm.monAns[0].hinhAnhs[0].duongDan.startsWith('/') ? dm.monAns[0].hinhAnhs[0].duongDan : '/' + dm.monAns[0].hinhAnhs[0].duongDan)}"
                                  alt="Danh mục" class="dish-preview-img"
                                  onerror="this.style.display='none'" />
                             <img th:if="${(dm.anh == null or dm.anh == '') and (#lists.isEmpty(dm.monAns) or #lists.isEmpty(dm.monAns[0].hinhAnhs))}"

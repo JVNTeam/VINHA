@@ -221,7 +221,7 @@
             <h1 class="page-title" th:text="${formTitle != null ? formTitle : 'Thêm Món Ăn Mới'}">Thêm món ăn</h1>
 
             <div class="form-card">
-                <form th:action="@{${formAction}}" method="post" enctype="multipart/form-data">
+                <form th:action="@{${formAction}}" method="post">
 
                     <!-- Alert Báo Lỗi -->
                     <div th:if="${error}" style="margin-bottom: 24px; padding: 16px 20px; border-radius: 10px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 600; display: flex; gap: 10px; align-items: center;">
@@ -292,14 +292,8 @@
                         <div class="form-group">
                             <label class="form-label">Ảnh đại diện món ăn</label>
 
-                            <!-- Giao diện nút Upload chuẩn -->
-                            <div class="file-upload-wrapper">
-                                <label for="fileAnh" class="file-upload-btn">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Chọn ảnh
-                                </label>
-                                <div class="file-upload-text" id="fileNameText">Chưa có tệp nào được chọn</div>
-                            </div>
-                            <input type="file" id="fileAnh" name="fileAnh" accept="image/png, image/jpeg, image/jpg" class="file-input-hidden"/>
+                            <input id="fileAnh" type="text" name="fileAnh" class="form-control" placeholder="Nhập đường dẫn ảnh hoặc URL"
+                                   th:value="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs) ? monAn.hinhAnhs[0].duongDan : ''}" />
 
                             <!-- Box Preview Nét Đứt -->
                             <div class="preview-box" id="previewBox">
@@ -335,47 +329,28 @@
 
 <script>
     const fileInput = document.getElementById('fileAnh');
-    const fileNameText = document.getElementById('fileNameText');
     const imagePreview = document.getElementById('imagePreview');
     const previewText = document.getElementById('previewText');
     const previewBox = document.getElementById('previewBox');
 
+    function updateImagePreview() {
+        const url = fileInput.value?.trim();
+        if (url) {
+            imagePreview.src = url;
+            imagePreview.style.display = 'block';
+            if (previewText) previewText.style.display = 'none';
+            previewBox.style.background = '#ffffff';
+        } else {
+            imagePreview.style.display = 'none';
+            imagePreview.removeAttribute('src');
+            if (previewText) previewText.style.display = 'flex';
+            previewBox.style.background = '#f8fafc';
+        }
+    }
+
     if (fileInput) {
-        fileInput.addEventListener('change', function () {
-            const file = this.files[0];
-            if (file) {
-                // Ràng buộc 5MB
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('Kích thước file không được vượt quá 5MB!');
-                    this.value = '';
-                    fileNameText.textContent = 'Chưa có tệp nào được chọn';
-                    fileNameText.style.color = '#9ca3af';
-                    return;
-                }
-
-                fileNameText.textContent = file.name;
-                fileNameText.style.color = '#1f2937';
-
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                    if (previewText) previewText.style.display = 'none';
-                    previewBox.style.background = '#ffffff';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                fileNameText.textContent = 'Chưa có tệp nào được chọn';
-                fileNameText.style.color = '#9ca3af';
-
-                // Nếu chưa có file nào được chọn thì ẩn ảnh đi
-                imagePreview.style.display = 'none';
-                imagePreview.removeAttribute('src');
-
-                if (previewText) previewText.style.display = 'flex';
-                previewBox.style.background = '#f8fafc';
-            }
-        });
+        fileInput.addEventListener('input', updateImagePreview);
+        document.addEventListener('DOMContentLoaded', updateImagePreview);
     }
 </script>
 </body>

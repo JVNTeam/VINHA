@@ -95,7 +95,7 @@ public class MonAnController {
             @RequestParam("gia") BigDecimal gia,
             @RequestParam("soLuongCon") Integer soLuongCon,
             @RequestParam("trangThai") String trangThai,
-            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
+            @RequestParam(value = "fileAnh", required = false) String fileAnh,
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
@@ -131,8 +131,8 @@ public class MonAnController {
 
             monAnRepository.save(monAn);
 
-            if (fileAnh != null && !fileAnh.isEmpty()) {
-                String imageUrl = fileStorageService.storeFile(fileAnh);
+            if (fileAnh != null && !fileAnh.trim().isEmpty()) {
+                String imageUrl = fileAnh.trim();
                 HinhAnhMonAn hinhAnh = HinhAnhMonAn.builder()
                         .monAn(monAn)
                         .duongDan(imageUrl)
@@ -155,7 +155,7 @@ public class MonAnController {
                     .trangThai(trangThai)
                     .build());
             model.addAttribute("categories", danhMucRepository.findAll());
-            model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+            model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
             model.addAttribute("formTitle", "Thêm món ăn mới");
 
             // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
@@ -176,7 +176,7 @@ public class MonAnController {
         }
         model.addAttribute("monAn", monAn);
         model.addAttribute("categories", danhMucRepository.findAll());
-        model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+        model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
         model.addAttribute("formTitle", "Chỉnh sửa món ăn");
         model.addAttribute("formAction", "/admin/monAn/sua");
         return "admin/themMonAn";
@@ -192,7 +192,7 @@ public class MonAnController {
             @RequestParam("gia") BigDecimal gia,
             @RequestParam("soLuongCon") Integer soLuongCon,
             @RequestParam("trangThai") String trangThai,
-            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
+            @RequestParam(value = "fileAnh", required = false) String fileAnh,
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
@@ -227,8 +227,8 @@ public class MonAnController {
             monAn.setTrangThai(trangThai != null ? trangThai : monAn.getTrangThai());
             monAnRepository.save(monAn);
 
-            if (fileAnh != null && !fileAnh.isEmpty()) {
-                String imageUrl = fileStorageService.storeFile(fileAnh);
+            if (fileAnh != null && !fileAnh.trim().isEmpty()) {
+                String imageUrl = fileAnh.trim();
                 List<HinhAnhMonAn> existingImages = hinhAnhMonAnRepository.findByMonAnId(monAn.getId());
                 if (!existingImages.isEmpty()) {
                     HinhAnhMonAn existingImage = existingImages.get(0);
@@ -243,6 +243,11 @@ public class MonAnController {
                             .build();
                     hinhAnhMonAnRepository.save(hinhAnh);
                 }
+            } else {
+                List<HinhAnhMonAn> existingImages = hinhAnhMonAnRepository.findByMonAnId(monAn.getId());
+                if (!existingImages.isEmpty()) {
+                    hinhAnhMonAnRepository.deleteAll(existingImages);
+                }
             }
 
             redirectAttributes.addFlashAttribute("message", "Cập nhật món ăn thành công.");
@@ -251,7 +256,7 @@ public class MonAnController {
             model.addAttribute("error", "Lỗi chỉnh sửa món ăn: " + e.getMessage());
             model.addAttribute("monAn", monAnRepository.findByIdWithHinhAnh(id).orElse(new MonAn()));
             model.addAttribute("categories", danhMucRepository.findAll());
-            model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+            model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
             model.addAttribute("formTitle", "Chỉnh sửa món ăn");
             model.addAttribute("formAction", "/admin/monAn/sua");
             return "admin/themMonAn";

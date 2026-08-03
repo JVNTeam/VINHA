@@ -48,6 +48,22 @@ public class HomeController {
     @GetMapping("/trangChu")
     public String home(Model model) {
         model.addAttribute("activePage", "trang-chu");
+        
+        // Pass real data instead of fake data
+        List<com.example.vinha.entity.DanhMuc> danhMucs = foodService.getDanhSachDanhMuc();
+        // Get top 4 or 6 danh muc to display
+        model.addAttribute("danhMucs", danhMucs.size() > 6 ? danhMucs.subList(0, 6) : danhMucs);
+        
+        // Get top best seller dishes
+        List<MonAn> allDishes = foodService.getDanhSachMonAnHienThi();
+        List<MonAn> topDishes = new ArrayList<>(allDishes);
+        topDishes.sort((a, b) -> {
+            int aSold = a.getDaBan() != null ? a.getDaBan() : 0;
+            int bSold = b.getDaBan() != null ? b.getDaBan() : 0;
+            return Integer.compare(bSold, aSold);
+        });
+        model.addAttribute("topDishes", topDishes.size() > 4 ? topDishes.subList(0, 4) : topDishes);
+        
         return "/trangChu";
     }
 

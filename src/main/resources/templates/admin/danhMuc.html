@@ -111,7 +111,7 @@
                         </td>
                         <td>
                             <span class="path-code"
-                                  th:text="${#lists.size(dm.monAns)} + ' món'">0 món</span>
+                                  th:text="${#lists.size(dm.monAns.?[trangThai != 'Ngừng bán'])} + ' món'">0 món</span>
                         </td>
                         <td>
                             <div class="action-buttons">

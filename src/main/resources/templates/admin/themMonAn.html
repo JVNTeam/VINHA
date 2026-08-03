@@ -275,8 +275,6 @@
 
 
 
-                    <!-- Dòng 5: Trạng thái + Upload Ảnh -->
-                    <div class="grid-two">
                         <div class="form-group">
                             <label class="form-label">Trạng thái hiển thị <span style="color: #dc2626;">*</span></label>
                             <select name="trangThai" class="form-select" required>
@@ -288,35 +286,9 @@
                                 </option>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Ảnh đại diện món ăn</label>
-
-                            <input id="fileAnh" type="text" name="fileAnh" class="form-control" placeholder="Nhập đường dẫn ảnh hoặc URL"
-                                   th:value="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs) ? monAn.hinhAnhs[0].duongDan : ''}" />
-
-                            <!-- Box Preview Nét Đứt -->
-                            <div class="preview-box" id="previewBox">
-                                <!-- Render ảnh nếu đang ở mode Edit (có dữ liệu ảnh) -->
-                                <img id="imagePreview"
-                                     th:if="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}"
-                                     th:src="@{${monAn.hinhAnhs[0].duongDan}}"
-                                     alt="Ảnh món" style="display: block;"/>
-
-                                <!-- Render thẻ img rỗng nếu là form Add -->
-                                <img id="imagePreview"
-                                     th:unless="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)}"
-                                     src="" alt="Ảnh món"/>
-
-                                <!-- Placeholder text -->
-                                <div id="previewText" class="preview-text"
-                                     th:style="${monAn != null and monAn.hinhAnhs != null and !#lists.isEmpty(monAn.hinhAnhs)} ? 'display:none' : ''">
-                                    <i class="fa-regular fa-image"></i>
-                                    <span>Ảnh xem trước sẽ hiển thị ở đây</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+
 
                     <button type="submit" class="btn-submit">
                         <i class="fa-solid fa-floppy-disk"></i> <span th:text="${formTitle != null ? formTitle : 'Lưu món ăn'}">Lưu món ăn</span>
@@ -327,31 +299,6 @@
     </main>
 </div>
 
-<script>
-    const fileInput = document.getElementById('fileAnh');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewText = document.getElementById('previewText');
-    const previewBox = document.getElementById('previewBox');
 
-    function updateImagePreview() {
-        const url = fileInput.value?.trim();
-        if (url) {
-            imagePreview.src = url;
-            imagePreview.style.display = 'block';
-            if (previewText) previewText.style.display = 'none';
-            previewBox.style.background = '#ffffff';
-        } else {
-            imagePreview.style.display = 'none';
-            imagePreview.removeAttribute('src');
-            if (previewText) previewText.style.display = 'flex';
-            previewBox.style.background = '#f8fafc';
-        }
-    }
-
-    if (fileInput) {
-        fileInput.addEventListener('input', updateImagePreview);
-        document.addEventListener('DOMContentLoaded', updateImagePreview);
-    }
-</script>
 </body>
 </html>

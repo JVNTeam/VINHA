@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface DanhMucRepository extends JpaRepository<DanhMuc, Long> {
     List<DanhMuc> findByTrangThai(String trangThai);
+    boolean existsByTenIgnoreCase(String ten);
+    java.util.Optional<DanhMuc> findByTenIgnoreCase(String ten);
     java.util.Optional<DanhMuc> findByTen(String ten);
 
     @Query("select distinct dm from DanhMuc dm left join fetch dm.monAns ma left join fetch ma.hinhAnhs")

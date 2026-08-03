@@ -173,11 +173,15 @@ public class HinhAnhController {
 
     @GetMapping("/xoa")
     public String deleteImage(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
-        if (hinhAnhMonAnRepository.existsById(id)) {
-            hinhAnhMonAnRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Xóa hình ảnh thành công.");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Không tìm thấy hình ảnh để xóa.");
+        try {
+            if (hinhAnhMonAnRepository.existsById(id)) {
+                hinhAnhMonAnRepository.deleteById(id);
+                redirectAttributes.addFlashAttribute("message", "Xóa hình ảnh thành công.");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Không tìm thấy hình ảnh để xóa.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi xóa hình ảnh: Có thể ảnh đang được sử dụng ở nơi khác.");
         }
         return "redirect:/admin/hinhAnh";
     }

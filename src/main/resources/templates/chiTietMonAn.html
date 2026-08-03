@@ -27,7 +27,7 @@
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/chiTietMonAn.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
-    <script th:src="@{/js/chiTietMonAn.js}"></script>
+    <script th:src="@{/js/chiTietMonAn.js}" defer></script>
   </head>
 
   <body>
@@ -78,10 +78,11 @@
               <input type="text" placeholder="Tìm món ăn..." />
             </div>
 
-            <a href="#" class="cart">
+            <a th:href="@{/gioHang}" class="cart"
+               th:classappend="${cartItemCount == 1} ? ' cart-1' : (${cartItemCount == 2} ? ' cart-2' : (${cartItemCount >= 3} ? ' cart-3' : ' cart-empty'))">
               <i class="fa-solid fa-cart-shopping"></i>
 
-              <span>2</span>
+              <span th:text="${cartItemCount}">0</span>
             </a>
 
             <a th:href="@{/dangNhap}" class="login-btn">
@@ -100,8 +101,8 @@
 
         <div class="breadcrumb-custom">
           <a th:href="@{/thucDon}"> Thực đơn </a>
-          <span> ></span>
-          <span> Chi tiết</span>
+<!--          <span> ></span>-->
+<!--          <span> Chi tiết</span>-->
           <span> > </span>
           <strong th:text="${mon != null ? mon.ten : 'Không tìm thấy món'}">
             Cơm Sườn Nướng Muối Ớt
@@ -119,6 +120,7 @@
                 th:src="@{${(mon != null and mon.hinhAnhs != null and !#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null and mon.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(mon.hinhAnhs[0].duongDan, '/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan ) : '/images/foods/comTamSuonBiCha2.webp'}}"
                 th:alt="${mon != null ? mon.ten : 'Món ăn'}"
                 id="mainImage"
+                onerror="this.src='/images/comGa.png'"
               />
             </div>
           </div>
@@ -127,6 +129,12 @@
 
           <div class="col-lg-6">
             <div class="product-info">
+              <div class="product-badges">
+                <span class="badge-chip" th:if="${mon != null && mon.danhMuc != null}" th:text="${mon.danhMuc.ten}">Danh mục</span>
+                <span class="badge-chip accent">Đã bán <span th:text="${mon != null && mon.daBan != null ? mon.daBan : 0}">0</span></span>
+                <span class="badge-chip">⭐ <span th:text="${mon != null && mon.danhGia != null ? #numbers.formatDecimal(mon.danhGia, 1, 1) : '5.0'}">5.0</span></span>
+              </div>
+
               <h1 th:text="${mon != null ? mon.ten : 'Không tìm thấy món ăn'}">
                 Cơm Sườn Nướng Muối Ớt
               </h1>
@@ -148,23 +156,57 @@
                 giòn rụm.
               </p>
 
-              <div class="status">
-                <i class="fa-solid fa-circle-check"></i>
-
-                Còn hàng (Số lượng còn lại: 15)
+              <div class="info-card">
+                <div class="info-row">
+                  <span class="label">Trạng thái</span>
+                  <span class="value" th:classappend="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'available' : 'unavailable'}">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span th:text="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'Còn hàng' : 'Hết hàng'}">Còn hàng</span>
+                  </span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Số lượng còn</span>
+                  <span class="value" th:text="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 0}">15</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Danh mục</span>
+                  <span class="value" th:text="${mon != null && mon.danhMuc != null ? mon.danhMuc.ten : 'Đang cập nhật'}">Đang cập nhật</span>
+                </div>
               </div>
+
+              <div class="stock-note" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0}">
+                Bạn có thể đặt tối đa <strong th:text="${mon.soLuongCon}"></strong> phần trong một lần.
+              </div>
+              <div class="stock-note out" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">
+                Món này hiện đã hết hàng, vui lòng quay lại sau.
+              </div>
+
+<!--              <div class="ingredient-section">-->
+<!--                <h6>Nguyên liệu chính</h6>-->
+<!--                <div class="ingredients" th:if="${mon != null && mon.thanhPhan != null && !#strings.isEmpty(mon.thanhPhan)}">-->
+<!--                  <span th:each="item : ${#strings.arraySplit(mon.thanhPhan, ',')}" th:text="${#strings.trim(item)}"></span>-->
+<!--                </div>-->
+<!--                <div class="ingredients" th:unless="${mon != null && mon.thanhPhan != null && !#strings.isEmpty(mon.thanhPhan)}">-->
+<!--                  <span>Nguyên liệu chuẩn bị theo công thức riêng</span>-->
+<!--                </div>-->
+<!--              </div>-->
 
               <!-- QUANTITY -->
 
-              <form class="buy-box" method="post" th:action="@{/gioHang/them}">
+              <form class="buy-box add-to-cart-form" method="post" th:action="@{/gioHang/them}">
                 <input
                   type="hidden"
                   name="monAnId"
                   th:value="${mon != null ? mon.id : 0}"
                 />
+                <input
+                  type="hidden"
+                  name="redirectTo"
+                  value="/chiTietMonAn"
+                />
 
                 <div class="quantity">
-                  <button id="minus" type="button">-</button>
+                  <button id="minus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">-</button>
 
                   <input
                     type="number"
@@ -172,15 +214,17 @@
                     id="quantity"
                     name="soLuong"
                     min="1"
+                    th:max="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
+                    th:attr="data-max=${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
                   />
 
-                  <button id="plus" type="button">+</button>
+                  <button id="plus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">+</button>
                 </div>
 
                 <button
                   class="cart-btn"
-                  type="submit"
-                  th:disabled="${mon == null}"
+                  type="button"
+                  th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 0}"
                 >
                   <i class="fa-solid fa-bag-shopping"></i>
 
@@ -188,7 +232,16 @@
                 </button>
               </form>
 
-              <button class="buy-now">Mua ngay</button>
+              <form class="buy-now-form" method="post" th:action="@{/gioHang/them}" style="display: inline-block;">
+                <input
+                  type="hidden"
+                  name="monAnId"
+                  th:value="${mon != null ? mon.id : 0}"
+                />
+                <input type="hidden" id="buyNowQuantity" name="soLuong" value="1" />
+                <input type="hidden" name="redirectTo" value="/thanhToan" />
+                <button class="buy-now" type="button" th:disabled="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">Mua ngay</button>
+              </form>
             </div>
           </div>
         </div>
@@ -201,50 +254,65 @@
           <div class="review-line"></div>
 
           <div class="row mt-4">
-            <!-- LEFT -->
-
             <div class="col-lg-8">
-              <div class="review-card">
+              <div class="review-card" th:if="${reviews != null and !#lists.isEmpty(reviews)}" th:each="review : ${reviews}">
                 <div>
-                  <h5>Anh Tuấn ⭐⭐⭐⭐⭐</h5>
-
-                  <p>
-                    Sườn nướng rất thấm vị, mềm không bị khô. Muối ớt cay vừa
-                    phải, rất bắt miệng.
-                  </p>
-
-                  <small> 2 ngày trước </small>
+                  <h5 th:text="${review.nguoiDung != null ? review.nguoiDung.hoTen : 'Khách hàng'} + ' ' + ${#strings.repeat('⭐', review.soSao != null ? review.soSao : 0)}">Khách hàng</h5>
+                  <p th:text="${review.binhLuan != null ? review.binhLuan : 'Khách hàng chưa viết nhận xét.'}">Nhận xét</p>
+                  <small th:text="${#temporals.format(review.ngayTao, 'dd/MM/yyyy HH:mm')}">Ngày</small>
                 </div>
               </div>
 
-              <div class="review-card mt-3">
+              <div class="review-card" th:unless="${reviews != null and !#lists.isEmpty(reviews)}">
                 <div>
-                  <h5>Minh Anh ⭐⭐⭐⭐⭐</h5>
-
-                  <p>
-                    Giao hàng nhanh, cơm vẫn còn nóng. Cơm dẻo ngon, sườn rất
-                    vừa miệng.
-                  </p>
-
-                  <small> 1 tuần trước </small>
+                  <h5>Chưa có đánh giá</h5>
+                  <p>Hiện món này chưa có đánh giá nào từ khách hàng.</p>
                 </div>
               </div>
             </div>
 
-            <!-- RIGHT -->
-
             <div class="col-lg-4">
               <div class="rating-box">
                 <h5>Đánh giá sao</h5>
-
-                <div class="stars">
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
-                  <i class="fa-regular fa-star"></i>
+                <div class="stars" data-rating="0">
+                  <i class="fa-regular fa-star" data-value="1"></i>
+                  <i class="fa-regular fa-star" data-value="2"></i>
+                  <i class="fa-regular fa-star" data-value="3"></i>
+                  <i class="fa-regular fa-star" data-value="4"></i>
+                  <i class="fa-regular fa-star" data-value="5"></i>
                 </div>
+                <form class="review-form mt-3" method="post" th:action="@{/danhGia/them}">
+                  <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
+                  <input type="hidden" name="soSao" id="reviewScore" value="0" />
+                  <textarea class="form-control mb-2" name="binhLuan" rows="3" placeholder="Viết nhận xét của bạn..."></textarea>
+                  <button class="btn btn-warning text-white w-100" type="submit">Gửi đánh giá</button>
+                  <div class="text-success small mt-2" th:if="${reviewMessage != null}" th:text="${reviewMessage}"></div>
+                </form>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="related" th:if="${relatedDishes != null and !#lists.isEmpty(relatedDishes)}">
+          <div class="section-head">
+            <h3>Món ăn liên quan</h3>
+            <a th:href="@{/thucDon}">Xem toàn bộ thực đơn</a>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-lg-3 col-md-6" th:each="item : ${relatedDishes}">
+              <a class="related-card" th:href="@{/chiTietMonAn(id=${item.id})}">
+                <img
+                  th:src="@{${(item.hinhAnhs != null and !#lists.isEmpty(item.hinhAnhs) and item.hinhAnhs[0].duongDan != null and item.hinhAnhs[0].duongDan != '') ? (#strings.startsWith(item.hinhAnhs[0].duongDan, '/') ? item.hinhAnhs[0].duongDan : '/' + item.hinhAnhs[0].duongDan) : '/images/foods/comTamSuonBiCha2.webp'}}"
+                  th:alt="${item.ten}"
+                  onerror="this.src='/images/comGa.png'"
+                />
+                <div class="related-content">
+                  <h5 th:text="${item.ten}">Tên món</h5>
+                  <p th:text="${item.moTa != null ? item.moTa : 'Đang cập nhật mô tả...'}">Mô tả</p>
+                  <div class="related-price" th:text="${#numbers.formatDecimal(item.gia != null ? item.gia : 0, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</div>
+                </div>
+              </a>
             </div>
           </div>
         </section>

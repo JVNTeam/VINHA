@@ -2,7 +2,9 @@ package com.example.vinha.controller.customer;
 
 import com.example.vinha.entity.NguoiDung;
 import com.example.vinha.service.CartService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,10 +34,17 @@ public class CartController {
         return guestCart;
     }
 
+    private boolean isAjaxRequest(HttpServletRequest request) {
+        String requestedWith = request.getHeader("X-Requested-With");
+        return "XMLHttpRequest".equalsIgnoreCase(requestedWith);
+    }
+
     @PostMapping("/gioHang/them")
-    public String themVaoGioHang(
+    public Object themVaoGioHang(
             @RequestParam("monAnId") Long monAnId,
             @RequestParam(value = "soLuong", defaultValue = "1") Integer soLuong,
+            @RequestParam(value = "redirectTo", required = false) String redirectTo,
+            HttpServletRequest request,
             HttpSession session
     ) {
         int soLuongHopLe = (soLuong == null || soLuong < 1) ? 1 : soLuong;
@@ -58,7 +67,22 @@ public class CartController {
             }
         }
 
-        return "redirect:/gioHang";
+        String targetUrl = (redirectTo != null && !redirectTo.isBlank())
+                ? redirectTo
+                : request.getHeader("Referer");
+
+        if (targetUrl == null || targetUrl.isBlank()) {
+            targetUrl = "/thucDon";
+        }
+
+        if (isAjaxRequest(request)) {
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "redirectTo", targetUrl
+            ));
+        }
+
+        return "redirect:" + targetUrl;
     }
 
     @PostMapping("/gioHang/capNhatSoLuong")

@@ -61,7 +61,6 @@
           </p>
 
           <div class="hero-button">
-            <!-- SỬA TẠI ĐÂY: Trỏ href tới #category-section -->
             <a href="#category-section" class="btn-order"> Đặt món ngay </a>
 
             <a th:href="@{/thucDon}" class="btn-menu"> Xem thực đơn </a>
@@ -75,7 +74,6 @@
 
   <!-- ================= CATEGORY ================= -->
 
-  <!-- SỬA TẠI ĐÂY: Thêm id="category-section" -->
   <section id="category-section" class="category-section">
     <div class="container">
       <div class="section-header">
@@ -195,79 +193,35 @@
         </p>
       </div>
 
-      <div class="row g-4">
-        <!-- Review 1 -->
-        <div class="col-lg-4">
-          <div class="review-card">
+      <div class="row g-4 justify-content-center" th:if="${latestReviews != null and !#lists.isEmpty(latestReviews)}">
+        <div class="col-lg-4 col-md-6" th:each="review : ${latestReviews}">
+          <div class="review-card h-100 d-flex flex-column">
             <div class="quote">
               <i class="fa-solid fa-quote-left"></i>
             </div>
 
-            <div class="review-star">★★★★★</div>
+            <div class="review-star">
+              <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, review.soSao != null ? review.soSao : 5)}"></i>
+              <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence((review.soSao != null ? review.soSao : 5) + 1, 5)}"></i>
+            </div>
 
-            <p>
-              Cơm rất ngon, giao nhanh và đóng gói cẩn thận. Mình đặt cho cả
-              văn phòng ai cũng thích.
+            <p class="flex-grow-1" th:text="${review.binhLuan != null and !#strings.isEmpty(review.binhLuan) ? review.binhLuan : 'Khách hàng rất hài lòng với món ăn và dịch vụ.'}">
+              Đánh giá từ khách hàng.
             </p>
 
-            <div class="customer">
+            <div class="customer mt-auto">
               <div>
-                <h5>Nguyễn Minh Anh</h5>
-
-                <span> Nhân viên văn phòng </span>
+                <h5 th:text="${review.nguoiDung != null ? review.nguoiDung.hoTen : 'Khách hàng'}">Tên khách hàng</h5>
+                <span th:text="${review.monAn != null ? 'Món: ' + review.monAn.ten : 'Khách hàng thân thiết'}">Vai trò</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Review 2 -->
-
-        <div class="col-lg-4">
-          <div class="review-card">
-            <div class="quote">
-              <i class="fa-solid fa-quote-left"></i>
-            </div>
-
-            <div class="review-star">★★★★★</div>
-
-            <p>
-              Món ăn đúng vị cơm nhà. Cá kho và canh chua cực kỳ ngon. Giá
-              hợp lý.
-            </p>
-
-            <div class="customer">
-              <div>
-                <h5>Trần Hoàng Nam</h5>
-
-                <span> Kỹ sư phần mềm </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review 3 -->
-
-        <div class="col-lg-4">
-          <div class="review-card">
-            <div class="quote">
-              <i class="fa-solid fa-quote-left"></i>
-            </div>
-
-            <div class="review-star">★★★★★</div>
-
-            <p>
-              Đặt món gần như mỗi tuần. Đồ ăn nóng, nhiều món để lựa chọn và
-              nhân viên rất thân thiện.
-            </p>
-
-            <div class="customer">
-              <div>
-                <h5>Lê Thu Hà</h5>
-
-                <span> Khách hàng thân thiết </span>
-              </div>
-            </div>
-          </div>
+      <div class="row g-4" th:unless="${latestReviews != null and !#lists.isEmpty(latestReviews)}">
+        <div class="col-12">
+          <div class="alert alert-light text-center">Chưa có đánh giá nào từ khách hàng.</div>
         </div>
       </div>
     </div>

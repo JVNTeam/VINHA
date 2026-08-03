@@ -77,7 +77,7 @@ public class DanhMucController {
             return "redirect:/admin/danhMuc/them";
         }
 
-        if (danhMucRepository.findByTen(ten.trim()).isPresent()) {
+        if (danhMucRepository.findByTenIgnoreCase(ten.trim()).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
             redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(0).build());
             return "redirect:/admin/danhMuc/them";
@@ -137,7 +137,7 @@ public class DanhMucController {
             return "redirect:/admin/danhMuc/sua?id=" + id;
         }
 
-        java.util.Optional<DanhMuc> existingDM = danhMucRepository.findByTen(ten.trim());
+        java.util.Optional<DanhMuc> existingDM = danhMucRepository.findByTenIgnoreCase(ten.trim());
         if (existingDM.isPresent() && !existingDM.get().getId().equals(id)) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
             redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(danhMuc.getSoLuong()).build());

@@ -61,7 +61,6 @@
           </p>
 
           <div class="hero-button">
-            <!-- SỬA TẠI ĐÂY: Trỏ href tới #category-section -->
             <a href="#category-section" class="btn-order"> Đặt món ngay </a>
 
             <a th:href="@{/thucDon}" class="btn-menu"> Xem thực đơn </a>
@@ -75,7 +74,6 @@
 
   <!-- ================= CATEGORY ================= -->
 
-  <!-- SỬA TẠI ĐÂY: Thêm id="category-section" -->
   <section id="category-section" class="category-section">
     <div class="container">
       <div class="section-header">
@@ -90,82 +88,25 @@
       </div>
 
       <div class="row g-4 mt-4">
-        <!-- Item 1 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/comGaXoiMo.png}" alt="Cơm Gà" />
+        <!-- Real Categories Data -->
+        <div class="col-lg-2 col-md-4 col-6" th:each="dm : ${danhMucs}">
+          <a th:href="@{/thucDon(danhMucId=${dm.id})}" style="text-decoration: none; color: inherit;">
+            <div class="category-card">
+              <div class="category-image">
+                <img th:if="${dm.anh != null and dm.anh != ''}"
+                     th:src="${dm.anh.startsWith('http') ? dm.anh : (dm.anh.startsWith('/') ? dm.anh : '/' + dm.anh)}"
+                     alt="Danh mục" />
+                <img th:if="${(dm.anh == null or dm.anh == '') and !#lists.isEmpty(dm.monAns) and !#lists.isEmpty(dm.monAns[0].hinhAnhs)}"
+                     th:src="${dm.monAns[0].hinhAnhs[0].duongDan.startsWith('http') ? dm.monAns[0].hinhAnhs[0].duongDan : (dm.monAns[0].hinhAnhs[0].duongDan.startsWith('/') ? dm.monAns[0].hinhAnhs[0].duongDan : '/' + dm.monAns[0].hinhAnhs[0].duongDan)}"
+                     alt="Danh mục" />
+                <img th:if="${(dm.anh == null or dm.anh == '') and (#lists.isEmpty(dm.monAns) or #lists.isEmpty(dm.monAns[0].hinhAnhs))}"
+                     src="https://images.unsplash.com/photo-1528735607220-8f59e29c74f4?q=80&w=150&auto=format&fit=crop"
+                     alt="Danh mục" />
+              </div>
+              <h5 th:text="${dm.ten}">Tên Danh Mục</h5>
+              <span th:text="${#lists.size(dm.monAns.?[trangThai != 'Ngừng bán'])} + ' món'">0 món</span>
             </div>
-
-            <h5>Cơm Gà</h5>
-
-            <span>12 món</span>
-          </div>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/comTamSuonBiCha.png}" alt="Cơm Sườn" />
-            </div>
-
-            <h5>Cơm Sườn</h5>
-
-            <span>18 món</span>
-          </div>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/comThitKho.png}" alt="Cơm Bò" />
-            </div>
-
-            <h5>Cơm Bò</h5>
-
-            <span>9 món</span>
-          </div>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/comCaKho.png}" alt="Cơm Cá" />
-            </div>
-
-            <h5>Cơm Cá</h5>
-
-            <span>8 món</span>
-          </div>
-        </div>
-
-        <!-- Item 5 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/comRang.png}" alt="Cơm Chay" />
-            </div>
-
-            <h5>Cơm Chay</h5>
-
-            <span>10 món</span>
-          </div>
-        </div>
-
-        <!-- Item 6 -->
-        <div class="col-lg-2 col-md-4 col-6">
-          <div class="category-card">
-            <div class="category-image">
-              <img th:src="@{/images/ComhitChuaNgot.png}" alt="Đặc Biệt" />
-            </div>
-
-            <h5>Đặc Biệt</h5>
-
-            <span>6 món</span>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -187,115 +128,36 @@
       </div>
 
       <div class="row g-4">
-        <!-- Food 1 -->
-        <div class="col-lg-3 col-md-6">
-          <div class="food-card">
+        <!-- Real Top Dishes Data -->
+        <div class="col-lg-3 col-md-6" th:each="mon : ${topDishes}">
+          <div class="food-card" th:onclick="'window.location.href=\'/chiTietMonAn?id=' + ${mon.id} + '\''" style="cursor: pointer;">
             <div class="food-image">
-              <span class="badge-hot"> HOT </span>
+              <span class="badge-hot" th:if="${mon.daBan != null and mon.daBan > 20}"> HOT </span>
 
-              <img
-                      th:src="@{/images/foods/comTamSuonBiCha2.webp}"
-                      alt="Cơm Tấm"
-              />
+              <img th:if="${!#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null}"
+                   th:src="${mon.hinhAnhs[0].duongDan.startsWith('http') ? mon.hinhAnhs[0].duongDan : (mon.hinhAnhs[0].duongDan.startsWith('/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan)}"
+                   alt="Hình món ăn" />
+              <img th:unless="${!#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null}"
+                   src="/images/foods/placeholder.png" alt="Hình món ăn" />
             </div>
 
             <div class="food-body">
-              <div class="food-rating"></div>
+              <div class="food-rating">
+                <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                <span th:text="${mon.danhGia != null ? #numbers.formatDecimal(mon.danhGia, 1, 1) : '5.0'}">5.0</span>
+                <span class="text-muted ms-1" style="font-size: 0.9em;" th:text="'(' + (${mon.soLuotDanhGia != null ? mon.soLuotDanhGia : 0}) + ' đánh giá)'"></span>
+              </div>
 
-              <h5>Cơm Tấm Sườn Bì Chả</h5>
+              <h5 th:text="${mon.ten}">Tên Món Ăn</h5>
 
-              <p>Sườn nướng mật ong, bì, chả trứng, dưa chua.</p>
+              <p th:text="${mon.moTa}">Mô tả ngắn gọn.</p>
 
               <div class="food-footer">
                 <div>
-                  <span class="price"> 65.000đ </span>
+                  <span class="price" th:text="${#numbers.formatDecimal(mon.gia, 0, 'COMMA', 2, 'POINT')} + 'đ'"> 0đ </span>
                 </div>
 
-                <a th:href="@{/gioHang}" class="btn border-0 p-0">
-                  <button>
-                    <i class="fa-solid fa-cart-plus"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Food 2 -->
-
-        <div class="col-lg-3 col-md-6">
-          <div class="food-card">
-            <div class="food-image">
-              <img th:src="@{/images/foods/comGaXoiMo2.jpg}" />
-            </div>
-
-            <div class="food-body">
-              <div class="food-rating"></div>
-
-              <h5>Cơm Gà Xối Mỡ</h5>
-
-              <p>Gà giòn rụm ăn kèm cơm chiên và rau.</p>
-
-              <div class="food-footer">
-                <span class="price"> 59.000đ </span>
-
-                <a th:href="@{/gioHang}" class="btn border-0 p-0">
-                  <button>
-                    <i class="fa-solid fa-cart-plus"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Food 3 -->
-
-        <div class="col-lg-3 col-md-6">
-          <div class="food-card">
-            <div class="food-image">
-              <img th:src="@{/images/foods/com-bo-luc-lac.avif}" />
-            </div>
-
-            <div class="food-body">
-              <div class="food-rating"></div>
-
-              <h5>Cơm Bò Lúc Lắc</h5>
-
-              <p>Bò mềm, thơm, sốt tiêu đen đậm vị.</p>
-
-              <div class="food-footer">
-                <span class="price"> 79.000đ </span>
-
-                <a th:href="@{/gioHang}" class="btn border-0 p-0">
-                  <button>
-                    <i class="fa-solid fa-cart-plus"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Food 4 -->
-
-        <div class="col-lg-3 col-md-6">
-          <div class="food-card">
-            <div class="food-image">
-              <img th:src="@{/images/foods/com-ca-kho.jpg}" />
-            </div>
-
-            <div class="food-body">
-              <div class="food-rating"></div>
-
-              <h5>Cơm Cá Kho Tộ</h5>
-
-              <p>Cá kho truyền thống ăn cùng cơm nóng.</p>
-
-              <div class="food-footer">
-                <span class="price"> 62.000đ </span>
-
-                <a th:href="@{/gioHang}" class="btn border-0 p-0">
+                <a th:href="@{/gioHang}" class="btn border-0 p-0" onclick="event.stopPropagation();">
                   <button>
                     <i class="fa-solid fa-cart-plus"></i>
                   </button>
@@ -331,79 +193,35 @@
         </p>
       </div>
 
-      <div class="row g-4">
-        <!-- Review 1 -->
-        <div class="col-lg-4">
-          <div class="review-card">
+      <div class="row g-4 justify-content-center" th:if="${latestReviews != null and !#lists.isEmpty(latestReviews)}">
+        <div class="col-lg-4 col-md-6" th:each="review : ${latestReviews}">
+          <div class="review-card h-100 d-flex flex-column">
             <div class="quote">
               <i class="fa-solid fa-quote-left"></i>
             </div>
 
-            <div class="review-star">★★★★★</div>
+            <div class="review-star">
+              <i class="fa-solid fa-star" th:each="i : ${#numbers.sequence(1, review.soSao != null ? review.soSao : 5)}"></i>
+              <i class="fa-regular fa-star" th:each="i : ${#numbers.sequence((review.soSao != null ? review.soSao : 5) + 1, 5)}"></i>
+            </div>
 
-            <p>
-              Cơm rất ngon, giao nhanh và đóng gói cẩn thận. Mình đặt cho cả
-              văn phòng ai cũng thích.
+            <p class="flex-grow-1" th:text="${review.binhLuan != null and !#strings.isEmpty(review.binhLuan) ? review.binhLuan : 'Khách hàng rất hài lòng với món ăn và dịch vụ.'}">
+              Đánh giá từ khách hàng.
             </p>
 
-            <div class="customer">
+            <div class="customer mt-auto">
               <div>
-                <h5>Nguyễn Minh Anh</h5>
-
-                <span> Nhân viên văn phòng </span>
+                <h5 th:text="${review.nguoiDung != null ? review.nguoiDung.hoTen : 'Khách hàng'}">Tên khách hàng</h5>
+                <span th:text="${review.monAn != null ? 'Món: ' + review.monAn.ten : 'Khách hàng thân thiết'}">Vai trò</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Review 2 -->
-
-        <div class="col-lg-4">
-          <div class="review-card">
-            <div class="quote">
-              <i class="fa-solid fa-quote-left"></i>
-            </div>
-
-            <div class="review-star">★★★★★</div>
-
-            <p>
-              Món ăn đúng vị cơm nhà. Cá kho và canh chua cực kỳ ngon. Giá
-              hợp lý.
-            </p>
-
-            <div class="customer">
-              <div>
-                <h5>Trần Hoàng Nam</h5>
-
-                <span> Kỹ sư phần mềm </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Review 3 -->
-
-        <div class="col-lg-4">
-          <div class="review-card">
-            <div class="quote">
-              <i class="fa-solid fa-quote-left"></i>
-            </div>
-
-            <div class="review-star">★★★★★</div>
-
-            <p>
-              Đặt món gần như mỗi tuần. Đồ ăn nóng, nhiều món để lựa chọn và
-              nhân viên rất thân thiện.
-            </p>
-
-            <div class="customer">
-              <div>
-                <h5>Lê Thu Hà</h5>
-
-                <span> Khách hàng thân thiết </span>
-              </div>
-            </div>
-          </div>
+      <div class="row g-4" th:unless="${latestReviews != null and !#lists.isEmpty(latestReviews)}">
+        <div class="col-12">
+          <div class="alert alert-light text-center">Chưa có đánh giá nào từ khách hàng.</div>
         </div>
       </div>
     </div>

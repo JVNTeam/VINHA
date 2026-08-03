@@ -53,6 +53,13 @@ public class VoucherService {
         return maGiamGiaRepository.findById(id).orElse(null);
     }
 
+    public MaGiamGia layTheoMa(String ma) {
+        if (ma == null || ma.trim().isEmpty()) {
+            return null;
+        }
+        return maGiamGiaRepository.findByMa(ma.toUpperCase().trim()).orElse(null);
+    }
+
     @Transactional
     public MaGiamGia taoMaGiamGia(MaGiamGia voucher) {
         return maGiamGiaRepository.save(voucher);
@@ -120,14 +127,17 @@ public class VoucherService {
         };
     }
 
-    public static String formatGiaTriGiam(MaGiamGia voucher) {
+    public String formatGiaTriGiam(MaGiamGia voucher) {
+        if (voucher == null || voucher.getGiaTriGiam() == null) {
+            return "0đ";
+        }
         if ("Phần trăm".equals(voucher.getLoaiGiam())) {
             return voucher.getGiaTriGiam().stripTrailingZeros().toPlainString() + "%";
         }
         return formatCurrency(voucher.getGiaTriGiam());
     }
 
-    public static String formatCurrency(BigDecimal amount) {
+    public String formatCurrency(BigDecimal amount) {
         if (amount == null) {
             return "0đ";
         }

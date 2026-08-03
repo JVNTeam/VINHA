@@ -91,18 +91,16 @@ public class MonAnController {
             @RequestParam("danhMucId") Long danhMucId,
             @RequestParam("ten") String ten,
             @RequestParam(value = "moTa", required = false) String moTa,
-            @RequestParam(value = "thanhPhan", required = false) String thanhPhan,
             @RequestParam("gia") BigDecimal gia,
             @RequestParam("soLuongCon") Integer soLuongCon,
             @RequestParam("trangThai") String trangThai,
-            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
             if (ten == null || ten.trim().isEmpty()) {
                 throw new IllegalArgumentException("Tên món ăn không được để trống.");
             }
-            if (monAnRepository.findByTen(ten.trim()).isPresent()) {
+            if (monAnRepository.findByTenIgnoreCase(ten.trim()).isPresent()) {
                 throw new IllegalArgumentException("Tên món ăn đã tồn tại. Vui lòng chọn tên khác.");
             }
             if (gia == null) {
@@ -123,23 +121,10 @@ public class MonAnController {
                     .danhMuc(danhMucRepository.findById(danhMucId).orElse(null))
                     .ten(ten != null ? ten.trim() : "")
                     .moTa(moTa != null ? moTa.trim() : "")
-                    .thanhPhan(thanhPhan != null ? thanhPhan.trim() : "")
                     .gia(gia)
                     .soLuongCon(soLuongCon)
                     .trangThai(trangThai != null ? trangThai : "Đang bán")
                     .build();
-
-            monAnRepository.save(monAn);
-
-            if (fileAnh != null && !fileAnh.isEmpty()) {
-                String imageUrl = fileStorageService.storeFile(fileAnh);
-                HinhAnhMonAn hinhAnh = HinhAnhMonAn.builder()
-                        .monAn(monAn)
-                        .duongDan(imageUrl)
-                        .trangThai("Mở")
-                        .build();
-                hinhAnhMonAnRepository.save(hinhAnh);
-            }
 
             redirectAttributes.addFlashAttribute("message", "Thêm món ăn thành công.");
             return "redirect:/admin/monAn";
@@ -149,13 +134,12 @@ public class MonAnController {
                     .danhMuc(danhMucRepository.findById(danhMucId).orElse(null))
                     .ten(ten)
                     .moTa(moTa)
-                    .thanhPhan(thanhPhan)
                     .gia(gia)
                     .soLuongCon(soLuongCon)
                     .trangThai(trangThai)
                     .build());
             model.addAttribute("categories", danhMucRepository.findAll());
-            model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+            model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
             model.addAttribute("formTitle", "Thêm món ăn mới");
 
             // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
@@ -176,7 +160,7 @@ public class MonAnController {
         }
         model.addAttribute("monAn", monAn);
         model.addAttribute("categories", danhMucRepository.findAll());
-        model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+        model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
         model.addAttribute("formTitle", "Chỉnh sửa món ăn");
         model.addAttribute("formAction", "/admin/monAn/sua");
         return "admin/themMonAn";
@@ -188,18 +172,16 @@ public class MonAnController {
             @RequestParam("danhMucId") Long danhMucId,
             @RequestParam("ten") String ten,
             @RequestParam(value = "moTa", required = false) String moTa,
-            @RequestParam(value = "thanhPhan", required = false) String thanhPhan,
             @RequestParam("gia") BigDecimal gia,
             @RequestParam("soLuongCon") Integer soLuongCon,
             @RequestParam("trangThai") String trangThai,
-            @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
             RedirectAttributes redirectAttributes,
             Model model) {
         try {
             if (ten == null || ten.trim().isEmpty()) {
                 throw new IllegalArgumentException("Tên món ăn không được để trống.");
             }
-            java.util.Optional<MonAn> existingMonAn = monAnRepository.findByTen(ten.trim());
+            java.util.Optional<MonAn> existingMonAn = monAnRepository.findByTenIgnoreCase(ten.trim());
             if (existingMonAn.isPresent() && !existingMonAn.get().getId().equals(id)) {
                 throw new IllegalArgumentException("Tên món ăn đã tồn tại. Vui lòng chọn tên khác.");
             }
@@ -221,29 +203,10 @@ public class MonAnController {
             monAn.setDanhMuc(danhMucRepository.findById(danhMucId).orElse(null));
             monAn.setTen(ten != null ? ten.trim() : "");
             monAn.setMoTa(moTa != null ? moTa.trim() : "");
-            monAn.setThanhPhan(thanhPhan != null ? thanhPhan.trim() : "");
             monAn.setGia(gia);
             monAn.setSoLuongCon(soLuongCon);
             monAn.setTrangThai(trangThai != null ? trangThai : monAn.getTrangThai());
             monAnRepository.save(monAn);
-
-            if (fileAnh != null && !fileAnh.isEmpty()) {
-                String imageUrl = fileStorageService.storeFile(fileAnh);
-                List<HinhAnhMonAn> existingImages = hinhAnhMonAnRepository.findByMonAnId(monAn.getId());
-                if (!existingImages.isEmpty()) {
-                    HinhAnhMonAn existingImage = existingImages.get(0);
-                    existingImage.setDuongDan(imageUrl);
-                    existingImage.setTrangThai("Mở");
-                    hinhAnhMonAnRepository.save(existingImage);
-                } else {
-                    HinhAnhMonAn hinhAnh = HinhAnhMonAn.builder()
-                            .monAn(monAn)
-                            .duongDan(imageUrl)
-                            .trangThai("Mở")
-                            .build();
-                    hinhAnhMonAnRepository.save(hinhAnh);
-                }
-            }
 
             redirectAttributes.addFlashAttribute("message", "Cập nhật món ăn thành công.");
             return "redirect:/admin/monAn";
@@ -251,7 +214,7 @@ public class MonAnController {
             model.addAttribute("error", "Lỗi chỉnh sửa món ăn: " + e.getMessage());
             model.addAttribute("monAn", monAnRepository.findByIdWithHinhAnh(id).orElse(new MonAn()));
             model.addAttribute("categories", danhMucRepository.findAll());
-            model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+            model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
             model.addAttribute("formTitle", "Chỉnh sửa món ăn");
             model.addAttribute("formAction", "/admin/monAn/sua");
             return "admin/themMonAn";

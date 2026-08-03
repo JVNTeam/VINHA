@@ -2,7 +2,9 @@ package com.example.vinha.controller.customer;
 
 import com.example.vinha.entity.NguoiDung;
 import com.example.vinha.service.CartService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +16,11 @@ import java.util.Map;
 public class CartController {
 
     private final CartService cartService;
+    private final com.example.vinha.repository.MonAnRepository monAnRepository;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, com.example.vinha.repository.MonAnRepository monAnRepository) {
         this.cartService = cartService;
+        this.monAnRepository = monAnRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -30,10 +34,17 @@ public class CartController {
         return guestCart;
     }
 
+    private boolean isAjaxRequest(HttpServletRequest request) {
+        String requestedWith = request.getHeader("X-Requested-With");
+        return "XMLHttpRequest".equalsIgnoreCase(requestedWith);
+    }
+
     @PostMapping("/gioHang/them")
-    public String themVaoGioHang(
+    public Object themVaoGioHang(
             @RequestParam("monAnId") Long monAnId,
             @RequestParam(value = "soLuong", defaultValue = "1") Integer soLuong,
+            @RequestParam(value = "redirectTo", required = false) String redirectTo,
+            HttpServletRequest request,
             HttpSession session
     ) {
         int soLuongHopLe = (soLuong == null || soLuong < 1) ? 1 : soLuong;
@@ -43,11 +54,35 @@ public class CartController {
             cartService.addToCart(nguoiDung.getId(), monAnId, soLuongHopLe);
         } else {
             Map<Long, Integer> guestCart = getOrCreateGuestCart(session);
-            guestCart.merge(monAnId, soLuongHopLe, Integer::sum);
-            session.setAttribute("guestCart", guestCart);
+            com.example.vinha.entity.MonAn monAn = monAnRepository.findById(monAnId).orElse(null);
+            if (monAn != null) {
+                int maxQ = monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+                int currentQ = guestCart.getOrDefault(monAnId, 0);
+                int newQ = currentQ + soLuongHopLe;
+                if (newQ > maxQ) {
+                    newQ = maxQ;
+                }
+                guestCart.put(monAnId, newQ);
+                session.setAttribute("guestCart", guestCart);
+            }
         }
 
-        return "redirect:/gioHang";
+        String targetUrl = (redirectTo != null && !redirectTo.isBlank())
+                ? redirectTo
+                : request.getHeader("Referer");
+
+        if (targetUrl == null || targetUrl.isBlank()) {
+            targetUrl = "/thucDon";
+        }
+
+        if (isAjaxRequest(request)) {
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "redirectTo", targetUrl
+            ));
+        }
+
+        return "redirect:" + targetUrl;
     }
 
     @PostMapping("/gioHang/capNhatSoLuong")
@@ -63,8 +98,16 @@ public class CartController {
         } else {
             Map<Long, Integer> guestCart = getOrCreateGuestCart(session);
             int soLuongHopLe = (soLuong == null || soLuong < 1) ? 1 : soLuong;
-            guestCart.put(chiTietGioHangId, soLuongHopLe);
-            session.setAttribute("guestCart", guestCart);
+            
+            com.example.vinha.entity.MonAn monAn = monAnRepository.findById(chiTietGioHangId).orElse(null);
+            if (monAn != null) {
+                int maxQ = monAn.getSoLuongCon() != null ? monAn.getSoLuongCon() : 0;
+                if (soLuongHopLe > maxQ) {
+                    soLuongHopLe = maxQ;
+                }
+                guestCart.put(chiTietGioHangId, soLuongHopLe);
+                session.setAttribute("guestCart", guestCart);
+            }
         }
 
         return "redirect:/gioHang";

@@ -14,6 +14,7 @@ public interface MonAnRepository extends JpaRepository<MonAn, Long> {
     List<MonAn> findByTrangThai(String trangThai);
     List<MonAn> findByTenContainingIgnoreCase(String ten);
     Optional<MonAn> findByTen(String ten);
+    Optional<MonAn> findByTenIgnoreCase(String ten);
 
     @Query("select distinct m from MonAn m left join fetch m.hinhAnhs")
     List<MonAn> findAllWithHinhAnh();

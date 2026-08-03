@@ -1,0 +1,392 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết đơn hàng - Vị Nhà</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/lichSuDonHang.css}" />
+    <style>
+      .order-items {
+        margin-top: 30px;
+      }
+
+      .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+      }
+
+      .items-table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 700;
+        border-bottom: 2px solid var(--border-color);
+      }
+
+      .items-table td {
+        padding: 16px 12px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .order-summary {
+        background-color: #faf7f2;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        font-size: 14px;
+      }
+
+      .summary-row.total {
+        font-weight: 700;
+        font-size: 18px;
+        border-top: 2px solid #eee;
+        padding-top: 16px;
+        margin-top: 16px;
+        color: var(--primary-color);
+      }
+
+      .order-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .info-box {
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+      }
+
+      .info-box h4 {
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--brand-brown);
+      }
+
+      .info-box p {
+        margin: 8px 0;
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      .btn-back {
+        background-color: #f5f5f5;
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        padding: 10px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-back:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-cancel {
+        background-color: #ffebee;
+        color: var(--danger-color);
+        border: 1px solid #ffcdd2;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-cancel:hover {
+        background-color: #ffcdd2;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="header-container">
+        <a th:href="@{/trang-chu}" class="logo-box">
+          <div class="logo-badge">Vị Nhà</div>
+          <span class="logo-text">Vị Nhà</span>
+        </a>
+
+        <nav class="main-nav">
+          <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
+          <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
+          <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
+          <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
+          <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
+        </nav>
+
+        <div class="header-actions">
+          <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">3</span>
+          </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+            <i class="fa-regular fa-user"></i>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container account-container">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="user-profile">
+          <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
+          <p class="user-email" th:text="${user.email}">
+            thuha.nguyen@email.com
+          </p>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
+            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+          </a>
+          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+            <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+          </a>
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+          </a>
+          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+            <i class="fa-regular fa-star"></i> Đánh giá món ăn
+          </a>
+          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+          </a>
+          <div class="nav-divider"></div>
+          <a th:href="@{/dang-xuat}" class="nav-item text-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </a>
+        </nav>
+      </aside>
+
+      <!-- MAIN CONTENT CARD -->
+      <main class="content-card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2 class="page-title">Chi tiết đơn hàng</h2>
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại
+          </a>
+        </div>
+
+        <!-- Order Header Info -->
+        <div style="background-color: #faf7f2; padding: 20px; border-radius: 10px; margin-top: 20px;">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center;">
+            <div>
+              <p style="color: var(--text-muted); font-size: 13px;">Mã đơn hàng</p>
+              <p style="font-weight: 700; font-size: 16px;" th:text="${order.code}">#VN-1</p>
+            </div>
+            <div>
+              <p style="color: var(--text-muted); font-size: 13px;">Ngày đặt</p>
+              <p style="font-weight: 700; font-size: 16px;" th:text="${order.date}">01/08/2026</p>
+            </div>
+            <div>
+              <p style="color: var(--text-muted); font-size: 13px;">Trạng thái</p>
+              <span
+                th:class="'badge badge-' + ${order.statusCode}"
+                th:text="${order.status}"
+              >Chờ xác nhận</span>
+            </div>
+            <div>
+              <p style="color: var(--text-muted); font-size: 13px;">Tổng tiền</p>
+              <p style="font-weight: 700; font-size: 16px; color: var(--primary-color);" th:text="${order.totalPrice}">245.000đ</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="order-items">
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Danh sách sản phẩm</h3>
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Tên món ăn</th>
+                <th style="text-align: right;">Giá</th>
+                <th style="text-align: center;">Số lượng</th>
+                <th style="text-align: right;">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="item : ${items}">
+                <td th:text="${item.name}">Cơm tấm sườn</td>
+                <td style="text-align: right;" th:text="${item.price}">45.000đ</td>
+                <td style="text-align: center;" th:text="${item.quantity}">2</td>
+                <td style="text-align: right;" th:text="${item.total}">90.000đ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+          <div class="summary-row">
+            <span>Tạm tính</span>
+            <span th:text="${order.subtotal}">245.000đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Phí giao hàng</span>
+            <span th:text="${order.shippingFee}">0đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Giảm giá</span>
+            <span th:text="${order.discount}">0đ</span>
+          </div>
+          <div class="summary-row total">
+            <span>Tổng cộng</span>
+            <span th:text="${order.totalPrice}">245.000đ</span>
+          </div>
+        </div>
+
+        <!-- Order & Delivery Info -->
+        <div class="order-info">
+          <div class="info-box">
+            <h4>Thông tin giao hàng</h4>
+            <p th:text="${order.address}">123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</p>
+          </div>
+          <div class="info-box">
+            <h4>Phương thức thanh toán</h4>
+            <p th:text="${order.paymentMethod}">Thanh toán khi nhận hàng</p>
+          </div>
+        </div>
+
+        <!-- Order Note -->
+        <div th:if="${order.note and order.note != ''}" class="info-box" style="margin-top: 20px;">
+          <h4>Ghi chú đơn hàng</h4>
+          <p th:text="${order.note}">Không thêm ớt</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
+          </a>
+          <button
+            th:if="${order.statusCode == 'pending'}"
+            class="btn-cancel"
+            th:onclick="'cancelOrderFromDetail(' + ${order.id} + ')'"
+          >
+            Hủy đơn hàng
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-col footer-brand">
+          <div class="footer-logo">
+            <i class="fa-solid fa-utensils"></i> Vị Nhà
+          </div>
+          <p class="footer-desc">
+            Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng và hương vị gia đình là ưu tiên hàng đầu.
+          </p>
+          <div class="footer-socials">
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-share-nodes"></i></a>
+            <a href="#"><i class="fa-solid fa-globe"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Khám Phá</h4>
+          <ul class="footer-links">
+            <li><a href="#">Về chúng tôi</a></li>
+            <li><a href="#">Thực đơn đặc biệt</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+            <li><a href="#">Tin tức & Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Chính Sách</h4>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Hướng dẫn đặt hàng</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-title">Liên Hệ</h4>
+          <ul class="footer-contact">
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-phone"></i>
+              <span>090 1234 567</span>
+            </li>
+            <li>
+              <i class="fa-regular fa-envelope"></i>
+              <span>contact@vinha.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      function cancelOrderFromDetail(orderId) {
+        if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')) {
+          return;
+        }
+
+        fetch('/api/order/cancel/' + orderId, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Hủy đơn hàng thành công');
+            window.location.href = '/tai-khoan/lich-su-don-hang';
+          } else {
+            alert('Lỗi: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Lỗi khi hủy đơn hàng');
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -79,13 +79,13 @@
             <div class="voucher-card" th:each="voucher, stat : ${vouchers}">
               <div class="voucher-left"
                    th:classappend="${stat.index % 3 == 0} ? ' orange' : (${stat.index % 3 == 1} ? ' light-orange' : ' blue')">
-                <h3 th:text="${T(com.example.vinha.service.VoucherService).formatGiaTriGiam(voucher)}">-20%</h3>
+                <h3 th:text="${@voucherService.formatGiaTriGiam(voucher)}">-20%</h3>
                 <span>GIẢM GIÁ</span>
               </div>
 
               <div class="voucher-right">
                 <h4 th:text="${voucher.ma}">VINHA20</h4>
-                <p th:text="${voucher.moTa != null and !voucher.moTa.isEmpty() ? voucher.moTa : 'Áp dụng cho đơn từ ' + T(com.example.vinha.service.VoucherService).formatCurrency(voucher.donToiThieu)}">
+                <p th:text="${voucher.moTa != null and !voucher.moTa.isEmpty() ? voucher.moTa : 'Áp dụng cho đơn từ ' + @voucherService.formatCurrency(voucher.donToiThieu)}">
                   Áp dụng cho đơn từ 150.000đ
                 </p>
 

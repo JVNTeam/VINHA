@@ -11,5 +11,6 @@ public interface DanhGiaRepository extends JpaRepository<DanhGia, Long> {
     List<DanhGia> findByMonAnId(Long monAnId);
     List<DanhGia> findByNguoiDungId(Long nguoiDungId);
     List<DanhGia> findByDonHangId(Long donHangId);
+    List<DanhGia> findTop3ByOrderByNgayTaoDesc();
 }
 

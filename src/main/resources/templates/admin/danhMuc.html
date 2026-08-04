@@ -81,7 +81,6 @@
                         <th width="200">TÊN DANH MỤC</th>
                         <th>MÔ TẢ</th>
                         <th width="140">TRẠNG THÁI</th>
-                        <th width="120">SỐ MÓN ĂN</th>
                         <th width="120" style="text-align: center;">THAO TÁC</th>
                     </tr>
                     </thead>
@@ -110,10 +109,6 @@
                             </span>
                         </td>
                         <td>
-                            <span class="path-code"
-                                  th:text="${#lists.size(dm.monAns.?[trangThai != 'Ngừng bán'])} + ' món'">0 món</span>
-                        </td>
-                        <td>
                             <div class="action-buttons">
                                 <a th:href="@{/admin/danhMuc/sua(id=${dm.id})}" class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></a>
                                 <a th:href="@{/admin/danhMuc/xoa(id=${dm.id})}" class="btn-icon text-danger btn-delete" title="Xóa"><i class="fa-regular fa-trash-can"></i></a>
@@ -123,7 +118,7 @@
                     </tbody>
                     <tbody th:if="${danhMucs == null or #lists.isEmpty(danhMucs)}">
                     <tr>
-                        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">Không tìm thấy danh mục nào.</td>
+                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">Không tìm thấy danh mục nào.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -171,7 +166,7 @@
                     if (!emptyRow) {
                         emptyRow = document.createElement('tr');
                         emptyRow.id = 'empty-js-row';
-                        emptyRow.innerHTML = '<td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">Không có danh mục nào phù hợp với trạng thái đã chọn.</td>';
+                        emptyRow.innerHTML = '<td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">Không có danh mục nào phù hợp với trạng thái đã chọn.</td>';
                         tbody.appendChild(emptyRow);
                     } else {
                         emptyRow.style.display = '';

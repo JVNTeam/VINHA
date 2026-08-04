@@ -58,25 +58,24 @@
 
         <!-- KHU VỰC LỌC -->
         <!-- KHU VỰC LỌC -->
-        <form th:action="@{/admin/donHang}" method="get" class="filter-section" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+        <div class="filter-section" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
             <div class="search-box" style="flex: 1; min-width: 250px; position: relative;">
                 <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
-                <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="Tìm theo mã đơn, tên, SĐT..." style="padding-left: 40px; width: 100%;">
+                <input type="text" id="keywordInput" class="form-control" placeholder="Tìm theo mã đơn, tên, SĐT..." style="padding-left: 40px; width: 100%;">
             </div>
             
             <div class="filter-left" style="display: flex; gap: 10px;">
-                <select name="status" id="statusFilter" class="form-control">
-                    <option value="" th:selected="${status == null || status == ''}">Tất cả trạng thái</option>
-                    <option value="Chờ xác nhận" th:selected="${status == 'Chờ xác nhận'}">Chờ xác nhận</option>
-                    <option value="Đã xác nhận" th:selected="${status == 'Đã xác nhận'}">Đã xác nhận</option>
-                    <option value="Đang chế biến" th:selected="${status == 'Đang chế biến'}">Đang chế biến</option>
-                    <option value="Đang giao hàng" th:selected="${status == 'Đang giao hàng'}">Đang giao hàng</option>
-                    <option value="Hoàn thành" th:selected="${status == 'Hoàn thành'}">Hoàn thành</option>
-                    <option value="Đã hủy" th:selected="${status == 'Đã hủy'}">Đã hủy</option>
+                <select id="statusSelect" class="form-control">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Chờ xác nhận">Chờ xác nhận</option>
+                    <option value="Đã xác nhận">Đã xác nhận</option>
+                    <option value="Đang chế biến">Đang chế biến</option>
+                    <option value="Đang giao hàng">Đang giao hàng</option>
+                    <option value="Hoàn thành">Hoàn thành</option>
+                    <option value="Đã hủy">Đã hủy</option>
                 </select>
-                <button type="submit" class="btn btn-outline" style="background: var(--admin-orange); color: white; border: none;"><i class="fas fa-search"></i> Tìm kiếm</button>
             </div>
-        </form>
+        </div>
 
         <!-- BẢNG DỮ LIỆU ĐƠN HÀNG -->
         <div class="table-container">
@@ -93,12 +92,12 @@
                 </tr>
                 </thead>
                 <tbody id="orderTableBody">
-
                 <!-- Render động từ DB nếu có donHangs -->
                 <tr th:each="dh : ${donHangs}"
                     th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
+                    class="order-row"
                     th:data-status="${dh.trangThai}"
-                    th:data-date="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'yyyy-MM-dd') : ''}">
+                    th:data-search="${'VN-' + dh.id + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null ? dh.diaChi.tenNguoiNhan : '')) + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''))}">
                     <td><span class="text-orange font-bold" th:text="'#VN-' + ${dh.id}">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -157,37 +156,118 @@
                         <a th:href="@{'/admin/chiTietDon/' + ${dh.id}}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
                     </td>
                 </tr>
-
-                <!-- Đơn mẫu 1 (khi chưa có dữ liệu DB) -->
-                <tr data-status="Chờ xác nhận" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-                    <td><span class="text-orange font-bold">#VN-29034</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Nguyễn Thành Nam</strong>
-                            <span class="text-gray text-sm">0908 123 456</span>
-                        </div>
+                <tr id="noResultsRow" style="display: none;">
+                    <td colspan="7" style="text-align: center; padding: 30px; color: #888;">
+                        Không tìm thấy đơn hàng nào phù hợp.
                     </td>
-                    <td class="date-col">
-                        <strong class="text-main">10:24</strong><br>
-                        <span class="text-gray text-sm">25/10/2026</span>
-                    </td>
-                    <td><strong class="text-main">450.000đ</strong></td>
+                </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- PHÂN TRANG -->
-        <div class="pagination-container" th:if="${totalPages > 1}" style="display: flex; justify-content: center; margin-top: 20px; gap: 5px;">
-            <a th:if="${currentPage > 0}" th:href="@{/admin/donHang(page=${currentPage - 1}, keyword=${keyword}, status=${status})}" class="btn btn-outline" style="padding: 5px 10px;">&laquo; Trang trước</a>
-            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                <a th:href="@{/admin/donHang(page=${i}, keyword=${keyword}, status=${status})}" 
-                   th:text="${i + 1}" 
-                   class="btn" 
-                   th:classappend="${currentPage == i ? 'btn-orange' : 'btn-outline'}" 
-                   style="padding: 5px 10px;"></a>
-            </span>
-            <a th:if="${currentPage < totalPages - 1}" th:href="@{/admin/donHang(page=${currentPage + 1}, keyword=${keyword}, status=${status})}" class="btn btn-outline" style="padding: 5px 10px;">Trang sau &raquo;</a>
+        <!-- PHÂN TRANG JS -->
+        <div class="pagination-container" id="paginationContainer" style="display: flex; justify-content: center; margin-top: 20px; gap: 5px;">
+            <!-- Buttons sẽ được JS tạo ra ở đây -->
         </div>
+
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const keywordInput = document.getElementById('keywordInput');
+    const statusSelect = document.getElementById('statusSelect');
+    const allRows = Array.from(document.querySelectorAll('.order-row'));
+    const noResultsRow = document.getElementById('noResultsRow');
+    const paginationContainer = document.getElementById('paginationContainer');
+    
+    let filteredRows = [...allRows];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
+    function applyFilter() {
+        const keyword = keywordInput.value.trim().toLowerCase();
+        const status = statusSelect.value;
+        
+        filteredRows = allRows.filter(row => {
+            const rowSearch = row.getAttribute('data-search').toLowerCase();
+            const rowStatus = row.getAttribute('data-status');
+            
+            const matchKeyword = keyword === '' || rowSearch.includes(keyword);
+            const matchStatus = status === '' || rowStatus === status;
+            
+            return matchKeyword && matchStatus;
+        });
+        
+        currentPage = 1;
+        renderTable();
+    }
+
+    function renderTable() {
+        // Ẩn tất cả
+        allRows.forEach(row => row.style.display = 'none');
+        
+        if (filteredRows.length === 0) {
+            noResultsRow.style.display = 'table-row';
+            paginationContainer.innerHTML = '';
+            return;
+        } else {
+            noResultsRow.style.display = 'none';
+        }
+        
+        const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+        
+        // Hiển thị row theo trang
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        
+        for (let i = startIndex; i < endIndex && i < filteredRows.length; i++) {
+            filteredRows[i].style.display = 'table-row';
+        }
+        
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+        
+        let html = '';
+        if (currentPage > 1) {
+            html += `<a href="#" data-page="${currentPage - 1}" class="btn btn-outline" style="padding: 5px 10px;">&laquo; Trang trước</a>`;
+        }
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === currentPage ? 'btn-orange' : 'btn-outline';
+            html += `<a href="#" data-page="${i}" class="btn ${activeClass}" style="padding: 5px 10px;">${i}</a>`;
+        }
+        
+        if (currentPage < totalPages) {
+            html += `<a href="#" data-page="${currentPage + 1}" class="btn btn-outline" style="padding: 5px 10px;">Trang sau &raquo;</a>`;
+        }
+        
+        paginationContainer.innerHTML = html;
+        
+        // Gắn sự kiện click
+        paginationContainer.querySelectorAll('a').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentPage = parseInt(this.getAttribute('data-page'));
+                renderTable();
+            });
+        });
+    }
+
+    // Gắn sự kiện
+    keywordInput.addEventListener('input', applyFilter);
+    statusSelect.addEventListener('change', applyFilter);
+
+    // Khởi tạo ban đầu
+    renderTable();
+});
+</script>
 
     </main>
 </div>

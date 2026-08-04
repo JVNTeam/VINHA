@@ -20,19 +20,10 @@ public class DonHangController {
 
     // Trang danh sách đơn hàng
     @GetMapping("/admin/donHang")
-    public String hienThiDonHang(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String status,
-            Model model) {
+    public String hienThiDonHang(Model model) {
 
-        org.springframework.data.domain.Page<DonHang> orderPage = orderService.searchOrders(keyword, status, page, size);
-        model.addAttribute("donHangs", orderPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", orderPage.getTotalPages());
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("status", status);
+        List<DonHang> allOrders = orderService.getAllOrders();
+        model.addAttribute("donHangs", allOrders);
 
         // Thống kê đơn hàng (dùng repository để đếm)
         long choXacNhan = orderService.countByStatus("Chờ xác nhận");

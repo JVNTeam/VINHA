@@ -37,14 +37,14 @@
                 <div class="icon-box bg-blue-light"><i class="fas fa-check-circle text-blue"></i></div>
                 <div class="card-info">
                     <h3 th:text="${daXacNhan != null ? daXacNhan : '15'}">15</h3>
-                    <p class="text-gray">Đã xác nhận</p>
+                    <p class="text-gray">Xác nhận</p>
                 </div>
             </div>
             <div class="card">
-                <div class="icon-box bg-gray-light"><i class="fas fa-fire-burner text-gray"></i></div>
+                <div class="icon-box bg-red-light" style="background-color: #fee2e2;"><i class="fas fa-times-circle text-red" style="color: #ef4444;"></i></div>
                 <div class="card-info">
-                    <h3 th:text="${dangCheBien != null ? dangCheBien : '18'}">18</h3>
-                    <p class="text-gray">Đang chế biến</p>
+                    <h3 th:text="${daHuy != null ? daHuy : '0'}">0</h3>
+                    <p class="text-gray">Đơn hủy</p>
                 </div>
             </div>
             <div class="card bg-orange text-white border-0">
@@ -65,14 +65,13 @@
             </div>
             
             <div class="filter-left" style="display: flex; gap: 10px;">
+                <input type="date" id="dateFilter" class="form-control" style="cursor: pointer;" title="Lọc theo ngày đặt">
                 <select id="statusSelect" class="form-control">
                     <option value="">Tất cả trạng thái</option>
                     <option value="Chờ xác nhận">Chờ xác nhận</option>
-                    <option value="Đã xác nhận">Đã xác nhận</option>
-                    <option value="Đang chế biến">Đang chế biến</option>
-                    <option value="Đang giao hàng">Đang giao hàng</option>
+                    <option value="Xác nhận">Xác nhận</option>
                     <option value="Hoàn thành">Hoàn thành</option>
-                    <option value="Đã hủy">Đã hủy</option>
+                    <option value="Hủy">Hủy</option>
                 </select>
             </div>
         </div>
@@ -97,7 +96,8 @@
                     th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
                     class="order-row"
                     th:data-status="${dh.trangThai}"
-                    th:data-search="${'VN-' + dh.id + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null ? dh.diaChi.tenNguoiNhan : '')) + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''))}">
+                    th:data-date="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'yyyy-MM-dd') : ''}"
+                    th:data-search="${'#VN-' + dh.id + ' vn-' + dh.id + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null ? dh.diaChi.tenNguoiNhan : '')) + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''))}">
                     <td><span class="text-orange font-bold" th:text="'#VN-' + ${dh.id}">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -121,34 +121,28 @@
                             <input type="hidden" name="id" th:value="${dh.id}">
                             <div class="status-stack">
                                 <!-- Nút Hủy -->
-                                <button type="submit" name="status" value="Đã hủy"
+                                <button type="submit" name="status" value="Hủy"
                                         class="status-btn btn-cancel"
-                                        th:classappend="${dh.trangThai == 'Đã hủy' ? 'active' : ''}"
-                                        th:disabled="${dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Đã hủy'}">Hủy</button>
+                                        th:classappend="${dh.trangThai == 'Hủy' ? 'active' : ''}"
+                                        th:disabled="${dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Hủy'}">Hủy</button>
+
+                                <!-- Nút Chờ xác nhận -->
+                                <button type="submit" name="status" value="Chờ xác nhận"
+                                        class="status-btn"
+                                        th:classappend="${dh.trangThai == 'Chờ xác nhận' ? 'active' : (dh.trangThai != 'Hủy' ? 'completed' : '')}"
+                                        th:disabled="${dh.trangThai != 'Xác nhận' && dh.trangThai != 'Hủy'}">Chờ xác nhận</button>
 
                                 <!-- Nút Xác nhận -->
-                                <button type="submit" name="status" value="Đã xác nhận"
+                                <button type="submit" name="status" value="Xác nhận"
                                         class="status-btn"
-                                        th:classappend="${dh.trangThai == 'Đã xác nhận' ? 'active' : (dh.trangThai != 'Chờ xác nhận' && dh.trangThai != 'Đã hủy' ? 'completed' : '')}"
+                                        th:classappend="${dh.trangThai == 'Xác nhận' ? 'active' : (dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
                                         th:disabled="${dh.trangThai != 'Chờ xác nhận'}">Xác nhận</button>
-
-                                <!-- Nút Đang chế biến -->
-                                <button type="submit" name="status" value="Đang chế biến"
-                                        class="status-btn"
-                                        th:classappend="${dh.trangThai == 'Đang chế biến' ? 'active' : (dh.trangThai == 'Đang giao hàng' || dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
-                                        th:disabled="${dh.trangThai != 'Đã xác nhận'}">Chế biến</button>
-
-                                <!-- Nút Đang giao hàng -->
-                                <button type="submit" name="status" value="Đang giao hàng"
-                                        class="status-btn"
-                                        th:classappend="${dh.trangThai == 'Đang giao hàng' ? 'active' : (dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
-                                        th:disabled="${dh.trangThai != 'Đang chế biến'}">Giao hàng</button>
 
                                 <!-- Nút Hoàn thành -->
                                 <button type="submit" name="status" value="Hoàn thành"
                                         class="status-btn"
                                         th:classappend="${dh.trangThai == 'Hoàn thành' ? 'active' : ''}"
-                                        th:disabled="${dh.trangThai != 'Đang giao hàng'}">Hoàn thành</button>
+                                        th:disabled="${dh.trangThai != 'Xác nhận'}">Hoàn thành</button>
                             </div>
                         </form>
                     </td>
@@ -176,6 +170,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const keywordInput = document.getElementById('keywordInput');
+    const dateFilter = document.getElementById('dateFilter');
     const statusSelect = document.getElementById('statusSelect');
     const allRows = Array.from(document.querySelectorAll('.order-row'));
     const noResultsRow = document.getElementById('noResultsRow');
@@ -187,16 +182,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function applyFilter() {
         const keyword = keywordInput.value.trim().toLowerCase();
+        const dateVal = dateFilter.value;
         const status = statusSelect.value;
         
         filteredRows = allRows.filter(row => {
             const rowSearch = row.getAttribute('data-search').toLowerCase();
             const rowStatus = row.getAttribute('data-status');
+            const rowDate = row.getAttribute('data-date');
             
             const matchKeyword = keyword === '' || rowSearch.includes(keyword);
+            const matchDate = dateVal === '' || rowDate === dateVal;
             const matchStatus = status === '' || rowStatus === status;
             
-            return matchKeyword && matchStatus;
+            return matchKeyword && matchDate && matchStatus;
         });
         
         currentPage = 1;
@@ -260,8 +258,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Gắn sự kiện
+    // Gán sự kiện
     keywordInput.addEventListener('input', applyFilter);
+    dateFilter.addEventListener('change', applyFilter);
     statusSelect.addEventListener('change', applyFilter);
 
     // Khởi tạo ban đầu

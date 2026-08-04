@@ -27,15 +27,13 @@ public class DonHangController {
 
         // Thống kê đơn hàng (dùng repository để đếm)
         long choXacNhan = orderService.countByStatus("Chờ xác nhận");
-        long daXacNhan = orderService.countByStatus("Đã xác nhận");
-        long dangCheBien = orderService.countByStatus("Đang chế biến");
-        long dangGiaoHang = orderService.countByStatus("Đang giao hàng");
+        long daXacNhan = orderService.countByStatus("Xác nhận");
+        long daHuy = orderService.countByStatus("Hủy");
         Double doanhThu = orderService.sumDoanhThu();
 
         model.addAttribute("choXacNhan", choXacNhan);
         model.addAttribute("daXacNhan", daXacNhan);
-        model.addAttribute("dangCheBien", dangCheBien);
-        model.addAttribute("dangGiaoHang", dangGiaoHang);
+        model.addAttribute("daHuy", daHuy);
         model.addAttribute("doanhThu", doanhThu != null ? doanhThu : 0.0);
 
         return "admin/donHang";
@@ -48,9 +46,8 @@ public class DonHangController {
             @RequestParam Long id, 
             @RequestParam String status, 
             @RequestParam(required = false) String lyDoHuy, 
-            @RequestParam(required = false) String thongTinShipper, 
             jakarta.servlet.http.HttpServletRequest request) {
-        orderService.updateStatus(id, status, lyDoHuy, thongTinShipper);
+        orderService.updateStatus(id, status, lyDoHuy);
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/admin/donHang");
     }

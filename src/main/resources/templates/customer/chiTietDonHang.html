@@ -301,7 +301,7 @@
           <p style="color: var(--text-muted, #666); font-size: 13px; margin-bottom: 5px;">Trạng thái</p>
           <span
                   id="orderStatusBadge"
-                  th:class="'badge bg-' + (${order.statusCode == 'pending' ? 'warning' : (order.statusCode == 'cancelled' ? 'danger' : (order.statusCode == 'processing' ? 'primary' : (order.statusCode == 'shipping' || order.statusCode == 'confirmed' ? 'info' : 'success')))})"
+                  th:class="'badge bg-' + (${order.statusCode == 'pending' ? 'warning' : (order.statusCode == 'cancelled' ? 'danger' : (order.statusCode == 'confirmed' ? 'info' : 'success'))})"
                   th:text="${order.status}"
           >Chờ xác nhận</span>
         </div>
@@ -486,11 +486,9 @@
             let bgClass = 'success';
             switch(status) {
                 case 'Chờ xác nhận': bgClass = 'warning'; break;
-                case 'Đã xác nhận': bgClass = 'info'; break;
-                case 'Đang chế biến': bgClass = 'primary'; break;
-                case 'Đang giao hàng': bgClass = 'info'; break;
+                case 'Xác nhận': bgClass = 'info'; break;
                 case 'Hoàn thành': bgClass = 'success'; break;
-                case 'Đã hủy': bgClass = 'danger'; break;
+                case 'Hủy': bgClass = 'danger'; break;
             }
             badge.className = 'badge bg-' + bgClass;
             

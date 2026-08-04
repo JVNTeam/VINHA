@@ -1,4 +1,4 @@
--- TEN WEB LA: VỊ NHÀ
+-- TEN WEB LA: Vá»Š NHÃ€
 CREATE DATABASE ViNha;
 GO
 USE ViNha;
@@ -15,24 +15,24 @@ CREATE TABLE nguoi_dung (
                             vai_tro_id BIGINT NOT NULL,
                             ho_ten NVARCHAR(100) NOT NULL,
     /*
-        Email dùng để đăng nhập hoặc nhận thông báo.
-        Không bắt buộc.
-        Nếu có thì phải duy nhất.
+        Email dÃ¹ng Ä‘á»ƒ Ä‘Äƒng nháº­p hoáº·c nháº­n thÃ´ng bÃ¡o.
+        KhÃ´ng báº¯t buá»™c.
+        Náº¿u cÃ³ thÃ¬ pháº£i duy nháº¥t.
     */
                             email NVARCHAR(100) UNIQUE NULL,
                             so_dien_thoai VARCHAR(20) UNIQUE NOT NULL,
     /*
-        CCCD chỉ áp dụng cho nhân viên.
-        Khách hàng để NULL.
+        CCCD chá»‰ Ã¡p dá»¥ng cho nhÃ¢n viÃªn.
+        KhÃ¡ch hÃ ng Ä‘á»ƒ NULL.
     */
                             cccd VARCHAR(20) UNIQUE NULL,
                             mat_khau NVARCHAR(255) NOT NULL,
-    -- 0: Nam | 1: Nữ
+    -- 0: Nam | 1: Ná»¯
                             gioi_tinh TINYINT
                                 CHECK(gioi_tinh IN(0,1)),
                             ngay_sinh DATE,
                             anh_dai_dien VARCHAR(500),
-                            trang_thai NVARCHAR(20)DEFAULT N'Hoạt Động' CHECK(trang_thai IN(N'Hoạt Động',N'Khóa')),
+                            trang_thai NVARCHAR(20)DEFAULT N'Hoáº¡t Äá»™ng' CHECK(trang_thai IN(N'Hoáº¡t Äá»™ng',N'KhÃ³a')),
                             ngay_tao DATETIME2 DEFAULT GETDATE(),
                             ngay_cap_nhat DATETIME2 DEFAULT GETDATE(),
                             FOREIGN KEY(vai_tro_id) REFERENCES vai_tro(id)
@@ -55,8 +55,8 @@ CREATE TABLE danh_muc (
                           ten NVARCHAR(100) NOT NULL,
                           mo_ta NVARCHAR(MAX),
                           trang_thai NVARCHAR(20)
-        DEFAULT N'Mở'
-        CHECK (trang_thai IN (N'Mở', N'Khóa')),
+        DEFAULT N'Má»Ÿ'
+        CHECK (trang_thai IN (N'Má»Ÿ', N'KhÃ³a')),
                           anh NVARCHAR(500)
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE mon_an (
                         da_ban INT DEFAULT 0 CHECK(da_ban >= 0),
                         danh_gia DECIMAL(3,2)DEFAULT 0,
                         so_luot_danh_gia INT DEFAULT 0,
-                        trang_thai NVARCHAR(30) DEFAULT N'Đang bán' CHECK (trang_thai IN(N'Đang bán',N'Hết hàng',N'Ngừng bán' )),
+                        trang_thai NVARCHAR(30) DEFAULT N'Äang bÃ¡n' CHECK (trang_thai IN(N'Äang bÃ¡n',N'Háº¿t hÃ ng',N'Ngá»«ng bÃ¡n' )),
                         ngay_tao DATETIME2 DEFAULT GETDATE(),
                         FOREIGN KEY(danh_muc_id) REFERENCES danh_muc(id)
 );
@@ -81,7 +81,7 @@ CREATE TABLE hinh_anh_mon_an (
                                  id BIGINT IDENTITY(1,1) PRIMARY KEY,
                                  mon_an_id BIGINT NOT NULL,
                                  duong_dan VARCHAR(500) NOT NULL,
-                                 trang_thai NVARCHAR(20)DEFAULT N'Mở' CHECK(trang_thai IN(N'Mở',N'Khóa')),
+                                 trang_thai NVARCHAR(20)DEFAULT N'Má»Ÿ' CHECK(trang_thai IN(N'Má»Ÿ',N'KhÃ³a')),
 
                                  FOREIGN KEY(mon_an_id)
                                      REFERENCES mon_an(id)
@@ -108,25 +108,25 @@ CREATE TABLE ma_giam_gia (
                              id BIGINT IDENTITY(1,1) PRIMARY KEY,
                              ma VARCHAR(50) NOT NULL UNIQUE,
                              mo_ta NVARCHAR(255),
-                             loai_giam NVARCHAR(20)NOT NULL CHECK(loai_giam IN(N'Phần trăm', N'Tiền')),
+                             loai_giam NVARCHAR(20)NOT NULL CHECK(loai_giam IN(N'Pháº§n trÄƒm', N'Tiá»n')),
                              gia_tri_giam DECIMAL(12,2) NOT NULL CHECK(gia_tri_giam > 0),
     /*
-        Chỉ áp dụng khi giảm theo %
-        Ví dụ:
-        Giảm 20%
-        Tối đa 50.000đ
+        Chá»‰ Ã¡p dá»¥ng khi giáº£m theo %
+        VÃ­ dá»¥:
+        Giáº£m 20%
+        Tá»‘i Ä‘a 50.000Ä‘
     */
                              giam_toi_da DECIMAL(12,2)CHECK(giam_toi_da >= 0),
 
-    -- Đơn hàng tối thiểu để áp dụng voucher
+    -- ÄÆ¡n hÃ ng tá»‘i thiá»ƒu Ä‘á»ƒ Ã¡p dá»¥ng voucher
                              don_toi_thieu DECIMAL(12,2)DEFAULT 0CHECK(don_toi_thieu >= 0),
-    -- Tổng số voucher phát hành
+    -- Tá»•ng sá»‘ voucher phÃ¡t hÃ nh
                              so_luong INT NOT NULL CHECK(so_luong >= 0),
-    -- Mỗi khách được nhận tối đa bao nhiêu lần
+    -- Má»—i khÃ¡ch Ä‘Æ°á»£c nháº­n tá»‘i Ä‘a bao nhiÃªu láº§n
                              gioi_han_nhan INT DEFAULT 1 CHECK(gioi_han_nhan > 0),
     /*
-        Điều kiện nhận voucher.Admin tự quy định.
-        Ví dụ:
+        Äiá»u kiá»‡n nháº­n voucher.Admin tá»± quy Ä‘á»‹nh.
+        VÃ­ dá»¥:
         SO_DON
         CHI_TIEU
         VIP
@@ -137,10 +137,10 @@ CREATE TABLE ma_giam_gia (
     */
                              loai_dieu_kien NVARCHAR(50),
     /*
-        Giá trị điều kiện.
+        GiÃ¡ trá»‹ Ä‘iá»u kiá»‡n.
         SO_DON      -> 20
         CHI_TIEU    -> 5000000
-        Các điều kiện không cần giá trị thì để NULL.
+        CÃ¡c Ä‘iá»u kiá»‡n khÃ´ng cáº§n giÃ¡ trá»‹ thÃ¬ Ä‘á»ƒ NULL.
     */
                              gia_tri_dieu_kien DECIMAL(12,2),
                              ngay_bat_dau DATETIME2,
@@ -154,7 +154,7 @@ CREATE TABLE nguoi_dung_ma_giam_gia (
                                         nguoi_dung_id BIGINT NOT NULL,
                                         ma_giam_gia_id BIGINT NOT NULL,
                                         ngay_nhan DATETIME2 DEFAULT GETDATE(),
-                                        trang_thai NVARCHAR(30) DEFAULT N'Chưa sử dụng'CHECK(trang_thai IN(N'Chưa sử dụng',N'Đã sử dụng', N'Hết hạn')),
+                                        trang_thai NVARCHAR(30) DEFAULT N'ChÆ°a sá»­ dá»¥ng'CHECK(trang_thai IN(N'ChÆ°a sá»­ dá»¥ng',N'ÄÃ£ sá»­ dá»¥ng', N'Háº¿t háº¡n')),
                                         ngay_su_dung DATETIME2,
                                         FOREIGN KEY(nguoi_dung_id) REFERENCES nguoi_dung(id),
                                         FOREIGN KEY(ma_giam_gia_id)REFERENCES ma_giam_gia(id)
@@ -173,9 +173,9 @@ CREATE TABLE don_hang (
                           tong_tien DECIMAL(12,2),
                           thoi_gian_du_kien DATETIME2,
                           hinh_thuc_thanh_toan NVARCHAR(30) CHECK
-    (hinh_thuc_thanh_toan IN( N'Tiền mặt', N'Chuyển khoản',N'Ví điện tử' )),
-                          trang_thai NVARCHAR(30) DEFAULT N'Chờ xác nhận' CHECK
-    (trang_thai IN( N'Chờ xác nhận', N'Xác nhận', N'Hoàn thành', N'Hủy')),
+    (hinh_thuc_thanh_toan IN( N'Tiá»n máº·t', N'Chuyá»ƒn khoáº£n',N'VÃ­ Ä‘iá»‡n tá»­' )),
+                          trang_thai NVARCHAR(30) DEFAULT N'Chá» xÃ¡c nháº­n' CHECK
+    (trang_thai IN( N'Chá» xÃ¡c nháº­n', N'XÃ¡c nháº­n', N'HoÃ n thÃ nh', N'Há»§y')),
                           ngay_tao DATETIME2 DEFAULT GETDATE(),
                           ly_do_huy NVARCHAR(MAX),
                           FOREIGN KEY(nguoi_dung_id)REFERENCES nguoi_dung(id),
@@ -200,8 +200,8 @@ CREATE TABLE thanh_toan (
                             don_hang_id BIGINT NOT NULL,
                             ma_giao_dich VARCHAR(100),
                             so_tien DECIMAL(12,2),
-                            phuong_thuc NVARCHAR(30) CHECK( phuong_thuc IN(N'Tiền mặt',N'Chuyển khoản',N'Ví điện tử')),
-                            trang_thai NVARCHAR(30)CHECK  (trang_thai IN( N'Chờ thanh toán', N'Thành công',  N'Thất bại')),
+                            phuong_thuc NVARCHAR(30) CHECK( phuong_thuc IN(N'Tiá»n máº·t',N'Chuyá»ƒn khoáº£n',N'VÃ­ Ä‘iá»‡n tá»­')),
+                            trang_thai NVARCHAR(30)CHECK  (trang_thai IN( N'Chá» thanh toÃ¡n', N'ThÃ nh cÃ´ng',  N'Tháº¥t báº¡i')),
                             thoi_gian DATETIME2,
                             FOREIGN KEY(don_hang_id)REFERENCES don_hang(id)
 );
@@ -232,25 +232,25 @@ CREATE UNIQUE INDEX UX_danh_gia ON danh_gia(don_hang_id,mon_an_id,nguoi_dung_id)
 
 
 -- =========================
--- 1. VAI TRÒ
+-- 1. VAI TRÃ’
 -- =========================
 INSERT INTO vai_tro (ten)
 VALUES
-    (N'Khách hàng'),
-    (N'Nhân viên');
+    (N'KhÃ¡ch hÃ ng'),
+    (N'NhÃ¢n viÃªn');
 
 INSERT INTO vai_tro (ten)
 VALUES
     (N'Admin');
 
 -- =========================
--- 2. NGƯỜI DÙNG
+-- 2. NGÆ¯á»œI DÃ™NG
 -- =========================
 INSERT INTO nguoi_dung
 (vai_tro_id,ho_ten,email,so_dien_thoai,cccd,mat_khau,gioi_tinh,ngay_sinh,anh_dai_dien)
 VALUES
-    (1,N'Nguyễn Văn A','vana@gmail.com','0988888888',NULL,'123456',0,'2002-01-10','avatar1.jpg'),
-    (2,N'Trần Thị B','tranb@gmail.com','0977777777','001203123456','123456',1,'1999-05-20','avatar2.jpg');
+    (1,N'Nguyá»…n VÄƒn A','vana@gmail.com','0988888888',NULL,'123456',0,'2002-01-10','avatar1.jpg'),
+    (2,N'Tráº§n Thá»‹ B','tranb@gmail.com','0977777777','001203123456','123456',1,'1999-05-20','avatar2.jpg');
 INSERT INTO nguoi_dung (
     vai_tro_id,ho_ten,email,so_dien_thoai,cccd,
     mat_khau,
@@ -261,7 +261,7 @@ INSERT INTO nguoi_dung (
 )
 VALUES (
            3,
-           N'Quản trị viên',
+           N'Quáº£n trá»‹ viÃªn',
            'admin@vinha.com',
            '0988888887',
            '001234567890',
@@ -269,38 +269,38 @@ VALUES (
            0,
            '2000-01-01',
            NULL,
-           N'Hoạt Động'
+           N'Hoáº¡t Äá»™ng'
        );
 
 -- =========================
--- 3. ĐỊA CHỈ
+-- 3. Äá»ŠA CHá»ˆ
 -- =========================
 INSERT INTO dia_chi
 (nguoi_dung_id,ten_nguoi_nhan,sdt_nguoi_nhan,dia_chi,mac_dinh)
 VALUES
-    (1,N'Nguyễn Văn A','0988888888',N'123 Cầu Giấy, Hà Nội',1),
-    (2,N'Trần Thị B','0977777777',N'45 Lê Đức Thọ, Hà Nội',1);
+    (1,N'Nguyá»…n VÄƒn A','0988888888',N'123 Cáº§u Giáº¥y, HÃ  Ná»™i',1),
+    (2,N'Tráº§n Thá»‹ B','0977777777',N'45 LÃª Äá»©c Thá», HÃ  Ná»™i',1);
 
 -- =========================
--- 4. DANH MỤC
+-- 4. DANH Má»¤C
 -- =========================
 INSERT INTO danh_muc
 (ten, mo_ta, trang_thai, anh)
 VALUES
-    (N'Cơm văn phòng', N'Các suất cơm hằng ngày', N'Mở', N'com-van-phong.jpg'),
-    (N'Cơm đặc biệt', N'Cơm cao cấp', N'Mở', N'com-dac-biet.jpg');
+    (N'CÆ¡m vÄƒn phÃ²ng', N'CÃ¡c suáº¥t cÆ¡m háº±ng ngÃ y', N'Má»Ÿ', N'com-van-phong.jpg'),
+    (N'CÆ¡m Ä‘áº·c biá»‡t', N'CÆ¡m cao cáº¥p', N'Má»Ÿ', N'com-dac-biet.jpg');
 
 -- =========================
--- 5. MÓN ĂN
+-- 5. MÃ“N Ä‚N
 -- =========================
 INSERT INTO mon_an
 (danh_muc_id,ten,mo_ta,thanh_phan,gia,so_luong_con,da_ban)
 VALUES
-    (1,N'Cơm gà chiên',N'Cơm gà giòn',N'Gà, cơm, rau',45000,100,20),
-    (2,N'Cơm bò lúc lắc',N'Bò mềm',N'Bò, cơm, rau',65000,80,15);
+    (1,N'CÆ¡m gÃ  chiÃªn',N'CÆ¡m gÃ  giÃ²n',N'GÃ , cÆ¡m, rau',45000,100,20),
+    (2,N'CÆ¡m bÃ² lÃºc láº¯c',N'BÃ² má»m',N'BÃ², cÆ¡m, rau',65000,80,15);
 
 -- =========================
--- 6. HÌNH ẢNH MÓN ĂN
+-- 6. HÃŒNH áº¢NH MÃ“N Ä‚N
 -- =========================
 INSERT INTO hinh_anh_mon_an
 (mon_an_id,duong_dan)
@@ -309,7 +309,7 @@ VALUES
     (2,'com-bo.jpg');
 
 -- =========================
--- 7. GIỎ HÀNG
+-- 7. GIá»Ž HÃ€NG
 -- =========================
 INSERT INTO gio_hang
 (nguoi_dung_id)
@@ -318,7 +318,7 @@ VALUES
     (2);
 
 -- =========================
--- 8. CHI TIẾT GIỎ HÀNG
+-- 8. CHI TIáº¾T GIá»Ž HÃ€NG
 -- =========================
 INSERT INTO chi_tiet_gio_hang
 (gio_hang_id,mon_an_id,so_luong,don_gia)
@@ -327,16 +327,16 @@ VALUES
     (2,2,1,65000);
 
 -- =========================
--- 9. MÃ GIẢM GIÁ
+-- 9. MÃƒ GIáº¢M GIÃ
 -- =========================
 INSERT INTO ma_giam_gia
 (ma,mo_ta,loai_giam,gia_tri_giam,giam_toi_da,don_toi_thieu,so_luong,gioi_han_nhan,loai_dieu_kien,gia_tri_dieu_kien,ngay_bat_dau,ngay_ket_thuc)
 VALUES
-    ('GIAM10',N'Giảm 10%',N'Phần trăm',10,50000,100000,100,1,NULL,NULL,'2026-01-01','2026-12-31'),
-    ('KM30000',N'Giảm 30K',N'Tiền',30000,NULL,150000,50,1,NULL,NULL,'2026-01-01','2026-12-31');
+    ('GIAM10',N'Giáº£m 10%',N'Pháº§n trÄƒm',10,50000,100000,100,1,NULL,NULL,'2026-01-01','2026-12-31'),
+    ('KM30000',N'Giáº£m 30K',N'Tiá»n',30000,NULL,150000,50,1,NULL,NULL,'2026-01-01','2026-12-31');
 
 -- =========================
--- 10. NGƯỜI DÙNG MÃ GIẢM GIÁ
+-- 10. NGÆ¯á»œI DÃ™NG MÃƒ GIáº¢M GIÃ
 -- =========================
 INSERT INTO nguoi_dung_ma_giam_gia
 (nguoi_dung_id,ma_giam_gia_id)
@@ -345,17 +345,17 @@ VALUES
     (2,2);
 
 -- =========================
--- 11. ĐƠN HÀNG
+-- 11. ÄÆ N HÃ€NG
 -- =========================
 INSERT INTO don_hang
 (nguoi_dung_id,dia_chi_id,ma_giam_gia_id,nhan_vien_id,ghi_chu,tam_tinh,phi_giao_hang,tien_giam,tong_tien,thoi_gian_du_kien,hinh_thuc_thanh_toan,trang_thai)
 VALUES
-    (1,1,1,2,N'Ít cay',90000,15000,9000,96000,'2026-07-25 11:30',N'Tiền mặt',N'Chờ xác nhận'),
+    (1,1,1,2,N'Ãt cay',90000,15000,9000,96000,'2026-07-25 11:30',N'Tiá»n máº·t',N'Chá» xÃ¡c nháº­n'),
 
-    (1,1,2,2,N'Thêm canh',65000,15000,30000,50000,'2026-07-25 12:00',N'Chuyển khoản',N'Xác nhận');
+    (1,1,2,2,N'ThÃªm canh',65000,15000,30000,50000,'2026-07-25 12:00',N'Chuyá»ƒn khoáº£n',N'XÃ¡c nháº­n');
 
 -- =========================
--- 12. CHI TIẾT ĐƠN HÀNG
+-- 12. CHI TIáº¾T ÄÆ N HÃ€NG
 -- =========================
 INSERT INTO chi_tiet_don_hang
 (don_hang_id,mon_an_id,so_luong,don_gia)
@@ -364,31 +364,31 @@ VALUES
     (2,2,1,65000);
 
 -- =========================
--- 13. THANH TOÁN
+-- 13. THANH TOÃN
 -- =========================
 INSERT INTO thanh_toan
 (don_hang_id,ma_giao_dich,so_tien,phuong_thuc,trang_thai,thoi_gian)
 VALUES
-    (1,'GD0001',96000,N'Tiền mặt',N'Chờ thanh toán',GETDATE()),
-    (2,'GD0002',50000,N'Chuyển khoản',N'Thành công',GETDATE());
+    (1,'GD0001',96000,N'Tiá»n máº·t',N'Chá» thanh toÃ¡n',GETDATE()),
+    (2,'GD0002',50000,N'Chuyá»ƒn khoáº£n',N'ThÃ nh cÃ´ng',GETDATE());
 
 -- =========================
--- 14. LỊCH SỬ TRẠNG THÁI
+-- 14. Lá»ŠCH Sá»¬ TRáº NG THÃI
 -- =========================
 INSERT INTO lich_su_trang_thai
 (don_hang_id,nhan_vien_id,trang_thai)
 VALUES
-    (1,2,N'Chờ xác nhận'),
-    (2,2,N'Xác nhận');
+    (1,2,N'Chá» xÃ¡c nháº­n'),
+    (2,2,N'XÃ¡c nháº­n');
 
 -- =========================
--- 15. ĐÁNH GIÁ
+-- 15. ÄÃNH GIÃ
 -- =========================
 INSERT INTO danh_gia
 (don_hang_id,mon_an_id,nguoi_dung_id,so_sao,binh_luan)
 VALUES
-    (1,1,1,5,N'Cơm rất ngon'),
-    (2,2,1,4,N'Thịt mềm, giao nhanh');
+    (1,1,1,5,N'CÆ¡m ráº¥t ngon'),
+    (2,2,1,4,N'Thá»‹t má»m, giao nhanh');
 
 
 UPDATE hinh_anh_mon_an
@@ -400,49 +400,49 @@ SET duong_dan = '/images/comBoLucLac.jpg'
 WHERE mon_an_id = 2;
 
 -- =========================
--- 1. XÓA DỮ LIỆU CŨ
+-- 1. XÃ“A Dá»® LIá»†U CÅ¨
 -- =========================
 --DELETE FROM mon_an;
 --DELETE FROM danh_muc;
 
--- (Tùy chọn) Nếu ID của bạn là kiểu số tự tăng (IDENTITY), hãy chạy 2 dòng dưới đây để reset ID về 1.
--- Nếu bạn tự nhập ID bằng tay thì không cần chạy 2 dòng này.
+-- (TÃ¹y chá»n) Náº¿u ID cá»§a báº¡n lÃ  kiá»ƒu sá»‘ tá»± tÄƒng (IDENTITY), hÃ£y cháº¡y 2 dÃ²ng dÆ°á»›i Ä‘Ã¢y Ä‘á»ƒ reset ID vá» 1.
+-- Náº¿u báº¡n tá»± nháº­p ID báº±ng tay thÃ¬ khÃ´ng cáº§n cháº¡y 2 dÃ²ng nÃ y.
 --DBCC CHECKIDENT ('mon_an', RESEED, 0);
 --DBCC CHECKIDENT ('danh_muc', RESEED, 0);
 
 -- =========================
--- 2. THÊM 5 DANH MỤC MỚI
+-- 2. THÃŠM 5 DANH Má»¤C Má»šI
 -- =========================
 INSERT INTO danh_muc (ten, mo_ta, trang_thai, anh)
 VALUES
-    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'com-ga.jpg'),
-    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'com-bo.jpg'),
-    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'com-heo.jpg'),
-    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'com-hai-san.jpg'),
-    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'com-chay.jpg');
+    (N'CÆ¡m gÃ ', N'CÃ¡c mÃ³n cÆ¡m káº¿t há»£p vá»›i thá»‹t gÃ ', N'Má»Ÿ', N'com-ga.jpg'),
+    (N'CÆ¡m bÃ²', N'CÃ¡c mÃ³n cÆ¡m káº¿t há»£p vá»›i thá»‹t bÃ²', N'Má»Ÿ', N'com-bo.jpg'),
+    (N'CÆ¡m heo', N'CÃ¡c mÃ³n cÆ¡m vá»›i thá»‹t heo', N'Má»Ÿ', N'com-heo.jpg'),
+    (N'CÆ¡m háº£i sáº£n', N'CÆ¡m chiÃªn vÃ  xÃ o vá»›i háº£i sáº£n', N'Má»Ÿ', N'com-hai-san.jpg'),
+    (N'CÆ¡m chay', N'CÃ¡c mÃ³n cÆ¡m thanh Ä‘áº¡m', N'Má»Ÿ', N'com-chay.jpg');
 
 -- =========================
--- 3. THÊM 10 MÓN ĂN MỚI
+-- 3. THÃŠM 10 MÃ“N Ä‚N Má»šI
 -- =========================
--- Giả sử ID danh mục tương ứng từ 1 đến 5 (theo thứ tự vừa thêm ở trên)
+-- Giáº£ sá»­ ID danh má»¥c tÆ°Æ¡ng á»©ng tá»« 1 Ä‘áº¿n 5 (theo thá»© tá»± vá»«a thÃªm á»Ÿ trÃªn)
 INSERT INTO mon_an (danh_muc_id, ten, mo_ta, thanh_phan, gia, so_luong_con, da_ban)
 VALUES
-    -- Danh mục 1: Cơm gà
-    (3, N'Cơm gà xào nấm', N'Thịt gà mềm xào cùng nấm hương', N'Gà, nấm, cơm, hành tây', 45000, 30, 15),
-    (3, N'Cơm gà xối mỡ', N'Đùi gà chiên xối mỡ giòn rụm', N'Đùi gà, cơm chiên, cà chua', 50000, 40, 25),
-    (3, N'Cơm gà quay', N'Gà quay tẩm ướp đậm đà', N'Gà quay, dưa chuột, cơm trắng', 55000, 20, 10),
+    -- Danh má»¥c 1: CÆ¡m gÃ 
+    (3, N'CÆ¡m gÃ  xÃ o náº¥m', N'Thá»‹t gÃ  má»m xÃ o cÃ¹ng náº¥m hÆ°Æ¡ng', N'GÃ , náº¥m, cÆ¡m, hÃ nh tÃ¢y', 45000, 30, 15),
+    (3, N'CÆ¡m gÃ  xá»‘i má»¡', N'ÄÃ¹i gÃ  chiÃªn xá»‘i má»¡ giÃ²n rá»¥m', N'ÄÃ¹i gÃ , cÆ¡m chiÃªn, cÃ  chua', 50000, 40, 25),
+    (3, N'CÆ¡m gÃ  quay', N'GÃ  quay táº©m Æ°á»›p Ä‘áº­m Ä‘Ã ', N'GÃ  quay, dÆ°a chuá»™t, cÆ¡m tráº¯ng', 55000, 20, 10),
 
-    -- Danh mục 2: Cơm bò
-    (4, N'Cơm bò lúc lắc', N'Thịt bò thái khối xào mọng nước', N'Thịt bò, ớt chuông, hành tây, cơm', 65000, 25, 20),
-    (4, N'Cơm bò xào dưa chua', N'Bò xào dưa chua đưa cơm', N'Thịt bò, dưa cải chua, tỏi, cơm', 55000, 30, 12),
+    -- Danh má»¥c 2: CÆ¡m bÃ²
+    (4, N'CÆ¡m bÃ² lÃºc láº¯c', N'Thá»‹t bÃ² thÃ¡i khá»‘i xÃ o má»ng nÆ°á»›c', N'Thá»‹t bÃ², á»›t chuÃ´ng, hÃ nh tÃ¢y, cÆ¡m', 65000, 25, 20),
+    (4, N'CÆ¡m bÃ² xÃ o dÆ°a chua', N'BÃ² xÃ o dÆ°a chua Ä‘Æ°a cÆ¡m', N'Thá»‹t bÃ², dÆ°a cáº£i chua, tá»i, cÆ¡m', 55000, 30, 12),
 
-    -- Danh mục 3: Cơm heo
-    (5, N'Cơm ba chỉ rang cháy cạnh', N'Thịt ba chỉ rang xém cạnh đậm vị', N'Thịt ba chỉ, hành lá, cơm', 40000, 50, 40),
-    (5, N'Cơm sườn nướng', N'Sườn nướng than hoa thơm lừng', N'Sườn cốt lết, đồ chua, cơm tấm', 50000, 45, 35),
-    (5, N'Cơm thịt băm sốt cà chua', N'Thịt băm sốt cà chua dễ ăn', N'Thịt heo băm, cà chua, hành, cơm', 35000, 35, 18),
+    -- Danh má»¥c 3: CÆ¡m heo
+    (5, N'CÆ¡m ba chá»‰ rang chÃ¡y cáº¡nh', N'Thá»‹t ba chá»‰ rang xÃ©m cáº¡nh Ä‘áº­m vá»‹', N'Thá»‹t ba chá»‰, hÃ nh lÃ¡, cÆ¡m', 40000, 50, 40),
+    (5, N'CÆ¡m sÆ°á»n nÆ°á»›ng', N'SÆ°á»n nÆ°á»›ng than hoa thÆ¡m lá»«ng', N'SÆ°á»n cá»‘t láº¿t, Ä‘á»“ chua, cÆ¡m táº¥m', 50000, 45, 35),
+    (5, N'CÆ¡m thá»‹t bÄƒm sá»‘t cÃ  chua', N'Thá»‹t bÄƒm sá»‘t cÃ  chua dá»… Äƒn', N'Thá»‹t heo bÄƒm, cÃ  chua, hÃ nh, cÆ¡m', 35000, 35, 18),
 
-    -- Danh mục 4: Cơm hải sản
-    (6, N'Cơm mực xào chua ngọt', N'Mực tươi xào sốt chua ngọt', N'Mực, dứa, cà chua, tỏi, cơm', 60000, 20, 8),
+    -- Danh má»¥c 4: CÆ¡m háº£i sáº£n
+    (6, N'CÆ¡m má»±c xÃ o chua ngá»t', N'Má»±c tÆ°Æ¡i xÃ o sá»‘t chua ngá»t', N'Má»±c, dá»©a, cÃ  chua, tá»i, cÆ¡m', 60000, 20, 8),
 
-    -- Danh mục 5: Cơm chay
-    (7, N'Cơm đậu hũ xào rau nấm', N'Món chay thanh đạm đủ chất', N'Đậu hũ, nấm, cải thìa, cơm', 30000, 15, 5);
+    -- Danh má»¥c 5: CÆ¡m chay
+    (7, N'CÆ¡m Ä‘áº­u hÅ© xÃ o rau náº¥m', N'MÃ³n chay thanh Ä‘áº¡m Ä‘á»§ cháº¥t', N'Äáº­u hÅ©, náº¥m, cáº£i thÃ¬a, cÆ¡m', 30000, 15, 5);

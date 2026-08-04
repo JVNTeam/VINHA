@@ -106,13 +106,14 @@
           <span th:text="${error}"></span>
         </div>
 
-        <form th:action="@{/dangNhap}" method="post">
+        <form id="loginForm" th:action="@{/dangNhap}" method="post">
           <label>Email hoặc Số điện thoại</label>
 
           <div class="input-group">
             <img th:src="@{/images/login/IconHinhNguoi.png}" />
-            <input type="text" name="username" placeholder="Nhập email hoặc số điện thoại" required />
+            <input type="text" id="username" name="username" placeholder="Nhập email hoặc số điện thoại" required />
           </div>
+          <small id="usernameError" style="color: red; display: none; margin-top: -15px; margin-bottom: 15px;"></small>
 
           <label>Mật khẩu</label>
 

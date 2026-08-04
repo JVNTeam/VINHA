@@ -24,7 +24,7 @@
             <div class="title-group">
                 <div class="order-title-row">
                     <h1 class="page-title">Đơn hàng <span style="color: var(--admin-orange);" th:text="${donHang != null ? '#VN-' + donHang.id : '#VN-29034'}">#VN-29034</span></h1>
-                    <span class="badge" th:classappend="${donHang != null && donHang.trangThai == 'Đã hoàn thành' ? 'badge-success' : (donHang != null && donHang.trangThai == 'Đã hủy' ? 'badge-danger' : 'badge-pending')}" th:text="${donHang != null ? donHang.trangThai : 'Chờ xác nhận'}">Chờ xác nhận</span>
+                    <span class="badge" th:classappend="${donHang != null && donHang.trangThai == 'Đã hoàn thành' ? 'badge-success' : (donHang != null && donHang.trangThai == 'Hủy' ? 'badge-danger' : 'badge-pending')}" th:text="${donHang != null ? donHang.trangThai : 'Chờ xác nhận'}">Chờ xác nhận</span>
                 </div>
                 <p class="page-subtitle">Ngày đặt: <span th:text="${donHang != null && donHang.ngayTao != null ? #temporals.format(donHang.ngayTao, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span></p>
             </div>
@@ -174,20 +174,19 @@
                         <input type="hidden" name="id" th:value="${donHang != null ? donHang.id : ''}">
                         <div style="display: flex; gap: 12px; width: 100%;">
                             <!-- Nút Hủy (Có prompt lý do hủy bằng JS) -->
-                            <button th:if="${donHang != null && donHang.trangThai != 'Đã hủy' && donHang.trangThai != 'Hoàn thành'}" 
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành'}" 
                                     type="button" class="btn-action btn-danger-outline" id="btnHuyPrompt" style="flex: 1;">
                                 <i class="fas fa-times"></i> Hủy đơn
                             </button>
                             <input type="hidden" name="lyDoHuy" id="lyDoHuyInput">
                             
-                            <button th:if="${donHang != null && donHang.trangThai != 'Đã hủy' && donHang.trangThai != 'Hoàn thành'}" 
-                                    type="submit" name="status" value="Đã hủy" id="btnHuySubmit" style="display: none;"></button>
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành'}" 
+                                    type="submit" name="status" value="Hủy" id="btnHuySubmit" style="display: none;"></button>
 
                             <!-- Logic nút tiếp theo dựa theo trạng thái hiện tại -->
-                            <button th:if="${donHang == null || donHang.trangThai == 'Chờ xác nhận'}" type="submit" name="status" value="Đã xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check"></i> Xác nhận đơn</button>
-                            <button th:if="${donHang != null && donHang.trangThai == 'Đã xác nhận'}" type="submit" name="status" value="Đang chế biến" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-fire"></i> Đang chế biến</button>
-                            <button th:if="${donHang != null && donHang.trangThai == 'Đang chế biến'}" type="submit" name="status" value="Đang giao hàng" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-motorcycle"></i> Giao hàng</button>
-                            <button th:if="${donHang != null && donHang.trangThai == 'Đang giao hàng'}" type="submit" name="status" value="Hoàn thành" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check-circle"></i> Hoàn thành</button>
+                            <button th:if="${donHang == null || donHang.trangThai == 'Chờ xác nhận'}" type="submit" name="status" value="Xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check"></i> Xác nhận đơn</button>
+                            <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Chờ xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-undo"></i> Chờ xác nhận</button>
+                            <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Hoàn thành" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check-circle"></i> Hoàn thành</button>
                         </div>
                     </form>
                 </div>

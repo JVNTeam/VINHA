@@ -175,7 +175,7 @@ CREATE TABLE don_hang (
                           hinh_thuc_thanh_toan NVARCHAR(30) CHECK
     (hinh_thuc_thanh_toan IN( N'Tiền mặt', N'Chuyển khoản',N'Ví điện tử' )),
                           trang_thai NVARCHAR(30) DEFAULT N'Chờ xác nhận' CHECK
-    (trang_thai IN( N'Chờ xác nhận', N'Đã xác nhận', N'Đang chế biến', N'Đang giao hàng', N'Hoàn thành', N'Đã hủy')),
+    (trang_thai IN( N'Chờ xác nhận', N'Xác nhận', N'Hoàn thành', N'Hủy')),
                           ngay_tao DATETIME2 DEFAULT GETDATE(),
                           ly_do_huy NVARCHAR(MAX),
                           FOREIGN KEY(nguoi_dung_id)REFERENCES nguoi_dung(id),
@@ -352,7 +352,7 @@ INSERT INTO don_hang
 VALUES
     (1,1,1,2,N'Ít cay',90000,15000,9000,96000,'2026-07-25 11:30',N'Tiền mặt',N'Chờ xác nhận'),
 
-    (1,1,2,2,N'Thêm canh',65000,15000,30000,50000,'2026-07-25 12:00',N'Chuyển khoản',N'Đã xác nhận');
+    (1,1,2,2,N'Thêm canh',65000,15000,30000,50000,'2026-07-25 12:00',N'Chuyển khoản',N'Xác nhận');
 
 -- =========================
 -- 12. CHI TIẾT ĐƠN HÀNG
@@ -379,7 +379,7 @@ INSERT INTO lich_su_trang_thai
 (don_hang_id,nhan_vien_id,trang_thai)
 VALUES
     (1,2,N'Chờ xác nhận'),
-    (2,2,N'Đã xác nhận');
+    (2,2,N'Xác nhận');
 
 -- =========================
 -- 15. ĐÁNH GIÁ

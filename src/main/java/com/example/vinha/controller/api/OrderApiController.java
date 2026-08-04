@@ -47,7 +47,7 @@ public class OrderApiController {
 
             DonHang order = optionalOrder.get();
 
-            if (!order.getNguoiDung().getId().equals(user.getId())) {
+            if (order.getNguoiDung() == null || !order.getNguoiDung().getId().equals(user.getId())) {
                 response.put("success", false);
                 response.put("message", "Bạn không có quyền hủy đơn hàng này");
                 return ResponseEntity.ok(response);
@@ -98,7 +98,7 @@ public class OrderApiController {
 
             DonHang order = optionalOrder.get();
 
-            if (!order.getNguoiDung().getId().equals(user.getId())) {
+            if (order.getNguoiDung() == null || !order.getNguoiDung().getId().equals(user.getId())) {
                 response.put("success", false);
                 response.put("message", "Bạn không có quyền xem đơn hàng này");
                 return ResponseEntity.ok(response);
@@ -109,7 +109,7 @@ public class OrderApiController {
             Map<String, Object> orderData = new HashMap<>();
             orderData.put("id", order.getId());
             orderData.put("code", "#VN-" + order.getId());
-            orderData.put("date", order.getNgayTao().toString());
+            orderData.put("date", order.getNgayTao() != null ? order.getNgayTao().toString() : "");
             orderData.put("status", order.getTrangThai());
             orderData.put("totalPrice", order.getTongTien());
             orderData.put("subtotal", order.getTamTinh());
@@ -125,10 +125,10 @@ public class OrderApiController {
             List<Map<String, Object>> items = new ArrayList<>();
             for (ChiTietDonHang detail : details) {
                 Map<String, Object> item = new HashMap<>();
-                item.put("name", detail.getMonAn().getTen());
+                item.put("name", detail.getMonAn() != null ? detail.getMonAn().getTen() : "Món ăn đã bị xóa");
                 item.put("price", detail.getDonGia());
                 item.put("quantity", detail.getSoLuong());
-                item.put("total", detail.getDonGia().multiply(java.math.BigDecimal.valueOf(detail.getSoLuong())));
+                item.put("total", detail.getDonGia() != null && detail.getSoLuong() != null ? detail.getDonGia().multiply(java.math.BigDecimal.valueOf(detail.getSoLuong())) : java.math.BigDecimal.ZERO);
                 items.add(item);
             }
 

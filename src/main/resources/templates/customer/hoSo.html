@@ -3,226 +3,287 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hồ sơ cá nhân</title>
+    <title>Hồ sơ cá nhân - Vị Nhà</title>
 
-    <link rel="stylesheet" th:href="@{/css/hoso.css}" />
+    <!-- Google Fonts & FontAwesome -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/hoso.css}" />
   </head>
 
   <body>
     <!-- ================= HEADER ================= -->
+    <header class="site-header">
+      <div class="header-container">
+        <a th:href="@{/trang-chu}" class="logo-box">
+          <div class="logo-badge">Vị Nhà</div>
+          <span class="logo-text">Vị Nhà</span>
+        </a>
 
-    <header>
-      <div class="logo">Vị Nhà</div>
+        <nav class="main-nav">
+          <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
+          <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
+          <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
+          <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
+          <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
+        </nav>
 
-      <nav class="menu">
-        <a href="#">Trang chủ</a>
-        <a href="#">Thực đơn</a>
-        <a href="#">Khuyến mãi</a>
-        <a href="#">Giới thiệu</a>
-        <a href="#">Liên hệ</a>
-      </nav>
-
-      <div class="header-right">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <i class="fa-regular fa-user"></i>
+        <div class="header-actions">
+          <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge" th:text="${cartCount != null ? cartCount : 0}">0</span>
+          </a>
+          <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+            <i class="fa-regular fa-user"></i>
+          </a>
+        </div>
       </div>
     </header>
 
     <!-- ================= MAIN ================= -->
+    <div class="container account-container">
 
-    <div class="container">
       <!-- ===== SIDEBAR ===== -->
-
       <aside class="sidebar">
-        <div class="user-box">
-          <h3>Nguyễn Thu Hà</h3>
+        <div class="user-profile">
+          <!-- Avatar -->
+          <div class="avatar-wrapper">
+            <img
+              th:src="${user != null && user['avatar'] != null ? user['avatar'] : '/images/default-avatar.png'}"
+              src="/images/default-avatar.png"
+              alt="Avatar"
+              class="avatar-img"
+              id="avatarPreview"
+            />
+            <label class="btn-change-avatar" for="avatarInput" title="Đổi ảnh">
+              <i class="fa-solid fa-camera"></i>
+            </label>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(this)" />
+          </div>
 
-          <p>thuha@gmail.com</p>
+          <h3 class="user-name" th:text="${user != null ? user['name'] : 'Khách hàng'}">Nguyễn Thu Hà</h3>
+          <p class="user-email" th:text="${user != null ? user['email'] : ''}">thuha@gmail.com</p>
         </div>
 
-        <ul>
-          <li class="active">
-            <a href="#">
-              <i class="fa-regular fa-user"></i>
-              Hồ sơ cá nhân
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <i class="fa-solid fa-location-dot"></i>
-              Quản lý địa chỉ
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <i class="fa-solid fa-clock-rotate-left"></i>
-              Lịch sử đơn hàng
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <i class="fa-regular fa-star"></i>
-              Đánh giá món ăn
-            </a>
-          </li>
-
-          <li>
-            <a href="#">
-              <i class="fa-solid fa-key"></i>
-              Đổi mật khẩu
-            </a>
-          </li>
-
-          <li>
-            <a class="logout" href="#">
-              <i class="fa-solid fa-right-from-bracket"></i>
-              Đăng xuất
-            </a>
-          </li>
-        </ul>
+        <nav class="sidebar-nav">
+          <a th:href="@{/tai-khoan/ho-so}" class="nav-item active">
+            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+          </a>
+          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+            <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+          </a>
+          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+          </a>
+          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+            <i class="fa-regular fa-star"></i> Đánh giá món ăn
+          </a>
+          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+          </a>
+          <div class="nav-divider"></div>
+          <a th:href="@{/dang-xuat}" class="nav-item text-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+          </a>
+        </nav>
       </aside>
 
       <!-- ===== CONTENT ===== -->
+      <main class="content-card">
 
-      <main class="content">
+        <!-- Thông báo -->
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <!-- Header -->
         <div class="content-header">
           <div>
-            <h2>Hồ sơ cá nhân</h2>
-
-            <p>Quản lý thông tin cá nhân của bạn</p>
+            <h2 class="page-title">Hồ sơ cá nhân</h2>
+            <p class="page-subtitle">Quản lý thông tin cá nhân của bạn</p>
           </div>
-
-          <button class="edit-btn">
-            <i class="fa-solid fa-pen"></i>
-            Chỉnh sửa thông tin
+          <button class="edit-btn" id="btnEdit" onclick="toggleEditMode()">
+            <i class="fa-solid fa-pen"></i> Chỉnh sửa
           </button>
         </div>
 
-        <!-- ================= THÔNG TIN ================= -->
-
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Họ và tên</label>
-            <span>Nguyễn Thu Hà</span>
+        <!-- ======= CHẾ ĐỘ XEM ======= -->
+        <div id="viewMode">
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Họ và tên</label>
+              <span th:text="${user != null ? user['name'] : '—'}">Nguyễn Thu Hà</span>
+            </div>
+            <div class="info-item">
+              <label>Email</label>
+              <span th:text="${user != null ? user['email'] : '—'}">thuha@gmail.com</span>
+            </div>
+            <div class="info-item">
+              <label>Số điện thoại</label>
+              <span th:text="${user != null && user['phone'] != null ? user['phone'] : '—'}">0901234567</span>
+            </div>
+            <div class="info-item">
+              <label>Ngày sinh</label>
+              <span th:text="${user != null && user['birthday'] != null ? user['birthday'] : '—'}">15/05/1995</span>
+            </div>
+            <div class="info-item">
+              <label>Giới tính</label>
+              <span th:text="${user != null && user['gender'] != null ? user['gender'] : '—'}">Nữ</span>
+            </div>
           </div>
 
-          <div class="info-item">
-            <label>Email</label>
-            <span>thuha@gmail.com</span>
-          </div>
-
-          <div class="info-item">
-            <label>Số điện thoại</label>
-            <span>0901234567</span>
-          </div>
-
-          <div class="info-item">
-            <label>Ngày sinh</label>
-            <span>15/05/1995</span>
-          </div>
-
-          <div class="info-item">
-            <label>Giới tính</label>
-            <span>Nữ</span>
-          </div>
-        </div>
-
-        <!-- ================= THÀNH VIÊN ================= -->
-
-        <div class="member-card">
-          <div class="member-icon">
-            <i class="fa-solid fa-crown"></i>
-          </div>
-
-          <div class="member-text">
-            <h3>Thành viên thân thiết</h3>
-
-            <p>Hạng Đồng</p>
-
-            <small>Tích lũy thêm để lên hạng Bạc.</small>
+          <!-- Thẻ thành viên -->
+          <div class="member-card">
+            <div class="member-icon">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="member-text">
+              <h3>Thành viên thân thiết</h3>
+              <p th:text="${user != null && user['memberRank'] != null ? user['memberRank'] : 'Hạng Đồng'}">Hạng Đồng</p>
+              <small>Tích lũy thêm để lên hạng Bạc.</small>
+            </div>
           </div>
         </div>
+
+        <!-- ======= CHẾ ĐỘ CHỈNH SỬA ======= -->
+        <div id="editMode" style="display:none">
+          <form th:action="@{/tai-khoan/ho-so/cap-nhat}" method="post" class="edit-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Họ và tên <span class="required">*</span></label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-input"
+                  th:value="${user != null ? user['name'] : ''}"
+                  placeholder="Nhập họ và tên"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  th:value="${user != null ? user['email'] : ''}"
+                  disabled
+                  title="Không thể thay đổi email"
+                />
+                <small class="field-hint"><i class="fa-solid fa-circle-info"></i> Email không thể thay đổi</small>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Số điện thoại</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  class="form-input"
+                  th:value="${user != null ? user['phone'] : ''}"
+                  placeholder="Nhập số điện thoại"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Ngày sinh</label>
+                <input
+                  type="date"
+                  name="birthday"
+                  class="form-input"
+                  th:value="${user != null ? user['birthday'] : ''}"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Giới tính</label>
+                <select name="gender" class="form-input form-select">
+                  <option value="">-- Chọn giới tính --</option>
+                  <option value="Nam"   th:selected="${user != null && user['gender'] == 'Nam'}">Nam</option>
+                  <option value="Nữ"    th:selected="${user != null && user['gender'] == 'Nữ'}">Nữ</option>
+                  <option value="Khác"  th:selected="${user != null && user['gender'] == 'Khác'}">Khác</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-save">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+              </button>
+              <button type="button" class="btn-cancel-edit" onclick="toggleEditMode()">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+
       </main>
     </div>
 
-    </main>
-
-</div>
-
-<script th:src="@{/js/hoso.js}"></script>
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="site-footer">
-    <div class="footer-container">
-
-        <!-- Cột 1: Brand & Mạng xã hội -->
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+      <div class="footer-container">
         <div class="footer-col footer-brand">
-            <div class="footer-logo">
-                <i class="fa-solid fa-utensils"></i> Vị Nhà
-            </div>
-            <p class="footer-desc">
-                Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng và hương vị gia đình là ưu tiên hàng đầu.
-            </p>
-            <div class="footer-socials">
-                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#"><i class="fa-brands fa-share-nodes"></i></a>
-                <a href="#"><i class="fa-solid fa-globe"></i></a>
-            </div>
+          <div class="footer-logo">
+            <i class="fa-solid fa-utensils"></i> Vị Nhà
+          </div>
+          <p class="footer-desc">
+            Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn.
+            Chất lượng và hương vị gia đình là ưu tiên hàng đầu.
+          </p>
+          <div class="footer-socials">
+            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"><i class="fa-brands fa-share-nodes"></i></a>
+            <a href="#"><i class="fa-solid fa-globe"></i></a>
+          </div>
         </div>
 
-        <!-- Cột 2: Khám phá -->
         <div class="footer-col">
-            <h4 class="footer-title">Khám Phá</h4>
-            <ul class="footer-links">
-                <li><a href="#">Về chúng tôi</a></li>
-                <li><a href="#">Thực đơn đặc biệt</a></li>
-                <li><a href="#">Tuyển dụng</a></li>
-                <li><a href="#">Tin tức & Blog</a></li>
-            </ul>
+          <h4 class="footer-title">Khám Phá</h4>
+          <ul class="footer-links">
+            <li><a href="#">Về chúng tôi</a></li>
+            <li><a href="#">Thực đơn đặc biệt</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+            <li><a href="#">Tin tức &amp; Blog</a></li>
+          </ul>
         </div>
 
-        <!-- Cột 3: Chính sách -->
         <div class="footer-col">
-            <h4 class="footer-title">Chính Sách</h4>
-            <ul class="footer-links">
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Shipping Info</a></li>
-                <li><a href="#">Hướng dẫn đặt hàng</a></li>
-            </ul>
+          <h4 class="footer-title">Chính Sách</h4>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Hướng dẫn đặt hàng</a></li>
+          </ul>
         </div>
 
-        <!-- Cột 4: Liên hệ -->
         <div class="footer-col">
-            <h4 class="footer-title">Liên Hệ</h4>
-            <ul class="footer-contact">
-                <li>
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span>123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
-                </li>
-                <li>
-                    <i class="fa-solid fa-phone"></i>
-                    <span>090 1234 567</span>
-                </li>
-                <li>
-                    <i class="fa-regular fa-envelope"></i>
-                    <span>contact@vinha.com</span>
-                </li>
-            </ul>
+          <h4 class="footer-title">Liên Hệ</h4>
+          <ul class="footer-contact">
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-phone"></i>
+              <span>090 1234 567</span>
+            </li>
+            <li>
+              <i class="fa-regular fa-envelope"></i>
+              <span>contact@vinha.com</span>
+            </li>
+          </ul>
         </div>
+      </div>
+    </footer>
 
-    </div>
-</footer>
-
-<script th:src="@{/js/hoso.js}"></script>
-
-</body>
+    <script th:src="@{/js/hoso.js}"></script>
+  </body>
 </html>

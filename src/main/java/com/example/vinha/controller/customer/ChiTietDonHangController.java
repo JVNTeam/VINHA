@@ -35,7 +35,7 @@ public class ChiTietDonHangController {
     ) {
         Object userObj = session.getAttribute("loggedInUser");
         if (!(userObj instanceof NguoiDung user)) {
-            return "redirect:/dang-nhap?returnUrl=/tai-khoan/chi-tiet-don-hang/" + orderId;
+            return "redirect:/dangNhap?returnUrl=/tai-khoan/chi-tiet-don-hang/" + orderId;
         }
 
         Optional<DonHang> optionalOrder = donHangRepository.findById(orderId);
@@ -44,7 +44,7 @@ public class ChiTietDonHangController {
         }
 
         DonHang order = optionalOrder.get();
-        if (!order.getNguoiDung().getId().equals(user.getId())) {
+        if (order.getNguoiDung() == null || !order.getNguoiDung().getId().equals(user.getId())) {
             return "redirect:/tai-khoan/lich-su-don-hang";
         }
 
@@ -76,12 +76,12 @@ public class ChiTietDonHangController {
         List<Map<String, Object>> items = new ArrayList<>();
         for (ChiTietDonHang detail : details) {
             Map<String, Object> item = new HashMap<>();
-            item.put("name", detail.getMonAn().getTen());
-            item.put("price", detail.getDonGia().toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "đ");
+            item.put("name", detail.getMonAn() != null ? detail.getMonAn().getTen() : "Món ăn đã bị xóa");
+            item.put("price", detail.getDonGia() != null ? detail.getDonGia().toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "đ" : "0đ");
             item.put("quantity", detail.getSoLuong());
-            item.put("total", detail.getDonGia()
+            item.put("total", detail.getDonGia() != null && detail.getSoLuong() != null ? detail.getDonGia()
                 .multiply(java.math.BigDecimal.valueOf(detail.getSoLuong()))
-                .toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "đ");
+                .toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "đ" : "0đ");
             items.add(item);
         }
 
@@ -103,7 +103,8 @@ public class ChiTietDonHangController {
         return switch (status) {
             case "Chờ xác nhận" -> "pending";
             case "Đã xác nhận" -> "confirmed";
-            case "Đang giao" -> "shipping";
+            case "Đang chế biến" -> "processing";
+            case "Đang giao hàng" -> "shipping";
             case "Hoàn thành" -> "completed";
             case "Đã hủy" -> "cancelled";
             default -> "pending";

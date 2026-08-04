@@ -1,48 +1,106 @@
+// ==========================
+// QUẢN LÝ ĐỊA CHỈ - quanlydiachi.js
+// ==========================
+
+// Mở modal thêm địa chỉ mới
 document.addEventListener('DOMContentLoaded', function () {
-    // Xử lý nút Thêm địa chỉ mới
-    const btnAddAddress = document.getElementById('btnOpenAddModal');
-    if (btnAddAddress) {
-        btnAddAddress.addEventListener('click', function () {
-            alert('Mở modal thêm địa chỉ mới!');
-            // Viết logic hiển thị Form/Modal thêm địa chỉ tại đây
+    const btnAdd = document.getElementById('btnOpenAddModal');
+    if (btnAdd) {
+        btnAdd.addEventListener('click', function () {
+            openAddressModal(); // mở modal thêm mới (không có id)
+        });
+    }
+
+    // Đóng modal khi click ra ngoài
+    const overlay = document.getElementById('addressModal');
+    if (overlay) {
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closeAddressModal();
         });
     }
 });
 
-// Hàm đặt làm địa chỉ mặc định
-function setDefaultAddress(button) {
-    const addressId = button.getAttribute('data-id');
-    if (confirm('Bạn có muốn đặt địa chỉ này làm mặc định?')) {
-        // Gọi API backend (Fetch / Axios)
-        console.log('Đặt địa chỉ mặc định ID:', addressId);
+// Mở modal (thêm mới hoặc sửa)
+function openAddressModal(id, name, phone, detail, isDefault) {
+    const modal      = document.getElementById('addressModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const addrId     = document.getElementById('addrId');
+    const addrName   = document.getElementById('addrName');
+    const addrPhone  = document.getElementById('addrPhone');
+    const addrDetail = document.getElementById('addrDetail');
+    const addrDefault= document.getElementById('addrDefault');
 
-        /*
-        fetch(`/api/addresses/${addressId}/set-default`, { method: 'PUT' })
-            .then(res => res.json())
-            .then(data => location.reload());
-        */
-        alert('Đã cập nhật địa chỉ mặc định!');
+    if (id) {
+        // Chế độ sửa
+        modalTitle.textContent     = 'Chỉnh sửa địa chỉ';
+        addrId.value               = id;
+        addrName.value             = name   || '';
+        addrPhone.value            = phone  || '';
+        addrDetail.value           = detail || '';
+        addrDefault.checked        = isDefault || false;
+    } else {
+        // Chế độ thêm mới
+        modalTitle.textContent     = 'Thêm địa chỉ mới';
+        addrId.value               = '';
+        addrName.value             = '';
+        addrPhone.value            = '';
+        addrDetail.value           = '';
+        addrDefault.checked        = false;
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+// Đóng modal
+function closeAddressModal() {
+    const modal = document.getElementById('addressModal');
+    if (modal) {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
     }
 }
 
-// Hàm sửa địa chỉ
+// Sửa địa chỉ: lấy data từ card rồi mở modal
 function editAddress(button) {
-    const addressId = button.getAttribute('data-id');
-    console.log('Chỉnh sửa địa chỉ ID:', addressId);
-    alert('Mở form sửa địa chỉ ID: ' + addressId);
+    const card   = button.closest('.address-card');
+    const id     = button.getAttribute('data-id');
+    const name   = card.querySelector('.user-info .name')?.textContent.trim() || '';
+    const phone  = card.querySelector('.address-body .phone span')?.textContent.trim() || '';
+    const detail = card.querySelector('.address-body .detail span')?.textContent.trim() || '';
+    const isDefault = card.querySelector('.badge-default') !== null;
+
+    openAddressModal(id, name, phone, detail, isDefault);
 }
 
-// Hàm xóa địa chỉ
+// Xóa địa chỉ
 function deleteAddress(button) {
-    const addressId = button.getAttribute('data-id');
+    const id = button.getAttribute('data-id');
     if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
-        console.log('Xóa địa chỉ ID:', addressId);
+        fetch(`/tai-khoan/dia-chi/xoa/${id}`, { method: 'POST' })
+            .then(res => {
+                if (res.ok || res.redirected) {
+                    location.reload();
+                } else {
+                    alert('Xóa địa chỉ thất bại, vui lòng thử lại!');
+                }
+            })
+            .catch(() => location.reload());
+    }
+}
 
-        /*
-        fetch(`/api/addresses/${addressId}`, { method: 'DELETE' })
-            .then(res => res.json())
-            .then(data => location.reload());
-        */
-        alert('Đã xóa địa chỉ!');
+// Đặt địa chỉ mặc định
+function setDefaultAddress(button) {
+    const id = button.getAttribute('data-id');
+    if (confirm('Đặt địa chỉ này làm mặc định?')) {
+        fetch(`/tai-khoan/dia-chi/mac-dinh/${id}`, { method: 'POST' })
+            .then(res => {
+                if (res.ok || res.redirected) {
+                    location.reload();
+                } else {
+                    alert('Cập nhật thất bại, vui lòng thử lại!');
+                }
+            })
+            .catch(() => location.reload());
     }
 }

@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
-@RequestMapping("/tai-khoan/chi-tiet-don-hang")
+@RequestMapping("/chitietdonhang")
 public class ChiTietDonHangController {
 
     private final DonHangRepository donHangRepository;
@@ -35,17 +35,17 @@ public class ChiTietDonHangController {
     ) {
         Object userObj = session.getAttribute("loggedInUser");
         if (!(userObj instanceof NguoiDung user)) {
-            return "redirect:/dangNhap?returnUrl=/tai-khoan/chi-tiet-don-hang/" + orderId;
+            return "redirect:/dangNhap?returnUrl=/chitietdonhang/" + orderId;
         }
 
         Optional<DonHang> optionalOrder = donHangRepository.findById(orderId);
         if (optionalOrder.isEmpty()) {
-            return "redirect:/tai-khoan/lich-su-don-hang";
+            return "redirect:/lichsudonhang";
         }
 
         DonHang order = optionalOrder.get();
         if (order.getNguoiDung() == null || !order.getNguoiDung().getId().equals(user.getId())) {
-            return "redirect:/tai-khoan/lich-su-don-hang";
+            return "redirect:/lichsudonhang";
         }
 
         List<ChiTietDonHang> details = chiTietDonHangRepository.findByDonHangId(orderId);

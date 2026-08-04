@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/dia-chi")
+@RequestMapping("/diachi")
 public class DiaChiController {
     @GetMapping
     public String showAddressPage(Model model) {

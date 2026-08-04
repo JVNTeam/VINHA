@@ -255,19 +255,19 @@
     </div>
 
     <nav class="sidebar-nav d-flex flex-column gap-3">
-      <a th:href="@{/tai-khoan/ho-so}" class="nav-item text-decoration-none text-dark">
+      <a th:href="@{/hoso}" class="nav-item text-decoration-none text-dark">
         <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
       </a>
-      <a th:href="@{/tai-khoan/dia-chi}" class="nav-item text-decoration-none text-dark">
+      <a th:href="@{/diachi}" class="nav-item text-decoration-none text-dark">
         <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
       </a>
-      <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item text-decoration-none fw-bold" style="color: var(--primary-color, #d32f2f);">
+      <a th:href="@{/lichsudonhang}" class="nav-item text-decoration-none fw-bold" style="color: var(--primary-color, #d32f2f);">
         <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
       </a>
-      <a th:href="@{/tai-khoan/danh-gia}" class="nav-item text-decoration-none text-dark">
+      <a th:href="@{/danhgia}" class="nav-item text-decoration-none text-dark">
         <i class="fa-regular fa-star"></i> Đánh giá món ăn
       </a>
-      <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item text-decoration-none text-dark">
+      <a th:href="@{/doimatkhau}" class="nav-item text-decoration-none text-dark">
         <i class="fa-solid fa-lock"></i> Đổi mật khẩu
       </a>
       <hr/>
@@ -281,7 +281,7 @@
   <main class="content-card">
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <h2 class="page-title mb-0">Chi tiết đơn hàng</h2>
-      <a th:href="@{/tai-khoan/lich-su-don-hang}" class="btn-back">
+      <a th:href="@{/lichsudonhang}" class="btn-back">
         <i class="fa-solid fa-arrow-left"></i> Quay lại
       </a>
     </div>
@@ -374,7 +374,7 @@
 
     <!-- Action Buttons -->
     <div class="action-buttons">
-      <a th:href="@{/tai-khoan/lich-su-don-hang}" class="btn-back">
+      <a th:href="@{/lichsudonhang}" class="btn-back">
         <i class="fa-solid fa-arrow-left"></i> Quay lại danh sách
       </a>
       <button
@@ -455,7 +455,7 @@
             .then(data => {
               if (data.success) {
                 alert('Hủy đơn hàng thành công');
-                window.location.href = '/tai-khoan/lich-su-don-hang';
+                window.location.href = '/lichsudonhang';
               } else {
                 alert('Lỗi: ' + data.message);
               }

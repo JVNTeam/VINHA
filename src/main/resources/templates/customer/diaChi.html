@@ -37,7 +37,7 @@
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-badge">3</span>
             </a>
-            <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+            <a th:href="@{/hoso}" class="user-btn" title="Tài khoản">
                 <i class="fa-regular fa-user"></i>
             </a>
         </div>
@@ -55,19 +55,19 @@
         </div>
 
         <nav class="sidebar-nav">
-          <a th:href="@{/tai-khoan/ho-so}" class="nav-item">
+          <a th:href="@{/hoso}" class="nav-item">
             <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
           </a>
-          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item active">
+          <a th:href="@{/diachi}" class="nav-item active">
             <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
           </a>
-          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+          <a th:href="@{/lichsudonhang}" class="nav-item">
             <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
           </a>
-          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+          <a th:href="@{/danhgia}" class="nav-item">
             <i class="fa-regular fa-star"></i> Đánh giá món ăn
           </a>
-          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+          <a th:href="@{/doimatkhau}" class="nav-item">
             <i class="fa-solid fa-lock"></i> Đổi mật khẩu
           </a>
           <div class="nav-divider"></div>
@@ -163,7 +163,7 @@
       </button>
     </div>
 
-    <form id="addressForm" th:action="@{/tai-khoan/dia-chi/luu}" method="post" class="modal-form">
+    <form id="addressForm" th:action="@{/diachi/luu}" method="post" class="modal-form">
       <input type="hidden" name="id" id="addrId" />
 
       <div class="modal-form-grid">

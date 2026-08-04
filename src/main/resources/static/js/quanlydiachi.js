@@ -77,7 +77,7 @@ function editAddress(button) {
 function deleteAddress(button) {
     const id = button.getAttribute('data-id');
     if (confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')) {
-        fetch(`/tai-khoan/dia-chi/xoa/${id}`, { method: 'POST' })
+        fetch(`/diachi/xoa/${id}`, { method: 'POST' })
             .then(res => {
                 if (res.ok || res.redirected) {
                     location.reload();
@@ -93,7 +93,7 @@ function deleteAddress(button) {
 function setDefaultAddress(button) {
     const id = button.getAttribute('data-id');
     if (confirm('Đặt địa chỉ này làm mặc định?')) {
-        fetch(`/tai-khoan/dia-chi/mac-dinh/${id}`, { method: 'POST' })
+        fetch(`/diachi/mac-dinh/${id}`, { method: 'POST' })
             .then(res => {
                 if (res.ok || res.redirected) {
                     location.reload();

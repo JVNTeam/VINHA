@@ -41,7 +41,7 @@
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="cart-badge" th:text="${cartCount != null ? cartCount : 0}">0</span>
           </a>
-          <a th:href="@{/tai-khoan/ho-so}" class="user-btn" title="Tài khoản">
+          <a th:href="@{/hoso}" class="user-btn" title="Tài khoản">
             <i class="fa-regular fa-user"></i>
           </a>
         </div>
@@ -54,39 +54,26 @@
       <!-- ===== SIDEBAR ===== -->
       <aside class="sidebar">
         <div class="user-profile">
-          <!-- Avatar -->
-          <div class="avatar-wrapper">
-            <img
-              th:src="${user != null && user['avatar'] != null ? user['avatar'] : '/images/default-avatar.png'}"
-              src="/images/default-avatar.png"
-              alt="Avatar"
-              class="avatar-img"
-              id="avatarPreview"
-            />
-            <label class="btn-change-avatar" for="avatarInput" title="Đổi ảnh">
-              <i class="fa-solid fa-camera"></i>
-            </label>
-            <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(this)" />
-          </div>
+          
 
           <h3 class="user-name" th:text="${user != null ? user['name'] : 'Khách hàng'}">Nguyễn Thu Hà</h3>
           <p class="user-email" th:text="${user != null ? user['email'] : ''}">thuha@gmail.com</p>
         </div>
 
         <nav class="sidebar-nav">
-          <a th:href="@{/tai-khoan/ho-so}" class="nav-item active">
+          <a th:href="@{/hoso}" class="nav-item active">
             <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
           </a>
-          <a th:href="@{/tai-khoan/dia-chi}" class="nav-item">
+          <a th:href="@{/diachi}" class="nav-item">
             <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
           </a>
-          <a th:href="@{/tai-khoan/lich-su-don-hang}" class="nav-item">
+          <a th:href="@{/lichsudonhang}" class="nav-item">
             <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
           </a>
-          <a th:href="@{/tai-khoan/danh-gia}" class="nav-item">
+          <a th:href="@{/danhgia}" class="nav-item">
             <i class="fa-regular fa-star"></i> Đánh giá món ăn
           </a>
-          <a th:href="@{/tai-khoan/doi-mat-khau}" class="nav-item">
+          <a th:href="@{/doimatkhau}" class="nav-item">
             <i class="fa-solid fa-lock"></i> Đổi mật khẩu
           </a>
           <div class="nav-divider"></div>
@@ -154,7 +141,7 @@
 
         <!-- ======= CHẾ ĐỘ CHỈNH SỬA ======= -->
         <div id="editMode" style="display:none">
-          <form th:action="@{/tai-khoan/ho-so/cap-nhat}" method="post" class="edit-form">
+          <form th:action="@{/hoso/cap-nhat}" method="post" class="edit-form">
             <div class="form-grid">
               <div class="form-group">
                 <label class="form-label">Họ và tên <span class="required">*</span></label>

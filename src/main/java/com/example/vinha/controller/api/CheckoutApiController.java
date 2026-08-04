@@ -199,7 +199,7 @@ public class CheckoutApiController {
             response.put("success", true);
             response.put("message", "Đặt hàng thành công");
             response.put("orderId", donHang.getId());
-            response.put("redirectUrl", "/tai-khoan/lich-su-don-hang");
+            response.put("redirectUrl", "/lichsudonhang");
 
             return ResponseEntity.ok(response);
 

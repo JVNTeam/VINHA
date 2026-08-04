@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/doi-mat-khau")
+@RequestMapping("/doimatkhau")
 public class DoiMatKhauController {
     @GetMapping
     public String showChangePasswordPage(Model model) {
@@ -40,6 +40,6 @@ public class DoiMatKhauController {
         // TODO: Gọi Service xử lý đổi mật khẩu ở đây
 
         redirectAttributes.addFlashAttribute("successMessage", "Đổi mật khẩu thành công!");
-        return "/doi-mat-khau";
+        return "/doimatkhau";
     }
 }

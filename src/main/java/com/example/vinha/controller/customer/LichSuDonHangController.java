@@ -24,12 +24,12 @@ public class LichSuDonHangController {
         this.donHangRepository = donHangRepository;
     }
 
-    @GetMapping({"/lichsudonhang", "/tai-khoan/lich-su-don-hang"})
+    @GetMapping({"/lichsudonhang", "/lichsudonhang"})
     public String showOrderHistoryPage(HttpSession session, Model model) {
         Object userObj = session.getAttribute("loggedInUser");
 
         if (!(userObj instanceof NguoiDung user)) {
-            return "redirect:/dangNhap?returnUrl=/tai-khoan/lich-su-don-hang";
+            return "redirect:/dangNhap?returnUrl=/lichsudonhang";
         }
 
         // Get user's orders

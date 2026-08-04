@@ -4,6 +4,8 @@ import com.example.vinha.dto.MaGiamGiaView;
 import com.example.vinha.entity.MaGiamGia;
 import com.example.vinha.repository.MaGiamGiaRepository;
 import com.example.vinha.repository.NguoiDungMaGiamGiaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,17 +28,19 @@ public class VoucherService {
         this.nguoiDungMaGiamGiaRepository = nguoiDungMaGiamGiaRepository;
     }
 
-    public List<MaGiamGiaView> timKiem(String keyword, String status, String quantity) {
-        String kw = keyword != null ? keyword.trim().toLowerCase() : "";
-        String st = status != null ? status.trim() : "";
-        String qty = quantity != null ? quantity.trim() : "";
+    public Page<MaGiamGiaView> timKiemPhanTrang(String keyword, String status, String quantity, Pageable pageable) {
+        String kw = keyword != null ? keyword.trim() : "";
+        Boolean trangThai = null;
+        if ("ACTIVE".equalsIgnoreCase(status)) {
+            trangThai = true;
+        } else if ("INACTIVE".equalsIgnoreCase(status)) {
+            trangThai = false;
+        }
 
-        return maGiamGiaRepository.findAll().stream()
-                .filter(v -> filterByKeyword(v, kw))
-                .filter(v -> filterByStatus(v, st))
-                .filter(v -> filterByQuantity(v, qty))
-                .map(this::toView)
-                .collect(Collectors.toList());
+        String qtyFilter = quantity != null ? quantity.trim() : "";
+        
+        Page<MaGiamGia> resultPage = maGiamGiaRepository.searchVouchers(kw, trangThai, qtyFilter, pageable);
+        return resultPage.map(this::toView);
     }
 
     public List<MaGiamGia> layMaDangHoatDong() {
@@ -79,7 +83,7 @@ public class VoucherService {
     public void chuyenTrangThai(Long id) {
         MaGiamGia voucher = maGiamGiaRepository.findById(id).orElse(null);
         if (voucher != null) {
-            voucher.setTrangThai(!Boolean.TRUE.equals(voucher.getTrangThai()));
+            voucher.setTrangThai(voucher.getTrangThai() == null || !voucher.getTrangThai());
             maGiamGiaRepository.save(voucher);
         }
     }
@@ -98,36 +102,7 @@ public class VoucherService {
         return new MaGiamGiaView(voucher, demDaNhan(voucher.getId()));
     }
 
-    private boolean filterByKeyword(MaGiamGia voucher, String keyword) {
-        if (keyword.isBlank()) {
-            return true;
-        }
-        return (voucher.getMa() != null && voucher.getMa().toLowerCase().contains(keyword))
-                || (voucher.getMoTa() != null && voucher.getMoTa().toLowerCase().contains(keyword));
-    }
-
-    private boolean filterByStatus(MaGiamGia voucher, String status) {
-        if (status.isBlank()) {
-            return true;
-        }
-        boolean active = Boolean.TRUE.equals(voucher.getTrangThai());
-        return "ACTIVE".equalsIgnoreCase(status) ? active : !active;
-    }
-
-    private boolean filterByQuantity(MaGiamGia voucher, String quantity) {
-        if (quantity.isBlank() || voucher.getSoLuong() == null) {
-            return true;
-        }
-        int soLuong = voucher.getSoLuong();
-        return switch (quantity) {
-            case "under_50" -> soLuong < 50;
-            case "50_200" -> soLuong >= 50 && soLuong <= 200;
-            case "over_200" -> soLuong > 200;
-            default -> true;
-        };
-    }
-
-    public String formatGiaTriGiam(MaGiamGia voucher) {
+    public static String formatGiaTriGiam(MaGiamGia voucher) {
         if (voucher == null || voucher.getGiaTriGiam() == null) {
             return "0đ";
         }
@@ -137,7 +112,7 @@ public class VoucherService {
         return formatCurrency(voucher.getGiaTriGiam());
     }
 
-    public String formatCurrency(BigDecimal amount) {
+    public static String formatCurrency(BigDecimal amount) {
         if (amount == null) {
             return "0đ";
         }

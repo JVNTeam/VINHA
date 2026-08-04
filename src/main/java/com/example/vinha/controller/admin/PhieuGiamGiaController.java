@@ -2,6 +2,9 @@ package com.example.vinha.controller.admin;
 
 import com.example.vinha.entity.MaGiamGia;
 import com.example.vinha.service.VoucherService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +35,12 @@ public class PhieuGiamGiaController {
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "quantity", required = false) String quantity,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             Model model
     ) {
-        model.addAttribute("vouchers", voucherService.timKiem(keyword, status, quantity));
+        Pageable pageable = PageRequest.of(page, size);
+        model.addAttribute("vouchersPage", voucherService.timKiemPhanTrang(keyword, status, quantity, pageable));
         model.addAttribute("keyword", keyword != null ? keyword : "");
         model.addAttribute("selectedStatus", status != null ? status : "");
         model.addAttribute("selectedQuantity", quantity != null ? quantity : "");

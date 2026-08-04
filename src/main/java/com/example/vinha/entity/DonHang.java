@@ -64,6 +64,12 @@ public class DonHang {
     @Column(name = "ngay_tao")
     private LocalDateTime ngayTao;
 
+    @Column(name = "ly_do_huy", columnDefinition = "nvarchar(max)")
+    private String lyDoHuy;
+
+    @Column(name = "thong_tin_shipper", length = 255)
+    private String thongTinShipper;
+
     @PrePersist
     public void prePersist() {
         if (this.ngayTao == null) {

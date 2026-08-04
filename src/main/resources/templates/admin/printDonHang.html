@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hóa đơn Vị Nhà - #VN-[[${donHang.id}]]</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            color: #000;
+            background: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .receipt {
+            width: 300px;
+            border: 1px dashed #ccc;
+            padding: 20px;
+            background: #fff;
+        }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .font-bold { font-weight: bold; }
+        .divider { border-bottom: 1px dashed #000; margin: 10px 0; }
+        .title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+        .item-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .item-table th, .item-table td { padding: 5px 0; vertical-align: top; }
+        .item-table th { text-align: left; border-bottom: 1px dashed #000; padding-bottom: 5px; }
+        .summary-table { width: 100%; margin-top: 10px; }
+        .summary-table td { padding: 3px 0; }
+        
+        @media print {
+            body { padding: 0; background: none; }
+            .receipt { border: none; padding: 0; width: 100%; max-width: 300px; margin: 0 auto; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="receipt">
+        <div class="text-center no-print" style="margin-bottom: 20px;">
+            <button onclick="window.print()" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">🖨️ In Hóa Đơn</button>
+        </div>
+
+        <div class="text-center">
+            <div class="title">NHÀ HÀNG VỊ NHÀ</div>
+            <div>Đ/c: 123 Đường Láng, Đống Đa, HN</div>
+            <div>SĐT: 0987.654.321</div>
+        </div>
+
+        <div class="divider"></div>
+        
+        <div class="text-center font-bold" style="font-size: 18px; margin: 10px 0;">HÓA ĐƠN BÁN HÀNG</div>
+        
+        <div><span class="font-bold">Mã đơn:</span> #VN-<span th:text="${donHang.id}">123</span></div>
+        <div><span class="font-bold">Ngày:</span> <span th:text="${#temporals.format(donHang.ngayTao, 'dd/MM/yyyy HH:mm')}"></span></div>
+        <div><span class="font-bold">Khách hàng:</span> <span th:text="${donHang.diaChi != null ? donHang.diaChi.tenNguoiNhan : (donHang.nguoiDung != null ? donHang.nguoiDung.hoTen : 'Khách vãng lai')}"></span></div>
+        <div><span class="font-bold">SĐT:</span> <span th:text="${donHang.diaChi != null ? donHang.diaChi.sdtNguoiNhan : (donHang.nguoiDung != null ? donHang.nguoiDung.soDienThoai : '')}"></span></div>
+        <div><span class="font-bold">Địa chỉ:</span> <span th:text="${donHang.diaChi != null ? donHang.diaChi.diaChi : 'Tại quán'}"></span></div>
+        <div th:if="${donHang.ghiChu != null && !donHang.ghiChu.isEmpty()}"><span class="font-bold">Ghi chú:</span> <span th:text="${donHang.ghiChu}"></span></div>
+
+        <div class="divider"></div>
+
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th style="width: 50%;">Tên món</th>
+                    <th style="width: 15%; text-align: center;">SL</th>
+                    <th style="width: 35%; text-align: right;">T.Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ct : ${donHang.chiTietDonHangs}">
+                    <td th:text="${ct.monAn.ten}">Cơm Sườn</td>
+                    <td class="text-center" th:text="${ct.soLuong}">1</td>
+                    <td class="text-right" th:text="${#numbers.formatDecimal(ct.thanhTien != null ? ct.thanhTien : ct.donGia * ct.soLuong, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <table class="summary-table">
+            <tr>
+                <td>Tạm tính:</td>
+                <td class="text-right" th:text="${#numbers.formatDecimal(donHang.tamTinh, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            </tr>
+            <tr>
+                <td>Phí ship:</td>
+                <td class="text-right" th:text="${#numbers.formatDecimal(donHang.phiGiaoHang, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            </tr>
+            <tr>
+                <td>Giảm giá:</td>
+                <td class="text-right" th:text="'-' + ${#numbers.formatDecimal(donHang.tienGiam, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            </tr>
+            <tr class="font-bold" style="font-size: 16px;">
+                <td>TỔNG CỘNG:</td>
+                <td class="text-right" th:text="${#numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+        
+        <div class="text-center">
+            <div><span class="font-bold">Hình thức:</span> <span th:text="${donHang.hinhThucThanhToan}">Tiền mặt</span></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="text-center" style="margin-top: 15px;">
+            <div>*** CẢM ƠN QUÝ KHÁCH ***</div>
+            <div>Hẹn gặp lại!</div>
+        </div>
+        
+        <!-- Mã vạch (Trang trí thêm cho giống thật) -->
+        <div class="text-center" style="margin-top: 20px;">
+            <div style="font-family: 'Libre Barcode 39', cursive; font-size: 40px; letter-spacing: -2px;">*VN-<span th:text="${donHang.id}">123</span>*</div>
+        </div>
+    </div>
+
+    <!-- Tự động in khi mở trang -->
+    <script>
+        window.onload = function() {
+            // Uncomment line below to auto-print
+            // window.print();
+        }
+    </script>
+</body>
+</html>

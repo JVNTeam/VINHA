@@ -28,11 +28,30 @@ public class OrderService {
         return donHangRepository.findById(id).orElse(null);
     }
 
+    public org.springframework.data.domain.Page<DonHang> searchOrders(String keyword, String status, int page, int size) {
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "ngayTao"));
+        return donHangRepository.searchOrders(keyword, status, pageable);
+    }
+
+    public long countByStatus(String status) {
+        return donHangRepository.countByTrangThai(status);
+    }
+
+    public Double sumDoanhThu() {
+        return donHangRepository.sumDoanhThu();
+    }
+
     @Transactional
-    public void updateStatus(Long id, String status) {
+    public void updateStatus(Long id, String status, String lyDoHuy, String thongTinShipper) {
         DonHang order = getOrderById(id);
         if (order != null) {
             order.setTrangThai(status);
+            if (lyDoHuy != null && !lyDoHuy.trim().isEmpty()) {
+                order.setLyDoHuy(lyDoHuy);
+            }
+            if (thongTinShipper != null && !thongTinShipper.trim().isEmpty()) {
+                order.setThongTinShipper(thongTinShipper);
+            }
             donHangRepository.save(order);
 
             // Lưu vào lịch sử trạng thái
@@ -42,6 +61,12 @@ public class OrderService {
             history.setThoiGian(LocalDateTime.now());
             lichSuTrangThaiRepository.save(history);
         }
+    }
+    
+    // Giữ lại hàm cũ để tránh lỗi các nơi gọi khác
+    @Transactional
+    public void updateStatus(Long id, String status) {
+        updateStatus(id, status, null, null);
     }
 }
 

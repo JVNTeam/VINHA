@@ -164,6 +164,13 @@ document.querySelectorAll(".copy-btn").forEach(btn => {
 //Lưu mã giảm
 document.querySelectorAll(".save-btn").forEach(button => {
     button.addEventListener("click", function () {
+        const isLoggedIn = this.getAttribute("data-logged-in") === "true";
+        if (!isLoggedIn) {
+            if(confirm("Bạn cần đăng nhập để lưu mã ưu đãi. Đăng nhập ngay?")) {
+                window.location.href = "/dangNhap";
+            }
+            return;
+        }
 
         // Đổi nội dung và màu nút
         this.innerHTML = '<i class="fa-solid fa-check"></i> Đã lưu';

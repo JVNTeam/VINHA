@@ -178,7 +178,6 @@ CREATE TABLE don_hang (
     (trang_thai IN( N'Chờ xác nhận', N'Đã xác nhận', N'Đang chế biến', N'Đang giao hàng', N'Hoàn thành', N'Đã hủy')),
                           ngay_tao DATETIME2 DEFAULT GETDATE(),
                           ly_do_huy NVARCHAR(MAX),
-                          thong_tin_shipper NVARCHAR(255),
                           FOREIGN KEY(nguoi_dung_id)REFERENCES nguoi_dung(id),
                           FOREIGN KEY(dia_chi_id) REFERENCES dia_chi(id),
                           FOREIGN KEY(ma_giam_gia_id) REFERENCES ma_giam_gia(id),

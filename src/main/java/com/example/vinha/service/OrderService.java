@@ -42,15 +42,12 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateStatus(Long id, String status, String lyDoHuy, String thongTinShipper) {
+    public void updateStatus(Long id, String status, String lyDoHuy) {
         DonHang order = getOrderById(id);
         if (order != null) {
             order.setTrangThai(status);
             if (lyDoHuy != null && !lyDoHuy.trim().isEmpty()) {
                 order.setLyDoHuy(lyDoHuy);
-            }
-            if (thongTinShipper != null && !thongTinShipper.trim().isEmpty()) {
-                order.setThongTinShipper(thongTinShipper);
             }
             donHangRepository.save(order);
 
@@ -66,7 +63,7 @@ public class OrderService {
     // Giữ lại hàm cũ để tránh lỗi các nơi gọi khác
     @Transactional
     public void updateStatus(Long id, String status) {
-        updateStatus(id, status, null, null);
+        updateStatus(id, status, null);
     }
 }
 

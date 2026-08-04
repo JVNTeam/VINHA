@@ -48,9 +48,8 @@ public class DonHangController {
             @RequestParam Long id, 
             @RequestParam String status, 
             @RequestParam(required = false) String lyDoHuy, 
-            @RequestParam(required = false) String thongTinShipper, 
             jakarta.servlet.http.HttpServletRequest request) {
-        orderService.updateStatus(id, status, lyDoHuy, thongTinShipper);
+        orderService.updateStatus(id, status, lyDoHuy);
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/admin/donHang");
     }

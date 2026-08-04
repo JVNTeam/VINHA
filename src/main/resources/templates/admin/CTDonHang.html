@@ -61,10 +61,6 @@
                             <span class="label" style="color: #d9534f;">Lý do hủy</span>
                             <em class="value" style="background: #fde8e8; color: #d9534f; padding: 10px; border-radius: 8px;" th:text="${donHang.lyDoHuy}"></em>
                         </div>
-                        <div class="info-row" th:if="${donHang != null && donHang.thongTinShipper != null && !donHang.thongTinShipper.isEmpty()}">
-                            <span class="label" style="color: #31708f;">Thông tin Shipper</span>
-                            <em class="value" style="background: #d9edf7; color: #31708f; padding: 10px; border-radius: 8px;" th:text="${donHang.thongTinShipper}"></em>
-                        </div>
                     </div>
                 </div>
 
@@ -176,13 +172,6 @@
 
                     <form th:action="@{/admin/donHang/updateStatus}" method="post" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
                         <input type="hidden" name="id" th:value="${donHang != null ? donHang.id : ''}">
-                        
-                        <!-- Ô nhập thông tin shipper (chỉ hiện khi Đã xác nhận -> Chế biến, hoặc Chế biến -> Giao hàng) -->
-                        <div th:if="${donHang != null && (donHang.trangThai == 'Đã xác nhận' || donHang.trangThai == 'Đang chế biến')}" style="background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                            <label style="font-size: 13px; font-weight: 600; margin-bottom: 5px; display: block;">Thông tin Shipper / Tài xế:</label>
-                            <input type="text" name="thongTinShipper" class="form-control" th:value="${donHang.thongTinShipper}" placeholder="Tên shipper, SĐT, Biển số xe..." style="width: 100%;">
-                        </div>
-                        
                         <div style="display: flex; gap: 12px; width: 100%;">
                             <!-- Nút Hủy (Có prompt lý do hủy bằng JS) -->
                             <button th:if="${donHang != null && donHang.trangThai != 'Đã hủy' && donHang.trangThai != 'Hoàn thành'}" 

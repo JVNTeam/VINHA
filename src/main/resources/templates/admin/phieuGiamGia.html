@@ -92,14 +92,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${#lists.isEmpty(vouchers)}">
+                    <tr th:if="${vouchersPage == null or vouchersPage.empty}">
                         <td colspan="8" style="text-align: center; padding: 40px; color: #777;">
                             Chưa có mã giảm giá nào. Nhấn "Thêm mã mới" để tạo chương trình khuyến mãi.
                         </td>
                     </tr>
-                    <tr th:each="item, stat : ${vouchers}">
+                    <tr th:each="item, stat : ${vouchersPage.content}">
                         <td class="col-stt" style="text-align: center;"
-                            th:text="${#numbers.formatInteger(stat.count, 2)}">01</td>
+                            th:text="${stat.count + vouchersPage.number * vouchersPage.size}">01</td>
                         <td>
                             <span class="code-badge"
                                   th:classappend="${!item.voucher.trangThai} ? ' expired' : ''"
@@ -168,6 +168,43 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Phân trang -->
+            <div class="pagination-container" th:if="${vouchersPage != null and vouchersPage.totalPages > 1}" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-top: 1px solid #eee;">
+                <div class="pagination-info" style="color: #666; font-size: 14px;">
+                    Hiển thị <span th:text="${vouchersPage.number * vouchersPage.size + 1}">1</span> 
+                    - <span th:text="${(vouchersPage.number * vouchersPage.size + vouchersPage.numberOfElements)}">10</span> 
+                    trong tổng số <strong th:text="${vouchersPage.totalElements}">100</strong> mã giảm giá
+                </div>
+                
+                <ul class="pagination" style="display: flex; list-style: none; gap: 5px; margin: 0; padding: 0;">
+                    <li th:classappend="${vouchersPage.first ? 'disabled' : ''}" style="margin: 0;">
+                        <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number - 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}" 
+                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
+                           th:styleappend="${vouchersPage.first ? 'opacity: 0.5; pointer-events: none;' : ''}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    
+                    <li th:each="i : ${#numbers.sequence(0, vouchersPage.totalPages - 1)}" 
+                        th:if="${i >= vouchersPage.number - 2 and i <= vouchersPage.number + 2}"
+                        style="margin: 0;">
+                        <a th:href="@{/admin/phieuGiamGia(page=${i}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}" 
+                           th:text="${i + 1}"
+                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
+                           th:styleappend="${i == vouchersPage.number ? 'background: #f89b20; color: #fff; border-color: #f89b20;' : ''}">
+                        </a>
+                    </li>
+                    
+                    <li th:classappend="${vouchersPage.last ? 'disabled' : ''}" style="margin: 0;">
+                        <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number + 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}"
+                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
+                           th:styleappend="${vouchersPage.last ? 'opacity: 0.5; pointer-events: none;' : ''}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </main>

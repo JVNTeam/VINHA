@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/danh-gia")
+@RequestMapping("/danhgia")
 public class DanhGiaController {
     @GetMapping
     public String showReviewPage(Model model) {

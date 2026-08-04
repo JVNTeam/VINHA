@@ -57,18 +57,23 @@
         </div>
 
         <!-- KHU VỰC LỌC -->
-        <div class="filter-section">
-            <div class="filter-left">
-                <select id="statusFilter" class="form-control">
+        <!-- KHU VỰC LỌC -->
+        <div class="filter-section" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+            <div class="search-box" style="flex: 1; min-width: 250px; position: relative;">
+                <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                <input type="text" id="keywordInput" class="form-control" placeholder="Tìm theo mã đơn, tên, SĐT..." style="padding-left: 40px; width: 100%;">
+            </div>
+            
+            <div class="filter-left" style="display: flex; gap: 10px;">
+                <select id="statusSelect" class="form-control">
                     <option value="">Tất cả trạng thái</option>
                     <option value="Chờ xác nhận">Chờ xác nhận</option>
                     <option value="Đã xác nhận">Đã xác nhận</option>
                     <option value="Đang chế biến">Đang chế biến</option>
-                    <option value="Đã hoàn thành">Đã hoàn thành</option>
+                    <option value="Đang giao hàng">Đang giao hàng</option>
+                    <option value="Hoàn thành">Hoàn thành</option>
                     <option value="Đã hủy">Đã hủy</option>
                 </select>
-                <input type="date" id="dateFilter" class="form-control">
-                <button type="button" id="btnFilter" class="btn btn-outline"><i class="fas fa-filter"></i> Lọc nâng cao</button>
             </div>
         </div>
 
@@ -87,12 +92,12 @@
                 </tr>
                 </thead>
                 <tbody id="orderTableBody">
-
                 <!-- Render động từ DB nếu có donHangs -->
                 <tr th:each="dh : ${donHangs}"
                     th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
+                    class="order-row"
                     th:data-status="${dh.trangThai}"
-                    th:data-date="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'yyyy-MM-dd') : ''}">
+                    th:data-search="${'VN-' + dh.id + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null ? dh.diaChi.tenNguoiNhan : '')) + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''))}">
                     <td><span class="text-orange font-bold" th:text="'#VN-' + ${dh.id}">#VN-29034</span></td>
                     <td>
                         <div class="details">
@@ -119,7 +124,7 @@
                                 <button type="submit" name="status" value="Đã hủy"
                                         class="status-btn btn-cancel"
                                         th:classappend="${dh.trangThai == 'Đã hủy' ? 'active' : ''}"
-                                        th:disabled="${dh.trangThai == 'Đã hoàn thành' || dh.trangThai == 'Đã hủy'}">Hủy</button>
+                                        th:disabled="${dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Đã hủy'}">Hủy</button>
 
                                 <!-- Nút Xác nhận -->
                                 <button type="submit" name="status" value="Đã xác nhận"
@@ -130,14 +135,20 @@
                                 <!-- Nút Đang chế biến -->
                                 <button type="submit" name="status" value="Đang chế biến"
                                         class="status-btn"
-                                        th:classappend="${dh.trangThai == 'Đang chế biến' ? 'active' : (dh.trangThai == 'Đã hoàn thành' ? 'completed' : '')}"
+                                        th:classappend="${dh.trangThai == 'Đang chế biến' ? 'active' : (dh.trangThai == 'Đang giao hàng' || dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
                                         th:disabled="${dh.trangThai != 'Đã xác nhận'}">Chế biến</button>
 
-                                <!-- Nút Hoàn thành -->
-                                <button type="submit" name="status" value="Đã hoàn thành"
+                                <!-- Nút Đang giao hàng -->
+                                <button type="submit" name="status" value="Đang giao hàng"
                                         class="status-btn"
-                                        th:classappend="${dh.trangThai == 'Đã hoàn thành' ? 'active' : ''}"
-                                        th:disabled="${dh.trangThai != 'Đang chế biến'}">Xong</button>
+                                        th:classappend="${dh.trangThai == 'Đang giao hàng' ? 'active' : (dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
+                                        th:disabled="${dh.trangThai != 'Đang chế biến'}">Giao hàng</button>
+
+                                <!-- Nút Hoàn thành -->
+                                <button type="submit" name="status" value="Hoàn thành"
+                                        class="status-btn"
+                                        th:classappend="${dh.trangThai == 'Hoàn thành' ? 'active' : ''}"
+                                        th:disabled="${dh.trangThai != 'Đang giao hàng'}">Hoàn thành</button>
                             </div>
                         </form>
                     </td>
@@ -145,138 +156,121 @@
                         <a th:href="@{'/admin/chiTietDon/' + ${dh.id}}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
                     </td>
                 </tr>
-
-                <!-- Đơn mẫu 1 (khi chưa có dữ liệu DB) -->
-                <tr data-status="Chờ xác nhận" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-                    <td><span class="text-orange font-bold">#VN-29034</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Nguyễn Thành Nam</strong>
-                            <span class="text-gray text-sm">0908 123 456</span>
-                        </div>
-                    </td>
-                    <td class="date-col">
-                        <strong class="text-main">10:24</strong><br>
-                        <span class="text-gray text-sm">25/10/2026</span>
-                    </td>
-                    <td><strong class="text-main">450.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-money-check-alt text-gray"></i> Chuyển khoản</span></td>
-                    <td>
-                        <div class="status-stack">
-                            <button class="status-btn btn-cancel">Hủy</button>
-                            <button class="status-btn active">Xác nhận</button>
-                            <button class="status-btn" disabled>Đang chế biến</button>
-                            <button class="status-btn" disabled>Đã hoàn thành</button>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <a th:href="@{/admin/chitietdon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
-                    </td>
-                </tr>
-
-                <!-- Đơn mẫu 2 (khi chưa có dữ liệu DB) -->
-                <tr data-status="Đang chế biến" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-                    <td><span class="text-orange font-bold">#VN-29033</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Lê Hồng Hạnh</strong>
-                            <span class="text-gray text-sm">0912 987 654</span>
-                        </div>
-                    </td>
-                    <td class="date-col">
-                        <strong class="text-main">09:15</strong><br>
-                        <span class="text-gray text-sm">25/10/2026</span>
-                    </td>
-                    <td><strong class="text-main">1.250.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-money-bill-wave text-gray"></i> Tiền mặt</span></td>
-                    <td>
-                        <div class="status-stack">
-                            <button class="status-btn" disabled>Hủy</button>
-                            <button class="status-btn completed" disabled>Xác nhận</button>
-                            <button class="status-btn active">Đang chế biến</button>
-                            <button class="status-btn" disabled>Đã hoàn thành</button>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <a th:href="@{/admin/chiTietDon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
-                    </td>
-                </tr>
-
-                <!-- Đơn mẫu 3 (khi chưa có dữ liệu DB) -->
-                <tr data-status="Đã hoàn thành" th:if="${donHangs == null || #lists.isEmpty(donHangs)}">
-                    <td><span class="text-orange font-bold">#VN-29030</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Trần Phương</strong>
-                            <span class="text-gray text-sm">0888 555 222</span>
-                        </div>
-                    </td>
-                    <td class="date-col">
-                        <strong class="text-main">18:30</strong><br>
-                        <span class="text-gray text-sm">24/10/2026</span>
-                    </td>
-                    <td><strong class="text-main">890.000đ</strong></td>
-                    <td><span class="pay-badge"><i class="fas fa-wallet text-gray"></i> Ví điện tử</span></td>
-                    <td>
-                        <div class="status-stack">
-                            <button class="status-btn" disabled>Hủy</button>
-                            <button class="status-btn completed" disabled>Xác nhận</button>
-                            <button class="status-btn completed" disabled>Đang chế biến</button>
-                            <button class="status-btn completed" disabled>Đã hoàn thành</button>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <a th:href="@{/admin/chiTietDon}" class="btn-detail" style="text-decoration: none; display: inline-block;">Xem chi tiết</a>
+                <tr id="noResultsRow" style="display: none;">
+                    <td colspan="7" style="text-align: center; padding: 30px; color: #888;">
+                        Không tìm thấy đơn hàng nào phù hợp.
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
 
+        <!-- PHÂN TRANG JS -->
+        <div class="pagination-container" id="paginationContainer" style="display: flex; justify-content: center; margin-top: 20px; gap: 5px;">
+            <!-- Buttons sẽ được JS tạo ra ở đây -->
+        </div>
+
     </main>
 </div>
 
-<!-- SCRIPT LỌC TRẠNG THÁI -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const statusFilter = document.getElementById('statusFilter');
-        const tableRows = document.querySelectorAll('#orderTableBody tr[data-status]');
+document.addEventListener("DOMContentLoaded", function() {
+    const keywordInput = document.getElementById('keywordInput');
+    const statusSelect = document.getElementById('statusSelect');
+    const allRows = Array.from(document.querySelectorAll('.order-row'));
+    const noResultsRow = document.getElementById('noResultsRow');
+    const paginationContainer = document.getElementById('paginationContainer');
+    
+    let filteredRows = [...allRows];
+    let currentPage = 1;
+    const itemsPerPage = 10;
 
-        if (statusFilter && tableRows.length > 0) {
-            statusFilter.addEventListener('change', function() {
-                const selectedStatus = this.value.trim();
-                let visibleCount = 0;
+    function applyFilter() {
+        const keyword = keywordInput.value.trim().toLowerCase();
+        const status = statusSelect.value;
+        
+        filteredRows = allRows.filter(row => {
+            const rowSearch = row.getAttribute('data-search').toLowerCase();
+            const rowStatus = row.getAttribute('data-status');
+            
+            const matchKeyword = keyword === '' || rowSearch.includes(keyword);
+            const matchStatus = status === '' || rowStatus === status;
+            
+            return matchKeyword && matchStatus;
+        });
+        
+        currentPage = 1;
+        renderTable();
+    }
 
-                tableRows.forEach(row => {
-                    const rowStatus = row.getAttribute('data-status').trim();
-
-                    if (selectedStatus === "" || rowStatus === selectedStatus) {
-                        row.style.display = '';
-                        visibleCount++;
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-
-                let emptyRow = document.getElementById('empty-js-row');
-                const tbody = document.getElementById('orderTableBody');
-
-                if (visibleCount === 0) {
-                    if (!emptyRow) {
-                        emptyRow = document.createElement('tr');
-                        emptyRow.id = 'empty-js-row';
-                        emptyRow.innerHTML = '<td colspan="7" style="text-align: center; color: #777777; padding: 24px; font-weight: 500;">Không có đơn hàng nào phù hợp với trạng thái đã chọn.</td>';
-                        tbody.appendChild(emptyRow);
-                    } else {
-                        emptyRow.style.display = '';
-                    }
-                } else if (emptyRow) {
-                    emptyRow.style.display = 'none';
-                }
-            });
+    function renderTable() {
+        // Ẩn tất cả
+        allRows.forEach(row => row.style.display = 'none');
+        
+        if (filteredRows.length === 0) {
+            noResultsRow.style.display = 'table-row';
+            paginationContainer.innerHTML = '';
+            return;
+        } else {
+            noResultsRow.style.display = 'none';
         }
-    });
+        
+        const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+        
+        // Hiển thị row theo trang
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        
+        for (let i = startIndex; i < endIndex && i < filteredRows.length; i++) {
+            filteredRows[i].style.display = 'table-row';
+        }
+        
+        renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+        if (totalPages <= 1) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+        
+        let html = '';
+        if (currentPage > 1) {
+            html += `<a href="#" data-page="${currentPage - 1}" class="btn btn-outline" style="padding: 5px 10px;">&laquo; Trang trước</a>`;
+        }
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const activeClass = i === currentPage ? 'btn-orange' : 'btn-outline';
+            html += `<a href="#" data-page="${i}" class="btn ${activeClass}" style="padding: 5px 10px;">${i}</a>`;
+        }
+        
+        if (currentPage < totalPages) {
+            html += `<a href="#" data-page="${currentPage + 1}" class="btn btn-outline" style="padding: 5px 10px;">Trang sau &raquo;</a>`;
+        }
+        
+        paginationContainer.innerHTML = html;
+        
+        // Gắn sự kiện click
+        paginationContainer.querySelectorAll('a').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                currentPage = parseInt(this.getAttribute('data-page'));
+                renderTable();
+            });
+        });
+    }
+
+    // Gắn sự kiện
+    keywordInput.addEventListener('input', applyFilter);
+    statusSelect.addEventListener('change', applyFilter);
+
+    // Khởi tạo ban đầu
+    renderTable();
+});
 </script>
+
+    </main>
+</div>
 
 </body>
 </html>

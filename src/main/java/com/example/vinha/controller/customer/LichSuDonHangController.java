@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/lichsudonhang")
 public class LichSuDonHangController {
 
     private final DonHangRepository donHangRepository;
@@ -25,10 +24,10 @@ public class LichSuDonHangController {
         this.donHangRepository = donHangRepository;
     }
 
-    @GetMapping
+    @GetMapping({"/lichsudonhang", "/lichsudonhang"})
     public String showOrderHistoryPage(HttpSession session, Model model) {
         Object userObj = session.getAttribute("loggedInUser");
-        
+
         if (!(userObj instanceof NguoiDung user)) {
             return "redirect:/dangNhap?returnUrl=/lichsudonhang";
         }
@@ -70,7 +69,8 @@ public class LichSuDonHangController {
         return switch (status) {
             case "Chờ xác nhận" -> "pending";
             case "Đã xác nhận" -> "confirmed";
-            case "Đang giao" -> "shipping";
+            case "Đang chế biến" -> "processing";
+            case "Đang giao hàng" -> "shipping";
             case "Hoàn thành" -> "completed";
             case "Đã hủy" -> "cancelled";
             default -> "pending";

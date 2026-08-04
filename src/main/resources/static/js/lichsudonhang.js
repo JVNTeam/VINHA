@@ -57,5 +57,5 @@ function cancelOrder(orderCode) {
 function viewDetail(orderCode) {
     // Extract orderId từ orderCode (#VN-1 => 1)
     const orderId = orderCode.replace('#VN-', '');
-    window.location.href = '/tai-khoan/chi-tiet-don-hang/' + orderId;
+    window.location.href = '/chitietdonhang/' + orderId;
 }

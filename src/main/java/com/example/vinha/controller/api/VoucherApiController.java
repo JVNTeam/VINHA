@@ -74,7 +74,7 @@ public class VoucherApiController {
 
         if (voucher.getDonToiThieu() != null && subtotal.compareTo(voucher.getDonToiThieu()) < 0) {
             response.put("success", false);
-            response.put("message", "Đơn hàng phải tối thiểu " + voucherService.formatCurrency(voucher.getDonToiThieu()));
+            response.put("message", "Đơn hàng phải tối thiểu " + VoucherService.formatCurrency(voucher.getDonToiThieu()));
             return ResponseEntity.ok(response);
         }
 

@@ -1,68 +1,50 @@
 // ==========================
-// HỒ SƠ CÁ NHÂN
+// HỒ SƠ CÁ NHÂN - hoso.js
 // ==========================
 
-document.addEventListener("DOMContentLoaded", function () {
+// Toggle giữa chế độ xem và chế độ chỉnh sửa
+function toggleEditMode() {
+    const viewMode = document.getElementById('viewMode');
+    const editMode = document.getElementById('editMode');
+    const editBtn  = document.getElementById('btnEdit');
 
-    // ==========================
-    // Sidebar Active
-    // ==========================
+    if (!viewMode || !editMode) return;
 
-    const menuItems = document.querySelectorAll(".sidebar li");
+    const isEditing = editMode.style.display !== 'none';
 
-    menuItems.forEach(item => {
+    if (isEditing) {
+        // Quay về xem
+        viewMode.style.display = 'block';
+        editMode.style.display = 'none';
+        editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Chỉnh sửa';
+    } else {
+        // Vào chế độ sửa
+        viewMode.style.display = 'none';
+        editMode.style.display = 'block';
+        editBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> Hủy';
+    }
+}
 
-        item.addEventListener("click", function () {
+// Preview avatar trước khi upload
+function previewAvatar(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.getElementById('avatarPreview');
+            if (img) img.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
-            menuItems.forEach(i => i.classList.remove("active"));
-
-            this.classList.add("active");
-
-        });
-
+// Tự ẩn alert sau 4 giây
+document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function (alert) {
+        setTimeout(function () {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity   = '0';
+            setTimeout(function () { alert.remove(); }, 500);
+        }, 4000);
     });
-
-    // ==========================
-    // Chỉnh sửa thông tin
-    // ==========================
-
-    const editBtn = document.querySelector(".edit-btn");
-
-    if (editBtn) {
-
-        editBtn.addEventListener("click", function () {
-
-            alert("Chức năng chỉnh sửa thông tin sẽ được cập nhật.");
-
-            // Sau này có thể chuyển trang
-            // window.location.href = "/hoso/chinhsua";
-
-        });
-
-    }
-
-    // ==========================
-    // Đăng xuất
-    // ==========================
-
-    const logout = document.querySelector(".logout");
-
-    if (logout) {
-
-        logout.addEventListener("click", function (e) {
-
-            e.preventDefault();
-
-            const result = confirm("Bạn có chắc chắn muốn đăng xuất?");
-
-            if (result) {
-
-                window.location.href = "/logout";
-
-            }
-
-        });
-
-    }
-
 });

@@ -18,25 +18,25 @@ public class DonHangController {
     @Autowired
     private OrderService orderService;
 
-        // Trang danh sách đơn hàng
+    // Trang danh sách đơn hàng
     @GetMapping("/admin/donHang")
     public String hienThiDonHang(Model model) {
-        List<DonHang> list = orderService.getAllOrders();
-        model.addAttribute("donHangs", list);
 
-        // Thống kê đơn hàng
-        long choXacNhan = list.stream().filter(o -> "Chờ xác nhận".equalsIgnoreCase(o.getTrangThai())).count();
-        long daXacNhan = list.stream().filter(o -> "Đã xác nhận".equalsIgnoreCase(o.getTrangThai())).count();
-        long dangCheBien = list.stream().filter(o -> "Đang chế biến".equalsIgnoreCase(o.getTrangThai())).count();
-        double doanhThu = list.stream()
-                .filter(o -> "Đã hoàn thành".equalsIgnoreCase(o.getTrangThai()))
-                .mapToDouble(o -> o.getTongTien() != null ? o.getTongTien().doubleValue() : 0)
-                .sum();
+        List<DonHang> allOrders = orderService.getAllOrders();
+        model.addAttribute("donHangs", allOrders);
+
+        // Thống kê đơn hàng (dùng repository để đếm)
+        long choXacNhan = orderService.countByStatus("Chờ xác nhận");
+        long daXacNhan = orderService.countByStatus("Đã xác nhận");
+        long dangCheBien = orderService.countByStatus("Đang chế biến");
+        long dangGiaoHang = orderService.countByStatus("Đang giao hàng");
+        Double doanhThu = orderService.sumDoanhThu();
 
         model.addAttribute("choXacNhan", choXacNhan);
         model.addAttribute("daXacNhan", daXacNhan);
         model.addAttribute("dangCheBien", dangCheBien);
-        model.addAttribute("doanhThu", doanhThu);
+        model.addAttribute("dangGiaoHang", dangGiaoHang);
+        model.addAttribute("doanhThu", doanhThu != null ? doanhThu : 0.0);
 
         return "admin/donHang";
     }
@@ -44,9 +44,15 @@ public class DonHangController {
 
     // Cập nhật trạng thái đơn hàng
     @PostMapping("/admin/donHang/updateStatus")
-    public String updateStatus(@RequestParam Long id, @RequestParam String status) {
-        orderService.updateStatus(id, status);
-        return "redirect:/admin/donHang";
+    public String updateStatus(
+            @RequestParam Long id, 
+            @RequestParam String status, 
+            @RequestParam(required = false) String lyDoHuy, 
+            @RequestParam(required = false) String thongTinShipper, 
+            jakarta.servlet.http.HttpServletRequest request) {
+        orderService.updateStatus(id, status, lyDoHuy, thongTinShipper);
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/admin/donHang");
     }
 
     // Trang chi tiết đơn hàng
@@ -58,5 +64,16 @@ public class DonHangController {
         }
         model.addAttribute("donHang", donHang);
         return "admin/CTDonHang";
+    }
+
+    // In hóa đơn
+    @GetMapping("/admin/donHang/print/{id}")
+    public String inHoaDon(@PathVariable Long id, Model model) {
+        DonHang donHang = orderService.getOrderById(id);
+        if (donHang == null) {
+            return "redirect:/admin/donHang";
+        }
+        model.addAttribute("donHang", donHang);
+        return "admin/printDonHang";
     }
 }

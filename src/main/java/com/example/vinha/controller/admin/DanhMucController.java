@@ -68,18 +68,17 @@ public class DanhMucController {
             @RequestParam(value = "trangThai", required = false) String trangThai,
             @RequestParam(value = "anh", required = false) String anh,
             @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
-            @RequestParam(value = "soLuong", required = false) Integer soLuong,
             RedirectAttributes redirectAttributes) {
 
         if (ten == null || ten.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục không được để trống.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(0).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).build());
             return "redirect:/admin/danhMuc/them";
         }
 
         if (danhMucRepository.findByTenIgnoreCase(ten.trim()).isPresent()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(0).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).build());
             return "redirect:/admin/danhMuc/them";
         }
 
@@ -93,7 +92,6 @@ public class DanhMucController {
                 .moTa(moTa != null ? moTa.trim() : "")
                 .trangThai(trangThai != null && !trangThai.isBlank() ? trangThai : "Mở")
                 .anh(imagePath)
-                .soLuong(0)
                 .build();
         danhMucRepository.save(danhMuc);
         redirectAttributes.addFlashAttribute("message", "Thêm danh mục thành công.");
@@ -122,7 +120,6 @@ public class DanhMucController {
             @RequestParam(value = "trangThai", required = false) String trangThai,
             @RequestParam(value = "anh", required = false) String anh,
             @RequestParam(value = "fileAnh", required = false) MultipartFile fileAnh,
-            @RequestParam(value = "soLuong", required = false) Integer soLuong,
             RedirectAttributes redirectAttributes) {
 
         DanhMuc danhMuc = danhMucRepository.findById(id).orElse(null);
@@ -133,14 +130,14 @@ public class DanhMucController {
 
         if (ten == null || ten.trim().isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục không được để trống.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(danhMuc.getSoLuong()).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).build());
             return "redirect:/admin/danhMuc/sua?id=" + id;
         }
 
         java.util.Optional<DanhMuc> existingDM = danhMucRepository.findByTenIgnoreCase(ten.trim());
         if (existingDM.isPresent() && !existingDM.get().getId().equals(id)) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại. Vui lòng chọn tên khác.");
-            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).soLuong(danhMuc.getSoLuong()).build());
+            redirectAttributes.addFlashAttribute("danhMuc", DanhMuc.builder().id(id).ten(ten).moTa(moTa).trangThai(trangThai).anh(anh).build());
             return "redirect:/admin/danhMuc/sua?id=" + id;
         }
 

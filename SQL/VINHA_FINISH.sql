@@ -1,4 +1,4 @@
-﻿-- TEN WEB LA: VỊ NHÀ
+-- TEN WEB LA: VỊ NHÀ
 CREATE DATABASE ViNha;
 GO
 USE ViNha;
@@ -57,8 +57,7 @@ CREATE TABLE danh_muc (
                           trang_thai NVARCHAR(20)
         DEFAULT N'Mở'
         CHECK (trang_thai IN (N'Mở', N'Khóa')),
-                          anh NVARCHAR(500),
-                          so_luong INT DEFAULT 0
+                          anh NVARCHAR(500)
 );
 
 CREATE TABLE mon_an (
@@ -285,10 +284,10 @@ VALUES
 -- 4. DANH MỤC
 -- =========================
 INSERT INTO danh_muc
-(ten, mo_ta, trang_thai, anh, so_luong)
+(ten, mo_ta, trang_thai, anh)
 VALUES
-    (N'Cơm văn phòng', N'Các suất cơm hằng ngày', N'Mở', N'com-van-phong.jpg', 10),
-    (N'Cơm đặc biệt', N'Cơm cao cấp', N'Mở', N'com-dac-biet.jpg', 5);
+    (N'Cơm văn phòng', N'Các suất cơm hằng ngày', N'Mở', N'com-van-phong.jpg'),
+    (N'Cơm đặc biệt', N'Cơm cao cấp', N'Mở', N'com-dac-biet.jpg');
 
 -- =========================
 -- 5. MÓN ĂN
@@ -413,13 +412,13 @@ WHERE mon_an_id = 2;
 -- =========================
 -- 2. THÊM 5 DANH MỤC MỚI
 -- =========================
-INSERT INTO danh_muc (ten, mo_ta, trang_thai, anh, so_luong)
+INSERT INTO danh_muc (ten, mo_ta, trang_thai, anh)
 VALUES
-    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'com-ga.jpg', 15),
-    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'com-bo.jpg', 10),
-    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'com-heo.jpg', 20),
-    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'com-hai-san.jpg', 12),
-    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'com-chay.jpg', 8);
+    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'com-ga.jpg'),
+    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'com-bo.jpg'),
+    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'com-heo.jpg'),
+    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'com-hai-san.jpg'),
+    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'com-chay.jpg');
 
 -- =========================
 -- 3. THÊM 10 MÓN ĂN MỚI

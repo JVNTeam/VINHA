@@ -31,9 +31,6 @@ public class DanhMuc {
     @Column(name = "anh", length = 500)
     private String anh;
 
-    @Column(name = "so_luong")
-    private Integer soLuong;
-
     @OneToMany(mappedBy = "danhMuc")
     private List<MonAn> monAns;
 }

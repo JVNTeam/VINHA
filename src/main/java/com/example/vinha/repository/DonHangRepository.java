@@ -16,11 +16,11 @@ public interface DonHangRepository extends JpaRepository<DonHang, Long> {
     @org.springframework.data.jpa.repository.Query("SELECT d FROM DonHang d LEFT JOIN d.nguoiDung u LEFT JOIN d.diaChi c WHERE " +
             "(:status IS NULL OR :status = '' OR d.trangThai = :status) AND " +
             "(:keyword IS NULL OR :keyword = '' OR " +
-            "CAST(d.id AS string) LIKE %:keyword% OR " +
-            "u.hoTen LIKE %:keyword% OR " +
-            "u.soDienThoai LIKE %:keyword% OR " +
-            "c.tenNguoiNhan LIKE %:keyword% OR " +
-            "c.sdtNguoiNhan LIKE %:keyword%)")
+            "CAST(d.id AS string) LIKE CONCAT('%', :keyword, '%') OR " +
+            "u.hoTen LIKE CONCAT('%', :keyword, '%') OR " +
+            "u.soDienThoai LIKE CONCAT('%', :keyword, '%') OR " +
+            "c.tenNguoiNhan LIKE CONCAT('%', :keyword, '%') OR " +
+            "c.sdtNguoiNhan LIKE CONCAT('%', :keyword, '%'))")
     org.springframework.data.domain.Page<DonHang> searchOrders(@org.springframework.data.repository.query.Param("keyword") String keyword, @org.springframework.data.repository.query.Param("status") String status, org.springframework.data.domain.Pageable pageable);
 
     long countByTrangThai(String trangThai);

@@ -68,11 +68,9 @@ public class LichSuDonHangController {
         }
         return switch (status) {
             case "Chờ xác nhận" -> "pending";
-            case "Đã xác nhận" -> "confirmed";
-            case "Đang chế biến" -> "processing";
-            case "Đang giao hàng" -> "shipping";
+            case "Xác nhận" -> "confirmed";
             case "Hoàn thành" -> "completed";
-            case "Đã hủy" -> "cancelled";
+            case "Hủy" -> "cancelled";
             default -> "pending";
         };
     }

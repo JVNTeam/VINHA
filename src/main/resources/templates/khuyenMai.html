@@ -25,32 +25,25 @@
   </head>
   <body>
     <div th:replace="~{fragments/header :: header}"></div>
-
-    <main style="margin-top: 90px">
+    <main class="khuyen-mai-page">
       <!-- ================= HERO ================= -->
-
       <section class="hero">
         <div class="container hero-content">
           <div class="hero-text">
             <h1>
               Ưu đãi ngọt ngào,<br />
-
               Đậm vị nhà
             </h1>
-
             <p>
               Thưởng thức hương vị cơm nhà trọn vẹn với những chương trình
               khuyến mãi hấp dẫn chỉ có tại Vị Nhà. Ăn ngon, giá hời, hạnh phúc
               thêm đong đầy.
             </p>
-
             <div class="hero-btn">
               <a href="#voucher" class="btn btn-primary"> Lấy mã ngay </a>
-
               <a href="/thucDon" class="btn btn-outline"> Xem thực đơn </a>
             </div>
           </div>
-
           <div class="hero-image">
             <img src="/images/banner.png" alt="Khuyến mãi" />
           </div>
@@ -165,7 +158,7 @@
 
     </main>
 
-    <div th:replace="~{fragments/footer-secondary :: footerSecondary}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/js/khuyenMai.js}"></script>

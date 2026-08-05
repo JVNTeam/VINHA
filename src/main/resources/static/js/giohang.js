@@ -1,211 +1,63 @@
 // ================== ĐỊNH DẠNG TIỀN ==================
-
 function formatMoney(number) {
     return number.toLocaleString("vi-VN") + "đ";
 }
 
-// ================== LẤY CÁC ITEM ==================
-
-const cartItems = document.querySelectorAll(".cart-item");
-
-function updateCart() {
-
+// ================== CẬP NHẬT TẠM TÍNH VÀ TỔNG CỘNG TRÊN CLIENT ==================
+function updateCartSummary() {
+    const cartItems = document.querySelectorAll(".cart-item");
     let subtotal = 0;
-    let totalQuantity = 0;
+    let totalItems = cartItems.length; // Đếm số loại món ăn trong giỏ
 
     cartItems.forEach(item => {
-
-        const priceText = item.querySelector(".price").innerText;
+        const priceText = item.querySelector(".price") ? item.querySelector(".price").innerText : "0";
         const price = Number(priceText.replace(/[^\d]/g, ""));
 
-        const input = item.querySelector("input");
-        const quantity = parseInt(input.value);
+        // Lấy đúng ô input text hiển thị số lượng
+        const quantityInput = item.querySelector(".quantity input[type='text']");
+        const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
 
-        const total = price * quantity;
+        const itemTotal = price * quantity;
 
-        item.querySelector(".total").innerText = formatMoney(total);
-
-        subtotal += total;
-        totalQuantity += quantity;
-
-    });
-
-    document.getElementById("subtotal").innerText = formatMoney(subtotal);
-
-    // Phí giao hàng
-    const shipping = 5000;
-
-    document.getElementById("grand-total").innerText =
-        formatMoney(subtotal + shipping);
-
-    document.getElementById("item-count").innerText = totalQuantity;
-
-    // Badge trên icon giỏ hàng
-    const badge = document.querySelector(".cart-count");
-
-    if (badge) {
-        badge.innerText = totalQuantity;
-    }
-
-    updateHeaderCartIcon(totalQuantity);
-}
-
-function updateHeaderCartIcon(totalQuantity) {
-    const cartLink = document.querySelector(".right .cart");
-    const cartIcon = cartLink ? cartLink.querySelector("i") : null;
-
-    if (!cartLink || !cartIcon) {
-        return;
-    }
-
-    cartLink.classList.remove("cart-1", "cart-2", "cart-3", "cart-empty");
-    cartIcon.classList.remove("fa-cart-shopping", "fa-cart-plus", "fa-bag-shopping");
-
-    if (totalQuantity === 1) {
-        cartLink.classList.add("cart-1");
-        cartIcon.classList.add("fa-cart-shopping");
-    } else if (totalQuantity === 2) {
-        cartLink.classList.add("cart-2");
-        cartIcon.classList.add("fa-cart-plus");
-    } else if (totalQuantity >= 3) {
-        cartLink.classList.add("cart-3");
-        cartIcon.classList.add("fa-bag-shopping");
-    } else {
-        cartLink.classList.add("cart-empty");
-        cartIcon.classList.add("fa-cart-shopping");
-    }
-}
-
-// ================== TĂNG GIẢM ==================
-
-cartItems.forEach(item => {
-
-    const minus = item.querySelector(".minus");
-    const plus = item.querySelector(".plus");
-    const input = item.querySelector("input");
-
-    plus.onclick = function () {
-
-        input.value = parseInt(input.value) + 1;
-
-        updateCart();
-
-    };
-
-    minus.onclick = function () {
-
-        if (parseInt(input.value) > 1) {
-
-            input.value = parseInt(input.value) - 1;
-
-            updateCart();
-
+        // Cập nhật dòng thành tiền của item
+        const totalElem = item.querySelector(".total");
+        if (totalElem) {
+            totalElem.innerText = formatMoney(itemTotal);
         }
 
-    };
-
-});
-
-// ================== XÓA ==================
-
-document.querySelectorAll(".delete").forEach(btn => {
-
-    btn.onclick = function () {
-
-        if (confirm("Bạn có muốn xóa món ăn này không?")) {
-
-            btn.closest(".cart-item").remove();
-
-            updateAfterDelete();
-
-        }
-
-    };
-
-});
-
-
-// ================== SAU KHI XÓA ==================
-
-function updateAfterDelete() {
-
-    const items = document.querySelectorAll(".cart-item");
-
-    let subtotal = 0;
-    let totalQuantity = 0;
-
-    items.forEach(item => {
-
-        const price = Number(
-            item.querySelector(".price").innerText.replace(/[^\d]/g, "")
-        );
-
-        const quantity = parseInt(item.querySelector("input").value);
-
-        subtotal += price * quantity;
-        totalQuantity += quantity;
-
+        subtotal += itemTotal;
     });
 
-    document.getElementById("subtotal").innerText = formatMoney(subtotal);
+    // Cập nhật Tạm tính & Tổng cộng (Đồng bộ không cộng phí ẩn)
+    const subtotalElem = document.getElementById("subtotal");
+    if (subtotalElem) subtotalElem.innerText = formatMoney(subtotal);
 
-    document.getElementById("grand-total").innerText =
-        formatMoney(subtotal + (items.length ? 5000 : 0));
+    const grandTotalElem = document.getElementById("grand-total");
+    if (grandTotalElem) grandTotalElem.innerText = formatMoney(subtotal);
 
-    document.getElementById("item-count").innerText = totalQuantity;
+    // Cập nhật số loại món ăn
+    const itemCountElem = document.getElementById("item-count");
+    if (itemCountElem) itemCountElem.innerText = totalItems;
 
-    const badge = document.querySelector(".cart-count");
-
-    if (badge) {
-        badge.innerText = totalQuantity;
-    }
-
-    updateHeaderCartIcon(totalQuantity);
-
-    // Disable checkout button if cart is empty
-    const checkoutBtn = document.querySelector(".checkout-btn");
+    // Quản lý trạng thái nút Thanh toán
+    const checkoutBtn = document.getElementById("checkoutBtn");
     if (checkoutBtn) {
-        checkoutBtn.disabled = items.length === 0;
+        checkoutBtn.disabled = totalItems === 0;
     }
-
-    // Nếu giỏ hàng trống
-    if (items.length === 0) {
-
-        document.querySelector(".cart-left").innerHTML = `
-
-            <div class="empty-cart">
-
-                <i class="fa-solid fa-cart-shopping"></i>
-
-                <h2>Giỏ hàng của bạn đang trống</h2>
-
-                <p>Hãy chọn những món ăn yêu thích nhé.</p>
-
-                <a href="/thucDon" class="continue">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Quay lại thực đơn
-                </a>
-
-            </div>
-
-        `;
-
-    }
-
 }
 
-// ================== THANH TOÁN ==================
+// ================== BẮT SỰ KIỆN SUBMIT FORM TĂNG GIẢM/XÓA ==================
+document.addEventListener("DOMContentLoaded", function () {
+    // Không chạy updateCart() làm đè value=1 nữa
 
-const checkoutBtn = document.getElementById("checkoutBtn");
-if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", function(e) {
-        if (this.disabled) {
-            e.preventDefault();
-            alert("Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.");
-        }
-    });
-}
-
-// ================== KHỞI TẠO ==================
-
-updateCart();
+    // Kiểm tra nút thanh toán
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", function (e) {
+            if (this.disabled) {
+                e.preventDefault();
+                alert("Giỏ hàng đang trống. Vui lòng thêm sản phẩm trước khi thanh toán.");
+            }
+        });
+    }
+});

@@ -1,769 +1,328 @@
-/* ================= RESET ================= */
+/* ================= BASE PAGE CONTAINER ================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+.khuyen-mai-page {
+    padding-top: 0;
+    width: 100%;
+    overflow-x: hidden;
+    background: #faf7f5;
+    color: #333;
 }
 
-body{
-    background:#faf7f5;
-    color:#333;
+.khuyen-mai-page a {
+    text-decoration: none;
+    color: inherit;
 }
 
-a{
-    text-decoration:none;
-    color:inherit;
+.khuyen-mai-page img {
+    display: block;
+    width: 100%;
 }
 
-img{
-    display:block;
-    width:100%;
+.khuyen-mai-page .container {
+    max-width: 1200px;
+    margin: auto;
 }
 
-.container{
-    width:1200px;
-    margin:auto;
+/* ================= HERO (ĐẨY LÊN NỀN HEADER) ================= */
+
+.khuyen-mai-page .hero {
+    background: #fff1e7;
+    padding-top: 100px; /* Đẩy nội dung chữ xuống vừa khớp dưới Header */
+    padding-bottom: 70px;
 }
 
-/* ================= MAIN FIX (SỬA LỖI KHOẢNG TRẮNG) ================= */
-
-main{
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
+.khuyen-mai-page .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
 }
 
-/* ================= HEADER ================= */
-
-header{
-    background:#fff;
-    border-bottom:1px solid #ececec;
+.khuyen-mai-page .hero-text h1 {
+    font-size: 56px;
+    color: #8b4b16;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    font-weight: 800;
 }
 
-.nav{
-    height:80px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.khuyen-mai-page .hero-text p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 35px;
 }
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
+.khuyen-mai-page .hero-btn {
+    display: flex;
+    gap: 18px;
 }
 
-.logo img{
-    width:42px;
+.khuyen-mai-page .btn {
+    display: inline-block;
+    padding: 15px 35px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: .3s;
 }
 
-.logo span{
-    font-size:30px;
-    font-weight:bold;
-    color:#9b5b16;
+.khuyen-mai-page .btn-primary {
+    background: #ff8a00;
+    color: #fff;
+    border: none;
 }
 
-.menu{
-    display:flex;
-    list-style:none;
-    gap:40px;
+.khuyen-mai-page .btn-primary:hover {
+    background: #e87800;
+    color: #fff;
 }
 
-.menu a{
-    color:#555;
-    transition:.3s;
+.khuyen-mai-page .btn-outline {
+    border: 2px solid #c97a18;
+    color: #9b5b16;
+    background: transparent;
 }
 
-.menu a:hover,
-.menu .active{
-    color:#c97a18;
-    border-bottom:2px solid #c97a18;
-    padding-bottom:8px;
+.khuyen-mai-page .btn-outline:hover {
+    background: #c97a18;
+    color: #fff;
 }
 
-.right{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.search{
-    width:260px;
-    height:42px;
-    border:1px solid #ddd;
-    border-radius:25px;
-    display:flex;
-    align-items:center;
-    padding:0 15px;
-}
-
-.search input{
-    flex:1;
-    border:none;
-    outline:none;
-    margin-left:10px;
-    background:none;
-}
-
-.cart{
-    position:relative;
-    font-size:22px;
-}
-
-.cart-count{
-    position:absolute;
-    top:-8px;
-    right:-10px;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    background:#d62828;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:11px;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    background:#fff1e7;
-    padding:70px 0;
-}
-
-.hero-content{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:60px;
-    align-items:center;
-}
-
-.hero-text h1{
-    font-size:64px;
-    color:#8b4b16;
-    line-height:1.2;
-    margin-bottom:25px;
-}
-
-.hero-text p{
-    font-size:18px;
-    color:#666;
-    line-height:1.8;
-    margin-bottom:35px;
-}
-
-.hero-btn{
-    display:flex;
-    gap:18px;
-}
-
-.btn{
-    display:inline-block;
-    padding:15px 35px;
-    border-radius:10px;
-    font-weight:600;
-    transition:.3s;
-}
-
-.btn-primary{
-    background:#ff8a00;
-    color:#fff;
-}
-
-.btn-primary:hover{
-    background:#e87800;
-}
-
-.btn-outline{
-    border:2px solid #c97a18;
-    color:#9b5b16;
-}
-
-.btn-outline:hover{
-    background:#c97a18;
-    color:#fff;
-}
-
-.hero-image img{
-    border-radius:18px;
-    box-shadow:0 15px 35px rgba(0,0,0,.15);
+.khuyen-mai-page .hero-image img {
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.15);
 }
 
 /* ================= VOUCHER ================= */
 
-.voucher-section{
-    padding:80px 0;
-    background:#fff;
+.khuyen-mai-page .voucher-section {
+    padding: 80px 0;
+    background: #fff;
 }
 
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    margin-bottom:35px;
+.khuyen-mai-page .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 35px;
 }
 
-.section-title h2{
-    font-size:46px;
-    color:#8b4b16;
-    margin-bottom:10px;
+.khuyen-mai-page .section-title h2 {
+    font-size: 42px;
+    color: #8b4b16;
+    margin-bottom: 10px;
+    font-weight: 700;
 }
 
-.section-title p{
-    color:#666;
+.khuyen-mai-page .section-title p {
+    color: #666;
 }
 
-.section-title a{
-    color:#c97a18;
-    font-weight:600;
+.khuyen-mai-page .voucher-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
 }
 
-.voucher-list{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:25px;
+.khuyen-mai-page .voucher-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 20px;
+    color: #777;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px dashed #e0d5c8;
 }
 
-.voucher-empty{
-    grid-column:1 / -1;
-    text-align:center;
-    padding:48px 20px;
-    color:#777;
-    background:#fff;
-    border-radius:14px;
-    border:1px dashed #e0d5c8;
+.khuyen-mai-page .voucher-card {
+    display: flex;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: .3s;
 }
 
-.voucher-card{
-    display:flex;
-    background:#fff;
-    border-radius:14px;
-    overflow:hidden;
-    border:1px solid #eee;
-    transition:.3s;
+.khuyen-mai-page .voucher-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0,0,0,.08);
 }
 
-.voucher-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 25px rgba(0,0,0,.08);
+.khuyen-mai-page .voucher-left {
+    width: 145px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    padding: 0 10px;
 }
 
-.voucher-left{
-    width:145px;      /* tăng từ 120px lên 145px */
-    flex-shrink:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    color:#fff;
-    padding:0 10px;
-}
-
-.orange{
-    background:#ff9100;
-}
-
-.light-orange{
-    background:#ff8b3d;
-}
-
-.blue{
-    background:#16a5e7;
-}
-
-.voucher-left h3{
-    font-size:32px;
-    margin-bottom:6px;
-}
-
-.voucher-left span{
-    font-size:14px;
-}
-
-.voucher-right{
-    flex:1;
-    min-width:0;
-    padding:20px;
-}
-
-.voucher-right h4{
-    font-size:24px;
-    margin-bottom:12px;
-}
-
-.voucher-right p{
-    color:#666;
-    line-height:1.6;
-    margin-bottom:20px;
-}
-
-/*================= ACTION =================*/
-
-.voucher-action{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex-shrink:0;
-}
-
-.copy-btn,
-.save-btn{
-    min-width:95px;
-    height:42px;
-    padding:0 18px;
-    border-radius:22px;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.copy-btn{
-    background:#8b4b16;
-    color:#fff;
-    border:none;
-}
-
-.copy-btn:hover{
-    background:#6f3a0f;
-}
-
-.save-btn{
-    background:#fff;
-    color:#8b4b16;
-    border:1px solid #8b4b16;
-}
-
-.save-btn:hover{
-    background:#8b4b16;
-    color:#fff;
-}
-
-.save-btn i{
-    margin-right:6px;
-}
-
-/* ================= SPECIAL ================= */
-
-.special{
-    padding:80px 0;
-    background:#fff;
-}
-
-.special h2{
-    font-size:46px;
-    color:#8b4b16;
-    margin-bottom:35px;
-}
-
-.special-list{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
-}
+.khuyen-mai-page .orange { background: #ff9100; }
+.khuyen-mai-page .light-orange { background: #ff8b3d; }
+.khuyen-mai-page .blue { background: #16a5e7; }
 
-.special-card{
-    display:flex;
-    background:#fff6ef;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
-    transition:.3s;
+.khuyen-mai-page .voucher-left h3 {
+    font-size: 30px;
+    margin-bottom: 6px;
+    font-weight: 700;
 }
 
-.special-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 15px 30px rgba(0,0,0,.12);
+.khuyen-mai-page .voucher-left span {
+    font-size: 13px;
+    letter-spacing: 0.5px;
 }
 
-.special-card img{
-    width:45%;
-    object-fit:cover;
+.khuyen-mai-page .voucher-right {
+    flex: 1;
+    min-width: 0;
+    padding: 20px;
 }
 
-.special-content{
-    padding:30px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+.khuyen-mai-page .voucher-right h4 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: 700;
 }
 
-.special-content span{
-    color:#b86b1d;
-    font-weight:600;
-    margin-bottom:10px;
+.khuyen-mai-page .voucher-right p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    font-size: 14px;
 }
 
-.special-content h3{
-    font-size:34px;
-    color:#333;
-    margin-bottom:18px;
+.khuyen-mai-page .voucher-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.special-content p{
-    color:#666;
-    line-height:1.7;
-    margin-bottom:25px;
+.khuyen-mai-page .voucher-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.special-content a{
-    width:max-content;
-    padding:12px 28px;
-    background:#b86b1d;
-    color:#fff;
-    border-radius:8px;
-    transition:.3s;
+.khuyen-mai-page .copy-btn,
+.khuyen-mai-page .save-btn {
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
 }
 
-.special-content a:hover{
-    background:#8d5315;
+.khuyen-mai-page .copy-btn {
+    background: #8b4b16;
+    color: #fff;
+    border: none;
 }
 
-/* ================= 3 BƯỚC ================= */
-
-.steps{
-    padding:90px 0;
-    background:#fff8f2;
-    margin-bottom:0 !important; /* Loại bỏ lề dưới nếu có */
-}
-
-.steps h2{
-    text-align:center;
-    font-size:46px;
-    color:#8b4b16;
-    font-weight:700;
-    margin-bottom:60px;
-}
-
-.step-list{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:30px;
-}
-
-.step{
-    background:#fff;
-    padding:40px 30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    transition:.35s;
-}
-
-.step:hover{
-    transform:translateY(-8px);
-    box-shadow:0 18px 35px rgba(0,0,0,.12);
-}
-
-.step .icon{
-    width:80px;
-    height:80px;
-    margin:0 auto 25px;
-    border-radius:50%;
-    background:#fff3e6;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    transition:.3s;
-}
-
-.step .icon i{
-    font-size:32px;
-    color:#ff8a00;
-    transition:.3s;
-}
-
-.step:hover .icon{
-    background:#ff8a00;
-}
-
-.step:hover .icon i{
-    color:#fff;
-}
-
-.step h3{
-    font-size:32px;
-    color:#333;
-    font-weight:700;
-    margin-bottom:15px;
-}
-
-.step p{
-    color:#666;
-    font-size:16px;
-    line-height:1.8;
-}
-
-/* Responsive */
-
-@media(max-width:992px){
-
-    .step-list{
-        grid-template-columns:1fr;
-    }
-
-    .steps h2{
-        font-size:38px;
-        margin-bottom:40px;
-    }
-
-    .step{
-        padding:35px 25px;
-    }
-}
-
-@media(max-width:500px){
-
-    .steps{
-        padding:60px 0;
-    }
-
-    .steps h2{
-        font-size:30px;
-    }
-
-    .step{
-        padding:30px 20px;
-    }
-
-    .step h3{
-        font-size:24px;
-    }
-
-    .step .icon{
-        width:65px;
-        height:65px;
-    }
-
-    .step .icon i{
-        font-size:26px;
-    }
+.khuyen-mai-page .copy-btn:hover {
+    background: #6f3a0f;
 }
 
-/* ================= FOOTER ================= */
-
-footer{
-    background:#f4efea;
-    padding:60px 0;
+.khuyen-mai-page .save-btn {
+    background: #fff;
+    border: 1px solid #ff7a00;
+    color: #ff7a00;
 }
 
-.footer{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.5fr;
-    gap:50px;
+.khuyen-mai-page .save-btn:hover {
+    background: #ff7a00;
+    color: #fff;
 }
 
-.footer-logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
+.khuyen-mai-page .save-btn.saved {
+    background: #28a745;
+    border-color: #28a745;
+    color: #fff;
 }
 
-.footer-logo img{
-    width:42px;
-}
+/* ================= STEPS ================= */
 
-.footer-logo span{
-    font-size:30px;
-    color:#8b4b16;
-    font-weight:bold;
+.khuyen-mai-page .steps {
+    padding: 90px 0;
+    background: #fff8f2;
 }
 
-.footer-col h3{
-    margin-bottom:20px;
-    color:#333;
+.khuyen-mai-page .steps h2 {
+    text-align: center;
+    font-size: 42px;
+    color: #8b4b16;
+    font-weight: 700;
+    margin-bottom: 50px;
 }
 
-.footer-col a{
-    display:block;
-    margin-bottom:14px;
-    color:#666;
-    transition:.3s;
+.khuyen-mai-page .step-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
 }
 
-.footer-col a:hover{
-    color:#ff8a00;
+.khuyen-mai-page .step {
+    background: #fff;
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    transition: .35s;
 }
 
-.footer-col p{
-    color:#666;
-    line-height:1.8;
-    margin-bottom:14px;
+.khuyen-mai-page .step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(0,0,0,.1);
 }
 
-.footer-col i{
-    color:#b86b1d;
-    margin-right:8px;
+.khuyen-mai-page .step .icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #fff3e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
 }
 
-
-/* ================= ANIMATION ================= */
-
-.hero-image img,
-.voucher-card,
-.special-card,
-.step{
-    transition:.35s;
+.khuyen-mai-page .step .icon i {
+    font-size: 28px;
+    color: #ff8a00;
+    transition: .3s;
 }
 
-.hero-image img:hover{
-    transform:scale(1.02);
+.khuyen-mai-page .step:hover .icon {
+    background: #ff8a00;
 }
 
-.step:hover{
-    transform:translateY(-8px);
+.khuyen-mai-page .step:hover .icon i {
+    color: #fff;
 }
 
-.step:hover .icon{
-    background:#ff8a00;
+.khuyen-mai-page .step h3 {
+    font-size: 24px;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
 
-.step:hover .icon i{
-    color:#fff;
+.khuyen-mai-page .step p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
 }
-
 
 /* ================= RESPONSIVE ================= */
 
-@media(max-width:1200px){
-
-    .container{
-        width:95%;
+@media(max-width:992px){
+    .khuyen-mai-page .hero-content,
+    .khuyen-mai-page .voucher-list,
+    .khuyen-mai-page .step-list {
+        grid-template-columns: 1fr;
     }
-
-    .hero-content,
-    .special-list{
-        grid-template-columns:1fr;
-    }
-
-    .voucher-list{
-        grid-template-columns:1fr;
-    }
-
-    .footer{
-        grid-template-columns:1fr 1fr;
-    }
-
-}
-
-@media(max-width:768px){
-
-    .menu{
-        display:none;
-    }
-
-    .search{
-        display:none;
-    }
-
-    .hero{
-        padding:50px 0;
-    }
-
-    .hero-text h1{
-        font-size:42px;
-    }
-
-    .hero-text p{
-        font-size:16px;
-    }
-
-    .hero-btn{
-        flex-direction:column;
-    }
-
-    .btn{
-        text-align:center;
-    }
-
-    .step-list{
-        grid-template-columns:1fr;
-    }
-
-    .special-card{
-        flex-direction:column;
-    }
-
-    .special-card img{
-        width:100%;
-        height:220px;
-    }
-
-    .footer{
-        grid-template-columns:1fr;
-    }
-
-    .footer-col{
-        margin-bottom:30px;
-    }
-
-}
-
-@media(max-width:500px){
-
-    .hero-text h1{
-        font-size:34px;
-    }
-
-    .section-title{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:15px;
-    }
-
-    .section-title h2,
-    .steps h2,
-    .special h2{
-        font-size:32px;
-    }
-
-    .voucher-card{
-        flex-direction:column;
-    }
-
-    .voucher-left{
-        width:100%;
-        height:90px;
-    }
-
-    .voucher-bottom{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:12px;
-    }
-
-    .copy-btn{
-        width:100%;
-    }
-
-    .special-content h3{
-        font-size:24px;
-    }
-
-}
-
-/* ================= nút lưu ================= */
-.save-btn{
-    background:#fff;
-    border:1px solid #ff7a00;
-    color:#ff7a00;
-    padding:8px 16px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    transition:.3s;
-}
-
-.save-btn:hover{
-    background:#ff7a00;
-    color:#fff;
-}
-
-.save-btn.saved{
-    background:#28a745;
-    border-color:#28a745;
-    color:#fff;
 }

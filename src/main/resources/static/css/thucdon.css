@@ -1,22 +1,28 @@
-/* ================= MENU PAGE ================= */
+/* ================= MENU PAGE BASE ================= */
 .menu-page {
-    padding: 140px 0 80px;
+    padding-top: 0;
+    padding-bottom: 80px;
     background: #FCFAF8;
+    min-height: calc(100vh - 100px);
+    width: 100%;
+    overflow-x: hidden;
 }
 
-.page-title {
-    margin-bottom: 40px;
+/* ================= HERO TIÊU ĐỀ DỒN ĐỆM DƯỚI HEADER ================= */
+.menu-page .menu-hero {
+    padding-top: 100px; /* Đẩy tiêu đề xuống vừa khít bên dưới Header Fixed 80px */
+    padding-bottom: 30px;
 }
 
-.page-title h1 {
-    font-size: 40px;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-weight: 700;
-    color: #2d2d2d;
+.menu-page .page-title h1 {
+    font-size: 42px;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+    font-weight: 800;
+    color: #8b4b16;
     margin-bottom: 12px;
 }
 
-.page-title p {
+.menu-page .page-title p {
     color: #666;
     max-width: 700px;
     line-height: 1.6;
@@ -24,16 +30,16 @@
 }
 
 /* ================= FILTER BOX ================= */
-.filter-box {
+.menu-page .filter-box {
     background: #F8F6F4;
     border-radius: 16px;
     padding: 20px 24px 24px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     border: 1px solid #eae5e0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
 }
 
-.search-food {
+.menu-page .search-food {
     display: flex;
     align-items: center;
     background: #fff;
@@ -44,12 +50,12 @@
     transition: all 0.3s ease;
 }
 
-.search-food:focus-within {
+.menu-page .search-food:focus-within {
     border-color: #FF8A00;
     box-shadow: 0 0 0 0.2rem rgba(255, 138, 0, 0.15);
 }
 
-.search-food input {
+.menu-page .search-food input {
     border: none;
     outline: none;
     margin-left: 8px;
@@ -59,16 +65,16 @@
     color: #333;
 }
 
-.search-food input::placeholder {
+.menu-page .search-food input::placeholder {
     color: #999;
 }
 
-.search-food i {
+.menu-page .search-food i {
     color: #a0a0a0;
     font-size: 15px;
 }
 
-.filter-box label {
+.menu-page .filter-box label {
     display: block;
     font-size: 12px;
     font-weight: 700;
@@ -78,8 +84,8 @@
     letter-spacing: 0.5px;
 }
 
-.filter-box .form-select,
-.filter-box .form-control {
+.menu-page .filter-box .form-select,
+.menu-page .filter-box .form-control {
     height: 42px;
     border-radius: 10px;
     border: 1px solid #dcdce0;
@@ -89,41 +95,41 @@
     transition: all 0.3s ease;
 }
 
-.filter-box .form-select:focus,
-.filter-box .form-control:focus {
+.menu-page .filter-box .form-select:focus,
+.menu-page .filter-box .form-control:focus {
     border-color: #FF8A00;
     box-shadow: 0 0 0 0.2rem rgba(255, 138, 0, 0.15);
 }
 
 /* Nút bấm Filter */
-.filter-box .btn-warning {
+.menu-page .filter-box .btn-warning {
     background: #FF8A00 !important;
     border-color: #FF8A00 !important;
     color: white !important;
     box-shadow: 0 4px 10px rgba(255, 138, 0, 0.2);
 }
 
-.filter-box .btn-warning:hover {
+.menu-page .filter-box .btn-warning:hover {
     background: #E67A00 !important;
     border-color: #E67A00 !important;
     transform: translateY(-1px);
 }
 
-.filter-box .btn-outline-secondary {
+.menu-page .filter-box .btn-outline-secondary {
     background: #fff;
     border-color: #dcdce0;
     color: #555;
     transition: all 0.3s ease;
 }
 
-.filter-box .btn-outline-secondary:hover {
+.menu-page .filter-box .btn-outline-secondary:hover {
     background: #f8f9fa;
     border-color: #cdd4da;
     color: #FF8A00;
     transform: translateY(-1px);
 }
 
-.filter-box .btn {
+.menu-page .filter-box .btn {
     border-radius: 10px;
     height: 42px;
     padding: 0 24px;
@@ -135,7 +141,7 @@
 }
 
 /* ================= FOOD CARD ================= */
-.food-card {
+.menu-page .food-card {
     background: #fff;
     border-radius: 20px;
     overflow: hidden;
@@ -143,19 +149,17 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     border: 1px solid #f0f0f0;
     transition: transform 0.35s ease, box-shadow 0.35s ease;
-
-    /* Ép các Card cao bằng nhau */
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.food-card:hover {
+.menu-page .food-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
-.food-card img {
+.menu-page .food-card img {
     width: 100%;
     height: 220px;
     object-fit: cover;
@@ -163,35 +167,31 @@
     min-height: 220px;
 }
 
-.food-content {
+.menu-page .food-content {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Đẩy nội dung bên dưới xuống đáy */
+    flex-grow: 1;
 }
 
-.food-content h3 {
+.menu-page .food-content h3 {
     font-size: 19px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
     font-weight: 700;
     line-height: 1.4;
     color: #2d2d2d;
     margin-bottom: 8px;
-
-    /* Cắt tiêu đề quá dài */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.food-content p {
+.menu-page .food-content p {
     color: #666;
     line-height: 1.5;
     font-size: 14px;
-    margin-bottom: auto; /* Lực đẩy mấu chốt để card vuông vức */
-
-    /* Cắt mô tả quá dài */
+    margin-bottom: auto;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -199,7 +199,7 @@
 }
 
 /* ================= PRICE & SOLD ================= */
-.food-bottom {
+.menu-page .food-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -208,32 +208,32 @@
     border-top: 1px dashed #eee;
 }
 
-.price {
+.menu-page .price {
     color: #D9480F;
     font-size: 22px;
     font-weight: 700;
 }
 
-.sold {
+.menu-page .sold {
     color: #888;
     font-size: 13px;
     font-weight: 500;
 }
 
 /* ================= BUTTONS ================= */
-.food-btn {
+.menu-page .food-btn {
     display: flex;
     gap: 12px;
     width: 100%;
 }
 
-.food-btn > a,
-.food-btn > form {
+.menu-page .food-btn > a,
+.menu-page .food-btn > form {
     flex: 1;
     display: flex;
 }
 
-.detail-btn {
+.menu-page .detail-btn {
     width: 100%;
     border: 1.5px solid #F08B2A;
     border-radius: 12px;
@@ -249,12 +249,12 @@
     background: transparent;
 }
 
-.detail-btn:hover {
+.menu-page .detail-btn:hover {
     background: #FFF4E5;
     color: #B06218;
 }
 
-.food-btn button {
+.menu-page .food-btn button {
     width: 100%;
     border: none;
     border-radius: 12px;
@@ -271,66 +271,23 @@
     box-shadow: 0 4px 10px rgba(255, 138, 0, 0.2);
 }
 
-.food-btn button:hover {
+.menu-page .food-btn button:hover {
     background: #E67A00;
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(255, 138, 0, 0.3);
 }
 
-/* ================= BADGES ================= */
-.rating {
-    position: absolute;
-    left: 15px;
-    top: 15px;
-    background: rgba(255, 255, 255, 0.95);
-    color: #FF8A00;
-    border-radius: 30px;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 700;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.best-seller {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    background: #C62828;
-    color: white;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.3);
-}
-
-.sold-out {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    background: rgba(229, 57, 53, 0.95);
-    color: white;
-    padding: 12px 30px;
-    border-radius: 40px;
-    font-weight: 700;
-    font-size: 16px;
-    z-index: 2;
-    backdrop-filter: blur(4px);
-    white-space: nowrap;
-}
-
 /* ================= PAGINATION ================= */
-.menu-pagination {
-    margin: 60px 0;
+.menu-page .menu-pagination {
+    margin: 60px 0 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
 }
 
-.page-number,
-.page-btn {
+.menu-page .page-number,
+.menu-page .page-btn {
     border: 1px solid #dee2e6;
     background: #fff;
     border-radius: 10px;
@@ -344,20 +301,31 @@
     gap: 8px;
 }
 
-.page-btn i {
+.menu-page .page-btn i {
     font-size: 12px;
 }
 
-.page-number:hover,
-.page-btn:hover {
+.menu-page .page-number:hover,
+.menu-page .page-btn:hover {
     background: #f8f9fa;
     border-color: #cdd4da;
     color: #FF8A00;
 }
 
-.page-number.active {
+.menu-page .page-number.active {
     background: #FF8A00;
     color: white;
     border-color: #FF8A00;
     box-shadow: 0 4px 10px rgba(255, 138, 0, 0.2);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width: 768px) {
+    .menu-page .menu-hero {
+        padding-top: 90px;
+    }
+
+    .menu-page .page-title h1 {
+        font-size: 32px;
+    }
 }

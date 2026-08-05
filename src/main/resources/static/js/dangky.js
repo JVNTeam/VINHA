@@ -1,81 +1,78 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // 1. Xử lý Toggle Ẩn / Hiện Mật khẩu và Đổi Icon FontAwesome
+    function setupPasswordToggle(toggleId, inputId) {
+        const toggleBtn = document.getElementById(toggleId);
+        const passwordInput = document.getElementById(inputId);
 
-    // Toggle show/hide mật khẩu
-    const togglePassword = document.getElementById("togglePassword");
-    const password = document.getElementById("password");
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                const isPassword = passwordInput.type === "password";
 
-    if (togglePassword && password) {
-        togglePassword.addEventListener("click", function () {
-            const isPassword = password.type === "password";
-            password.type = isPassword ? "text" : "password";
-            this.src = isPassword
-                ? this.src.replace("eye-off.svg", "eye.svg")
-                : this.src.replace("eye.svg", "eye-off.svg");
-        });
+                // Đổi type của input
+                passwordInput.type = isPassword ? "text" : "password";
+
+                // Mặc định ô đang để password -> icon gạch chéo (fa-eye-slash)
+                // Khi bấm hiện text -> đổi sang icon mắt mở (fa-eye)
+                toggleBtn.classList.toggle("fa-eye-slash", !isPassword);
+                toggleBtn.classList.toggle("fa-eye", isPassword);
+            });
+        }
     }
 
-    // Toggle show/hide xác nhận mật khẩu
-    const toggleConfirm = document.getElementById("toggleConfirmPassword");
-    const confirmPassword = document.getElementById("confirmPassword");
+    setupPasswordToggle("togglePassword", "password");
+    setupPasswordToggle("toggleConfirmPassword", "confirmPassword");
 
-    if (toggleConfirm && confirmPassword) {
-        toggleConfirm.addEventListener("click", function () {
-            const isPassword = confirmPassword.type === "password";
-            confirmPassword.type = isPassword ? "text" : "password";
-            this.src = isPassword
-                ? this.src.replace("eye-off.svg", "eye.svg")
-                : this.src.replace("eye.svg", "eye-off.svg");
-        });
-    }
-
-    // Validate form cơ bản phía client
+    // 2. Validate Form Đăng ký (Validate Email/SĐT & Mật khẩu)
     const registerForm = document.getElementById("registerForm");
+    const clientError = document.getElementById("clientError");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
 
     if (registerForm) {
-        registerForm.addEventListener("submit", function (event) {
-            const hoTen = registerForm.querySelector("input[name='hoTen']");
-            const email = registerForm.querySelector("input[name='email']");
-            const soDienThoai = registerForm.querySelector("input[name='soDienThoai']");
-            const matKhau = registerForm.querySelector("input[name='matKhau']");
-            const xacNhanMatKhau = registerForm.querySelector("input[name='xacNhanMatKhau']");
-            const acceptTerms = document.getElementById("acceptTerms");
+        registerForm.addEventListener("submit", function (e) {
+            const contactInput = document.getElementById("contactInput");
+            const passwordInput = document.getElementById("password");
+            const confirmInput = document.getElementById("confirmPassword");
 
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const phoneRegex = /^(0|\+84)[0-9]{9,10}$/;
+            if (!contactInput || !passwordInput || !confirmInput) return;
 
-            let errorMessage = "";
+            const contactVal = contactInput.value.trim();
+            const pwd = passwordInput.value;
+            const confirmPwd = confirmInput.value;
 
-            // clear error state
-            registerForm.querySelectorAll(".input-group").forEach(group => group.classList.remove("error"));
+            const contactWrap = contactInput.closest(".register-input-wrap");
+            const passwordWrap = passwordInput.closest(".register-input-wrap");
+            const confirmWrap = confirmInput.closest(".register-input-wrap");
 
-            if (!hoTen.value.trim()) {
-                errorMessage = "Vui lòng nhập họ và tên.";
-                hoTen.closest(".input-group")?.classList.add("error");
-            } else if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
-                errorMessage = "Email không hợp lệ.";
-                email.closest(".input-group")?.classList.add("error");
-            } else if (!soDienThoai.value.trim() || !phoneRegex.test(soDienThoai.value.trim())) {
-                errorMessage = "Số điện thoại không hợp lệ.";
-                soDienThoai.closest(".input-group")?.classList.add("error");
-            } else if (!matKhau.value) {
-                errorMessage = "Vui lòng nhập mật khẩu.";
-                matKhau.closest(".input-group")?.classList.add("error");
-            } else if (matKhau.value.length < 6) {
-                errorMessage = "Mật khẩu phải có ít nhất 6 ký tự.";
-                matKhau.closest(".input-group")?.classList.add("error");
-            } else if (matKhau.value !== xacNhanMatKhau.value) {
-                errorMessage = "Xác nhận mật khẩu không khớp.";
-                xacNhanMatKhau.closest(".input-group")?.classList.add("error");
-            } else if (!acceptTerms.checked) {
-                errorMessage = "Bạn cần đồng ý với điều khoản sử dụng.";
+            if (contactWrap) contactWrap.classList.remove("error");
+            if (passwordWrap) passwordWrap.classList.remove("error");
+            if (confirmWrap) confirmWrap.classList.remove("error");
+
+            let errorMsg = "";
+
+            if (!emailRegex.test(contactVal) && !phoneRegex.test(contactVal)) {
+                errorMsg = "Vui lòng nhập Email hoặc Số điện thoại hợp lệ!";
+                if (contactWrap) contactWrap.classList.add("error");
+            }
+            else if (pwd !== confirmPwd) {
+                errorMsg = "Mật khẩu xác nhận không trùng khớp!";
+                if (confirmWrap) confirmWrap.classList.add("error");
             }
 
-            if (errorMessage) {
-                event.preventDefault();
-                alert(errorMessage);
+            if (errorMsg !== "") {
+                e.preventDefault();
+
+                if (clientError) {
+                    clientError.innerText = errorMsg;
+                    clientError.style.display = "block";
+                } else {
+                    alert(errorMsg);
+                }
+            } else if (clientError) {
+                clientError.style.display = "none";
             }
         });
     }
-
 });
-

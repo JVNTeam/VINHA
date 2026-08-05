@@ -23,7 +23,7 @@ public class AuthService {
      * Xác thực đăng nhập
      * @param username Email hoặc số điện thoại
      * @param password Mật khẩu plain text
-     * @return Optional<User> nếu đăng nhập thành công, empty nếu thất bại
+     * @return Optional<NguoiDung> nếu đăng nhập thành công, empty nếu thất bại
      */
     public Optional<NguoiDung> authenticate(String username, String password) {
         // Tìm user theo email hoặc số điện thoại
@@ -48,10 +48,12 @@ public class AuthService {
         return Optional.of(user);
     }
 
-    public Optional<String> register(String hoTen, String email, String soDienThoai, String matKhau, String xacNhanMatKhau, Byte gioiTinh) {
+    /**
+     * Xử lý đăng ký tài khoản mới với Contact gộp (Email hoặc SĐT)
+     */
+    public Optional<String> register(String hoTen, String contact, String matKhau, String xacNhanMatKhau, Integer gioiTinh) {
         if (hoTen == null || hoTen.trim().isEmpty()
-                || email == null || email.trim().isEmpty()
-                || soDienThoai == null || soDienThoai.trim().isEmpty()
+                || contact == null || contact.trim().isEmpty()
                 || matKhau == null || matKhau.trim().isEmpty()
                 || xacNhanMatKhau == null || xacNhanMatKhau.trim().isEmpty()) {
             return Optional.of("Vui lòng nhập đầy đủ thông tin bắt buộc.");
@@ -61,12 +63,26 @@ public class AuthService {
             return Optional.of("Mật khẩu xác nhận không khớp.");
         }
 
-        if (userRepository.existsByEmail(email.trim())) {
-            return Optional.of("Email đã được sử dụng.");
-        }
+        String trimmedContact = contact.trim();
+        String email = null;
+        String soDienThoai = null;
 
-        if (userRepository.existsBySoDienThoai(soDienThoai.trim())) {
-            return Optional.of("Số điện thoại đã được sử dụng.");
+        // Regex phân loại Contact
+        boolean isEmail = trimmedContact.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+        boolean isPhone = trimmedContact.matches("(84|0[3|5|7|8|9])+([0-9]{8})\\b");
+
+        if (isEmail) {
+            email = trimmedContact;
+            if (userRepository.existsByEmail(email)) {
+                return Optional.of("Email đã được sử dụng.");
+            }
+        } else if (isPhone) {
+            soDienThoai = trimmedContact;
+            if (userRepository.existsBySoDienThoai(soDienThoai)) {
+                return Optional.of("Số điện thoại đã được sử dụng.");
+            }
+        } else {
+            return Optional.of("Email hoặc Số điện thoại không đúng định dạng.");
         }
 
         Optional<VaiTro> vaiTroOpt = vaiTroRepository.findByTen("Khách hàng");
@@ -76,14 +92,17 @@ public class AuthService {
 
         LocalDateTime now = LocalDateTime.now();
 
+        // Chuyển Integer gioiTinh sang Byte nếu Entity NguoiDung dùng Byte (hoặc truyền trực tiếp nếu Entity dùng Integer)
+        Byte gioiTinhByte = (gioiTinh != null) ? gioiTinh.byteValue() : null;
+
         NguoiDung newUser = NguoiDung.builder()
                 .vaiTro(vaiTroOpt.get())
                 .hoTen(hoTen.trim())
-                .email(email.trim())
-                .soDienThoai(soDienThoai.trim())
+                .email(email)
+                .soDienThoai(soDienThoai)
                 .cccd("")
                 .matKhau(matKhau)
-                .gioiTinh(gioiTinh)
+                .gioiTinh(gioiTinhByte) // Trường hợp Entity NguoiDung nhận kiểu Byte
                 .trangThai("Hoạt Động")
                 .ngayTao(now)
                 .ngayCapNhat(now)
@@ -93,4 +112,3 @@ public class AuthService {
         return Optional.empty();
     }
 }
-

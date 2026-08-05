@@ -65,13 +65,10 @@ public class HomeController {
     @GetMapping("/trangChu")
     public String home(Model model) {
         model.addAttribute("activePage", "trang-chu");
-        
-        // Pass real data instead of fake data
+
         List<com.example.vinha.entity.DanhMuc> danhMucs = foodService.getDanhSachDanhMuc();
-        // Get top 4 or 6 danh muc to display
         model.addAttribute("danhMucs", danhMucs.size() > 6 ? danhMucs.subList(0, 6) : danhMucs);
-        
-        // Get top best seller dishes
+
         List<MonAn> allDishes = foodService.getDanhSachMonAnHienThi();
         List<MonAn> topDishes = new ArrayList<>(allDishes);
         topDishes.sort((a, b) -> {
@@ -83,8 +80,8 @@ public class HomeController {
 
         List<DanhGia> latestReviews = danhGiaRepository.findTop3ByOrderByNgayTaoDesc();
         model.addAttribute("latestReviews", latestReviews);
-        
-        return "/trangChu";
+
+        return "trangChu";
     }
 
     @GetMapping("/thucDon")
@@ -101,11 +98,11 @@ public class HomeController {
 
         boolean hasFilter =
                 (keyword != null && !keyword.trim().isEmpty()) ||
-                (trangThai != null && !trangThai.trim().isEmpty()) ||
-                danhMucId != null ||
-                giaTu != null ||
-                giaDen != null ||
-                (sapXepBan != null && !sapXepBan.trim().isEmpty());
+                        (trangThai != null && !trangThai.trim().isEmpty()) ||
+                        danhMucId != null ||
+                        giaTu != null ||
+                        giaDen != null ||
+                        (sapXepBan != null && !sapXepBan.trim().isEmpty());
 
         List<MonAn> danhSachMonAn = hasFilter
                 ? foodService.searchMonAn(keyword, trangThai, danhMucId, giaTu, giaDen, sapXepBan)
@@ -141,37 +138,48 @@ public class HomeController {
         model.addAttribute("giaDen", giaDen);
         model.addAttribute("sapXepBan", sapXepBan);
 
-        return "/thucDon";
+        return "thucDon";
     }
 
     @GetMapping("/chiTietMonAn")
-    public String CTmonAn(@RequestParam("id") Long id, Model model) {
+    public String CTmonAn(@RequestParam(value = "id", required = false) Long id, Model model) {
+        // Neu khong truyen ID, chuyen huong ve trang thuc don
+        if (id == null) {
+            return "redirect:/thucDon";
+        }
+
         model.addAttribute("activePage", "thuc-don");
         MonAn monAn = foodService.getMonAnById(id).orElse(null);
+
+        // Neu ID khong ton tai trong DB, chuyen huong ve thuc don
+        if (monAn == null) {
+            return "redirect:/thucDon";
+        }
+
         model.addAttribute("mon", monAn);
 
         List<MonAn> relatedDishes = new ArrayList<>();
-        if (monAn != null) {
-            List<MonAn> allDishes = foodService.getDanhSachMonAnHienThi();
+        List<MonAn> allDishes = foodService.getDanhSachMonAnHienThi();
+
+        relatedDishes = allDishes.stream()
+                .filter(item -> item != null && !Objects.equals(item.getId(), id))
+                .filter(item -> monAn.getDanhMuc() != null && item.getDanhMuc() != null
+                        && Objects.equals(item.getDanhMuc().getId(), monAn.getDanhMuc().getId()))
+                .limit(4)
+                .toList();
+
+        if (relatedDishes.isEmpty()) {
             relatedDishes = allDishes.stream()
                     .filter(item -> item != null && !Objects.equals(item.getId(), id))
-                    .filter(item -> monAn.getDanhMuc() != null && item.getDanhMuc() != null
-                            && Objects.equals(item.getDanhMuc().getId(), monAn.getDanhMuc().getId()))
                     .limit(4)
                     .toList();
-
-            if (relatedDishes.isEmpty()) {
-                relatedDishes = allDishes.stream()
-                        .filter(item -> item != null && !Objects.equals(item.getId(), id))
-                        .limit(4)
-                        .toList();
-            }
         }
 
         List<DanhGia> reviews = danhGiaRepository.findByMonAnId(id);
         model.addAttribute("relatedDishes", relatedDishes);
         model.addAttribute("reviews", reviews);
-        return "/chiTietMonAn";
+
+        return "chiTietMonAn";
     }
 
     @SuppressWarnings("unchecked")
@@ -236,7 +244,7 @@ public class HomeController {
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("itemCount", itemCount);
 
-        return "/gioHang";
+        return "gioHang";
     }
 
     @GetMapping("/thanhToan")
@@ -308,26 +316,27 @@ public class HomeController {
         model.addAttribute("customerAddress", customerAddress);
         model.addAttribute("customerProvince", customerProvince);
         model.addAttribute("vouchers", allVouchers);
-        return "/thanhToan";
+
+        return "thanhToan";
     }
 
     @GetMapping("/khuyenMai")
     public String khuyenMai(Model model) {
         model.addAttribute("activePage", "khuyen-mai");
         model.addAttribute("vouchers", voucherService.layMaDangHoatDong());
-        return "/khuyenMai";
+        return "khuyenMai";
     }
 
     @GetMapping("/gioiThieu")
     public String gioiThieu(Model model) {
         model.addAttribute("activePage", "gioi-thieu");
-        return "/gioiThieu";
+        return "gioiThieu";
     }
 
     @GetMapping("/lienHe")
     public String lienHe(Model model) {
         model.addAttribute("activePage", "lien-he");
-        return "/lienHe";
+        return "lienHe";
     }
 
 }

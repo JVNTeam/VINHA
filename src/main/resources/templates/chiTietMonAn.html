@@ -1,425 +1,219 @@
 <!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${mon != null ? mon.ten + ' - Vị Nhà' : 'Chi tiết món ăn - Vị Nhà'}">Chi tiết món ăn - Vị Nhà</title>
 
-    <title>Chi tiết món ăn - Vị Nhà</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Custom CSS Files -->
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/chiTietMonAn.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
 
-    <link rel="stylesheet" th:href="@{/css/header.css}" />
-    <link rel="stylesheet" th:href="@{/css/chiTietMonAn.css}" />
-    <link rel="stylesheet" th:href="@{/css/footer.css}" />
-    <script th:src="@{/js/chiTietMonAn.js}" defer></script>
-  </head>
+  <script th:src="@{/js/chiTietMonAn.js}" defer></script>
+</head>
 
-  <body>
-    <!-- ================= HEADER ================= -->
+<body>
+<!-- ================= HEADER FRAGMENT ================= -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" th:href="@{/}">
-          <img th:src="@{/images/logo.png}" class="logo" />
-          <span class="logo-name">Vị Nhà</span>
-        </a>
+<!-- ================= MAIN CONTAINER ================= -->
+<main class="chi-tiet-mon-an-page">
+  <div class="container">
 
-        <button
-          class="navbar-toggler"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-custom">
+      <a th:href="@{/trangChu}">Trang chủ</a>
+      <span class="mx-2">></span>
+      <a th:href="@{/thucDon}">Thực đơn</a>
+      <span class="mx-2">></span>
+      <strong th:text="${mon != null ? mon.ten : 'Chi tiết món ăn'}">Cơm Sườn Nướng Muối Ớt</strong>
+    </div>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav mx-auto">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/trangChu}"> Trang chủ </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/thucDon}"> Thực đơn </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/khuyenMai}"> Khuyến mãi </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/gioiThieu}"> Giới thiệu </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/lienHe}"> Liên hệ </a>
-            </li>
-          </ul>
-
-          <div class="d-flex align-items-center">
-            <div class="search-box">
-              <i class="fa-solid fa-magnifying-glass"></i>
-
-              <input type="text" placeholder="Tìm món ăn..." />
-            </div>
-
-            <a th:href="@{/gioHang}" class="cart"
-               th:classappend="${cartItemCount == 1} ? ' cart-1' : (${cartItemCount == 2} ? ' cart-2' : (${cartItemCount >= 3} ? ' cart-3' : ' cart-empty'))">
-              <i class="fa-solid fa-cart-shopping"></i>
-
-              <span th:text="${cartItemCount}">0</span>
-            </a>
-
-            <a th:href="@{/dangNhap}" class="login-btn">
-              <i class="fa-regular fa-user"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="detail-page">
-      <div class="container">
-        <!-- Breadcrumb -->
-
-        <div class="breadcrumb-custom">
-          <a th:href="@{/thucDon}"> Thực đơn </a>
-<!--          <span> ></span>-->
-<!--          <span> Chi tiết</span>-->
-          <span> > </span>
-          <strong th:text="${mon != null ? mon.ten : 'Không tìm thấy món'}">
-            Cơm Sườn Nướng Muối Ớt
-          </strong>
-        </div>
-
-        <!-- PRODUCT -->
-
-        <div class="row mt-4">
-          <!-- IMAGE -->
-
-          <div class="col-lg-6">
-            <div class="product-image">
-              <img
-                th:src="@{${(mon != null and mon.hinhAnhs != null and !#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null and mon.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(mon.hinhAnhs[0].duongDan, '/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan ) : '/images/foods/comTamSuonBiCha2.webp'}}"
-                th:alt="${mon != null ? mon.ten : 'Món ăn'}"
-                id="mainImage"
-                onerror="this.src='/images/comGa.png'"
-              />
-            </div>
-          </div>
-
-          <!-- INFO -->
-
-          <div class="col-lg-6">
-            <div class="product-info">
-              <div class="product-badges">
-                <span class="badge-chip" th:if="${mon != null && mon.danhMuc != null}" th:text="${mon.danhMuc.ten}">Danh mục</span>
-                <span class="badge-chip accent">Đã bán <span th:text="${mon != null && mon.daBan != null ? mon.daBan : 0}">0</span></span>
-                <span class="badge-chip">⭐ <span th:text="${mon != null && mon.danhGia != null ? #numbers.formatDecimal(mon.danhGia, 1, 1) : '5.0'}">5.0</span></span>
-              </div>
-
-              <h1 th:text="${mon != null ? mon.ten : 'Không tìm thấy món ăn'}">
-                Cơm Sườn Nướng Muối Ớt
-              </h1>
-
-              <div
-                class="price"
-                th:text="${mon != null && mon.gia != null ? #numbers.formatDecimal(mon.gia, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}"
-              >
-                55.000đ
-              </div>
-
-              <p
-                class="description"
-                th:text="${mon != null && mon.moTa != null ? mon.moTa : 'Đang cập nhật mô tả...'}"
-              >
-                Sườn heo nạc được tuyển chọn kỹ lưỡng, tẩm ướp sốt muối ớt cay
-                nồng theo công thức độc quyền, nướng chậm trên than hoa thơm
-                lừng. Ăn kèm cơm trắng dẻo thơm, dưa leo tươi mát và đồ chua
-                giòn rụm.
-              </p>
-
-              <div class="info-card">
-                <div class="info-row">
-                  <span class="label">Trạng thái</span>
-                  <span class="value" th:classappend="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'available' : 'unavailable'}">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span th:text="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'Còn hàng' : 'Hết hàng'}">Còn hàng</span>
-                  </span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Số lượng còn</span>
-                  <span class="value" th:text="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 0}">15</span>
-                </div>
-                <div class="info-row">
-                  <span class="label">Danh mục</span>
-                  <span class="value" th:text="${mon != null && mon.danhMuc != null ? mon.danhMuc.ten : 'Đang cập nhật'}">Đang cập nhật</span>
-                </div>
-              </div>
-
-              <div class="stock-note" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0}">
-                Bạn có thể đặt tối đa <strong th:text="${mon.soLuongCon}"></strong> phần trong một lần.
-              </div>
-              <div class="stock-note out" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">
-                Món này hiện đã hết hàng, vui lòng quay lại sau.
-              </div>
-
-<!--              <div class="ingredient-section">-->
-<!--                <h6>Nguyên liệu chính</h6>-->
-<!--                <div class="ingredients" th:if="${mon != null && mon.thanhPhan != null && !#strings.isEmpty(mon.thanhPhan)}">-->
-<!--                  <span th:each="item : ${#strings.arraySplit(mon.thanhPhan, ',')}" th:text="${#strings.trim(item)}"></span>-->
-<!--                </div>-->
-<!--                <div class="ingredients" th:unless="${mon != null && mon.thanhPhan != null && !#strings.isEmpty(mon.thanhPhan)}">-->
-<!--                  <span>Nguyên liệu chuẩn bị theo công thức riêng</span>-->
-<!--                </div>-->
-<!--              </div>-->
-
-              <!-- QUANTITY -->
-
-              <form class="buy-box add-to-cart-form" method="post" th:action="@{/gioHang/them}">
-                <input
-                  type="hidden"
-                  name="monAnId"
-                  th:value="${mon != null ? mon.id : 0}"
-                />
-                <input
-                  type="hidden"
-                  name="redirectTo"
-                  value="/chiTietMonAn"
-                />
-
-                <div class="quantity">
-                  <button id="minus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">-</button>
-
-                  <input
-                    type="number"
-                    value="1"
-                    id="quantity"
-                    name="soLuong"
-                    min="1"
-                    th:max="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
-                    th:attr="data-max=${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
-                  />
-
-                  <button id="plus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">+</button>
-                </div>
-
-                <button
-                  class="cart-btn"
-                  type="button"
-                  th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 0}"
-                >
-                  <i class="fa-solid fa-bag-shopping"></i>
-
-                  Thêm vào giỏ hàng
-                </button>
-              </form>
-
-              <form class="buy-now-form" method="post" th:action="@{/gioHang/them}" style="display: inline-block;">
-                <input
-                  type="hidden"
-                  name="monAnId"
-                  th:value="${mon != null ? mon.id : 0}"
-                />
-                <input type="hidden" id="buyNowQuantity" name="soLuong" value="1" />
-                <input type="hidden" name="redirectTo" value="/thanhToan" />
-                <button class="buy-now" type="button" th:disabled="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">Mua ngay</button>
-              </form>
-            </div>
-          </div>
-        </div>
-
-        <!-- ================= REVIEW ================= -->
-
-        <section class="review-section">
-          <h3>Đánh giá khách hàng</h3>
-
-          <div class="review-line"></div>
-
-          <div class="row mt-4">
-            <div class="col-lg-8">
-              <div class="review-card" th:if="${reviews != null and !#lists.isEmpty(reviews)}" th:each="review : ${reviews}">
-                <div>
-                  <h5 th:text="${review.nguoiDung != null ? review.nguoiDung.hoTen : 'Khách hàng'} + ' ' + ${#strings.repeat('⭐', review.soSao != null ? review.soSao : 0)}">Khách hàng</h5>
-                  <p th:text="${review.binhLuan != null ? review.binhLuan : 'Khách hàng chưa viết nhận xét.'}">Nhận xét</p>
-                  <small th:text="${#temporals.format(review.ngayTao, 'dd/MM/yyyy HH:mm')}">Ngày</small>
-                </div>
-              </div>
-
-              <div class="review-card" th:unless="${reviews != null and !#lists.isEmpty(reviews)}">
-                <div>
-                  <h5>Chưa có đánh giá</h5>
-                  <p>Hiện món này chưa có đánh giá nào từ khách hàng.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4">
-              <div class="rating-box">
-                <h5>Đánh giá sao</h5>
-                <div class="stars" data-rating="0">
-                  <i class="fa-regular fa-star" data-value="1"></i>
-                  <i class="fa-regular fa-star" data-value="2"></i>
-                  <i class="fa-regular fa-star" data-value="3"></i>
-                  <i class="fa-regular fa-star" data-value="4"></i>
-                  <i class="fa-regular fa-star" data-value="5"></i>
-                </div>
-                <form class="review-form mt-3" method="post" th:action="@{/danhGia/them}">
-                  <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
-                  <input type="hidden" name="soSao" id="reviewScore" value="0" />
-                  <textarea class="form-control mb-2" name="binhLuan" rows="3" placeholder="Viết nhận xét của bạn..."></textarea>
-                  <button class="btn btn-warning text-white w-100" type="submit">Gửi đánh giá</button>
-                  <div class="text-success small mt-2" th:if="${reviewMessage != null}" th:text="${reviewMessage}"></div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="related" th:if="${relatedDishes != null and !#lists.isEmpty(relatedDishes)}">
-          <div class="section-head">
-            <h3>Món ăn liên quan</h3>
-            <a th:href="@{/thucDon}">Xem toàn bộ thực đơn</a>
-          </div>
-
-          <div class="row g-4">
-            <div class="col-lg-3 col-md-6" th:each="item : ${relatedDishes}">
-              <a class="related-card" th:href="@{/chiTietMonAn(id=${item.id})}">
-                <img
-                  th:src="@{${(item.hinhAnhs != null and !#lists.isEmpty(item.hinhAnhs) and item.hinhAnhs[0].duongDan != null and item.hinhAnhs[0].duongDan != '') ? (#strings.startsWith(item.hinhAnhs[0].duongDan, '/') ? item.hinhAnhs[0].duongDan : '/' + item.hinhAnhs[0].duongDan) : '/images/foods/comTamSuonBiCha2.webp'}}"
-                  th:alt="${item.ten}"
+    <!-- PRODUCT DETAIL SECTION -->
+    <div class="row mt-3 g-4">
+      <!-- IMAGE -->
+      <div class="col-lg-6">
+        <div class="product-image">
+          <img
+                  th:src="@{${(mon != null and mon.hinhAnhs != null and !#lists.isEmpty(mon.hinhAnhs) and mon.hinhAnhs[0].duongDan != null and mon.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(mon.hinhAnhs[0].duongDan, '/') ? mon.hinhAnhs[0].duongDan : '/' + mon.hinhAnhs[0].duongDan ) : '/images/foods/comTamSuonBiCha2.webp'}}"
+                  th:alt="${mon != null ? mon.ten : 'Món ăn'}"
+                  id="mainImage"
                   onerror="this.src='/images/comGa.png'"
-                />
-                <div class="related-content">
-                  <h5 th:text="${item.ten}">Tên món</h5>
-                  <p th:text="${item.moTa != null ? item.moTa : 'Đang cập nhật mô tả...'}">Mô tả</p>
-                  <div class="related-price" th:text="${#numbers.formatDecimal(item.gia != null ? item.gia : 0, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </section>
+          />
+        </div>
       </div>
-    </main>
 
-    <!--==================== FOOTER ====================-->
+      <!-- INFO -->
+      <div class="col-lg-6">
+        <div class="product-info">
+          <div class="product-badges">
+            <span class="badge-chip" th:if="${mon != null && mon.danhMuc != null}" th:text="${mon.danhMuc.ten}">Danh mục</span>
+            <span class="badge-chip accent">Đã bán <span th:text="${mon != null && mon.daBan != null ? mon.daBan : 0}">0</span></span>
+            <span class="badge-chip">⭐ <span th:text="${mon != null && mon.danhGia != null ? #numbers.formatDecimal(mon.danhGia, 1, 1) : '5.0'}">5.0</span></span>
+          </div>
 
-    <footer class="footer">
-      <div class="container">
-        <div class="row gy-5">
-          <!-- Logo -->
+          <h1 th:text="${mon != null ? mon.ten : 'Không tìm thấy món ăn'}">Cơm Sườn Nướng Muối Ớt</h1>
 
-          <div class="col-lg-4">
-            <h3 class="footer-logo">Vị Nhà</h3>
+          <div class="price" th:text="${mon != null && mon.gia != null ? #numbers.formatDecimal(mon.gia, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">
+            55.000đ
+          </div>
 
-            <p class="footer-text">
-              Vị Nhà mang đến những bữa cơm Việt chất lượng, nguyên liệu tươi
-              ngon và hương vị như bữa cơm gia đình.
-            </p>
+          <p class="description" th:text="${mon != null && mon.moTa != null ? mon.moTa : 'Đang cập nhật mô tả...'}">
+            Sườn heo nạc được tuyển chọn kỹ lưỡng, tẩm ướp sốt muối ớt cay nồng theo công thức độc quyền.
+          </p>
 
-            <div class="social">
-              <a href="#">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-
-              <a href="#">
-                <i class="fab fa-instagram"></i>
-              </a>
-
-              <a href="#">
-                <i class="fab fa-tiktok"></i>
-              </a>
-
-              <a href="#">
-                <i class="fab fa-youtube"></i>
-              </a>
+          <div class="info-card">
+            <div class="info-row">
+              <span class="label">Trạng thái</span>
+              <span class="value" th:classappend="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'available' : 'unavailable'}">
+                <i class="fa-solid fa-circle-check"></i>
+                <span th:text="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0 ? 'Còn hàng' : 'Hết hàng'}">Còn hàng</span>
+              </span>
+            </div>
+            <div class="info-row">
+              <span class="label">Số lượng còn</span>
+              <span class="value" th:text="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 0}">15</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Danh mục</span>
+              <span class="value" th:text="${mon != null && mon.danhMuc != null ? mon.danhMuc.ten : 'Đang cập nhật'}">Đang cập nhật</span>
             </div>
           </div>
 
-          <!-- Menu -->
-
-          <div class="col-lg-2">
-            <h5>Khám phá</h5>
-
-            <ul>
-              <li><a href="/">Trang chủ</a></li>
-
-              <li><a href="/menu">Thực đơn</a></li>
-
-              <li><a href="#">Khuyến mãi</a></li>
-
-              <li><a href="#">Giới thiệu</a></li>
-            </ul>
+          <div class="stock-note" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon > 0}">
+            Bạn có thể đặt tối đa <strong th:text="${mon.soLuongCon}"></strong> phần trong một lần.
+          </div>
+          <div class="stock-note out" th:if="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">
+            Món này hiện đã hết hàng, vui lòng quay lại sau.
           </div>
 
-          <!-- Chính sách -->
+          <!-- ACTIONS FORM -->
+          <form class="buy-box add-to-cart-form" method="post" th:action="@{/gioHang/them}">
+            <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
+            <input type="hidden" name="redirectTo" value="/chiTietMonAn" />
 
-          <div class="col-lg-3">
-            <h5>Chính sách</h5>
+            <div class="quantity">
+              <button id="minus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">-</button>
+              <input
+                      type="number"
+                      value="1"
+                      id="quantity"
+                      name="soLuong"
+                      min="1"
+                      th:max="${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
+                      th:attr="data-max=${mon != null && mon.soLuongCon != null ? mon.soLuongCon : 1}"
+              />
+              <button id="plus" type="button" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 1}">+</button>
+            </div>
 
-            <ul>
-              <li><a href="#">Điều khoản</a></li>
+            <button class="cart-btn" type="submit" th:disabled="${mon == null || mon.soLuongCon == null || mon.soLuongCon <= 0}">
+              <i class="fa-solid fa-bag-shopping me-2"></i>Thêm vào giỏ hàng
+            </button>
+          </form>
 
-              <li><a href="#">Chính sách bảo mật</a></li>
+          <form class="buy-now-form w-100 mt-2" method="post" th:action="@{/gioHang/them}">
+            <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
+            <input type="hidden" id="buyNowQuantity" name="soLuong" value="1" />
+            <input type="hidden" name="redirectTo" value="/thanhToan" />
+            <button class="buy-now" type="submit" th:disabled="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">
+              Mua ngay
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
 
-              <li><a href="#">Đổi trả</a></li>
+    <!-- ================= REVIEW SECTION ================= -->
+    <section class="review-section">
+      <h3>Đánh giá khách hàng</h3>
+      <div class="review-line"></div>
 
-              <li><a href="#">Vận chuyển</a></li>
-            </ul>
-          </div>
+      <div class="row mt-4 g-4">
+        <div class="col-lg-8">
+          <div class="review-list d-flex flex-column gap-3">
+            <div class="review-card" th:if="${reviews != null and !#lists.isEmpty(reviews)}" th:each="review : ${reviews}">
+              <div>
+                <h5 th:text="${review.nguoiDung != null ? review.nguoiDung.hoTen : 'Khách hàng'} + ' ' + ${#strings.repeat('⭐', review.soSao != null ? review.soSao : 0)}">Khách hàng</h5>
+                <p th:text="${review.binhLuan != null ? review.binhLuan : 'Khách hàng chưa viết nhận xét.'}">Nhận xét</p>
+                <small th:text="${#temporals.format(review.ngayTao, 'dd/MM/yyyy HH:mm')}">Ngày</small>
+              </div>
+            </div>
 
-          <!-- Liên hệ -->
-
-          <div class="col-lg-3">
-            <h5>Liên hệ</h5>
-
-            <p>
-              <i class="fa-solid fa-location-dot"></i>
-
-              Hà Nội, Việt Nam
-            </p>
-
-            <p>
-              <i class="fa-solid fa-phone"></i>
-
-              0901 234 567
-            </p>
-
-            <p>
-              <i class="fa-solid fa-envelope"></i>
-
-              contact@vinha.vn
-            </p>
+            <div class="review-card" th:unless="${reviews != null and !#lists.isEmpty(reviews)}">
+              <div>
+                <h5>Chưa có đánh giá</h5>
+                <p>Hiện món này chưa có đánh giá nào từ khách hàng.</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <hr />
+        <div class="col-lg-4">
+          <div class="rating-box">
+            <h5>Gửi đánh giá của bạn</h5>
+            <div class="stars" data-rating="0">
+              <i class="fa-regular fa-star" data-value="1"></i>
+              <i class="fa-regular fa-star" data-value="2"></i>
+              <i class="fa-regular fa-star" data-value="3"></i>
+              <i class="fa-regular fa-star" data-value="4"></i>
+              <i class="fa-regular fa-star" data-value="5"></i>
+            </div>
+            <form class="review-form mt-3" method="post" th:action="@{/danhGia/them}">
+              <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
+              <input type="hidden" name="soSao" id="reviewScore" value="0" />
+              <textarea class="form-control mb-2" name="binhLuan" rows="3" placeholder="Viết nhận xét của bạn..."></textarea>
+              <button class="btn-submit-review" type="submit">Gửi đánh giá</button>
+              <div class="text-success small mt-2" th:if="${reviewMessage != null}" th:text="${reviewMessage}"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="footer-bottom">
-          <p>© 2026 Vị Nhà. All Rights Reserved.</p>
+    <!-- ================= RELATED DISHES ================= -->
+    <section class="related" th:if="${relatedDishes != null and !#lists.isEmpty(relatedDishes)}">
+      <div class="section-head">
+        <h3>Món ăn liên quan</h3>
+        <a th:href="@{/thucDon}">Xem toàn bộ thực đơn <i class="fa-solid fa-arrow-right ms-1"></i></a>
+      </div>
 
-          <a href="#" id="backToTop">
-            <i class="fa-solid fa-arrow-up"></i>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6" th:each="item : ${relatedDishes}">
+          <a class="related-card" th:href="@{/chiTietMonAn(id=${item.id})}">
+            <img
+                    th:src="@{${(item.hinhAnhs != null and !#lists.isEmpty(item.hinhAnhs) and item.hinhAnhs[0].duongDan != null and item.hinhAnhs[0].duongDan != '') ? (#strings.startsWith(item.hinhAnhs[0].duongDan, '/') ? item.hinhAnhs[0].duongDan : '/' + item.hinhAnhs[0].duongDan) : '/images/foods/comTamSuonBiCha2.webp'}}"
+                    th:alt="${item.ten}"
+                    onerror="this.src='/images/comGa.png'"
+            />
+            <div class="related-content">
+              <h5 th:text="${item.ten}">Tên món</h5>
+              <p th:text="${item.moTa != null ? item.moTa : 'Đang cập nhật mô tả...'}">Mô tả</p>
+              <div class="related-price" th:text="${#numbers.formatDecimal(item.gia != null ? item.gia : 0, 0, 'COMMA', 0, 'POINT')} + 'đ'">0đ</div>
+            </div>
           </a>
         </div>
       </div>
-    </footer>
-  </body>
+    </section>
+
+  </div>
+</main>
+
+<!-- ================= FOOTER FRAGMENT ================= -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

@@ -58,3 +58,16 @@ cards.forEach(card=>{
     });
 
 });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const cartIcon = document.querySelector("header .fa-cart-shopping, header .fa-shopping-cart");
+    if (cartIcon) {
+    const parentContainer = cartIcon.closest(".position-relative") || cartIcon.parentElement;
+    if (parentContainer && parentContainer.tagName !== "A") {
+    parentContainer.style.cursor = "pointer";
+    parentContainer.addEventListener("click", function () {
+    window.location.href = "/gioHang";
+});
+}
+}
+});

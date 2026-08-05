@@ -1,254 +1,140 @@
-/*==============================
-        QUANTITY
-==============================*/
-
 document.addEventListener("DOMContentLoaded", function () {
-
+    // ==========================================
+    // 1. XỬ LÝ TĂNG / GIẢM SỐ LƯỢNG MÓN ÁN
+    // ==========================================
     const minusBtn = document.getElementById("minus");
     const plusBtn = document.getElementById("plus");
     const quantityInput = document.getElementById("quantity");
+    const buyNowQuantityInput = document.getElementById("buyNowQuantity");
 
-    if (minusBtn && plusBtn && quantityInput) {
-        const maxStock = parseInt(quantityInput.getAttribute("data-max") || "1", 10);
+    if (quantityInput) {
+        // Lấy số lượng tối đa từ thuộc tính data-max (mặc định là 999 nếu không có)
+        const maxQty = parseInt(quantityInput.getAttribute("data-max")) || 999;
 
-        const syncBuyNowQuantity = () => {
-            const buyNowQuantity = document.getElementById("buyNowQuantity");
-            if (buyNowQuantity) {
-                buyNowQuantity.value = quantityInput.value;
-            }
-        };
+        // Hàm cập nhật số lượng và kiểm tra trạng thái nút
+        function updateQuantity(newVal) {
+            let val = parseInt(newVal);
 
-        minusBtn.addEventListener("click", function () {
-
-            let value = parseInt(quantityInput.value);
-
-            if (value > 1) {
-                quantityInput.value = value - 1;
-            }
-            syncBuyNowQuantity();
-
-        });
-
-        plusBtn.addEventListener("click", function () {
-
-            let value = parseInt(quantityInput.value);
-            let nextValue = value + 1;
-
-            if (!Number.isNaN(maxStock) && nextValue <= maxStock) {
-                quantityInput.value = nextValue;
-            } else if (!Number.isNaN(maxStock)) {
-                quantityInput.value = maxStock;
-            } else {
-                quantityInput.value = nextValue;
-            }
-            syncBuyNowQuantity();
-
-        });
-
-        quantityInput.addEventListener("input", function () {
-
-            let value = parseInt(this.value);
-
-            if (isNaN(value) || value < 1) {
-                this.value = 1;
-            } else if (!Number.isNaN(maxStock) && value > maxStock) {
-                this.value = maxStock;
-            }
-            syncBuyNowQuantity();
-
-        });
-
-    }
-
-    /*==============================
-            STAR RATING
-    ==============================*/
-
-    const stars = document.querySelectorAll(".stars i");
-    const scoreInput = document.getElementById("reviewScore");
-
-    stars.forEach((star) => {
-
-        star.addEventListener("click", function () {
-
-            const value = parseInt(star.getAttribute("data-value") || "0", 10);
-
-            stars.forEach((item, i) => {
-
-                if (i < value) {
-
-                    item.classList.remove("fa-regular");
-                    item.classList.add("fa-solid");
-                    item.classList.add("active");
-
-                } else {
-
-                    item.classList.remove("fa-solid");
-                    item.classList.add("fa-regular");
-                    item.classList.remove("active");
-
-                }
-
-            });
-
-            if (scoreInput) {
-                scoreInput.value = value;
+            if (isNaN(val) || val < 1) {
+                val = 1;
+            } else if (val > maxQty) {
+                val = maxQty;
             }
 
-        });
+            quantityInput.value = val;
 
-    });
+            // Đồng bộ sang form "Mua ngay"
+            if (buyNowQuantityInput) {
+                buyNowQuantityInput.value = val;
+            }
 
-    /*==============================
-            IMAGE ZOOM
-    ==============================*/
+            // Vô hiệu hóa nút minus nếu đạt 1
+            if (minusBtn) {
+                minusBtn.disabled = val <= 1;
+            }
 
-    const image = document.getElementById("mainImage");
-
-    if (image) {
-
-        image.addEventListener("mousemove", function () {
-
-            image.style.transform = "scale(1.15)";
-
-        });
-
-        image.addEventListener("mouseleave", function () {
-
-            image.style.transform = "scale(1)";
-
-        });
-
-    }
-
-    /*==============================
-            BUTTON EFFECT
-    ==============================*/
-
-    document.querySelectorAll('.add-to-cart-form, .buy-now-form').forEach(form => {
-        const submitButton = form.querySelector('button.cart-btn, button.buy-now');
-        if (!submitButton) {
-            return;
+            // Vô hiệu hóa nút plus nếu đạt số lượng tối đa
+            if (plusBtn) {
+                plusBtn.disabled = val >= maxQty;
+            }
         }
 
-        submitButton.addEventListener('click', async (event) => {
-            event.preventDefault();
-            event.stopPropagation();
+        // Nút Giảm (-)
+        if (minusBtn) {
+            minusBtn.addEventListener("click", function () {
+                let currentVal = parseInt(quantityInput.value) || 1;
+                updateQuantity(currentVal - 1);
+            });
+        }
 
-            const quantityInput = document.getElementById('quantity');
-            if (quantityInput && form.classList.contains('buy-now-form')) {
-                const hiddenQty = form.querySelector('input[name="soLuong"]');
-                if (hiddenQty) {
-                    hiddenQty.value = quantityInput.value;
-                }
-            }
+        // Nút Tăng (+)
+        if (plusBtn) {
+            plusBtn.addEventListener("click", function () {
+                let currentVal = parseInt(quantityInput.value) || 1;
+                updateQuantity(currentVal + 1);
+            });
+        }
 
-            const formData = new FormData(form);
-            const action = form.getAttribute('action') || '/gioHang/them';
-            const redirectTo = formData.get('redirectTo');
-
-            try {
-                const response = await fetch(action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Không thể xử lý giỏ hàng');
-                }
-
-                let payload = null;
-                const contentType = response.headers.get('content-type') || '';
-                if (contentType.includes('application/json')) {
-                    payload = await response.json();
-                }
-
-                const targetUrl = payload?.redirectTo || redirectTo || '/chiTietMonAn';
-                if (targetUrl === '/thanhToan' || targetUrl.endsWith('/thanhToan')) {
-                    window.location.href = '/thanhToan';
-                    return;
-                }
-                if (targetUrl === '/gioHang' || targetUrl.endsWith('/gioHang')) {
-                    window.location.href = '/gioHang';
-                    return;
-                }
-
-                const badge = document.querySelector('.cart span');
-                if (badge) {
-                    const current = parseInt(badge.textContent.trim(), 10) || 0;
-                    badge.textContent = current + 1;
-                }
-
-                const button = submitButton;
-                if (button) {
-                    const originalHtml = button.innerHTML;
-                    button.innerHTML = '<i class="fa-solid fa-check"></i> Đã thêm';
-                    button.disabled = true;
-                    setTimeout(() => {
-                        button.innerHTML = originalHtml;
-                        button.disabled = false;
-                    }, 1200);
-                }
-            } catch (error) {
-                console.error(error);
-                alert('Có lỗi khi thao tác giỏ hàng');
-            }
-        });
-    });
-
-    /*==============================
-            REVIEW
-    ==============================*/
-
-    const reviewForm = document.querySelector(".review-form");
-
-    if (reviewForm) {
-
-        reviewForm.addEventListener("submit", function (e) {
-
-            if (!scoreInput || !scoreInput.value || Number(scoreInput.value) < 1) {
-                e.preventDefault();
-                alert("Vui lòng chọn số sao trước khi gửi đánh giá.");
-            }
-
+        // Lắng nghe người dùng nhập trực tiếp số vào ô input
+        quantityInput.addEventListener("input", function () {
+            updateQuantity(this.value);
         });
 
+        // Khởi tạo kiểm tra ban đầu
+        updateQuantity(quantityInput.value);
     }
 
-    /*==============================
-            SCROLL ANIMATION
-    ==============================*/
+    // ==========================================
+    // 2. XỬ LÝ ĐÁNH GIÁ SAO (RATING)
+    // ==========================================
+    const starsContainer = document.querySelector(".stars");
+    const reviewScoreInput = document.getElementById("reviewScore");
 
-    const cards = document.querySelectorAll(".review-card");
+    if (starsContainer && reviewScoreInput) {
+        const stars = starsContainer.querySelectorAll("i");
 
-    const observer = new IntersectionObserver((entries) => {
+        stars.forEach((star) => {
+            // Sự kiện khi click chọn số sao
+            star.addEventListener("click", function () {
+                const value = parseInt(this.getAttribute("data-value"));
+                reviewScoreInput.value = value;
+                starsContainer.setAttribute("data-rating", value);
 
-        entries.forEach(entry => {
+                updateStarsVisual(value);
+            });
 
-            if (entry.isIntersecting) {
-
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-
-            }
-
+            // Hiệu ứng rê chuột (Hover)
+            star.addEventListener("mouseenter", function () {
+                const value = parseInt(this.getAttribute("data-value"));
+                highlightStars(value);
+            });
         });
 
-    }, {
+        // Khi di chuột ra ngoài vùng đánh giá, khôi phục về số sao đã chọn
+        starsContainer.addEventListener("mouseleave", function () {
+            const selectedRating = parseInt(reviewScoreInput.value) || 0;
+            updateStarsVisual(selectedRating);
+        });
 
-        threshold: 0.15
+        // Hàm tô màu sao đã chọn/hover
+        function highlightStars(rating) {
+            stars.forEach((s) => {
+                const val = parseInt(s.getAttribute("data-value"));
+                if (val <= rating) {
+                    s.classList.remove("fa-regular");
+                    s.classList.add("fa-solid", "active");
+                } else {
+                    s.classList.remove("fa-solid", "active");
+                    s.classList.add("fa-regular");
+                }
+            });
+        }
 
-    });
+        // Cập nhật giao diện sao cố định
+        function updateStarsVisual(rating) {
+            highlightStars(rating);
+        }
+    }
 
-    cards.forEach(card => {
+    // Validation form Đánh giá trước khi gửi
+    const reviewForm = document.querySelector(".review-form");
+    if (reviewForm) {
+        reviewForm.addEventListener("submit", function (e) {
+            const score = parseInt(reviewScoreInput ? reviewScoreInput.value : 0);
+            if (score <= 0) {
+                e.preventDefault();
+                alert("Vui lòng chọn số sao đánh giá trước khi gửi!");
+            }
+        });
+    }
 
-        card.style.opacity = "0";
-        card.style.transform = "translateY(40px)";
-        card.style.transition = ".5s";
-
-        observer.observe(card);
-
-    });
-
+    // ==========================================
+    // 3. XỬ LÝ ẢNH MÓN ÁN LỖI (FALLBACK)
+    // ==========================================
+    const mainImage = document.getElementById("mainImage");
+    if (mainImage) {
+        mainImage.addEventListener("error", function () {
+            this.src = "/images/comGa.png"; // Đường dẫn ảnh mặc định dự phòng
+        });
+    }
 });

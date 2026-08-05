@@ -1,272 +1,184 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quản lý địa chỉ - Vị Nhà</title>
-    <!-- FontAwesome & Google Fonts -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/quanlydiachi.css}">
+
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Bootstrap 5 CSS (Bắt buộc cho Header & Footer) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- CSS Header & Footer Fragments -->
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+
+    <!-- CSS Riêng Trang Quản Lý Địa Chỉ (Đồng bộ với hoso.css) -->
+    <link rel="stylesheet" th:href="@{/css/quanlydiachi.css}" />
 </head>
+
 <body>
-<header class="site-header">
-    <div class="header-container">
-        <a th:href="@{/trang-chu}" class="logo-box">
-            <div class="logo-badge">Vị Nhà</div>
-            <span class="logo-text">Vị Nhà</span>
-        </a>
+<!-- ================= HEADER (GỌI TỪ FRAGMENT) ================= -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-        <nav class="main-nav">
-            <a th:href="@{/trang-chu}" class="nav-link">Trang chủ</a>
-            <a th:href="@{/thuc-don}" class="nav-link">Thực đơn</a>
-            <a th:href="@{/khuyen-mai}" class="nav-link">Khuyến mãi</a>
-            <a th:href="@{/gioi-thieu}" class="nav-link">Giới thiệu</a>
-            <a th:href="@{/lien-he}" class="nav-link">Liên hệ</a>
-        </nav>
+<!-- ================= MAIN CONTENT ================= -->
+<main class="diachi-page">
+    <div class="container account-container">
 
-        <div class="header-actions">
-            <a th:href="@{/gio-hang}" class="cart-btn" title="Giỏ hàng">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span class="cart-badge">3</span>
-            </a>
-            <a th:href="@{/hoso}" class="user-btn" title="Tài khoản">
-                <i class="fa-regular fa-user"></i>
-            </a>
-        </div>
-    </div>
-</header>
-<!-- Main Container -->
-<div class="container account-container">
-    <!-- Sidebar Menu -->
-    <aside class="sidebar">
-        <div class="user-profile">
-          <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
-          <p class="user-email" th:text="${user.email}">
-            thuha.nguyen@email.com
-          </p>
-        </div>
+        <!-- ===== SIDEBAR DÙNG CHUNG ===== -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <h3 class="user-name" th:text="${user != null ? user.name : 'Khách hàng'}">Nguyễn Thu Hà</h3>
+                <p class="user-email" th:text="${user != null ? user.email : ''}">thuha.nguyen@email.com</p>
+            </div>
 
-        <nav class="sidebar-nav">
-          <a th:href="@{/hoso}" class="nav-item">
-            <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
-          </a>
-          <a th:href="@{/diachi}" class="nav-item active">
-            <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
-          </a>
-          <a th:href="@{/lichsudonhang}" class="nav-item">
-            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
-          </a>
-          <a th:href="@{/danhgia}" class="nav-item">
-            <i class="fa-regular fa-star"></i> Đánh giá món ăn
-          </a>
-          <a th:href="@{/doimatkhau}" class="nav-item">
-            <i class="fa-solid fa-lock"></i> Đổi mật khẩu
-          </a>
-          <div class="nav-divider"></div>
-          <a th:href="@{/dang-xuat}" class="nav-item text-danger">
-            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-          </a>
-        </nav>
-      </aside>
+            <nav class="sidebar-nav">
+                <a th:href="@{/hoso}" class="nav-item">
+                    <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
+                </a>
+                <a th:href="@{/diachi}" class="nav-item active">
+                    <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+                </a>
+                <a th:href="@{/lichsudonhang}" class="nav-item">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+                </a>
+                <a th:href="@{/danhgia}" class="nav-item">
+                    <i class="fa-regular fa-star"></i> Đánh giá món ăn
+                </a>
+                <a th:href="@{/doimatkhau}" class="nav-item">
+                    <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+                </a>
+                <div class="nav-divider"></div>
+                <a th:href="@{/dangXuat}" class="nav-item text-danger">
+                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                </a>
+            </nav>
+        </aside>
 
-      <!-- Main Content -->
-      <main class="content">
-        <div class="content-header">
-          <h2 class="page-title">Địa Chỉ của Tôi</h2>
-          <button class="btn-primary btn-add-address" id="btnOpenAddModal">
-            <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
-          </button>
-        </div>
-
-        <!-- List of Addresses -->
-        <div class="address-list">
-          <div class="address-card" th:each="addr : ${addresses}">
-            <div class="address-header">
-              <div class="user-info">
-                <span class="name" th:text="${addr.name}">Nguyễn Thu Hà</span>
-                <span class="badge-default" th:if="${addr.isDefault}"
-                  >MẶC ĐỊNH</span
-                >
-              </div>
-              <div class="address-actions">
-                <button
-                  class="btn-action edit"
-                  th:data-id="${addr.id}"
-                  onclick="editAddress(this)"
-                >
-                  <i class="fa-regular fa-pen-to-square"></i> Sửa
+        <!-- ===== CONTENT CARD ===== -->
+        <section class="content-card">
+            <div class="content-header">
+                <div>
+                    <h2 class="page-title">Địa chỉ của tôi</h2>
+                    <p class="page-subtitle">Quản lý danh sách địa chỉ nhận hàng của bạn</p>
+                </div>
+                <button class="btn-primary btn-add-address" id="btnOpenAddModal" onclick="openAddressModal()">
+                    <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
                 </button>
-                <button
-                  class="btn-action delete"
-                  th:data-id="${addr.id}"
-                  onclick="deleteAddress(this)"
-                >
-                  <i class="fa-regular fa-trash-can"></i> Xóa
-                </button>
-              </div>
             </div>
-            <div class="address-body">
-              <p class="phone">
-                <i class="fa-solid fa-phone"></i>
-                <span th:text="${addr.phone}">090 123 4567</span>
-              </p>
-              <p class="detail">
-                <i class="fa-solid fa-location-dot"></i>
-                <span th:text="${addr.detail}">123 Đường Lê Lợi...</span>
-              </p>
-            </div>
-            <div class="address-footer" th:if="${!addr.isDefault}">
-              <button
-                class="btn-set-default"
-                th:data-id="${addr.id}"
-                onclick="setDefaultAddress(this)"
-              >
-                Đặt mặc định
-              </button>
-            </div>
-          </div>
-        </div>
 
-        <!-- Banner Map Section -->
-        <div class="map-banner">
-          <div class="banner-overlay"></div>
-          <div class="delivery-card">
-            <div class="icon-box">
-              <i class="fa-solid fa-truck-fast"></i>
+            <!-- Thông báo flash nếu có -->
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+            <!-- Danh sách địa chỉ -->
+            <div class="address-list">
+                <div class="address-card" th:each="addr : ${addresses}">
+                    <div class="address-header">
+                        <div class="user-info">
+                            <span class="name" th:text="${addr.name}">Nguyễn Thu Hà</span>
+                            <span class="badge-default" th:if="${addr.isDefault}">MẶC ĐỊNH</span>
+                        </div>
+                        <div class="address-actions">
+                            <button class="btn-action edit" th:data-id="${addr.id}" onclick="editAddress(this)">
+                                <i class="fa-regular fa-pen-to-square"></i> Sửa
+                            </button>
+                            <button class="btn-action delete" th:data-id="${addr.id}" onclick="deleteAddress(this)">
+                                <i class="fa-regular fa-trash-can"></i> Xóa
+                            </button>
+                        </div>
+                    </div>
+                    <div class="address-body">
+                        <p class="phone">
+                            <i class="fa-solid fa-phone"></i>
+                            <span th:text="${addr.phone}">090 123 4567</span>
+                        </p>
+                        <p class="detail">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span th:text="${addr.detail}">123 Đường Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</span>
+                        </p>
+                    </div>
+                    <div class="address-footer" th:if="${!addr.isDefault}">
+                        <button class="btn-set-default" th:data-id="${addr.id}" onclick="setDefaultAddress(this)">
+                            Thiết lập mặc định
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="delivery-info">
-              <h4>Giao hàng tận tâm</h4>
-              <p>
-                Chúng tôi luôn đảm bảo món ăn được giao đến nhanh nhất có thể.
-              </p>
+
+            <!-- Banner Bản Đồ / Giao Hàng -->
+            <div class="map-banner">
+                <div class="banner-overlay"></div>
+                <div class="delivery-card">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div class="delivery-info">
+                        <h4>Giao hàng tận tâm</h4>
+                        <p>Chúng tôi luôn đảm bảo món ăn nóng hổi được giao đến nhanh nhất có thể.</p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </main>
+        </section>
+
     </div>
+</main>
 
 <!-- ================= MODAL THÊM / SỬA ĐỊA CHỈ ================= -->
 <div class="modal-overlay" id="addressModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3 class="modal-title" id="modalTitle">Thêm địa chỉ mới</h3>
-      <button class="modal-close" onclick="closeAddressModal()">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Thêm địa chỉ mới</h3>
+            <button class="modal-close" onclick="closeAddressModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="addressForm" th:action="@{/diachi/luu}" method="post" class="modal-form">
+            <input type="hidden" name="id" id="addrId" />
+
+            <div class="modal-form-grid">
+                <div class="form-group">
+                    <label class="form-label">Họ tên người nhận <span class="required">*</span></label>
+                    <input type="text" name="name" id="addrName" class="form-input" placeholder="Nguyễn Văn A" required />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Số điện thoại <span class="required">*</span></label>
+                    <input type="tel" name="phone" id="addrPhone" class="form-input" placeholder="090 xxx xxxx" required />
+                </div>
+
+                <div class="form-group full-col">
+                    <label class="form-label">Địa chỉ chi tiết <span class="required">*</span></label>
+                    <input type="text" name="detail" id="addrDetail" class="form-input" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố" required />
+                </div>
+
+                <div class="form-group full-col checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="isDefault" id="addrDefault" />
+                        <span>Đặt làm địa chỉ mặc định</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-save-modal">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu địa chỉ
+                </button>
+                <button type="button" class="btn-cancel-modal" onclick="closeAddressModal()">Hủy</button>
+            </div>
+        </form>
     </div>
-
-    <form id="addressForm" th:action="@{/diachi/luu}" method="post" class="modal-form">
-      <input type="hidden" name="id" id="addrId" />
-
-      <div class="modal-form-grid">
-        <div class="form-group">
-          <label class="form-label">Họ tên người nhận <span class="required">*</span></label>
-          <input type="text" name="name" id="addrName" class="form-input" placeholder="Nguyễn Văn A" required />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Số điện thoại <span class="required">*</span></label>
-          <input type="tel" name="phone" id="addrPhone" class="form-input" placeholder="090 xxx xxxx" required />
-        </div>
-
-        <div class="form-group full-col">
-          <label class="form-label">Địa chỉ chi tiết <span class="required">*</span></label>
-          <input type="text" name="detail" id="addrDetail" class="form-input" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố" required />
-        </div>
-
-        <div class="form-group full-col checkbox-group">
-          <label class="checkbox-label">
-            <input type="checkbox" name="isDefault" id="addrDefault" />
-            <span>Đặt làm địa chỉ mặc định</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button type="submit" class="btn-primary">
-          <i class="fa-solid fa-floppy-disk"></i> Lưu địa chỉ
-        </button>
-        <button type="button" class="btn-cancel-modal" onclick="closeAddressModal()">Hủy</button>
-      </div>
-    </form>
-  </div>
 </div>
 
-<!-- JS -->
+<!-- ================= FOOTER (GỌI TỪ FRAGMENT) ================= -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Bootstrap 5 JS & Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/quanlydiachi.js}"></script>
-<!-- ================= FOOTER ================= -->
-
-<footer class="site-footer">
-    <div class="footer-container">
-
-        <!-- Cột 1: Brand & Mạng xã hội -->
-        <div class="footer-col footer-brand">
-            <div class="footer-logo">
-                <i class="fa-solid fa-utensils"></i> Vị Nhà
-            </div>
-            <p class="footer-desc">
-                Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng và hương vị gia đình là ưu tiên hàng đầu.
-            </p>
-            <div class="footer-socials">
-                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#"><i class="fa-brands fa-share-nodes"></i></a>
-                <a href="#"><i class="fa-solid fa-globe"></i></a>
-            </div>
-        </div>
-
-        <!-- Cột 2: Khám phá -->
-        <div class="footer-col">
-            <h4 class="footer-title">Khám Phá</h4>
-            <ul class="footer-links">
-                <li><a href="#">Về chúng tôi</a></li>
-                <li><a href="#">Thực đơn đặc biệt</a></li>
-                <li><a href="#">Tuyển dụng</a></li>
-                <li><a href="#">Tin tức & Blog</a></li>
-            </ul>
-        </div>
-
-        <!-- Cột 3: Chính sách -->
-        <div class="footer-col">
-            <h4 class="footer-title">Chính Sách</h4>
-            <ul class="footer-links">
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Shipping Info</a></li>
-                <li><a href="#">Hướng dẫn đặt hàng</a></li>
-            </ul>
-        </div>
-
-        <!-- Cột 4: Liên hệ -->
-        <div class="footer-col">
-            <h4 class="footer-title">Liên Hệ</h4>
-            <ul class="footer-contact">
-                <li>
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span>123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
-                </li>
-                <li>
-                    <i class="fa-solid fa-phone"></i>
-                    <span>090 1234 567</span>
-                </li>
-                <li>
-                    <i class="fa-regular fa-envelope"></i>
-                    <span>contact@vinha.com</span>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-</footer>
-
-<script th:src="@{/js/hoso.js}"></script>
-
 </body>
 </html>

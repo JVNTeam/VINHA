@@ -1,5 +1,5 @@
-/* ================= RESET & VARIABLES ================= */
-:root {
+/* ================= VARIABLES & PAGE WRAPPER ================= */
+.hoso-page {
     --primary-color: #f26522;
     --primary-hover: #d95316;
     --brand-brown: #7a3e1d;
@@ -10,239 +10,69 @@
     --border-color: #eee4d9;
     --badge-bg: #fde8db;
     --danger-color: #e53935;
-    --success-color: #2e7d32;
     --radius-lg: 16px;
     --radius-md: 10px;
-    --radius-sm: 6px;
     --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
-    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.06);
-}
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    min-height: 100vh;
+    padding-top: 110px; /* Tránh Header fixed che nội dung */
     padding-bottom: 60px;
+    min-height: calc(100vh - 200px);
 }
 
-/* ================= HEADER ================= */
-.site-header {
-    background-color: #ffffff;
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow-sm);
-}
-
-.header-container {
+/* ================= LAYOUT CONTAINER (CĂN ĐỀU & GIỮA MÀN HÌNH) ================= */
+.hoso-page .account-container {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-}
-
-.logo-badge {
-    border: 1.5px solid var(--primary-color);
-    color: var(--primary-color);
-    font-size: 11px;
-    font-weight: 800;
-    padding: 6px 8px;
-    border-radius: 8px;
-    line-height: 1;
-    background-color: #fff9f5;
-}
-
-.logo-text {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--brand-brown);
-    font-family: 'Georgia', serif;
-    letter-spacing: -0.5px;
-}
-
-.main-nav {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: #4a4a4a;
-    font-size: 15px;
-    font-weight: 600;
-    transition: color 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--primary-color);
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.cart-btn {
-    position: relative;
-    background-color: var(--primary-color);
-    color: #ffffff;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 16px;
-    box-shadow: 0 4px 10px rgba(242, 101, 34, 0.3);
-}
-
-.cart-badge {
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    background-color: #ffffff;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    font-size: 10px;
-    font-weight: 800;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.user-btn {
-    background-color: #f5f5f5;
-    color: #444;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 16px;
-    border: 1px solid var(--border-color);
-    transition: background 0.2s;
-}
-
-.user-btn:hover {
-    background-color: var(--badge-bg);
-    color: var(--primary-color);
-}
-
-/* ================= MAIN LAYOUT ================= */
-.container {
-    max-width: 1200px;
-    margin: 40px auto 0;
     padding: 0 24px;
-}
-
-.account-container {
     display: grid;
     grid-template-columns: 280px 1fr;
     gap: 32px;
-    align-items: start;
+    align-items: stretch; /* Căn đều chiều cao Sidebar & Main Content */
 }
 
 /* ================= SIDEBAR ================= */
-.sidebar {
+.hoso-page .sidebar {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: 28px 20px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
 }
 
-.user-profile {
+.hoso-page .user-profile {
     text-align: center;
-    padding-bottom: 24px;
+    padding-bottom: 20px;
     border-bottom: 1px dashed var(--border-color);
     margin-bottom: 20px;
 }
 
-/* Avatar */
-.avatar-wrapper {
-    position: relative;
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 16px;
-}
-
-.avatar-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.btn-change-avatar {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    background: var(--primary-color);
-    color: #fff;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    transition: background 0.2s;
-}
-
-.btn-change-avatar:hover {
-    background: var(--primary-hover);
-}
-
-.user-name {
+.hoso-page .user-name {
     font-size: 18px;
     font-weight: 700;
     color: var(--text-main);
     margin-bottom: 4px;
 }
 
-.user-email {
+.hoso-page .user-email {
     font-size: 13px;
     color: var(--text-muted);
+    margin: 0;
 }
 
-/* Sidebar nav */
-.sidebar-nav {
+/* Sidebar Nav */
+.hoso-page .sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.nav-item {
+.hoso-page .sidebar-nav .nav-item {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -255,62 +85,65 @@ body {
     transition: all 0.2s ease;
 }
 
-.nav-item i {
+.hoso-page .sidebar-nav .nav-item i {
     font-size: 16px;
     width: 20px;
     text-align: center;
 }
 
-.nav-item:hover,
-.nav-item.active {
+.hoso-page .sidebar-nav .nav-item:hover,
+.hoso-page .sidebar-nav .nav-item.active {
     background-color: #fdf2eb;
     color: var(--primary-color);
 }
 
-.nav-divider {
+.hoso-page .nav-divider {
     height: 1px;
     background-color: var(--border-color);
     margin: 12px 0;
 }
 
-.text-danger {
+.hoso-page .sidebar-nav .text-danger {
     color: var(--danger-color) !important;
 }
 
-.text-danger:hover {
+.hoso-page .sidebar-nav .text-danger:hover {
     background-color: #fdeaea !important;
     color: var(--danger-color) !important;
 }
 
 /* ================= CONTENT CARD ================= */
-.content-card {
+.hoso-page .content-card {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: 36px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
 }
 
-.content-header {
+.hoso-page .content-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 32px;
 }
 
-.page-title {
+.hoso-page .page-title {
     font-size: 26px;
     font-weight: 800;
     color: var(--brand-brown);
     margin-bottom: 4px;
 }
 
-.page-subtitle {
+.hoso-page .page-subtitle {
     font-size: 14px;
     color: var(--text-muted);
+    margin: 0;
 }
 
-.edit-btn {
+.hoso-page .edit-btn {
     background-color: var(--primary-color);
     color: #fff;
     border: none;
@@ -326,30 +159,31 @@ body {
     transition: all 0.2s ease;
 }
 
-.edit-btn:hover {
+.hoso-page .edit-btn:hover {
     background-color: var(--primary-hover);
     transform: translateY(-1px);
 }
 
 /* ================= INFO VIEW ================= */
-.info-grid {
+.hoso-page .info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
-    margin-bottom: 36px;
+    gap: 24px;
+    margin-bottom: 32px;
 }
 
-.info-item {
+.hoso-page .info-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 6px;
-    padding: 18px 20px;
+    padding: 16px 20px;
     background: #faf8f5;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
 }
 
-.info-item label {
+.hoso-page .info-item label {
     color: var(--text-muted);
     font-size: 12px;
     font-weight: 600;
@@ -357,14 +191,14 @@ body {
     letter-spacing: 0.5px;
 }
 
-.info-item span {
+.hoso-page .info-item span {
     color: var(--text-main);
     font-weight: 700;
     font-size: 15px;
 }
 
 /* ================= MEMBER CARD ================= */
-.member-card {
+.hoso-page .member-card {
     background: linear-gradient(135deg, #fdf3e3 0%, #fde8c8 100%);
     border-radius: var(--radius-lg);
     display: flex;
@@ -374,7 +208,7 @@ body {
     border: 1px solid #f7d9a0;
 }
 
-.member-icon {
+.hoso-page .member-icon {
     width: 64px;
     height: 64px;
     border-radius: 50%;
@@ -388,54 +222,54 @@ body {
     flex-shrink: 0;
 }
 
-.member-text h3 {
+.hoso-page .member-text h3 {
     color: var(--brand-brown);
     font-size: 16px;
     font-weight: 800;
     margin-bottom: 4px;
 }
 
-.member-text p {
+.hoso-page .member-text p {
     color: #c07800;
     font-weight: 700;
     font-size: 14px;
     margin-bottom: 4px;
 }
 
-.member-text small {
+.hoso-page .member-text small {
     color: var(--text-muted);
     font-size: 13px;
 }
 
 /* ================= EDIT FORM ================= */
-.edit-form {
+.hoso-page .edit-form {
     width: 100%;
 }
 
-.form-grid {
+.hoso-page .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     margin-bottom: 28px;
 }
 
-.form-group {
+.hoso-page .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.form-label {
+.hoso-page .form-label {
     font-size: 13px;
     font-weight: 700;
     color: var(--text-main);
 }
 
-.required {
+.hoso-page .required {
     color: var(--danger-color);
 }
 
-.form-input {
+.hoso-page .form-input {
     border: 1.5px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 12px 16px;
@@ -447,23 +281,23 @@ body {
     width: 100%;
 }
 
-.form-input:focus {
+.hoso-page .form-input:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.1);
 }
 
-.form-input:disabled {
+.hoso-page .form-input:disabled {
     background: #f5f5f5;
     color: #aaa;
     cursor: not-allowed;
 }
 
-.form-select {
+.hoso-page .form-select {
     cursor: pointer;
 }
 
-.field-hint {
+.hoso-page .field-hint {
     font-size: 12px;
     color: var(--text-muted);
     display: flex;
@@ -471,13 +305,13 @@ body {
     gap: 5px;
 }
 
-.form-actions {
+.hoso-page .form-actions {
     display: flex;
     gap: 14px;
     align-items: center;
 }
 
-.btn-save {
+.hoso-page .btn-save {
     background-color: var(--primary-color);
     color: #fff;
     border: none;
@@ -493,189 +327,35 @@ body {
     transition: all 0.2s ease;
 }
 
-.btn-save:hover {
+.hoso-page .btn-save:hover {
     background-color: var(--primary-hover);
-    transform: translateY(-1px);
 }
 
-.btn-cancel-edit {
-    background: none;
-    border: 1.5px solid var(--border-color);
+.hoso-page .btn-cancel-edit {
+    background: #f0f0f0;
+    color: #555;
+    border: none;
     border-radius: 30px;
-    padding: 12px 24px;
+    padding: 13px 24px;
     font-weight: 700;
     font-size: 14px;
-    color: #666;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.btn-cancel-edit:hover {
-    border-color: #aaa;
-    color: var(--text-main);
-}
-
-/* ================= ALERTS ================= */
-.alert {
-    padding: 14px 20px;
-    border-radius: var(--radius-md);
-    margin-bottom: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.alert-success {
-    background-color: #e8f5e9;
-    color: var(--success-color);
-    border: 1px solid #a5d6a7;
-}
-
-.alert-danger {
-    background-color: #fdeaea;
-    color: var(--danger-color);
-    border: 1px solid #ffcdd2;
-}
-
-/* ================= FOOTER ================= */
-.site-footer {
-    background-color: #f7f5f0;
-    border-top: 1px solid #eae5db;
-    padding: 50px 0 30px;
-    margin-top: 60px;
-    color: #4a4a4a;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-    gap: 40px;
-}
-
-.footer-brand .footer-logo {
-    font-size: 24px;
-    font-weight: 800;
-    color: #7a3e1d;
-    font-family: 'Georgia', serif;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
-.footer-desc {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.footer-socials {
-    display: flex;
-    gap: 12px;
-}
-
-.footer-socials a {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: #eee9e0;
-    color: #555;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.footer-socials a:hover {
-    background-color: #ff8a00;
-    color: #fff;
-}
-
-.footer-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #2c2c2c;
-    margin-bottom: 20px;
-}
-
-.footer-links {
-    list-style: none;
-}
-
-.footer-links li {
-    margin-bottom: 12px;
-}
-
-.footer-links a {
-    text-decoration: none;
-    color: #666;
-    font-size: 14px;
-    transition: color 0.2s ease;
-}
-
-.footer-links a:hover {
-    color: #ff8a00;
-}
-
-.footer-contact {
-    list-style: none;
-}
-
-.footer-contact li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 14px;
-    line-height: 1.5;
-}
-
-.footer-contact i {
-    color: #7a3e1d;
-    margin-top: 3px;
+.hoso-page .btn-cancel-edit:hover {
+    background: #e0e0e0;
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
-    .account-container {
+    .hoso-page .account-container {
         grid-template-columns: 1fr;
+        gap: 24px;
     }
 
-    .info-grid,
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-container {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 600px) {
-    .header-container {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .main-nav {
-        gap: 16px;
-        flex-wrap: wrap;
-    }
-
-    .content-card {
-        padding: 20px;
-    }
-
-    .footer-container {
+    .hoso-page .info-grid,
+    .hoso-page .form-grid {
         grid-template-columns: 1fr;
     }
 }

@@ -1,5 +1,5 @@
-/* ================= RESET & VARIABLES ================= */
-:root {
+/* ================= VARIABLES & PAGE WRAPPER ================= */
+.lichsudonhang-page {
     --primary-color: #f26522;
     --primary-hover: #d95316;
     --brand-brown: #7a3e1d;
@@ -11,171 +11,77 @@
     --danger-color: #e53935;
     --radius-lg: 16px;
     --radius-md: 10px;
-    --radius-sm: 6px;
     --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
 
-    /* Badge Colors */
+    /* Badge Status Colors */
     --status-pending-bg: #fff8e1;
     --status-pending-text: #f57c00;
-
     --status-confirmed-bg: #e3f2fd;
     --status-confirmed-text: #1976d2;
-
     --status-completed-bg: #e8f5e9;
     --status-completed-text: #388e3c;
-
     --status-cancelled-bg: #ffebee;
     --status-cancelled-text: #d32f2f;
-}
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    min-height: 100vh;
+    padding-top: 110px; /* Tránh Header fixed che nội dung */
+    padding-bottom: 60px;
+    min-height: calc(100vh - 200px);
 }
 
-/* ================= HEADER BẰNG BOOTSTRAP ================= */
-.navbar {
-    background-color: #ffffff;
-    box-shadow: var(--shadow-sm);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.navbar-brand .logo {
-    height: 45px; /* Giới hạn chiều cao logo để không bị vỡ layout */
-    width: auto;
-    object-fit: contain;
-    margin-right: 12px;
-}
-
-.navbar-brand .logo-name {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--brand-brown);
-    font-family: 'Georgia', serif;
-    margin-bottom: 0;
-}
-
-.nav-link {
-    font-weight: 600;
-    color: #4a4a4a !important;
-    font-size: 15px;
-    padding: 8px 16px !important;
-    transition: color 0.2s ease;
-}
-
-.nav-link:hover, .nav-link.active {
-    color: var(--primary-color) !important;
-}
-
-/* Khung tìm kiếm */
-.search-box {
-    position: relative;
-}
-
-.search-box input {
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 8px 16px 8px 36px;
-    outline: none;
-    font-size: 14px;
-    background-color: #f9f9f9;
-}
-
-.search-box i {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-}
-
-/* Giỏ hàng */
-.cart {
-    position: relative;
-    color: var(--text-main);
-    font-size: 20px;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-.cart span {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: var(--primary-color);
-    color: white;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-
-/* User Icon */
-.user-icon {
-    background-color: #f5f5f5;
-    color: #444;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    border: 1px solid var(--border-color);
-}
-
-/* ================= MAIN LAYOUT ================= */
-.account-container {
+/* ================= LAYOUT CONTAINER ================= */
+.lichsudonhang-page .account-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
     display: grid;
     grid-template-columns: 280px 1fr;
     gap: 32px;
-    align-items: start;
+    align-items: stretch; /* Căn đều chiều cao Sidebar & Main content */
 }
 
 /* ================= SIDEBAR ================= */
-.sidebar {
+.lichsudonhang-page .sidebar {
     background: var(--card-bg);
     border-radius: var(--radius-lg);
     padding: 28px 20px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
 }
 
-.user-profile {
+.lichsudonhang-page .user-profile {
     text-align: center;
-    padding-bottom: 24px;
+    padding-bottom: 20px;
     border-bottom: 1px dashed var(--border-color);
     margin-bottom: 20px;
 }
 
-.user-name {
+.lichsudonhang-page .user-name {
     font-size: 18px;
     font-weight: 700;
     color: var(--text-main);
     margin-bottom: 4px;
 }
 
-.user-email {
+.lichsudonhang-page .user-email {
     font-size: 13px;
     color: var(--text-muted);
+    margin: 0;
 }
 
-.sidebar-nav {
+/* Sidebar Nav */
+.lichsudonhang-page .sidebar-nav {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.nav-item {
+.lichsudonhang-page .sidebar-nav .nav-item {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -188,43 +94,70 @@ body {
     transition: all 0.2s ease;
 }
 
-.nav-item i {
+.lichsudonhang-page .sidebar-nav .nav-item i {
     font-size: 16px;
     width: 20px;
     text-align: center;
 }
 
-.nav-item:hover, .nav-item.active {
+.lichsudonhang-page .sidebar-nav .nav-item:hover,
+.lichsudonhang-page .sidebar-nav .nav-item.active {
     background-color: #fdf2eb;
     color: var(--primary-color);
 }
 
-/* ================= CONTENT CARD ================= */
-.content-card {
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
+.lichsudonhang-page .nav-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 12px 0;
 }
 
-.page-title {
+.lichsudonhang-page .sidebar-nav .text-danger {
+    color: var(--danger-color) !important;
+}
+
+.lichsudonhang-page .sidebar-nav .text-danger:hover {
+    background-color: #fdeaea !important;
+    color: var(--danger-color) !important;
+}
+
+/* ================= CONTENT CARD ================= */
+.lichsudonhang-page .content-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.lichsudonhang-page .content-header {
+    margin-bottom: 24px;
+}
+
+.lichsudonhang-page .page-title {
     font-size: 26px;
     font-weight: 800;
     color: var(--brand-brown);
-    margin-bottom: 24px;
-    font-family: 'Georgia', serif;
+    margin-bottom: 4px;
 }
 
-/* Tabs */
-.order-tabs {
+.lichsudonhang-page .page-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Tabs Filter */
+.lichsudonhang-page .order-tabs {
     display: flex;
     gap: 12px;
     margin-bottom: 28px;
     flex-wrap: wrap;
 }
 
-.tab-btn {
+.lichsudonhang-page .tab-btn {
     padding: 10px 24px;
     border-radius: 30px;
     border: 1px solid var(--border-color);
@@ -236,12 +169,12 @@ body {
     transition: all 0.2s ease;
 }
 
-.tab-btn:hover {
+.lichsudonhang-page .tab-btn:hover {
     border-color: var(--primary-color);
     color: var(--primary-color);
 }
 
-.tab-btn.active {
+.lichsudonhang-page .tab-btn.active {
     background-color: var(--primary-color);
     color: #ffffff;
     border-color: var(--primary-color);
@@ -249,26 +182,28 @@ body {
 }
 
 /* Order Table */
-.table-responsive {
+.lichsudonhang-page .table-responsive {
     width: 100%;
     overflow-x: auto;
 }
 
-.order-table {
+.lichsudonhang-page .order-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
 
-.order-table th {
+.lichsudonhang-page .order-table th {
     padding: 16px;
     font-size: 13px;
     font-weight: 700;
     color: var(--text-muted);
     border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.order-table td {
+.lichsudonhang-page .order-table td {
     padding: 20px 16px;
     font-size: 14px;
     color: var(--text-main);
@@ -276,16 +211,17 @@ body {
     vertical-align: middle;
 }
 
-.order-id {
+.lichsudonhang-page .order-id {
     font-weight: 700;
 }
 
-.order-price {
+.lichsudonhang-page .order-price {
     font-weight: 800;
+    color: var(--brand-brown);
 }
 
-/* Badges */
-.badge {
+/* Badges Status */
+.lichsudonhang-page .badge-status {
     display: inline-block;
     padding: 6px 14px;
     border-radius: 20px;
@@ -293,30 +229,30 @@ body {
     font-weight: 700;
 }
 
-.badge-pending {
+.lichsudonhang-page .badge-pending {
     background-color: var(--status-pending-bg);
     color: var(--status-pending-text);
 }
 
-.badge-completed {
+.lichsudonhang-page .badge-completed {
     background-color: var(--status-completed-bg);
     color: var(--status-completed-text);
 }
 
-.badge-cancelled {
+.lichsudonhang-page .badge-cancelled {
     background-color: var(--status-cancelled-bg);
     color: var(--status-cancelled-text);
 }
 
-/* Actions */
-.action-group {
+/* Action Group */
+.lichsudonhang-page .action-group {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 10px;
 }
 
-.btn-cancel-order {
+.lichsudonhang-page .btn-cancel-order {
     background: #ffffff;
     border: 1px solid #ffcdd2;
     color: var(--danger-color);
@@ -328,11 +264,11 @@ body {
     transition: all 0.2s ease;
 }
 
-.btn-cancel-order:hover {
+.lichsudonhang-page .btn-cancel-order:hover {
     background-color: #ffebee;
 }
 
-.btn-view-detail {
+.lichsudonhang-page .btn-view-detail {
     background-color: var(--primary-color);
     color: #ffffff;
     border: none;
@@ -344,20 +280,21 @@ body {
     transition: all 0.2s ease;
 }
 
-.btn-view-detail:hover {
+.lichsudonhang-page .btn-view-detail:hover {
     background-color: var(--primary-hover);
 }
 
 /* Pagination */
-.pagination {
+.lichsudonhang-page .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 32px;
+    margin-top: auto;
+    padding-top: 32px;
 }
 
-.page-item {
+.lichsudonhang-page .page-item {
     width: 36px;
     height: 36px;
     display: flex;
@@ -373,8 +310,17 @@ body {
     transition: all 0.2s ease;
 }
 
-.page-item:hover, .page-item.active {
+.lichsudonhang-page .page-item:hover,
+.lichsudonhang-page .page-item.active {
     background-color: var(--primary-color);
     color: #ffffff;
     border-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .lichsudonhang-page .account-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
 }

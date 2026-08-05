@@ -1,14 +1,44 @@
+// ==========================
+// LỊCH SỬ ĐƠN HÀNG - lichsudonhang.js
+// ==========================
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Trang Lịch Sử Đơn Hàng đã sẵn sàng.");
+
+    // Thêm hiệu ứng Shadow cho Navbar Header khi cuộn
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow');
+            } else {
+                navbar.classList.remove('shadow');
+            }
+        });
+    }
+
+    // Xử lý nút Back To Top mượt mà
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });
 
 // Lọc danh sách đơn hàng theo Tab
 function filterOrder(status, btnElement) {
-    // Đổi active button tab
+    // Đổi trạng thái active cho nút tab
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    btnElement.classList.add('active');
+    if (btnElement) {
+        btnElement.classList.add('active');
+    }
 
-    // Lọc theo class đơn hàng
+    // Lọc các hàng đơn hàng
     const rows = document.querySelectorAll('.order-row');
     rows.forEach(row => {
         if (status === 'all') {
@@ -29,7 +59,7 @@ function cancelOrder(orderCode) {
         return;
     }
 
-    // Extract orderId từ orderCode (#VN-1 => 1)
+    // Lấy orderId từ orderCode (#VN-2024-0812 hoặc #VN-1 => id)
     const orderId = orderCode.replace('#VN-', '');
 
     fetch('/api/order/cancel/' + orderId, {
@@ -38,24 +68,23 @@ function cancelOrder(orderCode) {
             'Content-Type': 'application/json'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Hủy đơn hàng thành công');
-            location.reload();
-        } else {
-            alert('Lỗi: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Lỗi khi hủy đơn hàng');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Hủy đơn hàng thành công!');
+                location.reload();
+            } else {
+                alert('Lỗi: ' + (data.message || 'Không thể hủy đơn hàng này.'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi kết nối tới hệ thống.');
+        });
 }
 
 // Xem chi tiết đơn hàng
 function viewDetail(orderCode) {
-    // Extract orderId từ orderCode (#VN-1 => 1)
     const orderId = orderCode.replace('#VN-', '');
     window.location.href = '/chitietdonhang/' + orderId;
 }

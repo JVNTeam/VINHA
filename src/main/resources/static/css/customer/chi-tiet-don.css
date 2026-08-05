@@ -1,465 +1,287 @@
-/* =========================================
-   Biến toàn cục (CSS Variables) - CHUẨN CHUNG
-========================================= */
-:root {
-    --primary-color: #f97316; /* Cam chủ đạo */
-    --primary-hover: #ea580c;
-    --danger-color: #ef4444; /* Đỏ */
-    --success-color: #10b981; /* Xanh lá */
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --bg-body: #f1f5f9;
-    --bg-panel: #ffffff;
-    --border-color: #e2e8f0;
+/* =========================================================
+   STYLE CÁC PHẦN NỘI DUNG RIÊNG TRANG CHI TIẾT ĐƠN HÀNG (CHITIETDONHANG.CSS)
+========================================================= */
+
+/* Trạng Thái Badge Colors */
+.chitietdonhang-page {
+    --status-pending-bg: #fff8e1;
+    --status-pending-text: #f57c00;
+    --status-confirmed-bg: #e3f2fd;
+    --status-confirmed-text: #1976d2;
+    --status-completed-bg: #e8f5e9;
+    --status-completed-text: #388e3c;
+    --status-cancelled-bg: #ffebee;
+    --status-cancelled-text: #d32f2f;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: var(--bg-body);
-    color: var(--text-main);
-}
-
-a {
+/* Nút Quay Lại Cạnh Title */
+.chitietdonhang-page .btn-back {
+    background-color: #ffffff;
+    color: var(--acc-text-main);
+    border: 1px solid var(--acc-border);
+    padding: 9px 20px;
+    border-radius: 30px;
     text-decoration: none;
-}
-
-ul {
-    list-style: none;
-}
-
-/* Tiện ích */
-.text-danger {
-    color: var(--danger-color) !important;
-}
-
-.text-success {
-    color: var(--success-color) !important;
-}
-
-.text-orange {
-    color: var(--primary-color) !important;
-}
-
-.text-muted {
-    color: var(--text-muted) !important;
-}
-
-.text-main {
-    color: var(--text-main) !important;
-}
-
-.font-weight-600 {
-    font-weight: 600;
-}
-
-.box-panel {
-    background: var(--bg-panel);
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-/* =========================================
-   SIDEBAR ĐỒNG BỘ
-========================================= */
-.wrapper {
-    display: flex;
-    min-height: 100vh;
-}
-
-.sidebar {
-    width: 250px;
-    background: #fff;
-    border-right: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    height: 100vh;
-}
-
-.sidebar .logo {
-    padding: 20px;
-    color: var(--primary-color);
-    text-align: center;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.sidebar .menu {
-    flex: 1;
-    padding: 20px 0;
-}
-
-.sidebar .menu li a {
-    display: block;
-    padding: 12px 24px;
-    color: var(--text-muted);
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.sidebar .menu li a i {
-    width: 25px;
-}
-
-.sidebar .menu li:hover a, .sidebar .menu li.active a {
-    color: var(--primary-color);
-    background: #fff7ed;
-    border-right: 3px solid var(--primary-color);
-}
-
-.sidebar .logout {
-    padding: 20px;
-    border-top: 1px solid var(--border-color);
-}
-
-.sidebar .logout a {
-    color: var(--danger-color);
-    font-weight: 600;
-}
-
-.main-content {
-    flex: 1;
-    margin-left: 250px;
-    padding: 30px;
-}
-
-/* =========================================
-   THẺ ĐIỀU HƯỚNG QUAY LẠI
-========================================= */
-.btn-back {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--text-muted);
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    transition: 0.2s;
-    padding: 8px 12px;
-    background: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-}
-
-.btn-back:hover {
-    color: var(--primary-color);
-    background: #fff7ed;
-    border-color: var(--primary-color);
-}
-
-/* =========================================
-   CHI TIẾT ĐƠN HÀNG
-========================================= */
-.order-header {
-    margin-bottom: 24px;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 20px;
-}
-
-.order-title-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 8px;
-}
-
-.order-title-row h1 {
-    font-size: 22px;
-    color: var(--text-main);
-    font-weight: 600;
-}
-
-.order-title-row h1 span {
-    color: var(--primary-color);
-}
-
-.badge-status.pending {
-    background-color: #fff7ed;
-    color: var(--primary-color);
-    padding: 6px 12px;
-    border-radius: 20px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
+    transition: all 0.2s ease;
 }
 
-.order-date {
-    font-size: 14px;
-    color: var(--text-muted);
+.chitietdonhang-page .btn-back:hover {
+    background-color: var(--acc-primary);
+    color: #ffffff;
+    border-color: var(--acc-primary);
 }
 
-.content-grid {
+/* Thẻ Tổng Quan Đơn Hàng (Order Meta Box) */
+.chitietdonhang-page .order-meta-box {
+    background-color: #faf8f5;
+    border: 1px solid var(--acc-border);
+    border-radius: var(--acc-radius-md);
+    padding: 20px 24px;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
 }
 
-.info-card {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 20px;
-    background: #fafbfc;
-}
-
-.card-title {
-    font-size: 16px;
-    color: var(--text-main);
-    margin-bottom: 20px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.card-title i {
-    color: var(--primary-color);
-}
-
-/* Khách hàng */
-.customer-info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px 40px;
-}
-
-.info-item {
+.chitietdonhang-page .meta-item {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.info-item .label {
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-.info-item .value {
-    font-size: 14px;
-    color: var(--text-main);
+.chitietdonhang-page .meta-label {
+    font-size: 12px;
     font-weight: 600;
+    color: var(--acc-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Bảng thức ăn & Hình ảnh */
-.food-table {
+.chitietdonhang-page .meta-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--acc-text-main);
+}
+
+.chitietdonhang-page .order-code {
+    color: var(--acc-brand-brown);
+}
+
+.chitietdonhang-page .total-price {
+    color: var(--acc-primary);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+/* Badges Status */
+.chitietdonhang-page .badge-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.chitietdonhang-page .badge-pending {
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-text);
+}
+
+.chitietdonhang-page .badge-confirmed {
+    background-color: var(--status-confirmed-bg);
+    color: var(--status-confirmed-text);
+}
+
+.chitietdonhang-page .badge-completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-text);
+}
+
+.chitietdonhang-page .badge-cancelled {
+    background-color: var(--status-cancelled-bg);
+    color: var(--status-cancelled-text);
+}
+
+/* Section Tiêu Đề */
+.chitietdonhang-page .section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--acc-brand-brown);
+    margin-bottom: 16px;
+}
+
+/* Bảng Sản Phẩm */
+.chitietdonhang-page .order-items-section {
+    margin-bottom: 28px;
+}
+
+.chitietdonhang-page .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.chitietdonhang-page .items-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.food-table th {
+.chitietdonhang-page .items-table th {
+    padding: 14px 16px;
     font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 600;
-    border-bottom: 1px dashed var(--border-color);
-    padding-bottom: 15px;
-    text-align: left;
+    font-weight: 700;
+    color: var(--acc-text-muted);
+    border-bottom: 1px solid var(--acc-border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.food-table td {
-    padding: 15px 0;
-    border-bottom: 1px dashed var(--border-color);
+.chitietdonhang-page .items-table td {
+    padding: 16px;
     font-size: 14px;
+    color: var(--acc-text-main);
+    border-bottom: 1px solid var(--acc-border);
+    vertical-align: middle;
 }
 
-.food-table tr:last-child td {
-    border-bottom: none;
-    padding-bottom: 0;
+.chitietdonhang-page .item-name {
+    font-weight: 700;
 }
 
-.food-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.chitietdonhang-page .item-total {
+    font-weight: 700;
+    color: var(--acc-brand-brown);
 }
 
-.food-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 6px;
-    background: #eee;
-    overflow: hidden;
-    flex-shrink: 0;
-    border: 1px solid var(--border-color);
+/* Thẻ Tổng Kết Chi Phí */
+.chitietdonhang-page .order-summary-box {
+    background-color: #faf8f5;
+    border-radius: var(--acc-radius-md);
+    border: 1px solid var(--acc-border);
+    padding: 20px 24px;
+    margin-bottom: 28px;
 }
 
-.food-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.text-right {
-    text-align: right;
-}
-
-/* Timeline */
-.timeline {
-    list-style: none;
-    position: relative;
-    margin-left: 5px;
-}
-
-.timeline::before {
-    content: "";
-    position: absolute;
-    left: 7px;
-    top: 10px;
-    bottom: 20px;
-    width: 2px;
-    background: var(--border-color);
-    z-index: 1;
-}
-
-.timeline li {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
-}
-
-.timeline li:last-child {
-    margin-bottom: 0;
-}
-
-.timeline .icon {
-    width: 16px;
-    height: 16px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    margin-top: 2px;
-    border: 2px solid var(--border-color);
-}
-
-.timeline .done .icon {
-    color: var(--success-color);
-    border-color: var(--success-color);
-}
-
-.timeline .current .icon {
-    color: white;
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.timeline .text {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.timeline .text strong {
-    font-size: 14px;
-    color: var(--text-main);
-}
-
-.timeline .text span {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-/* Thanh toán */
-.summary-row {
+.chitietdonhang-page .summary-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    padding: 8px 0;
     font-size: 14px;
-    color: var(--text-main);
+    color: var(--acc-text-muted);
 }
 
-.divider {
-    height: 1px;
-    border-bottom: 1px dashed var(--border-color);
-    margin: 15px 0;
+.chitietdonhang-page .summary-row span:last-child {
+    font-weight: 600;
+    color: var(--acc-text-main);
 }
 
-.total-row {
-    align-items: center;
+.chitietdonhang-page .summary-row.total-row {
+    border-top: 1px dashed var(--acc-border);
+    padding-top: 14px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--acc-text-main);
+}
+
+.chitietdonhang-page .total-amount {
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--acc-primary);
+}
+
+/* Lưới Thông Tin Giao Hàng & Thanh Toán */
+.chitietdonhang-page .order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-bottom: 20px;
 }
 
-.total-price {
-    font-size: 22px;
-    font-weight: bold;
+.chitietdonhang-page .info-box {
+    padding: 20px;
+    border: 1px solid var(--acc-border);
+    border-radius: var(--acc-radius-md);
+    background: #ffffff;
 }
 
-.payment-method {
-    background: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 15px;
+.chitietdonhang-page .info-box h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--acc-brand-brown);
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
 }
 
-.payment-method i {
-    font-size: 20px;
-}
-
-.method-info {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.method-info .label {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.method-info strong {
-    font-size: 13px;
-    color: var(--text-main);
-}
-
-/* Buttons */
-.admin-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn {
-    flex: 1;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
+.chitietdonhang-page .info-box p {
+    margin: 0;
     font-size: 14px;
-    border: none;
-    transition: 0.2s;
-    text-align: center;
+    color: var(--acc-text-muted);
+    line-height: 1.5;
 }
 
-.btn-outline {
-    background: white;
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
+.chitietdonhang-page .note-box {
+    margin-bottom: 32px;
 }
 
-.btn-outline:hover {
-    background: var(--bg-body);
+/* Nhóm Thao Tác Nút Bấm */
+.chitietdonhang-page .action-buttons {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-top: 12px;
 }
 
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
+.chitietdonhang-page .btn-back-bottom {
+    background-color: #ffffff;
+    color: var(--acc-text-main);
+    border: 1px solid var(--acc-border);
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
 }
 
-.btn-primary:hover {
-    background: var(--primary-hover);
+.chitietdonhang-page .btn-back-bottom:hover {
+    background-color: var(--acc-border);
+    color: var(--acc-text-main);
+}
+
+.chitietdonhang-page .btn-cancel {
+    background-color: #ffffff;
+    color: var(--acc-danger);
+    border: 1px solid #ffcdd2;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.chitietdonhang-page .btn-cancel:hover {
+    background-color: #ffebee;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chitietdonhang-page .order-meta-box,
+    .chitietdonhang-page .order-info-grid {
+        grid-template-columns: 1fr;
+    }
 }

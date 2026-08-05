@@ -1,0 +1,356 @@
+/* =========================================================
+   CHI TIẾT ĐƠN HÀNG - CUSTOM CSS (CHITIETDONHANG.CSS)
+========================================================= */
+
+/* ===== VARIABLES & PAGE WRAPPER ===== */
+.chitietdonhang-page {
+    --primary-color: #f26522;
+    --primary-hover: #d95316;
+    --brand-brown: #7a3e1d;
+    --bg-color: #faf7f2;
+    --card-bg: #ffffff;
+    --text-main: #2b2b2b;
+    --text-muted: #666666;
+    --border-color: #eee4d9;
+    --danger-color: #e53935;
+    --danger-bg: #ffebee;
+    --danger-border: #ffcdd2;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    padding-top: 110px; /* Tránh Header fixed che nội dung */
+    padding-bottom: 60px;
+    min-height: calc(100vh - 200px);
+}
+
+/* ===== LAYOUT CONTAINER ===== */
+.chitietdonhang-page .account-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* ===== SIDEBAR ===== */
+.chitietdonhang-page .sidebar {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 28px 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.chitietdonhang-page .user-profile {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--border-color);
+    margin-bottom: 20px;
+}
+
+.chitietdonhang-page .user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.chitietdonhang-page .user-email {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Sidebar Nav */
+.chitietdonhang-page .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chitietdonhang-page .sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    color: #555555;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.chitietdonhang-page .sidebar-nav .nav-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.chitietdonhang-page .sidebar-nav .nav-item:hover,
+.chitietdonhang-page .sidebar-nav .nav-item.active {
+    background-color: #fdf2eb;
+    color: var(--primary-color);
+}
+
+.chitietdonhang-page .nav-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 12px 0;
+}
+
+.chitietdonhang-page .sidebar-nav .text-danger {
+    color: var(--danger-color) !important;
+}
+
+.chitietdonhang-page .sidebar-nav .text-danger:hover {
+    background-color: #fdeaea !important;
+    color: var(--danger-color) !important;
+}
+
+/* ===== CONTENT CARD ===== */
+.chitietdonhang-page .content-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.chitietdonhang-page .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.chitietdonhang-page .page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--brand-brown);
+    margin: 0;
+}
+
+/* Nút Quay Lại */
+.chitietdonhang-page .btn-back {
+    background-color: #faf8f5;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chitietdonhang-page .btn-back:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+/* ===== THẺ THÔNG TIN TỔNG QUAN ĐƠN HÀNG ===== */
+.chitietdonhang-page .order-header-box {
+    background-color: #faf8f5;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px 24px;
+    margin-top: 8px;
+    margin-bottom: 28px;
+}
+
+.chitietdonhang-page .order-header-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+
+.chitietdonhang-page .meta-item p:first-child {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.chitietdonhang-page .meta-item p.val {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text-main);
+    margin: 0;
+}
+
+.chitietdonhang-page .meta-item p.val-price {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+/* ===== DANH SÁCH SẢN PHẨM (TABLE) ===== */
+.chitietdonhang-page .order-items {
+    margin-bottom: 28px;
+}
+
+.chitietdonhang-page .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brand-brown);
+    margin-bottom: 16px;
+}
+
+.chitietdonhang-page .items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.chitietdonhang-page .items-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chitietdonhang-page .items-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.chitietdonhang-page .items-table td:first-child {
+    font-weight: 700;
+}
+
+/* ===== TỔNG KẾT ĐƠN HÀNG ===== */
+.chitietdonhang-page .order-summary {
+    background-color: #faf8f5;
+    padding: 20px 24px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    margin-bottom: 28px;
+}
+
+.chitietdonhang-page .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.chitietdonhang-page .summary-row span:last-child {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.chitietdonhang-page .summary-row.total {
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 14px;
+    margin-top: 8px;
+    color: var(--text-main);
+}
+
+.chitietdonhang-page .summary-row.total span:last-child {
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--primary-color);
+}
+
+/* ===== THÔNG TIN GIAO HÀNG & THANH TOÁN ===== */
+.chitietdonhang-page .order-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.chitietdonhang-page .info-box {
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #ffffff;
+}
+
+.chitietdonhang-page .info-box h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--brand-brown);
+}
+
+.chitietdonhang-page .info-box p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.chitietdonhang-page .note-box {
+    margin-bottom: 28px;
+}
+
+/* ===== NÚT THAO TÁC ===== */
+.chitietdonhang-page .action-buttons {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.chitietdonhang-page .btn-cancel {
+    background-color: var(--danger-bg);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-border);
+    padding: 11px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chitietdonhang-page .btn-cancel:hover {
+    background-color: var(--danger-border);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .chitietdonhang-page .account-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .chitietdonhang-page .order-header-grid,
+    .chitietdonhang-page .order-info {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

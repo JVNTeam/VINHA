@@ -1,217 +1,133 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lịch sử đơn hàng - Vị Nhà</title>
 
   <!-- Google Fonts & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- CSS Header & Footer -->
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+
+  <!-- Custom CSS cho trang Lịch Sử Đơn Hàng -->
   <link rel="stylesheet" th:href="@{/css/lichSuDonHang.css}" />
 </head>
+
 <body>
-<!-- HEADER -->
-<nav class="navbar navbar-expand-lg" th:fragment="header">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" th:href="@{/trangChu}">
-      <img th:src="@{/images/logo.png}" class="logo" alt="Vị Nhà Logo"/>
-      <span class="logo-name">Vị Nhà</span>
-    </a>
+<!-- ================= HEADER (GỌI TỪ FRAGMENT) ================= -->
+<div th:replace="~{fragments/header :: header}"></div>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<!-- ================= MAIN CONTENT ================= -->
+<main class="lichsudonhang-page">
+  <div class="container account-container">
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${activePage == 'trang-chu'} ? ' active' : ''" th:href="@{/trangChu}">Trang chủ</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${activePage == 'thuc-don'} ? ' active' : ''" th:href="@{/thucDon}">Thực đơn</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${activePage == 'khuyen-mai'} ? ' active' : ''" th:href="@{/khuyenMai}">Khuyến mãi</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${activePage == 'gioi-thieu'} ? ' active' : ''" th:href="@{/gioiThieu}">Giới thiệu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:classappend="${activePage == 'lien-he'} ? ' active' : ''" th:href="@{/lienHe}">Liên hệ</a>
-        </li>
-      </ul>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="user-profile">
+        <h3 class="user-name" th:text="${user != null ? user['name'] : 'Khách hàng'}">Nguyễn Thu Hà</h3>
+        <p class="user-email" th:text="${user != null ? user['email'] : ''}">thuha.nguyen@email.com</p>
+      </div>
 
-      <div class="d-flex align-items-center">
-        <div class="search-box me-3">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Tìm món ăn..." />
-        </div>
-
-        <a th:href="@{/gioHang}" class="cart me-3" th:classappend="${cartItemCount == 1} ? ' cart-1' : (${cartItemCount == 2} ? ' cart-2' : (${cartItemCount >= 3} ? ' cart-3' : ' cart-empty'))">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span th:text="${cartItemCount}">0</span>
+      <nav class="sidebar-nav">
+        <a th:href="@{/hoso}" class="nav-item">
+          <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
         </a>
+        <a th:href="@{/diachi}" class="nav-item">
+          <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
+        </a>
+        <a th:href="@{/lichsudonhang}" class="nav-item active">
+          <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
+        </a>
+        <a th:href="@{/danhgia}" class="nav-item">
+          <i class="fa-regular fa-star"></i> Đánh giá món ăn
+        </a>
+        <a th:href="@{/doimatkhau}" class="nav-item">
+          <i class="fa-solid fa-lock"></i> Đổi mật khẩu
+        </a>
+        <div class="nav-divider"></div>
+        <a th:href="@{/dangXuat}" class="nav-item text-danger">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+        </a>
+      </nav>
+    </aside>
 
-        <!-- Kiểm tra đăng nhập -->
-        <div th:if="${session.loggedInUser != null}" class="d-flex align-items-center gap-2">
-          <a th:href="@{/hoSo}" class="user-icon" title="Hồ sơ">
-            <i class="fa-solid fa-user"></i>
-          </a>
-          <a th:href="@{/dangXuat}" class="logout-btn btn btn-outline-danger btn-sm ms-2">Đăng xuất</a>
+    <!-- ===== CONTENT CARD ===== -->
+    <section class="content-card">
+      <div class="content-header">
+        <div>
+          <h2 class="page-title">Lịch sử đơn hàng</h2>
+          <p class="page-subtitle">Quản lý và theo dõi các đơn hàng của bạn</p>
         </div>
-        <a th:unless="${session.loggedInUser != null}" th:href="@{/dangNhap}" class="login-btn btn btn-danger btn-sm">Đăng nhập</a>
       </div>
-    </div>
+
+      <!-- Tab Lọc -->
+      <div class="order-tabs">
+        <button class="tab-btn active" onclick="filterOrder('all', this)">Tất cả</button>
+        <button class="tab-btn" onclick="filterOrder('pending', this)">Chờ xác nhận</button>
+        <button class="tab-btn" onclick="filterOrder('completed', this)">Hoàn thành</button>
+        <button class="tab-btn" onclick="filterOrder('cancelled', this)">Đã hủy</button>
+      </div>
+
+      <!-- Bảng Đơn Hàng -->
+      <div class="table-responsive">
+        <table class="order-table">
+          <thead>
+          <tr>
+            <th>Mã đơn</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th style="text-align: right">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="order : ${orders}" th:class="|order-row ${order.statusCode}|">
+            <td class="order-id" th:text="${order.code}">#VN-2024-0812</td>
+            <td th:text="${order.date}">12/08/2024</td>
+            <td class="order-price" th:text="${order.price}">245.000đ</td>
+            <td>
+              <span th:class="|badge-status badge-${order.statusCode}|" th:text="${order.statusText}">Chờ xác nhận</span>
+            </td>
+            <td>
+              <div class="action-group">
+                <button class="btn-cancel-order" th:if="${order.statusCode == 'pending'}" th:data-code="${order.code}" onclick="cancelOrder(this.getAttribute('data-code'))">
+                  Hủy đơn
+                </button>
+                <button class="btn-view-detail" th:data-code="${order.code}" onclick="viewDetail(this.getAttribute('data-code'))">
+                  Xem chi tiết
+                </button>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Phân trang -->
+      <div class="pagination">
+        <button class="page-item"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="page-item active">1</button>
+        <button class="page-item">2</button>
+        <button class="page-item">3</button>
+        <button class="page-item"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </section>
+
   </div>
-</nav>
-<!-- END HEADER -->
+</main>
 
-<!-- MAIN CONTAINER -->
-<div class="container account-container my-5">
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="user-profile mb-4">
-      <h3 class="user-name" th:text="${user.name}">Nguyễn Thu Hà</h3>
-      <p class="user-email" th:text="${user.email}">thuha.nguyen@email.com</p>
-    </div>
+<!-- ================= FOOTER (GỌI TỪ FRAGMENT) ================= -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-    <nav class="sidebar-nav d-flex flex-column gap-3">
-      <a th:href="@{/hoso}" class="nav-item text-decoration-none text-dark">
-        <i class="fa-regular fa-user"></i> Hồ sơ cá nhân
-      </a>
-      <a th:href="@{/diachi}" class="nav-item text-decoration-none text-dark">
-        <i class="fa-solid fa-location-dot"></i> Quản lý địa chỉ
-      </a>
-      <a th:href="@{/lichsudonhang}" class="nav-item text-decoration-none fw-bold" style="color: var(--primary-color, #d32f2f);">
-        <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử đơn hàng
-      </a>
-      <a th:href="@{/danhgia}" class="nav-item text-decoration-none text-dark">
-        <i class="fa-regular fa-star"></i> Đánh giá món ăn
-      </a>
-      <a th:href="@{/doimatkhau}" class="nav-item text-decoration-none text-dark">
-        <i class="fa-solid fa-lock"></i> Đổi mật khẩu
-      </a>
-      <hr/>
-      <a th:href="@{/dangXuat}" class="nav-item text-danger text-decoration-none">
-        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-      </a>
-    </nav>
-  </aside>
-
-  <!-- MAIN CONTENT CARD -->
-  <main class="content-card">
-    <h2 class="page-title">Lịch sử đơn hàng</h2>
-
-    <!-- Tab Lọc -->
-    <div class="order-tabs">
-      <button class="tab-btn active" onclick="filterOrder('all', this)">Tất cả</button>
-      <button class="tab-btn" onclick="filterOrder('pending', this)">Chờ xác nhận</button>
-      <button class="tab-btn" onclick="filterOrder('completed', this)">Hoàn thành</button>
-      <button class="tab-btn" onclick="filterOrder('cancelled', this)">Đã hủy</button>
-    </div>
-
-    <!-- Bảng Đơn Hàng -->
-    <div class="table-responsive">
-      <table class="order-table">
-        <thead>
-        <tr>
-          <th>Mã đơn</th>
-          <th>Ngày đặt</th>
-          <th>Tổng tiền</th>
-          <th>Trạng thái</th>
-          <th style="text-align: right">Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${orders}" th:class="|order-row ${order.statusCode}|">
-          <td class="order-id" th:text="${order.code}">#VN-2024-0812</td>
-          <td th:text="${order.date}">12/08/2024</td>
-          <td class="order-price" th:text="${order.price}">245.000đ</td>
-          <td>
-            <span th:class="|badge badge-${order.statusCode}|" th:text="${order.statusText}">Chờ xác nhận</span>
-          </td>
-          <td>
-            <div class="action-group">
-              <button class="btn-cancel-order" th:if="${order.statusCode == 'pending'}" th:data-code="${order.code}" onclick="cancelOrder(this.getAttribute('data-code'))">
-                Hủy đơn
-              </button>
-              <button class="btn-view-detail" th:data-code="${order.code}" onclick="viewDetail(this.getAttribute('data-code'))">
-                Xem chi tiết
-              </button>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Phân trang -->
-    <div class="pagination">
-      <button class="page-item"><i class="fa-solid fa-chevron-left"></i></button>
-      <button class="page-item active">1</button>
-      <button class="page-item">2</button>
-      <button class="page-item">3</button>
-      <button class="page-item"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-  </main>
-</div>
-
-<!-- Custom JS -->
-<script th:src="@{/js/lichsudonhang.js}"></script>
-
-<!-- FOOTER -->
-<footer class="site-footer bg-dark text-light py-5 mt-5">
-  <div class="container d-flex justify-content-between flex-wrap gap-4">
-    <div class="footer-col footer-brand" style="max-width: 300px;">
-      <div class="footer-logo fs-4 fw-bold mb-3">
-        <i class="fa-solid fa-utensils text-danger"></i> Vị Nhà
-      </div>
-      <p class="footer-desc text-secondary">
-        Mang tinh hoa cơm Việt đến từng góc bếp của gia đình bạn. Chất lượng và hương vị gia đình là ưu tiên hàng đầu.
-      </p>
-      <div class="footer-socials d-flex gap-3">
-        <a href="#" class="text-light"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#" class="text-light"><i class="fa-brands fa-share-nodes"></i></a>
-        <a href="#" class="text-light"><i class="fa-solid fa-globe"></i></a>
-      </div>
-    </div>
-
-    <div class="footer-col">
-      <h4 class="footer-title fs-5 mb-3">Khám Phá</h4>
-      <ul class="footer-links list-unstyled text-secondary" style="line-height: 2;">
-        <li><a href="#" class="text-decoration-none text-secondary">Về chúng tôi</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Thực đơn đặc biệt</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Tuyển dụng</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Tin tức & Blog</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4 class="footer-title fs-5 mb-3">Chính Sách</h4>
-      <ul class="footer-links list-unstyled text-secondary" style="line-height: 2;">
-        <li><a href="#" class="text-decoration-none text-secondary">Privacy Policy</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Terms of Service</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Shipping Info</a></li>
-        <li><a href="#" class="text-decoration-none text-secondary">Hướng dẫn đặt hàng</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h4 class="footer-title fs-5 mb-3">Liên Hệ</h4>
-      <ul class="footer-contact list-unstyled text-secondary" style="line-height: 2;">
-        <li><i class="fa-solid fa-location-dot me-2"></i> 123 Đường Nguyễn Huệ, Quận 1, TP. HCM</li>
-        <li><i class="fa-solid fa-phone me-2"></i> 090 1234 567</li>
-        <li><i class="fa-regular fa-envelope me-2"></i> contact@vinha.com</li>
-      </ul>
-    </div>
-  </div>
-</footer>
-
+<!-- JS Bootstrap & Custom -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/lichsudonhang.js}"></script>
 </body>
 </html>

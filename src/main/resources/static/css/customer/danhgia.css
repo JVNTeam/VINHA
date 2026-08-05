@@ -1,0 +1,375 @@
+/* =========================================================
+   TRANG ĐÁNH GIÁ MÓN ĂN - CUSTOM CSS (DANHGIA.CSS)
+   Đồng bộ 100% với hệ thống hoso.css / account layout
+========================================================= */
+
+/* ===== VARIABLES & PAGE WRAPPER ===== */
+.danhgia-page {
+    --primary-color: #f26522;
+    --primary-hover: #d95316;
+    --brand-brown: #7a3e1d;
+    --bg-color: #faf7f2;
+    --card-bg: #ffffff;
+    --text-main: #2b2b2b;
+    --text-muted: #666666;
+    --border-color: #eee4d9;
+    --danger-color: #e53935;
+    --danger-bg: #ffebee;
+    --star-gold: #ffb400;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    padding-top: 110px; /* Tránh Header fixed che nội dung */
+    padding-bottom: 60px;
+    min-height: calc(100vh - 200px);
+}
+
+/* ===== LAYOUT CONTAINER ===== */
+.danhgia-page .account-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* ===== SIDEBAR ===== */
+.danhgia-page .sidebar {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 28px 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.danhgia-page .user-profile {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--border-color);
+    margin-bottom: 20px;
+}
+
+.danhgia-page .user-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.danhgia-page .user-email {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Sidebar Nav */
+.danhgia-page .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.danhgia-page .sidebar-nav .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    color: #555555;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.danhgia-page .sidebar-nav .nav-item i {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.danhgia-page .sidebar-nav .nav-item:hover,
+.danhgia-page .sidebar-nav .nav-item.active {
+    background-color: #fdf2eb;
+    color: var(--primary-color);
+}
+
+.danhgia-page .nav-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 12px 0;
+}
+
+.danhgia-page .sidebar-nav .text-danger {
+    color: var(--danger-color) !important;
+}
+
+.danhgia-page .sidebar-nav .text-danger:hover {
+    background-color: #fdeaea !important;
+    color: var(--danger-color) !important;
+}
+
+/* ===== CONTENT CARD ===== */
+.danhgia-page .content-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.danhgia-page .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.danhgia-page .page-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--brand-brown);
+    margin: 0;
+}
+
+/* Switch Pill Tabs */
+.danhgia-page .switch-tabs {
+    background-color: #f0ebe4;
+    padding: 4px;
+    border-radius: 30px;
+    display: flex;
+    gap: 4px;
+}
+
+.danhgia-page .switch-btn {
+    border: none;
+    background: none;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.danhgia-page .switch-btn.active {
+    background-color: #ffffff;
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== DANH SÁCH ĐÁNH GIÁ ===== */
+.danhgia-page .review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.danhgia-page .review-card {
+    background: #faf8f5;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.danhgia-page .item-summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.danhgia-page .item-img {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.danhgia-page .item-info {
+    flex-grow: 1;
+}
+
+.danhgia-page .item-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.danhgia-page .item-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--brand-brown);
+    margin: 0;
+}
+
+.danhgia-page .badge-new {
+    background-color: #fde8db;
+    color: var(--primary-color);
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.danhgia-page .item-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.danhgia-page .item-subtext {
+    font-size: 13px;
+    color: #888888;
+    margin: 0;
+}
+
+/* Button Đánh giá ngay */
+.danhgia-page .btn-review-now {
+    background-color: #fdf2eb;
+    color: var(--brand-brown);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.danhgia-page .btn-review-now:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+/* ===== FORM ĐÁNH GIÁ MỞ RỘNG ===== */
+.danhgia-page .review-form-body {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.danhgia-page .form-prompt {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 12px;
+}
+
+.danhgia-page .star-rating {
+    display: flex;
+    gap: 8px;
+    font-size: 24px;
+    color: #dddddd;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.danhgia-page .star-rating i.active,
+.danhgia-page .star-rating i:hover {
+    color: var(--star-gold);
+}
+
+.danhgia-page .review-textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border-color);
+    padding: 14px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    resize: none;
+    background-color: #faf8f5;
+    margin-bottom: 16px;
+    transition: border-color 0.2s ease;
+}
+
+.danhgia-page .review-textarea:focus {
+    border-color: var(--primary-color);
+    background-color: #ffffff;
+}
+
+.danhgia-page .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.danhgia-page .btn-cancel {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--danger-color);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.danhgia-page .btn-cancel:hover {
+    background-color: var(--danger-bg);
+}
+
+.danhgia-page .btn-submit {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(242, 101, 34, 0.2);
+    transition: background-color 0.2s ease;
+}
+
+.danhgia-page .btn-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+.danhgia-page .empty-msg {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 0;
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+    .danhgia-page .account-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .danhgia-page .item-summary {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .danhgia-page .btn-review-now {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -95,9 +95,14 @@ public class AuthService {
         // Chuyển Integer gioiTinh sang Byte
         Byte gioiTinhByte = (gioiTinh != null) ? gioiTinh.byteValue() : null;
 
-        // Nếu soDienThoai bị trống (do đăng ký bằng email), tạo sđt giả để thỏa mãn NOT NULL và UNIQUE
+        // Nếu soDienThoai bị trống (do đăng ký bằng email), tạo số giả để thỏa mãn NOT NULL và UNIQUE
         if (soDienThoai == null) {
             soDienThoai = "NO_PHONE_" + System.currentTimeMillis();
+        }
+
+        // Nếu email bị trống (do đăng ký bằng sđt), tạo email giả để thỏa mãn UNIQUE
+        if (email == null) {
+            email = "NO_EMAIL_" + System.currentTimeMillis() + "@dummy.com";
         }
 
         NguoiDung newUser = NguoiDung.builder()

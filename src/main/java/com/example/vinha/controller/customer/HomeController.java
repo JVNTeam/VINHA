@@ -296,7 +296,7 @@ public class HomeController {
         List<MaGiamGia> userVouchers = nguoiDungMaGiamGiaRepository.findByNguoiDungId(user.getId()).stream()
                 .map(NguoiDungMaGiamGia::getMaGiamGia)
                 .filter(Objects::nonNull)
-                .filter(v -> "Đang hoạt động".equals(v.getTrangThai()))
+                .filter(v -> Boolean.TRUE.equals(v.getTrangThai()))
                 .filter(v -> v.getSoLuong() == null || v.getSoLuong() > 0)
                 .toList();
 

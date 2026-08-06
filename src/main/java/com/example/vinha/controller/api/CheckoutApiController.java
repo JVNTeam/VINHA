@@ -164,8 +164,18 @@ public class CheckoutApiController {
             if (voucherId != null) {
                 MaGiamGia voucher = voucherService.layTheoId(voucherId);
                 if (voucher != null) {
+                    if (!Boolean.TRUE.equals(voucher.getTrangThai())) {
+                        response.put("success", false);
+                        response.put("message", "Mã giảm giá không còn hoạt động.");
+                        return ResponseEntity.ok(response);
+                    }
+                    if (voucher.getSoLuong() != null && voucher.getSoLuong() <= 0) {
+                        response.put("success", false);
+                        response.put("message", "Mã giảm giá đã hết lượt sử dụng.");
+                        return ResponseEntity.ok(response);
+                    }
                     donHang.setMaGiamGia(voucher);
-                    if (voucher.getSoLuong() > 0) {
+                    if (voucher.getSoLuong() != null && voucher.getSoLuong() > 0) {
                         voucher.setSoLuong(voucher.getSoLuong() - 1);
                         voucherService.capNhatMaGiamGia(voucher);
                     }

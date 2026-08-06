@@ -33,7 +33,7 @@
 
         <!-- Bộ lọc thời gian -->
         <div class="filter-card">
-            <form action="" class="filter-form">
+            <form action="/admin/tongQuan" method="GET" class="filter-form">
                 <div class="filter-group group-select">
                     <label class="filter-label">Thời gian</label>
                     <select class="filter-select" id="filterType">
@@ -44,15 +44,15 @@
                 </div>
                 <div class="filter-group group-search">
                     <label class="filter-label">Từ ngày</label>
-                    <input type="date" class="filter-input" id="startDate" value="2026-01-01">
+                    <input type="date" class="filter-input" id="startDate" name="startDate" th:value="${startDateVal}">
                 </div>
                 <div class="filter-group group-search">
                     <label class="filter-label">Đến ngày</label>
-                    <input type="date" class="filter-input" id="endDate" value="2026-12-31">
+                    <input type="date" class="filter-input" id="endDate" name="endDate" th:value="${endDateVal}">
                 </div>
                 <div class="filter-actions">
-                    <button type="button" class="btn-search" id="btnThongKe">Lọc dữ liệu</button>
-                    <button type="button" class="btn-reset" id="btnLamMoi">Làm mới</button>
+                    <button type="submit" class="btn-search" id="btnThongKe">Lọc dữ liệu</button>
+                    <a href="/admin/tongQuan" class="btn-reset" id="btnLamMoi">Làm mới</a>
                 </div>
             </form>
         </div>
@@ -67,7 +67,7 @@
                 <div class="card-info">
                     <p>TỔNG DOANH THU</p>
                     <h3 th:text="${#numbers.formatDecimal(tongDoanhThu, 0, 'COMMA', 0, 'POINT')} + 'đ'">1.125.400.000đ</h3>
-                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                    <span class="date-note" th:text="${dateNote}">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-orange"></div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="card-info">
                     <p>TỔNG ĐƠN HÀNG</p>
                     <h3 th:text="${#numbers.formatInteger(tongDonHang, 0, 'COMMA')}">12,420</h3>
-                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                    <span class="date-note" th:text="${dateNote}">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-red"></div>
             </div>
@@ -93,7 +93,7 @@
                 <div class="card-info">
                     <p>MÓN SẮP HẾT HÀNG</p>
                     <h3 th:text="${#numbers.formatInteger(soMonSapHet, 0, 'COMMA')}">12</h3>
-                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                    <span class="date-note" th:text="${dateNote}">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-brown"></div>
             </div>
@@ -106,7 +106,7 @@
                 <div class="card-info">
                     <p>TỔNG KHÁCH HÀNG</p>
                     <h3 th:text="${#numbers.formatInteger(soKhachHang, 0, 'COMMA')}">4,528</h3>
-                    <span class="date-note">(01/01/2026 - 31/12/2026)</span>
+                    <span class="date-note" th:text="${dateNote}">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-green"></div>
             </div>
@@ -126,27 +126,21 @@
 
                 <div class="css-bar-chart">
                     <div class="y-axis">
-                        <span>150M</span>
-                        <span>120M</span>
-                        <span>90M</span>
-                        <span>60M</span>
-                        <span>30M</span>
+                        <span th:text="${chartMaxRevenue >= 1000000 ? #numbers.formatDecimal(chartMaxRevenue / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(chartMaxRevenue / 1000.0, 1, 0) + 'K'}">150M</span>
+                        <span th:text="${chartMaxRevenue >= 1000000 ? #numbers.formatDecimal(chartMaxRevenue * 0.8 / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(chartMaxRevenue * 0.8 / 1000.0, 1, 0) + 'K'}">120M</span>
+                        <span th:text="${chartMaxRevenue >= 1000000 ? #numbers.formatDecimal(chartMaxRevenue * 0.6 / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(chartMaxRevenue * 0.6 / 1000.0, 1, 0) + 'K'}">90M</span>
+                        <span th:text="${chartMaxRevenue >= 1000000 ? #numbers.formatDecimal(chartMaxRevenue * 0.4 / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(chartMaxRevenue * 0.4 / 1000.0, 1, 0) + 'K'}">60M</span>
+                        <span th:text="${chartMaxRevenue >= 1000000 ? #numbers.formatDecimal(chartMaxRevenue * 0.2 / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(chartMaxRevenue * 0.2 / 1000.0, 1, 0) + 'K'}">30M</span>
                         <span>0</span>
                     </div>
                     <div class="chart-content">
                         <div class="bars-container">
-                            <div class="bar-group"><span class="bar-value">45M</span><div class="bar" style="height: 30%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">60M</span><div class="bar" style="height: 40%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">55M</span><div class="bar" style="height: 36%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">80M</span><div class="bar" style="height: 53%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">95M</span><div class="bar" style="height: 63%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">75M</span><div class="bar" style="height: 50%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">65M</span><div class="bar" style="height: 43%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">110M</span><div class="bar" style="height: 73%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">100M</span><div class="bar" style="height: 66%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">125M</span><div class="bar active-bar" style="height: 83%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">130M</span><div class="bar" style="height: 86%;"></div></div>
-                            <div class="bar-group"><span class="bar-value">145M</span><div class="bar" style="height: 96%;"></div></div>
+                            <th:block th:each="val : ${chartDataThisYear}">
+                                <div class="bar-group">
+                                    <span class="bar-value" th:text="${val >= 1000000 ? #numbers.formatDecimal(val / 1000000.0, 1, 1) + 'M' : #numbers.formatDecimal(val / 1000.0, 1, 0) + 'K'}">0M</span>
+                                    <div class="bar" th:classappend="${val > 0 ? 'active-bar' : ''}" th:style="${'height: ' + (val / chartMaxRevenue * 100) + '%;'}"></div>
+                                </div>
+                            </th:block>
                         </div>
                         <div class="x-axis">
                             <span>T1</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span>
@@ -180,7 +174,7 @@
                 <div class="top-list">
                     <div class="top-item" th:each="mon : ${topBanCham}">
                         <div class="item-text"><span th:text="${mon.ten}">Canh mướp đắng</span> <span th:text="${mon.daBan != null ? mon.daBan : 0} + ' suất'">24 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 10%;"></div></div>
+                        <div class="progress-track"><div class="progress-fill bg-red" th:style="'width: ' + (${mon.daBan != null and mon.daBan > 0 ? (mon.daBan * 100 / (topBanCham[topBanCham.size()-1].daBan > 0 ? topBanCham[topBanCham.size()-1].daBan : 1)) : 10}) + '%;'"></div></div>
                     </div>
                     <div th:if="${#lists.isEmpty(topBanCham)}" style="color: #64748b; font-size: 14px;">Chưa có dữ liệu.</div>
                 </div>
@@ -226,6 +220,7 @@
     </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="/js/admin/thong-ke.js"></script>
 </body>
 </html>

@@ -20,21 +20,13 @@ public class KhachHangController {
     private NguoiDungRepository nguoiDungRepository;
 
     @GetMapping
-    public String hienThiKhachHang(
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "status", required = false) String status,
-            Model model) {
-
-        String kw = keyword != null ? keyword.trim() : "";
-        String st = status != null ? status.trim() : "";
+    public String hienThiKhachHang(Model model) {
 
         // Vai trò 1 (Khách hàng)
         List<Long> vaiTroIds = List.of(1L);
-        List<NguoiDung> khachHangList = nguoiDungRepository.searchByVaiTroIdsAndKeywordAndStatus(vaiTroIds, kw, st);
+        List<NguoiDung> khachHangList = nguoiDungRepository.searchByVaiTroIdsAndKeywordAndStatus(vaiTroIds, "", "");
 
         model.addAttribute("khachHangList", khachHangList);
-        model.addAttribute("keyword", kw);
-        model.addAttribute("selectedStatus", st);
 
         return "admin/khachHang";
     }
@@ -43,11 +35,11 @@ public class KhachHangController {
     public String toggleTrangThai(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         NguoiDung nd = nguoiDungRepository.findById(id).orElse(null);
         if (nd != null) {
-            if ("Hoạt động".equals(nd.getTrangThai())) {
+            if ("Hoạt Động".equals(nd.getTrangThai())) {
                 nd.setTrangThai("Khóa");
                 redirectAttributes.addFlashAttribute("message", "Đã khóa tài khoản khách hàng.");
             } else {
-                nd.setTrangThai("Hoạt động");
+                nd.setTrangThai("Hoạt Động");
                 redirectAttributes.addFlashAttribute("message", "Đã mở khóa tài khoản khách hàng.");
             }
             nguoiDungRepository.save(nd);

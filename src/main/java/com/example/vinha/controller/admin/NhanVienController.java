@@ -26,21 +26,13 @@ public class NhanVienController {
     private VaiTroRepository vaiTroRepository;
 
     @GetMapping
-    public String hienThiNhanVien(
-            @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "status", required = false) String status,
-            Model model) {
-
-        String kw = keyword != null ? keyword.trim() : "";
-        String st = status != null ? status.trim() : "";
+    public String hienThiNhanVien(Model model) {
 
         // Vai trò 2 (Nhân viên) và 3 (Admin)
         List<Long> vaiTroIds = List.of(2L, 3L);
-        List<NguoiDung> nhanVienList = nguoiDungRepository.searchByVaiTroIdsAndKeywordAndStatus(vaiTroIds, kw, st);
+        List<NguoiDung> nhanVienList = nguoiDungRepository.searchByVaiTroIdsAndKeywordAndStatus(vaiTroIds, "", "");
 
         model.addAttribute("nhanVienList", nhanVienList);
-        model.addAttribute("keyword", kw);
-        model.addAttribute("selectedStatus", st);
 
         return "admin/nhanVien";
     }
@@ -86,7 +78,8 @@ public class NhanVienController {
                 .soDienThoai(soDienThoai.trim())
                 .matKhau(matKhau) // Chưa hash vì đơn giản hóa
                 .vaiTro(vaiTro)
-                .trangThai("ACTIVE")
+                .trangThai("Hoạt Động")
+                .cccd("CCCD_" + System.currentTimeMillis())
                 .build();
         nguoiDungRepository.save(nd);
 
@@ -159,10 +152,10 @@ public class NhanVienController {
             if (nd.getVaiTro().getId() == 3L) {
                 redirectAttributes.addFlashAttribute("error", "Không thể khóa tài khoản Quản trị viên (Admin).");
             } else {
-                if ("Hoạt động".equals(nd.getTrangThai())) {
+                if ("Hoạt Động".equalsIgnoreCase(nd.getTrangThai())) {
                     nd.setTrangThai("Khóa");
                 } else {
-                    nd.setTrangThai("Hoạt động");
+                    nd.setTrangThai("Hoạt Động");
                 }
                 nguoiDungRepository.save(nd);
                 redirectAttributes.addFlashAttribute("message", "Đã thay đổi trạng thái nhân viên.");

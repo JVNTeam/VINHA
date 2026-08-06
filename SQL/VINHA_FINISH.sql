@@ -1,7 +1,32 @@
--- TÊN WEB LÀ: VỊ NHÀ
-CREATE DATABASE ViNha;
+USE master;
 GO
+
+IF DB_ID('ViNha') IS NULL
+BEGIN
+    CREATE DATABASE ViNha;
+END
+GO
+
 USE ViNha;
+GO
+
+-- ==========================================
+-- XÓA DỮ LIỆU CŨ (NẾU CÓ) ĐỂ KHÔNG BỊ LỖI
+-- ==========================================
+DECLARE @sql NVARCHAR(MAX) = N'';
+
+-- Xóa tất cả khóa ngoại (Foreign Keys)
+SELECT @sql += N'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id))
+    + '.' + QUOTENAME(OBJECT_NAME(parent_object_id)) + ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
+FROM sys.foreign_keys;
+EXEC sp_executesql @sql;
+
+-- Xóa tất cả bảng (Tables)
+SET @sql = N'';
+SELECT @sql += N'DROP TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(object_id))
+    + '.' + QUOTENAME(name) + ';'
+FROM sys.tables;
+EXEC sp_executesql @sql;
 GO
 
 -- =========================
@@ -21,13 +46,13 @@ CREATE TABLE nguoi_dung (
         Email dùng để đăng nhập hoặc nhận thông báo.
         Không bắt buộc. Nếu có thì phải duy nhất.
     */
-                            email NVARCHAR(100) UNIQUE NULL,
+                            email NVARCHAR(100) NULL,
                             so_dien_thoai VARCHAR(20) UNIQUE NOT NULL,
     /*
         CCCD chỉ áp dụng cho nhân viên.
         Khách hàng để NULL.
     */
-                            cccd VARCHAR(20) UNIQUE NULL,
+                            cccd VARCHAR(20) NULL,
                             mat_khau NVARCHAR(255) NOT NULL,
     -- 0: Nam | 1: Nữ
                             gioi_tinh TINYINT CHECK(gioi_tinh IN(0,1)),
@@ -38,6 +63,10 @@ CREATE TABLE nguoi_dung (
                             ngay_cap_nhat DATETIME2 DEFAULT GETDATE(),
                             FOREIGN KEY(vai_tro_id) REFERENCES vai_tro(id)
 );
+
+-- Filtered unique indexes allow multiple NULL values but enforce uniqueness for non-NULL values
+CREATE UNIQUE NONCLUSTERED INDEX IDX_NguoiDung_Email ON nguoi_dung(email) WHERE email IS NOT NULL;
+CREATE UNIQUE NONCLUSTERED INDEX IDX_NguoiDung_CCCD ON nguoi_dung(cccd) WHERE cccd IS NOT NULL;
 
 CREATE TABLE dia_chi (
                          id BIGINT IDENTITY(1,1) PRIMARY KEY,
@@ -239,13 +268,13 @@ VALUES
 -- 4. DANH MỤC CƠ BẢN VÀ THÊM 5 DANH MỤC MỚI
 INSERT INTO danh_muc (ten, mo_ta, trang_thai, anh)
 VALUES
-    (N'Cơm văn phòng', N'Các suất cơm hằng ngày', N'Mở', N'com-van-phong.jpg'),
-    (N'Cơm đặc biệt', N'Cơm cao cấp', N'Mở', N'com-dac-biet.jpg'),
-    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'com-ga.jpg'),
-    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'com-bo.jpg'),
-    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'com-heo.jpg'),
-    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'com-hai-san.jpg'),
-    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'com-chay.jpg');
+    (N'Cơm văn phòng', N'Các suất cơm hàng ngày', N'Mở', N'/uploads/com-van-phong.jpg'),
+    (N'Cơm đặc biệt', N'Cơm cao cấp', N'Mở', N'/uploads/com-dac-biet.jpg'),
+    (N'Cơm gà', N'Các món cơm kết hợp với thịt gà', N'Mở', N'/uploads/com-ga.jpg'),
+    (N'Cơm bò', N'Các món cơm kết hợp với thịt bò', N'Mở', N'/uploads/com-bo.jpg'),
+    (N'Cơm heo', N'Các món cơm với thịt heo', N'Mở', N'/uploads/com-heo.jpg'),
+    (N'Cơm hải sản', N'Cơm chiên và xào với hải sản', N'Mở', N'/uploads/com-hai-san.jpg'),
+    (N'Cơm chay', N'Các món cơm thanh đạm', N'Mở', N'/uploads/com-chay.jpeg');
 
 -- 5. MÓN ĂN CƠ BẢN VÀ 10 MÓN ĂN MỚI
 INSERT INTO mon_an (danh_muc_id, ten, mo_ta, thanh_phan, gia, so_luong_con, da_ban)
@@ -277,7 +306,17 @@ VALUES
 INSERT INTO hinh_anh_mon_an (mon_an_id, duong_dan)
 VALUES
     (1, '/images/comGa.png'),
-    (2, '/images/comBoLucLac.jpg');
+    (2, '/uploads/comBoLucLac.jpg'),
+    (3, '/uploads/ga-xao-nam.jpg'),
+    (4, '/uploads/Com-ga-xoi-mo.jpg'),
+    (5, '/uploads/ga-quay.jpg'),
+    (6, '/uploads/comBoLucLac.jpg'),
+    (7, '/uploads/bo-xao-dua-chua.jpg'),
+    (8, '/uploads/ba-chi-chay-canh.jpg'),
+    (9, '/uploads/suon-nuong.jpg'),
+    (10, '/uploads/thit-bam-sot-ca-chua.jpg'),
+    (11, '/uploads/mon-muc-xao-chua-ngot.jpg'),
+    (12, '/uploads/dau-hu-xao-rau.jpg');
 
 -- 7. GIỎ HÀNG
 INSERT INTO gio_hang (nguoi_dung_id)

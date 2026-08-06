@@ -13,6 +13,7 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung, Long> {
     Optional<NguoiDung> findByEmailOrSoDienThoai(String email, String soDienThoai);
     boolean existsByEmail(String email);
     boolean existsBySoDienThoai(String soDienThoai);
+    boolean existsByCccd(String cccd);
     long countByVaiTroId(Long vaiTroId);
     java.util.List<NguoiDung> findByVaiTroId(Long vaiTroId);
     org.springframework.data.domain.Page<NguoiDung> findByVaiTroId(Long vaiTroId, org.springframework.data.domain.Pageable pageable);

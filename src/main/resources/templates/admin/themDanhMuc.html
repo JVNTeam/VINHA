@@ -234,7 +234,7 @@
                 <input type="hidden" name="id" th:value="${danhMuc.id}"/>
 
                 <div class="form-group">
-                    <label class="form-label">Tên danh mục</label>
+                    <label class="form-label">Tên danh mục <span style="color: red;">*</span></label>
                     <input type="text" name="ten" class="form-control" placeholder="Nhập tên danh mục" th:value="${danhMuc.ten}" required/>
                 </div>
 
@@ -244,7 +244,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Trạng thái</label>
+                    <label class="form-label">Trạng thái <span style="color: red;">*</span></label>
                     <select name="trangThai" class="form-select" required>
                         <option value="">Chọn trạng thái</option>
                         <option th:each="st : ${statusOptions}"
@@ -256,7 +256,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Chọn ảnh</label>
+                    <label class="form-label">Chọn ảnh <span style="color: red;">*</span></label>
                     <div class="file-input-wrapper">
                         <label for="fileAnh" class="file-input-button"><i class="fa-regular fa-folder-open"></i> Chọn tệp ảnh</label>
                         <span class="file-input-filename" id="fileName">Chưa có tệp nào được chọn</span>
@@ -266,7 +266,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Ảnh đại diện danh mục</label>
+                    <label class="form-label">Ảnh đại diện danh mục <span style="color: red;">*</span></label>
                     <input id="anhInput" type="text" name="anh" class="form-control" placeholder="Nhập đường dẫn ảnh hoặc URL" th:value="${danhMuc.anh}" />
                     <div class="image-preview" id="imagePreviewBox">
                         <div class="placeholder" id="previewPlaceholder">
@@ -325,6 +325,26 @@
 
     anhInput.addEventListener('input', updateCategoryImagePreview);
     document.addEventListener('DOMContentLoaded', updateCategoryImagePreview);
+
+    const form = document.querySelector('form');
+    const tenInput = document.querySelector('input[name="ten"]');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Kiểm tra tên danh mục không được chỉ chứa số
+            const tenValue = tenInput ? tenInput.value.trim() : '';
+            if (tenValue !== '' && !isNaN(tenValue)) {
+                e.preventDefault();
+                alert('Tên danh mục không được chỉ chứa số!');
+                if (tenInput) tenInput.focus();
+                return;
+            }
+
+            if (!anhInput.value || anhInput.value.trim() === '') {
+                e.preventDefault();
+                alert('Vui lòng chọn tệp ảnh hoặc nhập đường dẫn ảnh!');
+            }
+        });
+    }
 </script>
 </body>
 </html>

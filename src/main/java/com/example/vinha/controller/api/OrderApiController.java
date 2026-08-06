@@ -53,13 +53,13 @@ public class OrderApiController {
                 return ResponseEntity.ok(response);
             }
 
-            if (!order.getTrangThai().equals("Chờ xác nhận")) {
+            if (order.getTrangThai() == null || !order.getTrangThai().trim().equalsIgnoreCase("Chờ xác nhận")) {
                 response.put("success", false);
                 response.put("message", "Chỉ có thể hủy đơn hàng ở trạng thái 'Chờ xác nhận'");
                 return ResponseEntity.ok(response);
             }
 
-            order.setTrangThai("Đã hủy");
+            order.setTrangThai("Hủy");
             donHangRepository.save(order);
 
             response.put("success", true);

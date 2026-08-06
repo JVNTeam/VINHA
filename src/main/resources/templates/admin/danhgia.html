@@ -91,38 +91,31 @@
                     <th style="width: 25%;">NỘI DUNG ĐÁNH GIÁ</th>
                     <th style="width: 12%;">NGÀY ĐĂNG</th>
                     <th style="width: 10%; text-align: center;">TRẠNG THÁI</th>
-                    <th style="width: 8%; text-align: center;">THAO TÁC</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Đánh giá 1 -->
-                <tr>
-                    <td style="text-align: center;"><span class="text-muted font-bold">01</span></td>
+                   <tr th:each="dg, iterStat : ${danhGiaList}">
+                    <td style="text-align: center;"><span class="text-muted font-bold" th:text="${iterStat.index + 1}">01</span></td>
                     <td>
                         <div class="details">
-                            <strong class="text-main">Nguyễn Văn An</strong>
-                            <span class="text-muted text-sm">0908 123 456</span>
+                            <strong class="text-main" th:text="${dg.nguoiDung.hoTen}">Nguyễn Văn An</strong>
+                            <span class="text-muted text-sm" th:text="${dg.nguoiDung.soDienThoai}">0908 123 456</span>
                         </div>
                     </td>
                     <td>
-                        <strong class="text-main">Cơm Sườn Nướng</strong>
+                        <strong class="text-main" th:text="${dg.monAn.ten}">Cơm Sườn Nướng</strong>
                     </td>
                     <td>
                         <div class="review-content">
                             <div class="stars">
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <i th:classappend="${i <= dg.soSao ? 'fas fa-star text-orange' : 'far fa-star text-gray'}"></i>
+                                </th:block>
                             </div>
-                            <p class="comment">Sườn ướp rất đậm đà, giao hàng cực kỳ nhanh luôn. Sẽ ủng hộ quán dài dài!</p>
+                            <p class="comment" th:text="${dg.binhLuan}">Sườn ướp rất đậm đà!</p>
                         </div>
                     </td>
                     <td>
                         <div class="details">
-                            <strong class="text-main">12:30</strong>
-                            <span class="text-muted text-sm">27/07/2026</span>
+                            <strong class="text-main" th:text="${#temporals.format(dg.ngayTao, 'HH:mm')}">12:30</strong>
+                            <span class="text-muted text-sm" th:text="${#temporals.format(dg.ngayTao, 'dd/MM/yyyy')}">27/07/2026</span>
                         </div>
                     </td>
                     <td style="text-align: center;">
@@ -130,92 +123,13 @@
                     </td>
                     <td style="text-align: center;">
                         <div class="action-buttons">
-                            <button class="btn-icon" title="Phản hồi"><i class="fas fa-reply"></i></button>
-                            <button class="btn-icon text-danger" title="Ẩn đánh giá"><i class="fas fa-eye-slash"></i></button>
+                            <!-- Xóa đánh giá (Thay vì ẩn) -->
+                            <a th:href="@{/admin/danhGia/xoa(id=${dg.id})}" class="btn-icon text-danger" title="Xóa đánh giá" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này vĩnh viễn?');"><i class="fas fa-trash"></i></a>
                         </div>
                     </td>
                 </tr>
-
-                <!-- Đánh giá 2 -->
-                <tr>
-                    <td style="text-align: center;"><span class="text-muted font-bold">02</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Lê Hồng Hạnh</strong>
-                            <span class="text-muted text-sm">0912 987 654</span>
-                        </div>
-                    </td>
-                    <td>
-                        <strong class="text-main">Cơm Gà Xối Mỡ</strong>
-                    </td>
-                    <td>
-                        <div class="review-content">
-                            <div class="stars">
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="far fa-star text-gray"></i>
-                                <i class="far fa-star text-gray"></i>
-                            </div>
-                            <p class="comment">Gà hơi khô một chút, bù lại nước mắm rất ngon. Quán chú ý chiên gà mềm hơn nhé.</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">09:15</strong>
-                            <span class="text-muted text-sm">26/07/2026</span>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-visible">Đang hiển thị</span>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="action-buttons">
-                            <button class="btn-icon" title="Phản hồi"><i class="fas fa-reply"></i></button>
-                            <button class="btn-icon text-danger" title="Ẩn đánh giá"><i class="fas fa-eye-slash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Đánh giá 3 -->
-                <tr>
-                    <td style="text-align: center;"><span class="text-muted font-bold">03</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">Trần Phương</strong>
-                            <span class="text-muted text-sm">0888 555 222</span>
-                        </div>
-                    </td>
-                    <td>
-                        <strong class="text-main">Cơm Niêu Cháy Cạnh</strong>
-                    </td>
-                    <td>
-                        <div class="review-content">
-                            <div class="stars">
-                                <i class="fas fa-star text-orange"></i>
-                                <i class="far fa-star text-gray"></i>
-                                <i class="far fa-star text-gray"></i>
-                                <i class="far fa-star text-gray"></i>
-                                <i class="far fa-star text-gray"></i>
-                            </div>
-                            <p class="comment text-danger">Giao nhầm món cho mình, nhắn tin quán không trả lời. Tệ thật sự!</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main">18:30</strong>
-                            <span class="text-muted text-sm">24/07/2026</span>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-hidden">Đã ẩn</span>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="action-buttons">
-                            <button class="btn-icon" title="Phản hồi"><i class="fas fa-reply"></i></button>
-                            <button class="btn-icon text-success" title="Hiển thị lại"><i class="fas fa-eye"></i></button>
-                        </div>
-                    </td>
+                <tr th:if="${#lists.isEmpty(danhGiaList)}">
+                    <td colspan="7" style="text-align: center; color: #64748b;">Không có đánh giá nào.</td>
                 </tr>
                 </tbody>
             </table>

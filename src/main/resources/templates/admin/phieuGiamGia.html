@@ -102,7 +102,7 @@
                             th:text="${stat.count + vouchersPage.number * vouchersPage.size}">01</td>
                         <td>
                             <span class="code-badge"
-                                  th:classappend="${!item.voucher.trangThai} ? ' expired' : ''"
+                                  th:classappend="${item.voucher.trangThai != null and !item.voucher.trangThai} ? ' expired' : ''"
                                   th:text="${item.voucher.ma}">VINHA20</span>
                         </td>
                         <td class="col-highlight text-orange"
@@ -119,7 +119,7 @@
                                     Giảm tối đa 50,000đ
                                 </span>
                                 <span class="text-muted" style="font-size: 12px;"
-                                      th:if="${item.voucher.moTa != null and !item.voucher.moTa.isEmpty()}"
+                                      th:if="${!#strings.isEmpty(item.voucher.moTa)}"
                                       th:text="${item.voucher.moTa}"></span>
                             </div>
                         </td>
@@ -143,13 +143,13 @@
                             <div class="status-toggle">
                                 <a th:href="@{/admin/phieuGiamGia/toggle(id=${item.voucher.id})}"
                                    class="toggle-switch"
-                                   th:title="${item.voucher.trangThai} ? 'Nhấn để tắt' : 'Nhấn để bật'">
+                                   th:title="${item.voucher.trangThai != null and item.voucher.trangThai} ? 'Nhấn để tắt' : 'Nhấn để bật'">
                                     <span class="slider"
-                                          th:classappend="${item.voucher.trangThai} ? ' on' : ''"></span>
+                                          th:classappend="${item.voucher.trangThai != null and item.voucher.trangThai} ? ' on' : ''"></span>
                                 </a>
                                 <span class="status-text"
-                                      th:classappend="${item.voucher.trangThai} ? ' text-success' : ' text-muted'"
-                                      th:text="${item.voucher.trangThai} ? 'Đang bật' : 'Đã tắt'">Đang bật</span>
+                                      th:classappend="${item.voucher.trangThai != null and item.voucher.trangThai} ? ' text-success' : ' text-muted'"
+                                      th:text="${item.voucher.trangThai != null and item.voucher.trangThai} ? 'Đang bật' : 'Đã tắt'">Đang bật</span>
                             </div>
                         </td>
                         <td style="text-align: center;">

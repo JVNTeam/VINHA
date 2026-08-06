@@ -41,7 +41,7 @@ public class AuthService {
         }
 
         // Kiểm tra trạng thái tài khoản
-        if (!"Hoạt Động".equals(user.getTrangThai())) {
+        if (!"Hoạt động".equals(user.getTrangThai())) {
             return Optional.empty();
         }
 
@@ -85,15 +85,20 @@ public class AuthService {
             return Optional.of("Email hoặc Số điện thoại không đúng định dạng.");
         }
 
-        Optional<VaiTro> vaiTroOpt = vaiTroRepository.findByTen("Khách hàng");
+        Optional<VaiTro> vaiTroOpt = vaiTroRepository.findById(1L); // 1L is Khách hàng
         if (vaiTroOpt.isEmpty()) {
-            return Optional.of("Không tìm thấy vai trò mặc định Khách hàng.");
+            return Optional.of("Không tìm thấy vai trò mặc định (ID 1).");
         }
 
         LocalDateTime now = LocalDateTime.now();
 
-        // Chuyển Integer gioiTinh sang Byte nếu Entity NguoiDung dùng Byte (hoặc truyền trực tiếp nếu Entity dùng Integer)
+        // Chuyển Integer gioiTinh sang Byte
         Byte gioiTinhByte = (gioiTinh != null) ? gioiTinh.byteValue() : null;
+
+        // Nếu soDienThoai bị trống (do đăng ký bằng email), tạo sđt giả để thỏa mãn NOT NULL và UNIQUE
+        if (soDienThoai == null) {
+            soDienThoai = "NO_PHONE_" + System.currentTimeMillis();
+        }
 
         NguoiDung newUser = NguoiDung.builder()
                 .vaiTro(vaiTroOpt.get())
@@ -102,8 +107,8 @@ public class AuthService {
                 .soDienThoai(soDienThoai)
                 .cccd("")
                 .matKhau(matKhau)
-                .gioiTinh(gioiTinhByte) // Trường hợp Entity NguoiDung nhận kiểu Byte
-                .trangThai("Hoạt Động")
+                .gioiTinh(gioiTinhByte)
+                .trangThai("Hoạt động") // Đồng bộ với DB
                 .ngayTao(now)
                 .ngayCapNhat(now)
                 .build();

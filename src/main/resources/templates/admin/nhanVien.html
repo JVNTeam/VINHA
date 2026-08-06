@@ -27,7 +27,7 @@
                 <h1 class="page-title">Quản lý nhân viên</h1>
                 <p class="page-subtitle">Xem và quản lý thông tin nhân viên trên hệ thống Vị Nhà.</p>
             </div>
-            <button class="btn-add"><i class="fas fa-plus"></i> Thêm nhân viên mới</button>
+            <a th:href="@{/admin/nhanVien/them}" class="btn-add" style="text-decoration: none;"><i class="fas fa-plus"></i> Thêm nhân viên mới</a>
         </div>
 
         <!-- Khu vực lọc & tìm kiếm chuẩn hóa -->
@@ -73,101 +73,32 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Dòng 1 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">01</td>
+                    <tr th:each="nv, iterStat : ${nhanVienList}">
+                        <td class="col-stt" style="text-align: center;" th:text="${iterStat.index + 1}">01</td>
                         <td>
                             <div class="details-text">
-                                <strong class="col-dish-name">Nguyễn Văn Hoàng</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">ID: VN-2034</span>
+                                <strong class="col-dish-name" th:text="${nv.hoTen}">Nguyễn Văn Hoàng</strong><br>
+                                <span class="text-muted" style="font-size: 13px;" th:text="'Vai trò: ' + ${nv.vaiTro != null ? nv.vaiTro.ten : 'Chưa phân'}">Vai trò: Lễ tân</span>
                             </div>
                         </td>
                         <td>
                             <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;">hoang.nv@gmail.com</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">0987 654 321</span>
+                                <strong style="color: var(--text-main); font-weight: 600;" th:text="${nv.email}">hoang.nv@gmail.com</strong><br>
+                                <span class="text-muted" style="font-size: 13px;" th:text="${nv.soDienThoai}">0987 654 321</span>
                             </div>
                         </td>
-                        <td style="text-align: center;"><span class="badge badge-active">Hoạt động</span></td>
+                        <td style="text-align: center;">
+                            <span th:classappend="${nv.trangThai == 'ACTIVE' ? 'badge badge-active' : 'badge badge-locked'}" th:text="${nv.trangThai == 'ACTIVE' ? 'Hoạt động' : 'Bị khóa'}">Hoạt động</span>
+                        </td>
                         <td style="text-align: center;">
                             <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-danger" title="Khóa"><i class="fas fa-lock"></i></button>
+                                <a th:href="@{/admin/nhanVien/sua(id=${nv.id})}" class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></a>
+                                <a th:href="@{/admin/nhanVien/xoa(id=${nv.id})}" th:classappend="${nv.vaiTro.id == 3 ? 'disabled' : ''}" class="btn-icon text-danger" title="Khóa/Mở khóa" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');"><i th:classappend="${nv.trangThai == 'ACTIVE' ? 'fas fa-lock' : 'fas fa-lock-open'}"></i></a>
                             </div>
                         </td>
                     </tr>
-                    <!-- Dòng 2 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">02</td>
-                        <td>
-                            <div class="details-text">
-                                <strong class="col-dish-name">Trần Thị Lan</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">ID: VN-2035</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;">lan.tran88@viha.vn</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">0901 234 567</span>
-                            </div>
-                        </td>
-                        <td style="text-align: center;"><span class="badge badge-locked">Bị khóa</span></td>
-                        <td style="text-align: center;">
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-success" title="Mở khóa"><i class="fas fa-lock-open"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Dòng 3 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">03</td>
-                        <td>
-                            <div class="details-text">
-                                <strong class="col-dish-name">Phạm Minh Mạnh</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">ID: VN-2036</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;">manh_pm@outlook.com</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">0912 888 999</span>
-                            </div>
-                        </td>
-                        <td style="text-align: center;"><span class="badge badge-active">Hoạt động</span></td>
-                        <td style="text-align: center;">
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-danger" title="Khóa"><i class="fas fa-lock"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Dòng 4 -->
-                    <tr>
-                        <td class="col-stt" style="text-align: center;">04</td>
-                        <td>
-                            <div class="details-text">
-                                <strong class="col-dish-name">Lê Diệu Linh</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">ID: VN-2037</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;">linh_ld@gmail.com</strong><br>
-                                <span class="text-muted" style="font-size: 13px;">0345 678 910</span>
-                            </div>
-                        </td>
-                        <td style="text-align: center;"><span class="badge badge-active">Hoạt động</span></td>
-                        <td style="text-align: center;">
-                            <div class="action-buttons">
-                                <button class="btn-icon" title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                                <button class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                                <button class="btn-icon text-danger" title="Khóa"><i class="fas fa-lock"></i></button>
-                            </div>
-                        </td>
+                    <tr th:if="${#lists.isEmpty(nhanVienList)}">
+                        <td colspan="5" style="text-align: center; color: #64748b;">Không tìm thấy nhân viên nào.</td>
                     </tr>
                     </tbody>
                 </table>

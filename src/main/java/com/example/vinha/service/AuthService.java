@@ -105,7 +105,7 @@ public class AuthService {
                 .hoTen(hoTen.trim())
                 .email(email)
                 .soDienThoai(soDienThoai)
-                .cccd("")
+                .cccd(null)
                 .matKhau(matKhau)
                 .gioiTinh(gioiTinhByte)
                 .trangThai("Hoạt động") // Đồng bộ với DB

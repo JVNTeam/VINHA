@@ -1,32 +1,17 @@
 USE master;
 GO
 
-IF DB_ID('ViNha') IS NULL
+IF DB_ID('ViNha') IS NOT NULL
 BEGIN
-    CREATE DATABASE ViNha;
+    ALTER DATABASE ViNha SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE ViNha;
 END
 GO
 
-USE ViNha;
+CREATE DATABASE ViNha;
 GO
 
--- ==========================================
--- XÓA DỮ LIỆU CŨ (NẾU CÓ) ĐỂ KHÔNG BỊ LỖI
--- ==========================================
-DECLARE @sql NVARCHAR(MAX) = N'';
-
--- Xóa tất cả khóa ngoại (Foreign Keys)
-SELECT @sql += N'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id))
-    + '.' + QUOTENAME(OBJECT_NAME(parent_object_id)) + ' DROP CONSTRAINT ' + QUOTENAME(name) + ';'
-FROM sys.foreign_keys;
-EXEC sp_executesql @sql;
-
--- Xóa tất cả bảng (Tables)
-SET @sql = N'';
-SELECT @sql += N'DROP TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(object_id))
-    + '.' + QUOTENAME(name) + ';'
-FROM sys.tables;
-EXEC sp_executesql @sql;
+USE ViNha;
 GO
 
 -- =========================

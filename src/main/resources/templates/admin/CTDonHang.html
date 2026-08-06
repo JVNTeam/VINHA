@@ -174,13 +174,13 @@
                         <input type="hidden" name="id" th:value="${donHang != null ? donHang.id : ''}">
                         <div style="display: flex; gap: 12px; width: 100%;">
                             <!-- Nút Hủy (Có prompt lý do hủy bằng JS) -->
-                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành'}" 
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}" 
                                     type="button" class="btn-action btn-danger-outline" id="btnHuyPrompt" style="flex: 1;">
                                 <i class="fas fa-times"></i> Hủy đơn
                             </button>
                             <input type="hidden" name="lyDoHuy" id="lyDoHuyInput">
                             
-                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành'}" 
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}" 
                                     type="submit" name="status" value="Hủy" id="btnHuySubmit" style="display: none;"></button>
 
                             <!-- Logic nút tiếp theo dựa theo trạng thái hiện tại -->

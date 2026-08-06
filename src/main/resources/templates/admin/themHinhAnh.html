@@ -95,7 +95,12 @@
 
         /* GIAO DIỆN UPLOAD FILE CHUẨN Y HỆT ẢNH */
         .file-input-hidden {
-            display: none;
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
         }
 
         .file-upload-wrapper {
@@ -218,7 +223,7 @@
 
                     <!-- Dòng 1: Chọn món ăn -->
                     <div class="form-group">
-                        <label class="form-label">Chọn món ăn</label>
+                        <label class="form-label">Chọn món ăn <span style="color: red;">*</span></label>
                         <select name="monAnId" class="form-select" required>
                             <option value="">-- Vui lòng chọn món ăn --</option>
                             <option th:each="monAn : ${monAnList}"
@@ -230,7 +235,7 @@
 
                     <!-- Dòng 2: Tải file & Xem trước -->
                     <div class="form-group">
-                        <label class="form-label">Tải tệp hình ảnh</label>
+                        <label class="form-label">Tải tệp hình ảnh <span style="color: red;" th:if="${image == null or image.id == null}">*</span></label>
 
                         <!-- UI Mới của ô Upload File -->
                         <div class="file-upload-wrapper">
@@ -263,7 +268,7 @@
 
                     <!-- Dòng 3: Trạng thái -->
                     <div class="form-group" style="margin-bottom: 0;">
-                        <label class="form-label">Trạng thái</label>
+                        <label class="form-label">Trạng thái <span style="color: red;">*</span></label>
                         <select name="trangThai" class="form-select">
                             <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}"
                                     th:selected="${image != null and image.trangThai == st}"></option>

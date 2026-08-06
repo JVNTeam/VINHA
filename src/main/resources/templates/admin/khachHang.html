@@ -76,65 +76,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Dòng 1 -->
-                <tr>
-                    <td>01</td>
+                <tr th:each="kh, iterStat : ${khachHangList}">
+                    <td th:text="${iterStat.index + 1}">01</td>
                     <td>
-                        <div class="font-weight-600 text-main">Nguyễn Văn Hoàng</div>
+                        <div class="font-weight-600 text-main" th:text="${kh.hoTen}">Nguyễn Văn Hoàng</div>
                     </td>
                     <td>
                         <div class="contact-info">
-                            <span class="font-weight-600">hoang.nv@gmail.com</span>
-                            <span class="text-muted" style="font-size: 13px;">0987 654 321</span>
+                            <span class="font-weight-600" th:text="${kh.email}">hoang.nv@gmail.com</span><br>
+                            <span class="text-muted" style="font-size: 13px;" th:text="${kh.soDienThoai}">0987 654 321</span>
                         </div>
                     </td>
-                    <td><span class="badge badge-open">Đang mở</span></td>
+                    <td>
+                        <span th:classappend="${kh.trangThai == 'ACTIVE' ? 'badge badge-open' : 'badge badge-closed'}" th:text="${kh.trangThai == 'ACTIVE' ? 'Đang mở' : 'Đã khóa'}">Đang mở</span>
+                    </td>
                     <td>15/10/2026</td>
                     <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Đóng tài khoản" class="text-danger"><i class="fas fa-lock"></i></button>
+                        <a th:href="@{/admin/khachHang/toggle(id=${kh.id})}" th:title="${kh.trangThai == 'ACTIVE' ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}" th:classappend="${kh.trangThai == 'ACTIVE' ? 'text-danger' : 'text-success'}" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');">
+                            <i th:classappend="${kh.trangThai == 'ACTIVE' ? 'fas fa-lock' : 'fas fa-lock-open'}"></i>
+                        </a>
                     </td>
                 </tr>
-                <!-- Dòng 2 -->
-                <tr>
-                    <td>02</td>
-                    <td>
-                        <div class="font-weight-600 text-main">Trần Thị Lan</div>
-                    </td>
-                    <td>
-                        <div class="contact-info">
-                            <span class="font-weight-600">lan.tran88@viha.vn</span>
-                            <span class="text-muted" style="font-size: 13px;">0901 234 567</span>
-                        </div>
-                    </td>
-                    <td><span class="badge badge-closed">Đã đóng</span></td>
-                    <td>12/10/2026</td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Mở khóa tài khoản" class="text-success"><i class="fas fa-lock-open"></i></button>
-                    </td>
-                </tr>
-                <!-- Dòng 3 -->
-                <tr>
-                    <td>03</td>
-                    <td>
-                        <div class="font-weight-600 text-main">Phạm Minh Mạnh</div>
-                    </td>
-                    <td>
-                        <div class="contact-info">
-                            <span class="font-weight-600">manh_pm@outlook.com</span>
-                            <span class="text-muted" style="font-size: 13px;">0912 888 999</span>
-                        </div>
-                    </td>
-                    <td><span class="badge badge-open">Đang mở</span></td>
-                    <td>10/10/2026</td>
-                    <td class="actions" style="text-align: center;">
-                        <button title="Xem chi tiết"><i class="fas fa-eye"></i></button>
-                        <button title="Chỉnh sửa"><i class="fas fa-pen"></i></button>
-                        <button title="Đóng tài khoản" class="text-danger"><i class="fas fa-lock"></i></button>
-                    </td>
+                <tr th:if="${#lists.isEmpty(khachHangList)}">
+                    <td colspan="6" style="text-align: center; color: #64748b;">Không tìm thấy khách hàng nào.</td>
                 </tr>
                 </tbody>
             </table>

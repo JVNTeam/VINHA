@@ -66,7 +66,7 @@
                 </div>
                 <div class="card-info">
                     <p>TỔNG DOANH THU</p>
-                    <h3>1.125.400.000đ</h3>
+                    <h3 th:text="${#numbers.formatDecimal(tongDoanhThu, 0, 'COMMA', 0, 'POINT')} + 'đ'">1.125.400.000đ</h3>
                     <span class="date-note">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-orange"></div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="card-info">
                     <p>TỔNG ĐƠN HÀNG</p>
-                    <h3>12,420</h3>
+                    <h3 th:text="${#numbers.formatInteger(tongDonHang, 0, 'COMMA')}">12,420</h3>
                     <span class="date-note">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-red"></div>
@@ -91,8 +91,8 @@
                     <span class="badge badge-down"><i class="fa-solid fa-arrow-trend-down"></i> 2.1%</span>
                 </div>
                 <div class="card-info">
-                    <p>SỐ MÓN ĐÃ BÁN</p>
-                    <h3>34,850</h3>
+                    <p>MÓN SẮP HẾT HÀNG</p>
+                    <h3 th:text="${#numbers.formatInteger(soMonSapHet, 0, 'COMMA')}">12</h3>
                     <span class="date-note">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-brown"></div>
@@ -104,8 +104,8 @@
                     <span class="badge badge-up"><i class="fa-solid fa-arrow-trend-up"></i> 15.4%</span>
                 </div>
                 <div class="card-info">
-                    <p>KHÁCH HÀNG MỚI</p>
-                    <h3>4,528</h3>
+                    <p>TỔNG KHÁCH HÀNG</p>
+                    <h3 th:text="${#numbers.formatInteger(soKhachHang, 0, 'COMMA')}">4,528</h3>
                     <span class="date-note">(01/01/2026 - 31/12/2026)</span>
                 </div>
                 <div class="card-border border-green"></div>
@@ -163,18 +163,14 @@
                     <i class="fa-solid fa-fire"></i> Top món bán chạy
                 </h3>
                 <div class="top-list">
-                    <div class="top-item">
-                        <div class="item-text"><span>Cơm sườn bì chả</span> <span>2.450 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 90%;"></div></div>
+                    <div class="top-item" th:each="mon : ${topBanChay}">
+                        <div class="item-text"><span th:text="${mon.ten}">Cơm sườn bì chả</span> <span th:text="${mon.daBan != null ? mon.daBan : 0} + ' suất'">2.450 suất</span></div>
+                        <div class="progress-track">
+                            <!-- Tính % ngẫu nhiên hoặc dựa trên số lớn nhất -->
+                            <div class="progress-fill bg-orange" th:style="'width: ' + (${mon.daBan != null and mon.daBan > 0 ? (mon.daBan * 100 / topBanChay[0].daBan) : 10}) + '%;'"></div>
+                        </div>
                     </div>
-                    <div class="top-item">
-                        <div class="item-text"><span>Phở bò Nam Định</span> <span>1.850 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 75%;"></div></div>
-                    </div>
-                    <div class="top-item">
-                        <div class="item-text"><span>Bún chả Hà Nội</span> <span>1.200 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-orange" style="width: 60%;"></div></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(topBanChay)}" style="color: #64748b; font-size: 14px;">Chưa có dữ liệu.</div>
                 </div>
 
                 <!-- Bán chậm -->
@@ -182,59 +178,46 @@
                     <i class="fa-solid fa-arrow-down"></i> Top món bán chậm
                 </h3>
                 <div class="top-list">
-                    <div class="top-item">
-                        <div class="item-text"><span>Canh mướp đắng</span> <span>24 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 8%;"></div></div>
+                    <div class="top-item" th:each="mon : ${topBanCham}">
+                        <div class="item-text"><span th:text="${mon.ten}">Canh mướp đắng</span> <span th:text="${mon.daBan != null ? mon.daBan : 0} + ' suất'">24 suất</span></div>
+                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 10%;"></div></div>
                     </div>
-                    <div class="top-item">
-                        <div class="item-text"><span>Nộm ngó sen</span> <span>35 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 12%;"></div></div>
-                    </div>
-                    <div class="top-item">
-                        <div class="item-text"><span>Chè khúc bạch</span> <span>48 suất</span></div>
-                        <div class="progress-track"><div class="progress-fill bg-red" style="width: 15%;"></div></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(topBanCham)}" style="color: #64748b; font-size: 14px;">Chưa có dữ liệu.</div>
                 </div>
             </div>
         </div>
 
-        <!-- Bảng Chi tiết Doanh Thu -->
+        <!-- Bảng Chi tiết Đơn hàng mới nhất -->
         <div class="table-card" style="margin-top: 24px;">
             <h3 style="font-size: 18px; font-weight: 800; color: var(--admin-dark-brown); margin-bottom: 20px;">
-                Chi tiết doanh thu theo món ăn
+                Đơn hàng mới nhất
             </h3>
             <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <th width="70">STT</th>
-                        <th>MÓN ĂN</th>
-                        <th>SỐ LƯỢNG BÁN</th>
-                        <th>DOANH THU</th>
+                        <th width="70">Mã ĐH</th>
+                        <th>KHÁCH HÀNG</th>
+                        <th>NGÀY ĐẶT</th>
+                        <th>TỔNG TIỀN</th>
+                        <th>TRẠNG THÁI</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td class="col-stt">01</td>
-                        <td class="col-dish-name">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=150" alt="Cơm" class="dish-preview-img" style="width: 50px; height: 35px; border-radius: 6px; object-fit: cover;">
-                                Cơm sườn bì chả đặc biệt
-                            </div>
+                    <tr th:each="dh : ${donHangMoiNhat}">
+                        <td class="col-stt" th:text="'#' + ${dh.id}">01</td>
+                        <td>
+                            <div style="font-weight: 600; color: #1e293b;" th:text="${dh.diaChi != null ? dh.diaChi.tenNguoiNhan : 'Khách vãng lai'}">Nguyễn Văn A</div>
+                            <div style="font-size: 13px; color: #64748b;" th:text="${dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''}">0901234567</div>
                         </td>
-                        <td>2.450</td>
-                        <td><span style="font-weight: 800; color: var(--admin-orange);">159.600.000đ</span></td>
+                        <td th:text="${#temporals.format(dh.ngayTao, 'dd/MM/yyyy HH:mm')}">12/08/2026</td>
+                        <td><span style="font-weight: 800; color: var(--admin-orange);" th:text="${#numbers.formatDecimal(dh.tongTien, 0, 'COMMA', 0, 'POINT')} + 'đ'">159.000đ</span></td>
+                        <td>
+                            <span th:classappend="${dh.trangThai == 'Chờ xác nhận' ? 'badge badge-warning' : (dh.trangThai == 'Đã xác nhận' or dh.trangThai == 'Đang giao' ? 'badge badge-info' : (dh.trangThai == 'Hoàn thành' ? 'badge badge-active' : 'badge badge-danger'))}" th:text="${dh.trangThai}">Hoàn thành</span>
+                        </td>
                     </tr>
-                    <tr>
-                        <td class="col-stt">02</td>
-                        <td class="col-dish-name">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=150" alt="Phở" class="dish-preview-img" style="width: 50px; height: 35px; border-radius: 6px; object-fit: cover;">
-                                Phở bò tái nạm
-                            </div>
-                        </td>
-                        <td>1.850</td>
-                        <td><span style="font-weight: 800; color: var(--admin-orange);">120.250.000đ</span></td>
+                    <tr th:if="${#lists.isEmpty(donHangMoiNhat)}">
+                        <td colspan="5" style="text-align: center; color: #64748b;">Chưa có đơn hàng nào.</td>
                     </tr>
                     </tbody>
                 </table>

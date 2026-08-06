@@ -36,14 +36,14 @@
                 </div>
                 <div class="form-group">
                     <label>Danh mục</label>
-                    <select id="filterCategory" name="category" class="form-control">
+                    <select id="filterCategory" name="category" class="form-control" onchange="document.getElementById('filterForm').submit();">
                         <option value="">Tất cả danh mục</option>
                         <option th:each="dm : ${categories}" th:value="${dm.id}" th:text="${dm.ten}" th:selected="${dm.id == selectedCategory}"></option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Trạng thái</label>
-                    <select id="filterStatus" name="status" class="form-control">
+                    <select id="filterStatus" name="status" class="form-control" onchange="document.getElementById('filterForm').submit();">
                         <option value="">Tất cả trạng thái</option>
                         <option th:each="st : ${statusOptions}" th:value="${st}" th:text="${st}" th:selected="${st == selectedStatus}"></option>
                     </select>

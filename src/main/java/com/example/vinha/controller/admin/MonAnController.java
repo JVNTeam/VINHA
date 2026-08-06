@@ -62,7 +62,7 @@ public class MonAnController {
                 null);
         model.addAttribute("monAnList", monAnList);
         model.addAttribute("categories", danhMucRepository.findAll());
-        model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+        model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
         model.addAttribute("keyword", kw);
         model.addAttribute("selectedCategory", danhMucId);
         model.addAttribute("selectedStatus", st);
@@ -77,7 +77,7 @@ public class MonAnController {
             model.addAttribute("monAn", new MonAn());
         }
         model.addAttribute("categories", danhMucRepository.findAll());
-        model.addAttribute("statusOptions", List.of("Đang bán", "Hết hàng", "Ngừng bán"));
+        model.addAttribute("statusOptions", List.of("Đang bán", "Ngừng bán"));
         model.addAttribute("formTitle", "Thêm món ăn mới");
 
         // ĐÃ FIX LỖI: Sửa "monan" thành "monAn"
@@ -125,6 +125,8 @@ public class MonAnController {
                     .soLuongCon(soLuongCon)
                     .trangThai(trangThai != null ? trangThai : "Đang bán")
                     .build();
+
+            monAnRepository.save(monAn);
 
             redirectAttributes.addFlashAttribute("message", "Thêm món ăn thành công.");
             return "redirect:/admin/monAn";
@@ -226,9 +228,16 @@ public class MonAnController {
         java.util.Optional<MonAn> monAnOpt = monAnRepository.findById(id);
         if (monAnOpt.isPresent()) {
             MonAn monAn = monAnOpt.get();
-            monAn.setTrangThai("Ngừng bán");
-            monAnRepository.save(monAn);
-            redirectAttributes.addFlashAttribute("message", "Đã xóa mềm món ăn (chuyển trạng thái thành Ngừng bán).");
+            try {
+                // Thử xóa cứng
+                monAnRepository.delete(monAn);
+                redirectAttributes.addFlashAttribute("message", "Đã xóa món ăn khỏi hệ thống.");
+            } catch (Exception e) {
+                // Nếu bị dính khóa ngoại (đã nằm trong đơn hàng), chỉ khóa
+                monAn.setTrangThai("Ngừng bán");
+                monAnRepository.save(monAn);
+                redirectAttributes.addFlashAttribute("error", "Món ăn đã phát sinh giao dịch, hệ thống tự động chuyển trạng thái về Ngừng bán.");
+            }
         } else {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy món ăn để xóa.");
         }

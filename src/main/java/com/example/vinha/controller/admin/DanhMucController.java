@@ -1,7 +1,9 @@
 package com.example.vinha.controller.admin;
 
 import com.example.vinha.entity.DanhMuc;
+import com.example.vinha.entity.MonAn;
 import com.example.vinha.repository.DanhMucRepository;
+import com.example.vinha.repository.MonAnRepository;
 import com.example.vinha.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ public class DanhMucController {
 
     @Autowired
     private DanhMucRepository danhMucRepository;
+
+    @Autowired
+    private MonAnRepository monAnRepository;
 
     @Autowired
     private FileStorageService fileStorageService;
@@ -161,9 +166,17 @@ public class DanhMucController {
         java.util.Optional<DanhMuc> danhMucOpt = danhMucRepository.findById(id);
         if (danhMucOpt.isPresent()) {
             DanhMuc danhMuc = danhMucOpt.get();
-            danhMuc.setTrangThai("Khóa");
-            danhMucRepository.save(danhMuc);
-            redirectAttributes.addFlashAttribute("message", "Đã xóa mềm danh mục (chuyển trạng thái thành Khóa).");
+            List<MonAn> monAns = monAnRepository.findByDanhMucId(id);
+            if (!monAns.isEmpty()) {
+                // Có món ăn liên kết -> Không thể xóa cứng, chỉ khóa
+                danhMuc.setTrangThai("Khóa");
+                danhMucRepository.save(danhMuc);
+                redirectAttributes.addFlashAttribute("error", "Không thể xóa danh mục này vì đang có món ăn thuộc danh mục. Hệ thống đã tự động chuyển trạng thái thành Khóa.");
+            } else {
+                // Không có món ăn -> Xóa cứng
+                danhMucRepository.delete(danhMuc);
+                redirectAttributes.addFlashAttribute("message", "Đã xóa danh mục thành công.");
+            }
         } else {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy danh mục cần xóa.");
         }

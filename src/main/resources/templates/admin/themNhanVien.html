@@ -1,0 +1,255 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${formTitle}">Thêm danh mục</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/admin/danh-muc.css}"/>
+    <style>
+        .form-card {
+            background: #fff;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #3f3d56;
+        }
+        .form-control,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #fff;
+            color: #1f2937;
+        }
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .file-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #d9d1c4;
+            color: #334155;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .file-input-button:hover {
+            background-color: #eef2ff;
+            border-color: #94a3b8;
+        }
+        .file-input-filename {
+            flex: 1;
+            font-size: 14px;
+            color: #64748b;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            background: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .file-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .file-input-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #d9d1c4;
+            color: #334155;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        .file-input-button:hover {
+            background-color: #eef2ff;
+            border-color: #94a3b8;
+        }
+        .file-input-filename {
+            flex: 1;
+            font-size: 14px;
+            color: #64748b;
+            padding: 12px 16px;
+            border: 1px solid #d9d1c4;
+            border-radius: 12px;
+            background: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .image-preview {
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--admin-orange);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--admin-orange);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: #d97706;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            margin-bottom: 24px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-back:hover {
+            color: var(--admin-orange);
+        }
+        .alert-box {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+        .alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    </style>
+</head>
+<body>
+<div class="admin-wrapper">
+    <div th:replace="~{admin/sidebar :: sidebar('nhanVien')}"></div>
+    <main class="admin-main">
+        <a th:href="@{/admin/nhanVien}" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Trở về danh sách nhân viên</a>
+
+        <div class="page-header">
+            <h1 class="page-title" th:text="${formTitle}">Thêm nhân viên mới</h1>
+        </div>
+
+        <div class="form-card">
+            <div th:if="${error}" class="alert-box alert-error">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <form th:action="@{${formAction}}" method="post">
+                <input type="hidden" name="id" th:if="${nhanVien != null}" th:value="${nhanVien.id}"/>
+
+                <div class="form-group">
+                    <label class="form-label">Họ và tên <span style="color: red;">*</span></label>
+                    <input type="text" name="hoTen" class="form-control" placeholder="Ví dụ: Nguyễn Văn A" th:value="${nhanVien != null ? nhanVien.hoTen : ''}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email <span style="color: red;">*</span></label>
+                    <input type="email" name="email" class="form-control" placeholder="Ví dụ: email@gmail.com" th:value="${nhanVien != null ? nhanVien.email : ''}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Số điện thoại <span style="color: red;">*</span></label>
+                    <input type="text" name="soDienThoai" class="form-control" placeholder="Ví dụ: 0987654321" th:value="${nhanVien != null ? nhanVien.soDienThoai : ''}" required/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu <span th:if="${nhanVien == null or nhanVien.id == null}" style="color: red;">*</span></label>
+                    <input type="password" name="matKhau" class="form-control" placeholder="Nhập mật khẩu" th:required="${nhanVien == null or nhanVien.id == null}"/>
+                    <small th:if="${nhanVien != null and nhanVien.id != null}" style="color: #64748b; margin-top: 5px; display: block;">Để trống nếu không muốn đổi mật khẩu</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Vai trò <span style="color: red;">*</span></label>
+                    <select name="vaiTroId" class="form-select" required>
+                        <option value="">-- Chọn vai trò --</option>
+                        <option th:each="vt : ${vaiTroList}"
+                                th:value="${vt.id}"
+                                th:text="${vt.ten}"
+                                th:selected="${nhanVien != null and nhanVien.vaiTro != null and nhanVien.vaiTro.id == vt.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group" th:if="${nhanVien != null and nhanVien.id != null}">
+                    <label class="form-label">Trạng thái <span style="color: red;">*</span></label>
+                    <select name="trangThai" class="form-select" required>
+                        <option value="ACTIVE" th:selected="${nhanVien.trangThai == 'ACTIVE'}">Hoạt động</option>
+                        <option value="LOCKED" th:selected="${nhanVien.trangThai == 'LOCKED'}">Bị khóa</option>
+                    </select>
+                </div>
+                <input type="hidden" name="trangThai" value="ACTIVE" th:if="${nhanVien == null or nhanVien.id == null}" />
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-save"></i>
+                    <span th:text="${formTitle}">Lưu</span>
+                </button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

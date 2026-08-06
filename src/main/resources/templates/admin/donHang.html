@@ -130,7 +130,7 @@
                                 <button type="submit" name="status" value="Chờ xác nhận"
                                         class="status-btn"
                                         th:classappend="${dh.trangThai == 'Chờ xác nhận' ? 'active' : (dh.trangThai != 'Hủy' ? 'completed' : '')}"
-                                        th:disabled="${dh.trangThai == 'Hủy' || dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Chờ xác nhận'}">Chờ xác nhận</button>
+                                        th:disabled="true">Chờ xác nhận</button>
 
                                 <!-- Nút Xác nhận -->
                                 <button type="submit" name="status" value="Xác nhận"

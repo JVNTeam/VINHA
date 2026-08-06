@@ -185,7 +185,6 @@
 
                             <!-- Logic nút tiếp theo dựa theo trạng thái hiện tại -->
                             <button th:if="${donHang == null || donHang.trangThai == 'Chờ xác nhận'}" type="submit" name="status" value="Xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check"></i> Xác nhận đơn</button>
-                            <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Chờ xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-undo"></i> Chờ xác nhận</button>
                             <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Hoàn thành" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check-circle"></i> Hoàn thành</button>
                         </div>
                     </form>

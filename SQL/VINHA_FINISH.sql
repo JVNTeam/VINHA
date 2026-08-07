@@ -330,3 +330,26 @@ INSERT INTO danh_gia (don_hang_id, mon_an_id, nguoi_dung_id, so_sao, binh_luan)
 VALUES
     (1, 1, 1, 5, N'Cơm rất ngon'),
     (2, 2, 1, 4, N'Thịt mềm, giao nhanh');
+
+
+-- lấy constan
+SELECT
+    kc.name AS ConstraintName,
+    c.name AS ColumnName
+FROM sys.key_constraints kc
+         JOIN sys.index_columns ic ON kc.unique_index_id = ic.index_id
+    AND kc.parent_object_id = ic.object_id
+         JOIN sys.columns c ON ic.object_id = c.object_id
+    AND ic.column_id = c.column_id
+WHERE kc.parent_object_id = OBJECT_ID('nguoi_dung');
+
+-- lấy constan dán vào từng lệnh dưới(trừ id)
+
+ALTER TABLE nguoi_dung
+DROP CONSTRAINT UQ__nguoi_du__37D42BFA1E...;
+
+ALTER TABLE nguoi_dung
+DROP CONSTRAINT UQ__nguoi_du__BD03D94C8F...;
+
+ALTER TABLE nguoi_dung
+DROP CONSTRAINT UQ__nguoi_du__AB6E6164B5...;

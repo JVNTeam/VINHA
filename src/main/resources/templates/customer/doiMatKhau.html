@@ -9,31 +9,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <!-- Bootstrap 5 CSS (Yêu cầu bắt buộc cho Header & Footer) -->
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- CSS Header & Footer -->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
 
-    <!-- Custom CSS chung cho hệ thống tài khoản & trang Đổi mật khẩu -->
+    <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/hoso.css}" />
     <link rel="stylesheet" th:href="@{/css/doiMatKhau.css}" />
 </head>
 
 <body>
-<!-- ================= HEADER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= MAIN CONTENT ================= -->
 <main class="hoso-page">
     <div class="container account-container">
 
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar">
             <div class="user-profile">
-                <h3 class="user-name" th:text="${user != null ? user['name'] : 'Khách hàng'}">Nguyễn Thu Hà</h3>
-                <p class="user-email" th:text="${user != null ? user['email'] : ''}">thuha.nguyen@email.com</p>
+                <h3 class="user-name" th:text="${user != null ? user.hoTen : 'Khách hàng'}">Khách hàng</h3>
+                <p class="user-email" th:text="${user != null ? user.email : ''}"></p>
             </div>
 
             <nav class="sidebar-nav">
@@ -74,8 +72,8 @@
             <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
             <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
-            <!-- Form đổi mật khẩu -->
-            <form th:action="@{/doimatkhau}" method="post" id="changePasswordForm" class="password-form edit-form">
+            <!-- Form Đổi mật khẩu -->
+            <form th:action="@{/doimatkhau/capnhat}" method="post" id="changePasswordForm" class="password-form edit-form">
 
                 <!-- 1. Mật khẩu hiện tại -->
                 <div class="form-group mb-3">
@@ -90,10 +88,7 @@
                                 placeholder="Nhập mật khẩu cũ"
                                 required
                         />
-                        <i
-                                class="fa-regular fa-eye toggle-pwd"
-                                onclick="togglePasswordVisibility('currentPassword', this)"
-                        ></i>
+                        <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('currentPassword', this)"></i>
                     </div>
                 </div>
 
@@ -107,17 +102,14 @@
                                 name="newPassword"
                                 id="newPassword"
                                 class="form-input"
-                                placeholder="Ít nhất 8 ký tự"
+                                placeholder="Ít nhất 8 kí tự"
                                 required
                                 oninput="checkPasswordStrength(this.value)"
                         />
-                        <i
-                                class="fa-regular fa-eye toggle-pwd"
-                                onclick="togglePasswordVisibility('newPassword', this)"
-                        ></i>
+                        <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('newPassword', this)"></i>
                     </div>
 
-                    <!-- Thanh đo độ mạnh mật khẩu -->
+                    <!-- Thanh độ mạnh mật khẩu -->
                     <div class="strength-meter mt-2">
                         <div class="strength-bar" id="bar-1"></div>
                         <div class="strength-bar" id="bar-2"></div>
@@ -142,10 +134,7 @@
                                 placeholder="Nhập lại mật khẩu mới"
                                 required
                         />
-                        <i
-                                class="fa-regular fa-eye toggle-pwd"
-                                onclick="togglePasswordVisibility('confirmPassword', this)"
-                        ></i>
+                        <i class="fa-regular fa-eye toggle-pwd" onclick="togglePasswordVisibility('confirmPassword', this)"></i>
                     </div>
                     <p class="error-msg text-danger mt-1" id="confirmError" style="display: none;">
                         Mật khẩu xác nhận không trùng khớp!
@@ -168,7 +157,6 @@
     </div>
 </main>
 
-<!-- ================= FOOTER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- JS Bootstrap & Custom JS -->

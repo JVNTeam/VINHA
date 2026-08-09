@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <!-- Bootstrap 5 CSS (Yêu cầu cho Header & Footer) -->
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
   <!-- CSS Header & Footer -->
@@ -21,18 +21,16 @@
 </head>
 
 <body>
-<!-- ================= HEADER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= MAIN CONTENT ================= -->
 <main class="hoso-page">
   <div class="container account-container">
 
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
       <div class="user-profile">
-        <h3 class="user-name" th:text="${user != null ? user['name'] : 'Khách hàng'}">Nguyễn Thu Hà</h3>
-        <p class="user-email" th:text="${user != null ? user['email'] : ''}">thuha@gmail.com</p>
+        <h3 class="user-name" th:text="${user != null ? user.hoTen : 'Khách hàng'}">Khách hàng</h3>
+        <p class="user-email" th:text="${user != null ? user.email : ''}"></p>
       </div>
 
       <nav class="sidebar-nav">
@@ -81,23 +79,23 @@
         <div class="info-grid">
           <div class="info-item">
             <label>Họ và tên</label>
-            <span th:text="${user != null ? user['name'] : '—'}">Nguyễn Thu Hà</span>
+            <span th:text="${user != null ? user.hoTen : '---'}">---</span>
           </div>
           <div class="info-item">
             <label>Email</label>
-            <span th:text="${user != null ? user['email'] : '—'}">thuha@gmail.com</span>
+            <span th:text="${user != null ? user.email : '---'}">---</span>
           </div>
           <div class="info-item">
             <label>Số điện thoại</label>
-            <span th:text="${user != null && user['phone'] != null ? user['phone'] : '—'}">0901234567</span>
+            <span th:text="${user != null && user.soDienThoai != null ? user.soDienThoai : '---'}">---</span>
           </div>
           <div class="info-item">
             <label>Ngày sinh</label>
-            <span th:text="${user != null && user['birthday'] != null ? user['birthday'] : '—'}">15/05/1995</span>
+            <span th:text="${user != null && user.ngaySinh != null ? #temporals.format(user.ngaySinh, 'dd/MM/yyyy') : '---'}">---</span>
           </div>
           <div class="info-item">
             <label>Giới tính</label>
-            <span th:text="${user != null && user['gender'] != null ? user['gender'] : '—'}">Nữ</span>
+            <span th:text="${user != null && user.gioiTinh != null ? (user.gioiTinh == 0 ? 'Nam' : 'Nữ') : '---'}">---</span>
           </div>
         </div>
 
@@ -108,7 +106,7 @@
           </div>
           <div class="member-text">
             <h3>Thành viên thân thiết</h3>
-            <p th:text="${user != null && user['memberRank'] != null ? user['memberRank'] : 'Hạng Đồng'}">Hạng Đồng</p>
+            <p>Hạng Đồng</p>
             <small>Tích lũy thêm để lên hạng Bạc.</small>
           </div>
         </div>
@@ -116,15 +114,15 @@
 
       <!-- ======= CHẾ ĐỘ CHỈNH SỬA ======= -->
       <div id="editMode" style="display:none">
-        <form th:action="@{/hoso/cap-nhat}" method="post" class="edit-form">
+        <form th:action="@{/hoso/capnhat}" method="post" class="edit-form">
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">Họ và tên <span class="required">*</span></label>
               <input
                       type="text"
-                      name="name"
+                      name="hoTen"
                       class="form-input"
-                      th:value="${user != null ? user['name'] : ''}"
+                      th:value="${user != null ? user.hoTen : ''}"
                       placeholder="Nhập họ và tên"
                       required
               />
@@ -134,22 +132,21 @@
               <label class="form-label">Email</label>
               <input
                       type="email"
+                      name="email"
                       class="form-input"
-                      th:value="${user != null ? user['email'] : ''}"
-                      disabled
-                      title="Không thể thay đổi email"
+                      th:value="${user != null ? user.email : ''}"
               />
-              <small class="field-hint"><i class="fa-solid fa-circle-info"></i> Email không thể thay đổi</small>
             </div>
 
             <div class="form-group">
-              <label class="form-label">Số điện thoại</label>
+              <label class="form-label">Số điện thoại <span class="required">*</span></label>
               <input
                       type="tel"
-                      name="phone"
+                      name="soDienThoai"
                       class="form-input"
-                      th:value="${user != null ? user['phone'] : ''}"
+                      th:value="${user != null ? user.soDienThoai : ''}"
                       placeholder="Nhập số điện thoại"
+                      required
               />
             </div>
 
@@ -157,19 +154,18 @@
               <label class="form-label">Ngày sinh</label>
               <input
                       type="date"
-                      name="birthday"
+                      name="ngaySinh"
                       class="form-input"
-                      th:value="${user != null ? user['birthday'] : ''}"
+                      th:value="${user != null ? user.ngaySinh : ''}"
               />
             </div>
 
             <div class="form-group">
               <label class="form-label">Giới tính</label>
-              <select name="gender" class="form-input form-select">
+              <select name="gioiTinh" class="form-input form-select">
                 <option value="">-- Chọn giới tính --</option>
-                <option value="Nam" th:selected="${user != null && user['gender'] == 'Nam'}">Nam</option>
-                <option value="Nữ" th:selected="${user != null && user['gender'] == 'Nữ'}">Nữ</option>
-                <option value="Khác" th:selected="${user != null && user['gender'] == 'Khác'}">Khác</option>
+                <option value="0" th:selected="${user != null && user.gioiTinh != null && user.gioiTinh == 0}">Nam</option>
+                <option value="1" th:selected="${user != null && user.gioiTinh != null && user.gioiTinh == 1}">Nữ</option>
               </select>
             </div>
           </div>
@@ -189,10 +185,8 @@
   </div>
 </main>
 
-<!-- ================= FOOTER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- JS Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/hoso.js}"></script>
 </body>

@@ -41,7 +41,7 @@ public class AuthService {
         }
 
         // Kiểm tra trạng thái tài khoản
-        if (!"Hoạt động".equals(user.getTrangThai())) {
+        if (!"Hoạt Động".equalsIgnoreCase(user.getTrangThai())) {
             return Optional.empty();
         }
 
@@ -113,7 +113,7 @@ public class AuthService {
                 .cccd(null)
                 .matKhau(matKhau)
                 .gioiTinh(gioiTinhByte)
-                .trangThai("Hoạt động") // Đồng bộ với DB
+                .trangThai("Hoạt Động") // Đồng bộ với DB
                 .ngayTao(now)
                 .ngayCapNhat(now)
                 .build();

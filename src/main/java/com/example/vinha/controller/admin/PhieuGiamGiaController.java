@@ -175,8 +175,14 @@ public class PhieuGiamGiaController {
         if (voucher == null) {
             redirectAttributes.addFlashAttribute("error", "Không tìm thấy mã giảm giá cần xóa.");
         } else {
-            voucherService.xoaMaGiamGia(id);
-            redirectAttributes.addFlashAttribute("message", "Xóa mã giảm giá thành công.");
+            try {
+                voucherService.xoaMaGiamGia(id);
+                redirectAttributes.addFlashAttribute("message", "Xóa mã giảm giá thành công.");
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                redirectAttributes.addFlashAttribute("error", "Không thể xóa: Mã giảm giá này đã được khách hàng lưu hoặc đã sử dụng trong đơn hàng. Vui lòng vô hiệu hóa thay vì xóa.");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra khi xóa mã giảm giá.");
+            }
         }
         return "redirect:/admin/phieuGiamGia";
     }

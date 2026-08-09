@@ -32,20 +32,20 @@ function openAddressModal(id, name, phone, detail, isDefault) {
 
     if (id) {
         // Chế độ sửa
-        modalTitle.textContent     = 'Chỉnh sửa địa chỉ';
-        addrId.value               = id;
-        addrName.value             = name   || '';
-        addrPhone.value            = phone  || '';
-        addrDetail.value           = detail || '';
-        addrDefault.checked        = isDefault || false;
+        if (modalTitle) modalTitle.textContent = 'Chỉnh sửa địa chỉ';
+        if (addrId) addrId.value = id;
+        if (addrName) addrName.value = name || '';
+        if (addrPhone) addrPhone.value = phone || '';
+        if (addrDetail) addrDetail.value = detail || '';
+        if (addrDefault) addrDefault.checked = isDefault || false;
     } else {
         // Chế độ thêm mới
-        modalTitle.textContent     = 'Thêm địa chỉ mới';
-        addrId.value               = '';
-        addrName.value             = '';
-        addrPhone.value            = '';
-        addrDetail.value           = '';
-        addrDefault.checked        = false;
+        if (modalTitle) modalTitle.textContent = 'Thêm địa chỉ mới';
+        if (addrId) addrId.value = '';
+        if (addrName) addrName.value = '';
+        if (addrPhone) addrPhone.value = '';
+        if (addrDetail) addrDetail.value = '';
+        if (addrDefault) addrDefault.checked = false;
     }
 
     modal.classList.add('open');

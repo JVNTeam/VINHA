@@ -173,6 +173,7 @@ const grandTotalElement = document.getElementById("grandTotal");
 let subtotal = parseInt((subtotalElement?.textContent || "0").replace(/[^\d]/g, ""), 10) || 0;
 let shipping = 0;
 let discount = 0;
+let appliedVoucherId = null;
 
 function parsePrice(value) {
     return Number(value || 0);
@@ -208,10 +209,12 @@ couponBtn.onclick = function () {
     .then(data => {
         if (data.success) {
             discount = data.discountAmount;
+            appliedVoucherId = data.voucherId;
             shipping = 0;
             alert(`Áp dụng mã ${code} thành công.`);
         } else {
             discount = 0;
+            appliedVoucherId = null;
             shipping = 0;
             alert(data.message || "Mã giảm giá không hợp lệ");
         }
@@ -220,6 +223,7 @@ couponBtn.onclick = function () {
     .catch(error => {
         console.error('Error:', error);
         discount = 0;
+        appliedVoucherId = null;
         shipping = 0;
         alert("Lỗi khi xử lý mã giảm giá");
         updateMoney();
@@ -320,6 +324,10 @@ document.querySelector(".order-btn")
             'discount': finalDiscount,
             'subtotal': finalSubtotal
         });
+
+        if (appliedVoucherId) {
+            formData.append('voucherId', appliedVoucherId);
+        }
 
         // Call checkout API
         fetch('/api/checkout/place-order', {

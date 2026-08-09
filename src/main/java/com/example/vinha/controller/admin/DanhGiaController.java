@@ -25,25 +25,24 @@ public class DanhGiaController {
             @RequestParam(value = "star", required = false) Integer star,
             Model model) {
 
-        String kw = keyword != null ? keyword.trim().toLowerCase() : "";
-
         List<DanhGia> all = danhGiaRepository.findAll();
 
-        List<DanhGia> filtered = all.stream()
-                .filter(d -> {
-                    boolean matchKeyword = kw.isEmpty() ||
-                            (d.getBinhLuan() != null && d.getBinhLuan().toLowerCase().contains(kw)) ||
-                            (d.getMonAn() != null && d.getMonAn().getTen().toLowerCase().contains(kw)) ||
-                            (d.getNguoiDung() != null && d.getNguoiDung().getHoTen().toLowerCase().contains(kw));
-                    boolean matchStar = star == null || (d.getSoSao() != null && d.getSoSao().equals(star));
-                    return matchKeyword && matchStar;
-                })
+        List<DanhGia> sorted = all.stream()
                 .sorted((a, b) -> b.getNgayTao().compareTo(a.getNgayTao())) // Mới nhất lên đầu
                 .toList();
 
-        model.addAttribute("danhGiaList", filtered);
-        model.addAttribute("keyword", kw);
+        int totalReviews = all.size();
+        double avgRating = totalReviews > 0 ? all.stream().mapToInt(DanhGia::getSoSao).average().orElse(0.0) : 0.0;
+        long fiveStarCount = all.stream().filter(d -> d.getSoSao() != null && d.getSoSao() == 5).count();
+        long oneStarCount = all.stream().filter(d -> d.getSoSao() != null && d.getSoSao() == 1).count();
+
+        model.addAttribute("danhGiaList", sorted);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("selectedStar", star);
+        model.addAttribute("totalReviews", totalReviews);
+        model.addAttribute("avgRating", String.format("%.1f", avgRating));
+        model.addAttribute("fiveStarCount", fiveStarCount);
+        model.addAttribute("oneStarCount", oneStarCount);
 
         return "admin/danhgia";
     }

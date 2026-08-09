@@ -1,76 +1,70 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
-    // 1. Nút Thêm nhân viên mới
-    const btnThemMoi = document.getElementById("btnThemMoi");
-    if (btnThemMoi) {
-        btnThemMoi.addEventListener("click", function () {
-            alert("Đang chuyển đến trang Thêm Nhân Viên...");
-        });
-    }
-
-    // 2. Chuyển hướng sang trang Khách Hàng
-    const btnChuyenKhachHang = document.getElementById("btnChuyenKhachHang");
-    if (btnChuyenKhachHang) {
-        btnChuyenKhachHang.addEventListener("click", function () {
-            // Chuyển URL sang trang quản lý khách hàng
-            window.location.href = "/admin/khach-hang";
-        });
-    }
-
-    // 3. Khóa / Mở khóa / Xóa
-    const tableBody = document.querySelector("tbody");
-    tableBody.addEventListener("click", function (event) {
-        const target = event.target.closest("button");
-        if (!target) return;
-        const row = target.closest("tr");
-
-        // Xóa
-        if (target.classList.contains("btn-delete")) {
-            if (confirm("Xóa nhân viên này khỏi hệ thống?")) {
-                row.remove();
-            }
-        }
-        // Khóa
-        else if (target.classList.contains("btn-lock")) {
-            if (confirm("Khóa tài khoản nhân viên này?")) {
-                const badge = row.querySelector(".status-badge");
-                badge.className = "status-badge locked";
-                badge.innerHTML = '<i class="fas fa-circle"></i> Bị khóa';
-
-                target.className = "btn-unlock";
-                target.innerHTML = '<i class="fas fa-lock-open"></i>';
-                target.title = "Mở khóa tài khoản";
-            }
-        }
-        // Mở khóa
-        else if (target.classList.contains("btn-unlock")) {
-            if (confirm("Mở khóa cho nhân viên này?")) {
-                const badge = row.querySelector(".status-badge");
-                badge.className = "status-badge active";
-                badge.innerHTML = '<i class="fas fa-circle"></i> Hoạt động';
-
-                target.className = "btn-lock";
-                target.innerHTML = '<i class="fas fa-lock"></i>';
-                target.title = "Khóa tài khoản";
-            }
-        }
-    });
-
-    // 4. Tìm kiếm cơ bản
     const searchInput = document.getElementById("searchInput");
-    searchInput.addEventListener("keyup", function () {
-        const textTimKiem = searchInput.value.toLowerCase();
-        const rows = document.querySelectorAll("tbody tr");
+    const statusFilter = document.getElementById("statusFilter");
+    const searchBtn = document.getElementById("searchBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const tableBody = document.getElementById("employeeTableBody");
+    const noDataRow = document.getElementById("noDataRow");
+    
+    function filterData() {
+        const keyword = searchInput.value.toLowerCase().trim();
+        const status = statusFilter.value;
+        const rows = document.querySelectorAll(".employee-row");
+        let visibleCount = 0;
 
-        rows.forEach(function (row) {
-            const hoTen = row.querySelectorAll("td")[1].innerText.toLowerCase();
-            const lienHe = row.querySelectorAll("td")[2].innerText.toLowerCase();
+        rows.forEach(function(row) {
+            const name = row.querySelector(".employee-name")?.innerText.toLowerCase() || "";
+            const email = row.querySelector(".employee-email")?.innerText.toLowerCase() || "";
+            const phone = row.querySelector(".employee-phone")?.innerText.toLowerCase() || "";
+            const rowStatus = row.querySelector(".employee-status")?.innerText.trim() || "";
 
-            if (hoTen.includes(textTimKiem) || lienHe.includes(textTimKiem)) {
+            const matchesKeyword = !keyword || name.includes(keyword) || email.includes(keyword) || phone.includes(keyword);
+            
+            // Map the displayed status text to the dropdown value
+            // Dropdown values: "Hoạt Động", "Khóa"
+            // Displayed text: "Hoạt động", "Bị khóa"
+            let mappedStatus = "";
+            if (rowStatus === "Hoạt động") mappedStatus = "Hoạt Động";
+            else if (rowStatus === "Bị khóa") mappedStatus = "Khóa";
+            else mappedStatus = rowStatus;
+
+            const matchesStatus = !status || mappedStatus === status;
+
+            if (matchesKeyword && matchesStatus) {
                 row.style.display = "";
+                visibleCount++;
             } else {
                 row.style.display = "none";
             }
         });
-    });
+
+        if (noDataRow) {
+            if (visibleCount === 0 && rows.length > 0) {
+                noDataRow.style.display = "";
+            } else {
+                noDataRow.style.display = "none";
+            }
+        }
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener("click", filterData);
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener("keyup", function(e) {
+            if (e.key === "Enter") {
+                filterData();
+            }
+        });
+    }
+
+    if (resetBtn) {
+        resetBtn.addEventListener("click", function() {
+            searchInput.value = "";
+            statusFilter.value = "";
+            filterData();
+        });
+    }
 });

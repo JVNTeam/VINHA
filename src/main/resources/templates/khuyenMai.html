@@ -97,7 +97,7 @@
                     </button>
 
                     <button class="save-btn"
-                            th:attr="data-code=${voucher.ma}, data-logged-in=${session.nguoiDung != null ? 'true' : 'false'}">
+                            th:attr="data-code=${voucher.ma}, data-logged-in=${session.loggedInUser != null ? 'true' : 'false'}">
                       <i class="fa-regular fa-bookmark"></i>
                       Lưu
                     </button>

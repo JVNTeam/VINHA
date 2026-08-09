@@ -27,5 +27,17 @@ public interface DonHangRepository extends JpaRepository<DonHang, Long> {
 
     @org.springframework.data.jpa.repository.Query("SELECT SUM(d.tongTien) FROM DonHang d WHERE d.trangThai = 'Hoàn thành'")
     Double sumDoanhThu();
+
+    @org.springframework.data.jpa.repository.Query("SELECT SUM(d.tongTien) FROM DonHang d WHERE d.trangThai = 'Hoàn thành' AND (CAST(:startDate AS date) IS NULL OR d.ngayTao >= :startDate) AND (CAST(:endDate AS date) IS NULL OR d.ngayTao <= :endDate)")
+    Double sumDoanhThuByDateRange(@org.springframework.data.repository.query.Param("startDate") java.time.LocalDateTime startDate, @org.springframework.data.repository.query.Param("endDate") java.time.LocalDateTime endDate);
+
+    @org.springframework.data.jpa.repository.Query("SELECT COUNT(d) FROM DonHang d WHERE (CAST(:startDate AS date) IS NULL OR d.ngayTao >= :startDate) AND (CAST(:endDate AS date) IS NULL OR d.ngayTao <= :endDate)")
+    long countByDateRange(@org.springframework.data.repository.query.Param("startDate") java.time.LocalDateTime startDate, @org.springframework.data.repository.query.Param("endDate") java.time.LocalDateTime endDate);
+
+    @org.springframework.data.jpa.repository.Query("SELECT d FROM DonHang d WHERE (CAST(:startDate AS date) IS NULL OR d.ngayTao >= :startDate) AND (CAST(:endDate AS date) IS NULL OR d.ngayTao <= :endDate) ORDER BY d.ngayTao DESC")
+    List<DonHang> findDonHangMoiNhatByDateRange(@org.springframework.data.repository.query.Param("startDate") java.time.LocalDateTime startDate, @org.springframework.data.repository.query.Param("endDate") java.time.LocalDateTime endDate);
+
+    @org.springframework.data.jpa.repository.Query("SELECT MONTH(d.ngayTao), SUM(d.tongTien) FROM DonHang d WHERE d.trangThai = 'Hoàn thành' AND YEAR(d.ngayTao) = :year GROUP BY MONTH(d.ngayTao)")
+    List<Object[]> getMonthlyRevenueByYear(@org.springframework.data.repository.query.Param("year") int year);
 }
 

@@ -55,10 +55,12 @@
             </ul>
 
             <div class="d-flex align-items-center">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Tìm món ăn...">
-                </div>
+                <form action="/thucDon" method="get" class="search-box" style="margin: 0;">
+                    <button type="submit" style="background: none; border: none; padding: 0; outline: none; cursor: pointer;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <input type="text" name="keyword" placeholder="Tìm món ăn..." th:value="${keyword}">
+                </form>
 
                 <a th:href="@{/gioHang}"
                    class="cart"
@@ -69,7 +71,7 @@
 
                 <div th:if="${session.loggedInUser != null}"
                      class="d-flex align-items-center gap-2">
-                    <a th:href="@{/hoSo}" class="user-icon" title="Hồ sơ">
+                    <a th:href="@{/hoso}" class="user-icon" title="Hồ sơ">
                         <i class="fa-solid fa-user"></i>
                     </a>
 

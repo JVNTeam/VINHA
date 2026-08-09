@@ -237,11 +237,11 @@
                 <div class="form-group" th:if="${nhanVien != null and nhanVien.id != null}">
                     <label class="form-label">Trạng thái <span style="color: red;">*</span></label>
                     <select name="trangThai" class="form-select" required>
-                        <option value="ACTIVE" th:selected="${nhanVien.trangThai == 'ACTIVE'}">Hoạt động</option>
-                        <option value="LOCKED" th:selected="${nhanVien.trangThai == 'LOCKED'}">Bị khóa</option>
+                        <option value="Hoạt Động" th:selected="${#strings.equalsIgnoreCase(nhanVien.trangThai, 'Hoạt Động')}">Hoạt động</option>
+                        <option value="Khóa" th:selected="${nhanVien.trangThai == 'Khóa'}">Bị khóa</option>
                     </select>
                 </div>
-                <input type="hidden" name="trangThai" value="ACTIVE" th:if="${nhanVien == null or nhanVien.id == null}" />
+                <input type="hidden" name="trangThai" value="Hoạt Động" th:if="${nhanVien == null or nhanVien.id == null}" />
 
                 <button type="submit" class="btn-submit">
                     <i class="fa-solid fa-save"></i>

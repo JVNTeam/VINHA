@@ -30,33 +30,31 @@
             <a th:href="@{/admin/nhanVien/them}" class="btn-add" style="text-decoration: none;"><i class="fas fa-plus"></i> Thêm nhân viên mới</a>
         </div>
 
-        <!-- Khu vực lọc & tìm kiếm chuẩn hóa -->
         <div class="filter-card">
-            <form action="" method="get" class="filter-form">
-                <!-- TÌM KIẾM CÓ VIỀN ĐỒNG BỘ -->
+            <div class="filter-form">
+                <!-- TÌM KIẾM -->
                 <div class="filter-group group-search">
                     <label class="filter-label">Tìm kiếm nhân viên</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="keyword" class="filter-input" placeholder="Nhập tên, email hoặc số điện thoại...">
+                        <input type="text" id="searchInput" class="filter-input" placeholder="Nhập tên, email hoặc số điện thoại...">
                     </div>
                 </div>
 
                 <div class="filter-group group-select">
                     <label class="filter-label">Trạng thái</label>
-                    <select name="status" class="filter-select">
+                    <select id="statusFilter" class="filter-select">
                         <option value="">Tất cả trạng thái</option>
-                        <option value="ACTIVE">Hoạt động</option>
-                        <option value="LOCKED">Bị khóa</option>
+                        <option value="Hoạt Động">Hoạt động</option>
+                        <option value="Khóa">Bị khóa</option>
                     </select>
                 </div>
 
                 <div class="filter-actions">
-                    <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <!-- ĐÃ FIX: Bỏ dấu gạch ngang ở link nút Làm mới -->
-                    <a th:href="@{/admin/nhanVien}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
+                    <button type="button" id="searchBtn" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
+                    <button type="button" id="resetBtn" class="btn-reset"><i class="fas fa-sync-alt"></i></button>
                 </div>
-            </form>
+            </div>
         </div>
 
         <!-- Bảng dữ liệu -->
@@ -72,32 +70,32 @@
                         <th style="width: 15%; text-align: center;">THAO TÁC</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="nv, iterStat : ${nhanVienList}">
+                    <tbody id="employeeTableBody">
+                    <tr th:each="nv, iterStat : ${nhanVienList}" class="employee-row">
                         <td class="col-stt" style="text-align: center;" th:text="${iterStat.index + 1}">01</td>
                         <td>
                             <div class="details-text">
-                                <strong class="col-dish-name" th:text="${nv.hoTen}">Nguyễn Văn Hoàng</strong><br>
+                                <strong class="col-dish-name employee-name" th:text="${nv.hoTen}">Nguyễn Văn Hoàng</strong><br>
                                 <span class="text-muted" style="font-size: 13px;" th:text="'Vai trò: ' + ${nv.vaiTro != null ? nv.vaiTro.ten : 'Chưa phân'}">Vai trò: Lễ tân</span>
                             </div>
                         </td>
                         <td>
                             <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;" th:text="${nv.email}">hoang.nv@gmail.com</strong><br>
-                                <span class="text-muted" style="font-size: 13px;" th:text="${nv.soDienThoai}">0987 654 321</span>
+                                <strong style="color: var(--text-main); font-weight: 600;" class="employee-email" th:text="${nv.email}">hoang.nv@gmail.com</strong><br>
+                                <span class="text-muted employee-phone" style="font-size: 13px;" th:text="${nv.soDienThoai}">0987 654 321</span>
                             </div>
                         </td>
                         <td style="text-align: center;">
-                            <span th:classappend="${nv.trangThai == 'ACTIVE' ? 'badge badge-active' : 'badge badge-locked'}" th:text="${nv.trangThai == 'ACTIVE' ? 'Hoạt động' : 'Bị khóa'}">Hoạt động</span>
+                            <span class="employee-status" th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'badge badge-active' : 'badge badge-locked'}" th:text="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'Hoạt động' : 'Bị khóa'}">Hoạt động</span>
                         </td>
                         <td style="text-align: center;">
                             <div class="action-buttons">
-                                <a th:href="@{/admin/nhanVien/sua(id=${nv.id})}" class="btn-icon" title="Chỉnh sửa"><i class="fas fa-pen"></i></a>
-                                <a th:href="@{/admin/nhanVien/xoa(id=${nv.id})}" th:classappend="${nv.vaiTro.id == 3 ? 'disabled' : ''}" class="btn-icon text-danger" title="Khóa/Mở khóa" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');"><i th:classappend="${nv.trangThai == 'ACTIVE' ? 'fas fa-lock' : 'fas fa-lock-open'}"></i></a>
+                                <a th:href="@{/admin/nhanVien/sua(id=${nv.id})}" class="btn-icon text-blue" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                <a th:href="@{/admin/nhanVien/xoa(id=${nv.id})}" th:classappend="${nv.vaiTro.id == 3 ? 'disabled' : ''}" class="btn-icon text-danger" title="Khóa/Mở khóa" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');"><i th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'fas fa-lock' : 'fas fa-lock-open'}"></i></a>
                             </div>
                         </td>
                     </tr>
-                    <tr th:if="${#lists.isEmpty(nhanVienList)}">
+                    <tr id="noDataRow" th:if="${#lists.isEmpty(nhanVienList)}" style="display: none;">
                         <td colspan="5" style="text-align: center; color: #64748b;">Không tìm thấy nhân viên nào.</td>
                     </tr>
                     </tbody>

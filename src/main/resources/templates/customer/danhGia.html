@@ -5,34 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đánh giá món ăn - Vị Nhà</title>
 
-    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-
-    <!-- Bootstrap 5 CSS (Bắt buộc cho Header & Footer) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- CSS Header & Footer Fragments -->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
-
-    <!-- CSS Riêng Trang Đánh Giá Món Ăn -->
     <link rel="stylesheet" th:href="@{/css/customer/danhgia.css}" />
 </head>
 
 <body>
-<!-- ================= HEADER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- ================= MAIN CONTENT ================= -->
 <main class="danhgia-page">
     <div class="container account-container">
 
-        <!-- ===== SIDEBAR DÙNG CHUNG ===== -->
+        <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar">
             <div class="user-profile">
-                <h3 class="user-name" th:text="${user != null ? user['name'] : 'Nguyễn Thu Hà'}">Nguyễn Thu Hà</h3>
-                <p class="user-email" th:text="${user != null ? user['email'] : 'thuha.nguyen@email.com'}">thuha.nguyen@email.com</p>
+                <h3 class="user-name" th:text="${user != null ? user.hoTen : 'Khách hàng'}">Khách hàng</h3>
+                <p class="user-email" th:text="${user != null ? user.email : ''}"></p>
             </div>
 
             <nav class="sidebar-nav">
@@ -63,7 +54,6 @@
             <div class="review-header">
                 <h2 class="page-title">Đánh giá món ăn</h2>
 
-                <!-- Switch Tabs -->
                 <div class="switch-tabs">
                     <button class="switch-btn active" onclick="switchTab('pending', this)">
                         Chờ đánh giá
@@ -73,87 +63,128 @@
                     </button>
                 </div>
             </div>
+            
+            <!-- Thông báo -->
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
             <!-- LIST PENDING REVIEWS -->
             <div class="review-list" id="pending-list">
-                <div
-                        th:each="item : ${pendingReviews}"
-                        th:id="'review-card-' + ${item.id}"
-                        th:class="'review-card ' + (${item.isExpanding} ? 'expanded' : '')"
-                >
+                <div th:if="${pendingReviews == null or pendingReviews.isEmpty()}" class="alert alert-info">
+                    Bạn không có món ăn nào cần đánh giá.
+                </div>
+                
+                <div th:each="item : ${pendingReviews}" th:id="'review-card-' + ${item.id}" class="review-card">
                     <div class="item-summary">
                         <img th:src="${item.image}" alt="Món ăn" class="item-img" />
 
                         <div class="item-info">
                             <div class="item-header-title">
-                                <h3 class="item-title" th:text="${item.name}">Cơm Sườn Nướng Muối Ớt</h3>
-                                <span class="badge-new" th:if="${item.isNew}">MỚI</span>
+                                <h3 class="item-title" th:text="${item.name}"></h3>
                             </div>
                             <p class="item-meta">
-                                Mã đơn: <span th:text="${item.orderCode}">#VN-2026-0801</span> • Hoàn thành: <span th:text="${item.completedDate}">05/08/2026</span>
+                                Mã đơn: <span th:text="${item.orderCode}"></span> • Hoàn thành: <span th:text="${item.completedDate}"></span>
                             </p>
-                            <p class="item-subtext" th:if="${!item.isExpanding}">
-                                Đang đợi bạn chia sẻ cảm nghĩ...
-                            </p>
+                            <p class="item-subtext">Đang đợi bạn chia sẻ cảm nghĩ...</p>
                         </div>
 
-                        <button
-                                class="btn-review-now"
-                                th:if="${!item.isExpanding}"
-                                th:onclick="'toggleReviewForm(' + ${item.id} + ')'"
-                        >
+                        <button class="btn-review-now" th:onclick="'toggleReviewForm(' + ${item.id} + ')'">
                             Đánh giá ngay
                         </button>
                     </div>
 
-                    <!-- Form Đánh Giá Mở Rộng -->
-                    <div
-                            class="review-form-body"
-                            th:style="${item.isExpanding} ? 'display: block;' : 'display: none;'"
-                    >
-                        <p class="form-prompt">Bạn thấy món ăn này như thế nào?</p>
+                    <!-- Form Đánh Giá -->
+                    <div class="review-form-body" style="display: none;">
+                        <form th:action="@{/danhGia/them}" method="post">
+                            <input type="hidden" name="monAnId" th:value="${item.id}" />
+                            <input type="hidden" name="donHangId" th:value="${item.donHangId}" />
+                            <input type="hidden" name="soSao" th:id="'rating-' + ${item.id}" value="5" />
+                            
+                            <p class="form-prompt">Bạn thấy món ăn này như thế nào?</p>
 
-                        <!-- Star Rating Component -->
-                        <div class="star-rating" th:data-id="${item.id}">
-                            <i class="fa-regular fa-star" data-value="1" th:onclick="'setRating(' + ${item.id} + ', 1)'"></i>
-                            <i class="fa-regular fa-star" data-value="2" th:onclick="'setRating(' + ${item.id} + ', 2)'"></i>
-                            <i class="fa-regular fa-star" data-value="3" th:onclick="'setRating(' + ${item.id} + ', 3)'"></i>
-                            <i class="fa-regular fa-star" data-value="4" th:onclick="'setRating(' + ${item.id} + ', 4)'"></i>
-                            <i class="fa-regular fa-star" data-value="5" th:onclick="'setRating(' + ${item.id} + ', 5)'"></i>
-                        </div>
+                            <!-- Star Rating Component -->
+                            <div class="star-rating" th:data-id="${item.id}">
+                                <i class="fa-solid fa-star active" data-value="1" th:onclick="'setRating(' + ${item.id} + ', 1)'"></i>
+                                <i class="fa-solid fa-star active" data-value="2" th:onclick="'setRating(' + ${item.id} + ', 2)'"></i>
+                                <i class="fa-solid fa-star active" data-value="3" th:onclick="'setRating(' + ${item.id} + ', 3)'"></i>
+                                <i class="fa-solid fa-star active" data-value="4" th:onclick="'setRating(' + ${item.id} + ', 4)'"></i>
+                                <i class="fa-solid fa-star active" data-value="5" th:onclick="'setRating(' + ${item.id} + ', 5)'"></i>
+                            </div>
 
-                        <textarea
-                                class="review-textarea"
-                                th:id="'textarea-' + ${item.id}"
-                                placeholder="Chia sẻ cảm nhận của bạn về hương vị món ăn, dịch vụ giao hàng..."
-                        ></textarea>
+                            <textarea name="binhLuan" class="review-textarea" placeholder="Chia sẻ cảm nhận của bạn về hương vị món ăn, dịch vụ giao hàng..." required></textarea>
 
-                        <div class="form-actions">
-                            <button class="btn-cancel" th:onclick="'toggleReviewForm(' + ${item.id} + ')'">
-                                Hủy
-                            </button>
-                            <button class="btn-submit" th:onclick="'submitReview(' + ${item.id} + ')'">
-                                Gửi đánh giá
-                            </button>
-                        </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn-cancel" th:onclick="'toggleReviewForm(' + ${item.id} + ')'">Hủy</button>
+                                <button type="submit" class="btn-submit">Gửi đánh giá</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
-            <!-- LIST REVIEWED (Ẩn mặc định) -->
+            <!-- LIST REVIEWED -->
             <div class="review-list" id="reviewed-list" style="display: none">
-                <p class="empty-msg">Chưa có đánh giá nào được gửi.</p>
+                <p class="empty-msg">Danh sách đã đánh giá sẽ được hiển thị ở đây (Tính năng đang được phát triển).</p>
             </div>
         </section>
 
     </div>
 </main>
 
-<!-- ================= FOOTER (GỌI TỪ FRAGMENT) ================= -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Bootstrap 5 JS & Script -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/js/danhGiaMonAn.js}"></script>
+<script>
+    // Rating logic
+    function setRating(itemId, ratingValue) {
+        document.getElementById('rating-' + itemId).value = ratingValue;
+        const starContainer = document.querySelector('.star-rating[data-id="' + itemId + '"]');
+        const stars = starContainer.querySelectorAll('i');
+
+        stars.forEach((star, index) => {
+            if (index < ratingValue) {
+                star.className = 'fa-solid fa-star active';
+            } else {
+                star.className = 'fa-regular fa-star';
+            }
+        });
+    }
+
+    // Toggle Form
+    function toggleReviewForm(itemId) {
+        const card = document.getElementById('review-card-' + itemId);
+        const formBody = card.querySelector('.review-form-body');
+        const btnReview = card.querySelector('.btn-review-now');
+        const subtext = card.querySelector('.item-subtext');
+
+        if (formBody.style.display === 'none' || formBody.style.display === '') {
+            formBody.style.display = 'block';
+            card.classList.add('expanded');
+            if (btnReview) btnReview.style.display = 'none';
+            if (subtext) subtext.style.display = 'none';
+        } else {
+            formBody.style.display = 'none';
+            card.classList.remove('expanded');
+            if (btnReview) btnReview.style.display = 'inline-block';
+            if (subtext) subtext.style.display = 'block';
+        }
+    }
+
+    function switchTab(tab, btnElement) {
+        document.querySelectorAll('.switch-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        const pendingList = document.getElementById('pending-list');
+        const reviewedList = document.getElementById('reviewed-list');
+
+        if (tab === 'pending') {
+            pendingList.style.display = 'block';
+            reviewedList.style.display = 'none';
+        } else {
+            pendingList.style.display = 'none';
+            reviewedList.style.display = 'block';
+        }
+    }
+</script>
 </body>
 </html>

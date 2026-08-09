@@ -1,45 +1,73 @@
 package com.example.vinha.controller.customer;
 
+import com.example.vinha.entity.NguoiDung;
+import com.example.vinha.repository.NguoiDungRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/doimatkhau")
 public class DoiMatKhauController {
+
+    private final NguoiDungRepository nguoiDungRepository;
+
+    public DoiMatKhauController(NguoiDungRepository nguoiDungRepository) {
+        this.nguoiDungRepository = nguoiDungRepository;
+    }
+
     @GetMapping
-    public String showChangePasswordPage(Model model) {
-        // Dữ liệu User cơ bản
-        Map<String, String> user = new HashMap<>();
-        user.put("name", "Nguyễn Thu Hà");
-        user.put("email", "thuha.nguyen@email.com");
+    public String showChangePasswordPage(HttpSession session, Model model) {
+        Object loggedInUser = session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/dangNhap";
+        }
+
+        NguoiDung sessionUser = (NguoiDung) loggedInUser;
+        NguoiDung user = nguoiDungRepository.findById(sessionUser.getId()).orElse(null);
+        if (user == null) {
+            return "redirect:/dangNhap";
+        }
 
         model.addAttribute("user", user);
         return "customer/doiMatKhau";
     }
 
-    @PostMapping
-    public String processChangePassword(@RequestParam("currentPassword") String currentPassword,
+    @PostMapping("/capnhat")
+    public String processChangePassword(
+            @RequestParam("currentPassword") String currentPassword,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
+            HttpSession session,
             RedirectAttributes redirectAttributes) {
 
-        // Validate cơ bản phía backend
-        if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu xác nhận không khớp!");
-            return "redirect:/doi-mat-khau";
+        Object loggedInUser = session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/dangNhap";
         }
 
-        // TODO: Gọi Service xử lý đổi mật khẩu ở đây
+        NguoiDung sessionUser = (NguoiDung) loggedInUser;
+        NguoiDung user = nguoiDungRepository.findById(sessionUser.getId()).orElse(null);
+        if (user == null) {
+            return "redirect:/dangNhap";
+        }
+
+        if (!user.getMatKhau().equals(currentPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu hiện tại không đúng!");
+            return "redirect:/doimatkhau";
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu xác nhận không khớp!");
+            return "redirect:/doimatkhau";
+        }
+
+        user.setMatKhau(newPassword);
+        nguoiDungRepository.save(user);
 
         redirectAttributes.addFlashAttribute("successMessage", "Đổi mật khẩu thành công!");
-        return "/doimatkhau";
+        return "redirect:/doimatkhau";
     }
 }

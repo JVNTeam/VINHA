@@ -62,7 +62,7 @@ public class HomeController {
         this.nguoiDungMaGiamGiaRepository = nguoiDungMaGiamGiaRepository;
     }
 
-    @GetMapping("/trangChu")
+    @GetMapping({"/", "/trangChu"})
     public String home(Model model) {
         model.addAttribute("activePage", "trang-chu");
 

@@ -41,19 +41,13 @@ public class DanhGiaController {
             return "redirect:/dangNhap";
         }
 
-        // L?y t?t c? don h‡ng d„ ho‡n th‡nh c?a user
-        List<DonHang> completedOrders = donHangRepository.findByNguoiDungIdAndTrangThai(user.getId(), "Ho‡n th‡nh");
-        
-        // L?y t?t c? d·nh gi· c?a user
+        List<DonHang> completedOrders = donHangRepository.findByNguoiDungIdAndTrangThai(user.getId(), "Ho√†n th√†nh");
         List<DanhGia> userReviews = danhGiaRepository.findByNguoiDungId(user.getId());
-        
         List<Map<String, Object>> pendingReviews = new ArrayList<>();
         
         for (DonHang order : completedOrders) {
             for (ChiTietDonHang chiTiet : order.getChiTietDonHangs()) {
                 MonAn monAn = chiTiet.getMonAn();
-                
-                // Ki?m tra xem mÛn an trong don h‡ng n‡y d„ du?c d·nh gi· chua
                 boolean hasReviewed = userReviews.stream()
                         .anyMatch(r -> r.getDonHang().getId().equals(order.getId()) && r.getMonAn().getId().equals(monAn.getId()));
                 
@@ -66,11 +60,10 @@ public class DanhGiaController {
                     itemInfo.put("completedDate", order.getNgayTao() != null ? order.getNgayTao().toLocalDate().toString() : "");
                     
                     String imagePath = "https://via.placeholder.com/150";
-                    if (monAn.getHinhAnhMonAns() != null && !monAn.getHinhAnhMonAns().isEmpty()) {
-                        imagePath = monAn.getHinhAnhMonAns().get(0).getDuongDan();
+                    if (monAn.getHinhAnhs() != null && !monAn.getHinhAnhs().isEmpty()) {
+                        imagePath = monAn.getHinhAnhs().get(0).getDuongDan();
                     }
                     itemInfo.put("image", imagePath);
-                    
                     pendingReviews.add(itemInfo);
                 }
             }

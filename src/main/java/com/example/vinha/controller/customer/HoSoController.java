@@ -5,14 +5,14 @@ import com.example.vinha.repository.NguoiDungRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
+@RequestMapping("/hoso")
 public class HoSoController {
 
     private final NguoiDungRepository nguoiDungRepository;
@@ -21,16 +21,16 @@ public class HoSoController {
         this.nguoiDungRepository = nguoiDungRepository;
     }
 
-    @GetMapping({"/hoso", "/hoSo"})
-    public String viewHoSo(HttpSession session, Model model) {
+    @GetMapping
+    public String showProfilePage(HttpSession session, Model model) {
         Object loggedInUser = session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
             return "redirect:/dangNhap";
         }
-        
-        // Load fresh user from DB
+
         NguoiDung sessionUser = (NguoiDung) loggedInUser;
         NguoiDung user = nguoiDungRepository.findById(sessionUser.getId()).orElse(null);
+
         if (user == null) {
             return "redirect:/dangNhap";
         }
@@ -39,13 +39,13 @@ public class HoSoController {
         return "customer/hoSo";
     }
 
-    @PostMapping({"/hoso/capnhat", "/hoSo/capnhat"})
-    public String updateHoSo(
+    @PostMapping("/capnhat")
+    public String updateProfile(
             @RequestParam("hoTen") String hoTen,
             @RequestParam("soDienThoai") String soDienThoai,
             @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "gioiTinh", required = false) Byte gioiTinh,
-            @RequestParam(value = "ngaySinh", required = false) LocalDate ngaySinh,
+            @RequestParam("ngaySinh") String ngaySinhStr,
+            @RequestParam("gioiTinh") Integer gioiTinh,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
 
@@ -56,22 +56,28 @@ public class HoSoController {
 
         NguoiDung sessionUser = (NguoiDung) loggedInUser;
         NguoiDung user = nguoiDungRepository.findById(sessionUser.getId()).orElse(null);
-        
-        if (user != null) {
-            user.setHoTen(hoTen);
-            user.setSoDienThoai(soDienThoai);
-            user.setEmail(email != null && !email.trim().isEmpty() ? email : null);
-            user.setGioiTinh(gioiTinh);
-            user.setNgaySinh(ngaySinh);
 
-            try {
-                nguoiDungRepository.save(user);
-                session.setAttribute("loggedInUser", user);
-                redirectAttributes.addFlashAttribute("successMessage", "C?p nh?t h? so th‡nh cÙng!");
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "C?p nh?t th?t b?i. S? di?n tho?i ho?c Email cÛ th? d„ t?n t?i.");
-            }
+        if (user == null) {
+            return "redirect:/dangNhap";
         }
+
+        user.setHoTen(hoTen);
+        user.setSoDienThoai(soDienThoai);
+        user.setEmail(email);
+
+        if (ngaySinhStr != null && !ngaySinhStr.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            user.setNgaySinh(LocalDate.parse(ngaySinhStr, formatter));
+        }
+
+        user.setGioiTinh(gioiTinh != null ? gioiTinh.byteValue() : null);
+
+        nguoiDungRepository.save(user);
+
+        // Update session
+        session.setAttribute("loggedInUser", user);
+
+        redirectAttributes.addFlashAttribute("successMessage", "C·∫≠p nh·∫≠t h·ªì s∆° th√†nh c√¥ng!");
         return "redirect:/hoso";
     }
 }

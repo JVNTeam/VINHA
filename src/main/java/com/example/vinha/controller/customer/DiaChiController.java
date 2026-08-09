@@ -70,7 +70,7 @@ public class DiaChiController {
         newAddress.setMacDinh(addresses.isEmpty()); // If it is the first address, make it default
         
         diaChiRepository.save(newAddress);
-        redirectAttributes.addFlashAttribute("successMessage", "Th�m d?a ch? th�nh c�ng!");
+        redirectAttributes.addFlashAttribute("successMessage", "Thêm địa chỉ thành công!");
         
         return "redirect:/diachi";
     }
@@ -86,7 +86,7 @@ public class DiaChiController {
         DiaChi diaChi = diaChiRepository.findById(id).orElse(null);
         if (diaChi != null && diaChi.getNguoiDung().getId().equals(user.getId())) {
             diaChiRepository.delete(diaChi);
-            redirectAttributes.addFlashAttribute("successMessage", "X�a d?a ch? th�nh c�ng!");
+            redirectAttributes.addFlashAttribute("successMessage", "Xóa địa chỉ thành công!");
         }
         
         return "redirect:/diachi";
@@ -111,7 +111,7 @@ public class DiaChiController {
         }
         
         diaChiRepository.saveAll(addresses);
-        redirectAttributes.addFlashAttribute("successMessage", "�� d?t l�m m?c d?nh!");
+        redirectAttributes.addFlashAttribute("successMessage", "Đã đặt làm mặc định!");
         
         return "redirect:/diachi";
     }

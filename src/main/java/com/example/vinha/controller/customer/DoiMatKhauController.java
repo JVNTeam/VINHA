@@ -55,19 +55,19 @@ public class DoiMatKhauController {
         }
 
         if (!user.getMatKhau().equals(currentPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "M?t kh?u hi?n t?i kh�ng d�ng!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu hiện tại không đúng!");
             return "redirect:/doimatkhau";
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "M?t kh?u x�c nh?n kh�ng kh?p!");
+            redirectAttributes.addFlashAttribute("errorMessage", "Mật khẩu xác nhận không khớp!");
             return "redirect:/doimatkhau";
         }
 
         user.setMatKhau(newPassword);
         nguoiDungRepository.save(user);
 
-        redirectAttributes.addFlashAttribute("successMessage", "�?i m?t kh?u th�nh c�ng!");
+        redirectAttributes.addFlashAttribute("successMessage", "Đổi mật khẩu thành công!");
         return "redirect:/doimatkhau";
     }
 }

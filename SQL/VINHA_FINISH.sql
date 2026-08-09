@@ -354,3 +354,8 @@ INSERT INTO danh_gia (don_hang_id, mon_an_id, nguoi_dung_id, so_sao, binh_luan)
 VALUES
     (1, 1, 1, 5, N'Cơm rất ngon'),
     (2, 2, 1, 4, N'Thịt mềm, giao nhanh');
+
+
+UPDATE nguoi_dung
+SET vai_tro_id = 3
+WHERE so_dien_thoai = '0977777777';

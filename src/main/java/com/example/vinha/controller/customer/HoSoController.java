@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/hoso")
+@RequestMapping({"/hoso", "/hoSo"})
 public class HoSoController {
 
     private final NguoiDungRepository nguoiDungRepository;

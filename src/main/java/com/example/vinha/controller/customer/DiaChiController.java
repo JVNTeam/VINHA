@@ -48,6 +48,7 @@ public class DiaChiController {
     
     @PostMapping("/them")
     public String themDiaChi(
+            @RequestParam(value = "id", required = false) Long id,
             @RequestParam("tenNguoiNhan") String tenNguoiNhan,
             @RequestParam("soDienThoai") String soDienThoai,
             @RequestParam("diaChi") String diaChi,
@@ -60,17 +61,27 @@ public class DiaChiController {
         }
         
         NguoiDung user = (NguoiDung) loggedInUser;
-        List<DiaChi> addresses = diaChiRepository.findByNguoiDungId(user.getId());
         
-        DiaChi newAddress = new DiaChi();
-        newAddress.setNguoiDung(user);
-        newAddress.setTenNguoiNhan(tenNguoiNhan);
-        newAddress.setSdtNguoiNhan(soDienThoai);
-        newAddress.setDiaChi(diaChi);
-        newAddress.setMacDinh(addresses.isEmpty()); // If it is the first address, make it default
+        DiaChi addressToSave;
+        if (id != null) {
+            addressToSave = diaChiRepository.findById(id).orElse(new DiaChi());
+            if (addressToSave.getId() != null && !addressToSave.getNguoiDung().getId().equals(user.getId())) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không có quyền sửa địa chỉ này!");
+                return "redirect:/diachi";
+            }
+        } else {
+            addressToSave = new DiaChi();
+            List<DiaChi> addresses = diaChiRepository.findByNguoiDungId(user.getId());
+            addressToSave.setMacDinh(addresses.isEmpty()); // If it is the first address, make it default
+        }
         
-        diaChiRepository.save(newAddress);
-        redirectAttributes.addFlashAttribute("successMessage", "Thêm địa chỉ thành công!");
+        addressToSave.setNguoiDung(user);
+        addressToSave.setTenNguoiNhan(tenNguoiNhan);
+        addressToSave.setSdtNguoiNhan(soDienThoai);
+        addressToSave.setDiaChi(diaChi);
+        
+        diaChiRepository.save(addressToSave);
+        redirectAttributes.addFlashAttribute("successMessage", id != null ? "Cập nhật địa chỉ thành công!" : "Thêm địa chỉ thành công!");
         
         return "redirect:/diachi";
     }
@@ -85,8 +96,12 @@ public class DiaChiController {
         NguoiDung user = (NguoiDung) loggedInUser;
         DiaChi diaChi = diaChiRepository.findById(id).orElse(null);
         if (diaChi != null && diaChi.getNguoiDung().getId().equals(user.getId())) {
-            diaChiRepository.delete(diaChi);
-            redirectAttributes.addFlashAttribute("successMessage", "Xóa địa chỉ thành công!");
+            try {
+                diaChiRepository.delete(diaChi);
+                redirectAttributes.addFlashAttribute("successMessage", "Xóa địa chỉ thành công!");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa địa chỉ này vì đã được sử dụng trong đơn hàng!");
+            }
         }
         
         return "redirect:/diachi";

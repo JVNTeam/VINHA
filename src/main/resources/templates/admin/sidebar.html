@@ -1,52 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
+
 <div th:fragment="sidebar(activePage)">
-    <aside class="admin-sidebar" style="height: 100vh; position: sticky; top: 0;">
+    <aside class="admin-sidebar">
+        <!-- Logo & Thương hiệu Vị Nhà -->
         <div class="sidebar-brand">
+            <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="brand-logo">
             <span class="brand-text">Vị Nhà</span>
         </div>
 
-        <nav class="admin-nav" style="flex: 1; display: flex; flex-direction: column;">
+        <!-- Menu điều hướng -->
+        <nav class="admin-nav">
             <a th:href="@{/admin/tongQuan}" class="nav-item"
                th:classappend="${activePage == 'tongQuan'} ? 'active' : ''">
-                <i class="fa-solid fa-chart-simple"></i> Tổng quan
+                <i class="fa-solid fa-chart-pie"></i> Tổng quan
             </a>
-            <a th:href="@{/admin/monAn}" class="nav-item" th:classappend="${activePage == 'monAn'} ? 'active' : ''">
+
+            <a th:href="@{/admin/monAn}" class="nav-item"
+               th:classappend="${activePage == 'monAn'} ? 'active' : ''">
                 <i class="fa-solid fa-utensils"></i> Quản lý món ăn
             </a>
-            <a th:href="@{/admin/hinhAnh}" class="nav-item" th:classappend="${activePage == 'hinhAnh'} ? 'active' : ''">
-                <i class="fa-regular fa-image"></i> Quản lý hình ảnh món ăn
+
+            <a th:href="@{/admin/hinhAnh}" class="nav-item"
+               th:classappend="${activePage == 'hinhAnh'} ? 'active' : ''">
+                <i class="fa-regular fa-image"></i> Quản lý hình ảnh
             </a>
-            <a th:href="@{/admin/danhMuc}" class="nav-item" th:classappend="${activePage == 'danhMuc'} ? 'active' : ''">
+
+            <a th:href="@{/admin/danhMuc}" class="nav-item"
+               th:classappend="${activePage == 'danhMuc'} ? 'active' : ''">
                 <i class="fa-solid fa-layer-group"></i> Quản lý danh mục
             </a>
+
             <a th:href="@{/admin/phieuGiamGia}" class="nav-item"
                th:classappend="${activePage == 'giamGia'} ? 'active' : ''">
                 <i class="fa-solid fa-ticket"></i> Quản lý mã giảm giá
             </a>
+
             <a th:href="@{/admin/khachHang}" class="nav-item"
                th:classappend="${activePage == 'khachHang'} ? 'active' : ''">
                 <i class="fa-solid fa-users"></i> Quản lý khách hàng
             </a>
+
             <a th:href="@{/admin/nhanVien}" class="nav-item"
                th:classappend="${activePage == 'nhanVien'} ? 'active' : ''">
                 <i class="fa-solid fa-user-tie"></i> Quản lý nhân viên
             </a>
-            <!-- ĐÃ FIX: Xóa class="nav-item active" bị ghim cứng ở đây -->
-            <a th:href="@{/admin/donHang}" class="nav-item" th:classappend="${activePage == 'donHang'} ? 'active' : ''">
+
+            <a th:href="@{/admin/donHang}" class="nav-item"
+               th:classappend="${activePage == 'donHang'} ? 'active' : ''">
                 <i class="fa-solid fa-cart-shopping"></i> Quản lý đơn hàng
             </a>
-            <a th:href="@{/admin/danhGia}" class="nav-item" th:classappend="${activePage == 'danhGia'} ? 'active' : ''">
+
+            <a th:href="@{/admin/danhGia}" class="nav-item"
+               th:classappend="${activePage == 'danhGia'} ? 'active' : ''">
                 <i class="fa-regular fa-star"></i> Quản lý đánh giá
             </a>
         </nav>
+
+        <!-- Đăng xuất -->
         <div class="sidebar-footer">
-            <a th:href="@{/admin/logout}" class="nav-item logout-item">
+            <a th:href="@{/dangXuat}" class="nav-item logout-item">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
             </a>
         </div>
     </aside>
 </div>
+
 </body>
 </html>

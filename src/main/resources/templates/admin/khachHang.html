@@ -9,41 +9,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Nhúng file CSS -->
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/khach-hang.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
 
-    <!-- GỌI FRAGMENT MENU DÙNG CHUNG VÀ LÀM SÁNG NÚT "KHÁCH HÀNG" -->
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('khachHang')}"></div>
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
-        <!-- Tiêu đề -->
-        <div class="header">
-            <div class="title">
-                <h1 class="page-title">Quản lý khách hàng</h1>
-                <p class="page-subtitle">Xem và quản lý thông tin khách hàng trên hệ thống Vị Nhà.</p>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="title-group">
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Quản lý khách hàng</h1>
+                </div>
+                <p class="page-subtitle">Xem và quản lý danh sách tài khoản khách hàng trên hệ thống Vị Nhà.</p>
             </div>
-            <!-- <button class="btn btn-add"><i class="fas fa-plus"></i> Thêm khách hàng mới</button> -->
         </div>
 
-        <div class="filter-section box-panel">
-            <div class="filter-row">
-                <!-- Tìm kiếm -->
-                <div class="filter-group" style="flex: 2;">
-                    <label>Tìm kiếm khách hàng</label>
-                    <div class="input-group">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Nhập tên, email hoặc số điện thoại...">
+        <!-- Notification Alerts -->
+        <div th:if="${message}" class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+        </div>
+
+        <!-- Bộ Lọc Dữ Liệu Card -->
+        <div class="filter-card">
+            <div class="filter-form">
+                <div class="form-group search-group">
+                    <label class="filter-label">TÌM KIẾM KHÁCH HÀNG</label>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Nhập tên, email hoặc số điện thoại...">
                     </div>
                 </div>
 
-                <!-- Lọc theo trạng thái -->
-                <div class="filter-group" style="flex: 1;">
-                    <label>Trạng thái</label>
+                <div class="form-group">
+                    <label class="filter-label">TRẠNG THÁI</label>
                     <select id="statusFilter" class="form-control">
                         <option value="">Tất cả trạng thái</option>
                         <option value="Hoạt Động">Hoạt Động</option>
@@ -51,54 +61,69 @@
                     </select>
                 </div>
 
-                <!-- Nút hành động -->
-                <div class="filter-actions align-items-end">
-                    <button type="button" id="searchBtn" class="btn btn-search"><i class="fas fa-filter"></i> Lọc dữ liệu</button>
-                    <button type="button" id="resetBtn" class="btn btn-reset"><i class="fas fa-sync-alt"></i></button>
+                <div class="filter-actions">
+                    <button type="button" id="searchBtn" class="btn-search">
+                        <i class="fa-solid fa-filter"></i> Lọc
+                    </button>
+                    <button type="button" id="resetBtn" class="btn-refresh" title="Làm mới">
+                        <i class="fas fa-rotate-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Bảng dữ liệu -->
-        <div class="table-container box-panel">
-            <table>
-                <thead>
-                <tr>
-                    <th width="50">STT</th>
-                    <th>HỌ TÊN</th>
-                    <th>LIÊN HỆ</th>
-                    <th width="140">TRẠNG THÁI</th>
-                    <th width="140">NGÀY TẠO</th>
-                    <th width="140" style="text-align: center;">THAO TÁC</th>
-                </tr>
-                </thead>
-                <tbody id="customerTableBody">
-                <tr th:each="kh, iterStat : ${khachHangList}" class="customer-row">
-                    <td th:text="${iterStat.index + 1}">01</td>
-                    <td>
-                        <div class="font-weight-600 text-main customer-name" th:text="${kh.hoTen}">Nguyễn Văn Hoàng</div>
-                    </td>
-                    <td>
-                        <div class="contact-info">
-                            <span class="font-weight-600 customer-email" th:text="${kh.email}">hoang.nv@gmail.com</span><br>
-                            <span class="text-muted customer-phone" style="font-size: 13px;" th:text="${kh.soDienThoai}">0987 654 321</span>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="badge customer-status" th:classappend="${kh.trangThai == 'Hoạt Động' ? 'badge-open' : 'badge-closed'}" th:text="${kh.trangThai}">Đang mở</span>
-                    </td>
-                    <td th:text="${#temporals.format(kh.ngayTao, 'dd/MM/yyyy')}">15/10/2026</td>
-                    <td class="actions" style="text-align: center;">
-                        <a th:href="@{/admin/khachHang/toggle(id=${kh.id})}" th:title="${kh.trangThai == 'Hoạt Động' ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}" th:classappend="${kh.trangThai == 'Hoạt Động' ? 'text-danger' : 'text-success'}" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');">
-                            <i th:classappend="${kh.trangThai == 'Hoạt Động' ? 'fas fa-lock' : 'fas fa-lock-open'}"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr id="noDataRow" th:if="${#lists.isEmpty(khachHangList)}" style="display: none;">
-                    <td colspan="6" style="text-align: center; color: #64748b;">Không tìm thấy khách hàng nào.</td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- Bảng Dữ Liệu Card -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">STT</th>
+                        <th width="200">HỌ TÊN</th>
+                        <th>THÔNG TIN LIÊN HỆ</th>
+                        <th class="text-center" width="130">NGÀY TẠO</th>
+                        <th class="text-center" width="130">TRẠNG THÁI</th>
+                        <th class="text-center" width="100">THAO TÁC</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customerTableBody">
+                    <tr th:each="kh, iterStat : ${khachHangList}" class="customer-row">
+                        <td class="col-stt text-center" th:text="${iterStat.index + 1}">1</td>
+                        <td>
+                            <strong class="food-title customer-name" th:text="${kh.hoTen}">Nguyễn Văn Hoàng</strong>
+                        </td>
+                        <td>
+                            <div class="contact-info">
+                                <span class="font-bold customer-email" th:text="${kh.email}">hoang.nv@gmail.com</span>
+                                <span class="text-muted customer-phone" style="font-size: 12px;" th:text="${kh.soDienThoai}">0987 654 321</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="font-bold" th:text="${#temporals.format(kh.ngayTao, 'dd/MM/yyyy')}">15/10/2026</span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge-status customer-status"
+                                  th:classappend="${kh.trangThai == 'Hoạt Động' ? 'badge-success' : 'badge-danger'}"
+                                  th:text="${kh.trangThai}">Hoạt Động</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{/admin/khachHang/toggle(id=${kh.id})}"
+                                   class="icon-btn"
+                                   th:classappend="${kh.trangThai == 'Hoạt Động' ? 'btn-lock' : 'btn-unlock'}"
+                                   th:title="${kh.trangThai == 'Hoạt Động' ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}"
+                                   onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');">
+                                    <i th:classappend="${kh.trangThai == 'Hoạt Động' ? 'fa-solid fa-lock' : 'fa-solid fa-lock-open'}"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="noDataRow" th:if="${#lists.isEmpty(khachHangList)}" style="display: none;">
+                        <td colspan="6" class="empty-table">Không tìm thấy khách hàng nào.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 </div>

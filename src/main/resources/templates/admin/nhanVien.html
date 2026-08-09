@@ -9,41 +9,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Nhúng file CSS -->
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/nhan-vien.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
 
-    <!-- GỌI FRAGMENT MENU VÀ LÀM SÁNG NÚT "NHÂN VIÊN" -->
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('nhanVien')}"></div>
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
-        <!-- Tiêu đề -->
+
+        <!-- Page Header -->
         <div class="page-header">
             <div class="title-group">
-                <h1 class="page-title">Quản lý nhân viên</h1>
-                <p class="page-subtitle">Xem và quản lý thông tin nhân viên trên hệ thống Vị Nhà.</p>
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Quản lý nhân viên</h1>
+                </div>
+                <p class="page-subtitle">Xem và quản lý thông tin tài khoản nhân viên trên hệ thống Vị Nhà.</p>
             </div>
-            <a th:href="@{/admin/nhanVien/them}" class="btn-add" style="text-decoration: none;"><i class="fas fa-plus"></i> Thêm nhân viên mới</a>
+            <a th:href="@{/admin/nhanVien/them}" class="btn-add-new">
+                <i class="fas fa-plus"></i> Thêm nhân viên mới
+            </a>
         </div>
 
+        <!-- Notification Alerts -->
+        <div th:if="${message}" class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+        </div>
+
+        <!-- Bộ Lọc Dữ Liệu Card -->
         <div class="filter-card">
             <div class="filter-form">
-                <!-- TÌM KIẾM -->
-                <div class="filter-group group-search">
-                    <label class="filter-label">Tìm kiếm nhân viên</label>
+                <div class="form-group search-group">
+                    <label class="filter-label">TÌM KIẾM NHÂN VIÊN</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" id="searchInput" class="filter-input" placeholder="Nhập tên, email hoặc số điện thoại...">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Nhập tên, email hoặc số điện thoại...">
                     </div>
                 </div>
 
-                <div class="filter-group group-select">
-                    <label class="filter-label">Trạng thái</label>
-                    <select id="statusFilter" class="filter-select">
+                <div class="form-group">
+                    <label class="filter-label">TRẠNG THÁI</label>
+                    <select id="statusFilter" class="form-control">
                         <option value="">Tất cả trạng thái</option>
                         <option value="Hoạt Động">Hoạt động</option>
                         <option value="Khóa">Bị khóa</option>
@@ -51,52 +65,66 @@
                 </div>
 
                 <div class="filter-actions">
-                    <button type="button" id="searchBtn" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <button type="button" id="resetBtn" class="btn-reset"><i class="fas fa-sync-alt"></i></button>
+                    <button type="button" id="searchBtn" class="btn-search">
+                        <i class="fa-solid fa-filter"></i> Lọc
+                    </button>
+                    <button type="button" id="resetBtn" class="btn-refresh" title="Làm mới">
+                        <i class="fas fa-rotate-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Bảng dữ liệu -->
+        <!-- Bảng Dữ Liệu Card -->
         <div class="table-card">
             <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <th style="width: 5%; text-align: center;">STT</th>
-                        <th style="width: 35%;">HỌ TÊN</th>
-                        <th style="width: 30%;">LIÊN HỆ</th>
-                        <th style="width: 15%; text-align: center;">TRẠNG THÁI</th>
-                        <th style="width: 15%; text-align: center;">THAO TÁC</th>
+                        <th class="text-center" width="60">STT</th>
+                        <th width="220">HỌ TÊN & VAI TRÒ</th>
+                        <th>THÔNG TIN LIÊN HỆ</th>
+                        <th class="text-center" width="130">TRẠNG THÁI</th>
+                        <th class="text-center" width="110">THAO TÁC</th>
                     </tr>
                     </thead>
                     <tbody id="employeeTableBody">
                     <tr th:each="nv, iterStat : ${nhanVienList}" class="employee-row">
-                        <td class="col-stt" style="text-align: center;" th:text="${iterStat.index + 1}">01</td>
+                        <td class="col-stt text-center" th:text="${iterStat.index + 1}">1</td>
                         <td>
                             <div class="details-text">
-                                <strong class="col-dish-name employee-name" th:text="${nv.hoTen}">Nguyễn Văn Hoàng</strong><br>
-                                <span class="text-muted" style="font-size: 13px;" th:text="'Vai trò: ' + ${nv.vaiTro != null ? nv.vaiTro.ten : 'Chưa phân'}">Vai trò: Lễ tân</span>
+                                <strong class="food-title employee-name" th:text="${nv.hoTen}">Nguyễn Văn Hoàng</strong>
+                                <span class="badge-role" th:text="${nv.vaiTro != null ? nv.vaiTro.ten : 'Chưa phân'}">Lễ tân</span>
                             </div>
                         </td>
                         <td>
                             <div class="contact-info">
-                                <strong style="color: var(--text-main); font-weight: 600;" class="employee-email" th:text="${nv.email}">hoang.nv@gmail.com</strong><br>
-                                <span class="text-muted employee-phone" style="font-size: 13px;" th:text="${nv.soDienThoai}">0987 654 321</span>
+                                <span class="font-bold customer-email employee-email" th:text="${nv.email}">hoang.nv@gmail.com</span>
+                                <span class="text-muted customer-phone employee-phone" style="font-size: 12px;" th:text="${nv.soDienThoai}">0987 654 321</span>
                             </div>
                         </td>
-                        <td style="text-align: center;">
-                            <span class="employee-status" th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'badge badge-active' : 'badge badge-locked'}" th:text="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'Hoạt động' : 'Bị khóa'}">Hoạt động</span>
+                        <td class="text-center">
+                            <span class="badge-status employee-status"
+                                  th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'badge-success' : 'badge-danger'}"
+                                  th:text="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'Hoạt động' : 'Bị khóa'}">Hoạt động</span>
                         </td>
-                        <td style="text-align: center;">
+                        <td class="text-center">
                             <div class="action-buttons">
-                                <a th:href="@{/admin/nhanVien/sua(id=${nv.id})}" class="btn-icon text-blue" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
-                                <a th:href="@{/admin/nhanVien/xoa(id=${nv.id})}" th:classappend="${nv.vaiTro.id == 3 ? 'disabled' : ''}" class="btn-icon text-danger" title="Khóa/Mở khóa" onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');"><i th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'fas fa-lock' : 'fas fa-lock-open'}"></i></a>
+                                <a th:href="@{/admin/nhanVien/sua(id=${nv.id})}" class="icon-btn btn-edit" title="Chỉnh sửa">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                                <a th:href="@{/admin/nhanVien/xoa(id=${nv.id})}"
+                                   class="icon-btn"
+                                   th:classappend="${nv.vaiTro != null and nv.vaiTro.id == 3 ? 'btn-disabled' : (#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'btn-lock' : 'btn-unlock')}"
+                                   th:title="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}"
+                                   onclick="return confirm('Bạn có chắc muốn thực hiện thao tác này?');">
+                                    <i th:classappend="${#strings.equalsIgnoreCase(nv.trangThai, 'Hoạt Động') ? 'fa-solid fa-lock' : 'fa-solid fa-lock-open'}"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
                     <tr id="noDataRow" th:if="${#lists.isEmpty(nhanVienList)}" style="display: none;">
-                        <td colspan="5" style="text-align: center; color: #64748b;">Không tìm thấy nhân viên nào.</td>
+                        <td colspan="5" class="empty-table">Không tìm thấy nhân viên nào.</td>
                     </tr>
                     </tbody>
                 </table>

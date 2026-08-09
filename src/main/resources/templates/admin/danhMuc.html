@@ -3,57 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý danh mục - Vị Nhà</title>
+    <title>Quản lý danh mục - Vị Nhà Admin</title>
 
-    <!-- Google Fonts & FontAwesome chuẩn theo dự án -->
+    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- Nhúng CSS -->
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/danh-muc.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('danhMuc')}"></div>
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
-        <!-- Tiêu đề -->
+
+        <!-- Page Header -->
         <div class="page-header">
             <div class="title-group">
-                <h1 class="page-title">Quản lý danh mục</h1>
-                <p class="page-subtitle">Quản lý và phân loại các nhóm thực đơn phục vụ khách hàng.</p>
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Quản lý danh mục</h1>
+                </div>
+                <p class="page-subtitle">Quản lý và phân loại các nhóm thực đơn phục vụ khách hàng của Vị Nhà.</p>
             </div>
-            <a th:href="@{/admin/danhMuc/them}" class="btn-add">
+            <a th:href="@{/admin/danhMuc/them}" class="btn-add-new">
                 <i class="fa-solid fa-plus"></i> Thêm danh mục mới
             </a>
         </div>
 
-        <div th:if="${message}" class="alert-box alert-success" style="margin: 0 24px 16px;">
+        <!-- Notification Alerts -->
+        <div th:if="${message}" class="alert alert-success">
             <i class="fa-solid fa-circle-check"></i>
             <span th:text="${message}">Thao tác thành công.</span>
         </div>
-        <div th:if="${error}" class="alert-box alert-error" style="margin: 0 24px 16px;">
+        <div th:if="${error}" class="alert alert-danger">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span th:text="${error}">Có lỗi xảy ra.</span>
         </div>
 
-        <!-- Filter Card -->
+        <!-- Bộ Lọc Dữ Liệu Card -->
         <div class="filter-card">
-            <form th:action="@{/admin/danhMuc}" method="get" class="filter-form" style="flex-wrap: wrap;">
-                <div class="filter-group group-search" style="flex: 2;">
-                    <label class="filter-label">Tên danh mục</label>
+            <form th:action="@{/admin/danhMuc}" method="get" class="filter-form">
+                <div class="form-group search-group">
+                    <label class="filter-label">TÌM KIẾM DANH MỤC</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="keyword" class="filter-input" placeholder="Nhập tên danh mục cần tìm..." th:value="${keyword}">
+                        <input type="text" name="keyword" class="form-control" placeholder="Nhập tên danh mục..." th:value="${keyword}">
                     </div>
                 </div>
 
-                <div class="filter-group group-select" style="flex: 1;">
-                    <label class="filter-label">Trạng thái</label>
-                    <select id="statusFilter" name="status" class="filter-select">
-                        <option value="" th:selected="${selectedStatus == ''}">Tất cả trạng thái</option>
+                <div class="form-group">
+                    <label class="filter-label">TRẠNG THÁI</label>
+                    <select id="statusFilter" name="status" class="form-control">
+                        <option value="" th:selected="${selectedStatus == '' or selectedStatus == null}">Tất cả trạng thái</option>
                         <option th:each="st : ${statusOptions}"
                                 th:value="${st}"
                                 th:text="${st}"
@@ -63,62 +69,68 @@
                 </div>
 
                 <div class="filter-actions">
-                    <button type="submit" class="btn-search">Tìm kiếm</button>
-                    <!-- ĐÃ FIX: Đổi link thành /admin/danhMuc (bỏ dấu gạch ngang) -->
-                    <a th:href="@{/admin/danhMuc}" class="btn-reset">Làm mới</a>
+                    <button type="submit" class="btn-search">
+                        <i class="fa-solid fa-filter"></i> Lọc
+                    </button>
+                    <a th:href="@{/admin/danhMuc}" class="btn-refresh" title="Làm mới">
+                        <i class="fas fa-rotate-right"></i>
+                    </a>
                 </div>
             </form>
         </div>
 
-        <!-- Data Table Card -->
+        <!-- Bảng Dữ Liệu Card -->
         <div class="table-card">
             <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <th width="70">STT</th>
-                        <th width="120">HÌNH ẢNH</th>
+                        <th class="text-center" width="60">STT</th>
+                        <th class="text-center" width="100">HÌNH ÁNH</th>
                         <th width="200">TÊN DANH MỤC</th>
                         <th>MÔ TẢ</th>
-                        <th width="140">TRẠNG THÁI</th>
-                        <th width="120" style="text-align: center;">THAO TÁC</th>
+                        <th class="text-center" width="130">TRẠNG THÁI</th>
+                        <th class="text-center" width="100">THAO TÁC</th>
                     </tr>
                     </thead>
-                    <tbody id="categoryTableBody" th:if="${danhMucs != null and !#lists.isEmpty(danhMucs)}">
+                    <tbody id="categoryTableBody">
                     <tr th:each="dm, idx : ${danhMucs}" th:attr="data-status=${dm.trangThai}">
-                        <td class="col-stt" th:text="${idx.index + 1 < 10 ? '0' + (idx.index + 1) : idx.index + 1}">01</td>
-                        <td>
-                            <img th:if="${dm.anh != null and dm.anh != ''}"
-                                 th:src="${dm.anh.startsWith('http') ? dm.anh : (dm.anh.startsWith('/') ? dm.anh : '/' + dm.anh)}"
-                                 alt="Danh mục" class="dish-preview-img"
-                                 onerror="this.style.display='none'" />
-                            <img th:if="${(dm.anh == null or dm.anh == '') and !#lists.isEmpty(dm.monAns) and !#lists.isEmpty(dm.monAns[0].hinhAnhs)}"
-                                 th:src="${dm.monAns[0].hinhAnhs[0].duongDan.startsWith('http') ? dm.monAns[0].hinhAnhs[0].duongDan : (dm.monAns[0].hinhAnhs[0].duongDan.startsWith('/') ? dm.monAns[0].hinhAnhs[0].duongDan : '/' + dm.monAns[0].hinhAnhs[0].duongDan)}"
-                                 alt="Danh mục" class="dish-preview-img"
-                                 onerror="this.style.display='none'" />
-                            <img th:if="${(dm.anh == null or dm.anh == '') and (#lists.isEmpty(dm.monAns) or #lists.isEmpty(dm.monAns[0].hinhAnhs))}"
-                                 src="https://images.unsplash.com/photo-1528735607220-8f59e29c74f4?q=80&w=150&auto=format&fit=crop"
-                                 alt="Danh mục" class="dish-preview-img" />
+                        <td class="col-stt text-center" th:text="${idx.index + 1}">1</td>
+                        <td class="text-center">
+                            <div class="category-preview-container">
+                                <img th:if="${dm.anh != null and dm.anh.trim() != ''}"
+                                     th:src="${dm.anh.startsWith('http') ? dm.anh : (dm.anh.startsWith('/') ? dm.anh : '/' + dm.anh)}"
+                                     alt="Danh mục" class="category-preview-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+
+                                <img th:if="${(dm.anh == null or dm.anh.trim() == '') and !#lists.isEmpty(dm.monAns) and !#lists.isEmpty(dm.monAns[0].hinhAnhs)}"
+                                     th:src="${dm.monAns[0].hinhAnhs[0].duongDan.startsWith('http') ? dm.monAns[0].hinhAnhs[0].duongDan : (dm.monAns[0].hinhAnhs[0].duongDan.startsWith('/') ? dm.monAns[0].hinhAnhs[0].duongDan : '/' + dm.monAns[0].hinhAnhs[0].duongDan)}"
+                                     alt="Danh mục" class="category-preview-img"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+
+                                <div th:if="${(dm.anh == null or dm.anh.trim() == '') and (#lists.isEmpty(dm.monAns) or #lists.isEmpty(dm.monAns[0].hinhAnhs))}" class="category-preview-placeholder">
+                                    Chưa có ảnh
+                                </div>
+                            </div>
                         </td>
-                        <td class="col-dish-name" th:text="${dm.ten}">Tên danh mục</td>
-                        <td style="color: var(--text-muted);" th:text="${dm.moTa != null ? dm.moTa : '-'}">Mô tả</td>
-                        <td>
-                            <span th:text="${dm.trangThai}"
-                                  th:classappend="${dm.trangThai == 'Mở'} ? ' badge-status-active' : ' badge-status-lock'">
+                        <td><strong class="food-title" th:text="${dm.ten}">Tên danh mục</strong></td>
+                        <td><span class="category-desc" th:text="${dm.moTa != null and dm.moTa.trim() != '' ? dm.moTa : '-'}">Mô tả danh mục</span></td>
+                        <td class="text-center">
+                            <span class="badge-status"
+                                  th:classappend="${dm.trangThai == 'Mở' or dm.trangThai == 'Hoạt động' ? 'badge-success' : 'badge-danger'}"
+                                  th:text="${dm.trangThai != null ? dm.trangThai : 'Khóa'}">
                                 Đang mở
                             </span>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <div class="action-buttons">
-                                <a th:href="@{/admin/danhMuc/sua(id=${dm.id})}" class="btn-icon" title="Sửa"><i class="fa-regular fa-pen-to-square"></i></a>
-                                <a th:href="@{/admin/danhMuc/xoa(id=${dm.id})}" class="btn-icon text-danger btn-delete" title="Xóa"><i class="fa-regular fa-trash-can"></i></a>
+                                <a th:href="@{/admin/danhMuc/sua(id=${dm.id})}" class="icon-btn btn-edit" title="Chỉnh sửa"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a th:href="@{/admin/danhMuc/xoa(id=${dm.id})}" class="icon-btn btn-delete" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');"><i class="fa-regular fa-trash-can"></i></a>
                             </div>
                         </td>
                     </tr>
-                    </tbody>
-                    <tbody th:if="${danhMucs == null or #lists.isEmpty(danhMucs)}">
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">Không tìm thấy danh mục nào.</td>
+                    <tr th:if="${danhMucs == null or #lists.isEmpty(danhMucs)}" class="no-results">
+                        <td colspan="6" class="empty-table">Không tìm thấy danh mục nào.</td>
                     </tr>
                     </tbody>
                 </table>
@@ -129,7 +141,7 @@
 
 <script th:src="@{/js/admin/danh-muc.js}"></script>
 
-<!-- JS THÊM VÀO ĐỂ LỌC TRẠNG THÁI -->
+<!-- JS lọc client-side cho Dropdown Trạng Thái -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const statusFilter = document.getElementById('statusFilter');
@@ -137,28 +149,25 @@
 
         if (statusFilter && tableRows.length > 0) {
             statusFilter.addEventListener('change', function() {
-                const selectedStatus = this.value.trim();
+                const selectedStatus = this.value.trim().toLowerCase();
                 let visibleCount = 0;
 
                 tableRows.forEach(row => {
-                    const rowStatus = row.getAttribute('data-status').trim();
+                    const rowStatus = (row.getAttribute('data-status') || '').trim().toLowerCase();
 
-                    // Nếu chọn "Tất cả" hoặc khớp với trạng thái của dòng
                     if (selectedStatus === "" || rowStatus === selectedStatus) {
-                        row.style.display = ''; // Hiện dòng
+                        row.style.display = '';
                         visibleCount++;
 
-                        // Đánh lại số thứ tự (STT) cho đẹp
                         const sttCell = row.querySelector('.col-stt');
                         if (sttCell) {
-                            sttCell.textContent = visibleCount < 10 ? '0' + visibleCount : visibleCount;
+                            sttCell.textContent = visibleCount;
                         }
                     } else {
-                        row.style.display = 'none'; // Ẩn dòng
+                        row.style.display = 'none';
                     }
                 });
 
-                // Xử lý thông báo nếu lọc không ra kết quả nào
                 let emptyRow = document.getElementById('empty-js-row');
                 const tbody = document.getElementById('categoryTableBody');
 
@@ -166,7 +175,7 @@
                     if (!emptyRow) {
                         emptyRow = document.createElement('tr');
                         emptyRow.id = 'empty-js-row';
-                        emptyRow.innerHTML = '<td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">Không có danh mục nào phù hợp với trạng thái đã chọn.</td>';
+                        emptyRow.innerHTML = '<td colspan="6" class="empty-table">Không có danh mục nào phù hợp với trạng thái đã chọn.</td>';
                         tbody.appendChild(emptyRow);
                     } else {
                         emptyRow.style.display = '';

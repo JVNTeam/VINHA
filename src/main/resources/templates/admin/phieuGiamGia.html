@@ -5,62 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý phiếu giảm giá - Vị Nhà Admin</title>
 
+    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/phieu-giam-gia.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
-    <!-- GỌI FRAGMENT MENU VÀ LÀM SÁNG MÀU NÚT "MÃ GIẢM GIÁ" -->
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('giamGia')}"></div>
 
+    <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
+
+        <!-- Page Header -->
         <div class="page-header">
             <div class="title-group">
-                <h1 class="page-title">Quản lý phiếu giảm giá</h1>
-                <p class="page-subtitle">Tạo và quản lý các chương trình khuyến mãi cho khách hàng.</p>
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Quản lý phiếu giảm giá</h1>
+                </div>
+                <p class="page-subtitle">Tạo và quản lý các chương trình ưu đãi, voucher khuyến mãi của Vị Nhà.</p>
             </div>
-
-            <div class="header-actions">
-                <a th:href="@{/admin/phieuGiamGia/them}" class="btn-add">
-                    <i class="fas fa-plus"></i> Thêm mã mới
-                </a>
-            </div>
+            <a th:href="@{/admin/phieuGiamGia/them}" class="btn-add-new">
+                <i class="fas fa-plus"></i> Thêm mã mới
+            </a>
         </div>
 
-        <div th:if="${message}" class="alert-box alert-success">
-            <i class="fa-solid fa-circle-check"></i>
-            <span th:text="${message}"></span>
+        <!-- Notification Alerts -->
+        <div th:if="${message}" class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
         </div>
-        <div th:if="${error}" class="alert-box alert-error">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            <span th:text="${error}"></span>
+        <div th:if="${error}" class="alert alert-danger">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
         </div>
 
+        <!-- Bộ Lọc Dữ Liệu Card -->
         <div class="filter-card">
             <form th:action="@{/admin/phieuGiamGia}" method="get" class="filter-form">
-                <div class="filter-group group-search" style="flex: 2;">
-                    <label class="filter-label">Tìm kiếm mã</label>
+                <div class="form-group search-group">
+                    <label class="filter-label">TÌM KIẾM MÃ</label>
                     <div class="search-input-box">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" name="keyword" class="filter-input" placeholder="VD: VINHA2026..."
-                               th:value="${keyword}">
+                        <input type="text" name="keyword" class="form-control" placeholder="VD: VINHA2026..." th:value="${keyword}">
                     </div>
                 </div>
 
-                <div class="filter-group group-select" style="flex: 1;">
-                    <label class="filter-label">Trạng thái</label>
-                    <select name="status" class="filter-select">
+                <div class="form-group">
+                    <label class="filter-label">TRẠNG THÁI</label>
+                    <select name="status" class="form-control">
                         <option value="">Tất cả trạng thái</option>
                         <option value="ACTIVE" th:selected="${selectedStatus == 'ACTIVE'}">Đang bật</option>
                         <option value="DISABLED" th:selected="${selectedStatus == 'DISABLED'}">Đã tắt</option>
                     </select>
                 </div>
 
-                <div class="filter-group group-select" style="flex: 1;">
-                    <label class="filter-label">Lọc theo số lượng</label>
-                    <select name="quantity" class="filter-select">
+                <div class="form-group">
+                    <label class="filter-label">SỐ LƯỢNG</label>
+                    <select name="quantity" class="form-control">
                         <option value="">Tất cả số lượng</option>
                         <option value="under_50" th:selected="${selectedQuantity == 'under_50'}">Dưới 50 mã</option>
                         <option value="50_200" th:selected="${selectedQuantity == '50_200'}">Từ 50 - 200 mã</option>
@@ -69,47 +74,47 @@
                 </div>
 
                 <div class="filter-actions">
-                    <button type="submit" class="btn-search"><i class="fas fa-filter"></i> Lọc</button>
-                    <!-- Link làm mới trang chuẩn xác -->
-                    <a th:href="@{/admin/phieuGiamGia}" class="btn-reset"><i class="fas fa-sync-alt"></i></a>
+                    <button type="submit" class="btn-search">
+                        <i class="fa-solid fa-filter"></i> Lọc
+                    </button>
+                    <a th:href="@{/admin/phieuGiamGia}" class="btn-refresh" title="Làm mới">
+                        <i class="fas fa-rotate-right"></i>
+                    </a>
                 </div>
             </form>
         </div>
 
+        <!-- Bảng Dữ Liệu Card -->
         <div class="table-card">
             <div class="table-responsive">
                 <table class="admin-table">
                     <thead>
                     <tr>
-                        <th style="width: 5%; text-align: center;">STT</th>
-                        <th style="width: 15%;">MÃ GIẢM GIÁ</th>
-                        <th style="width: 10%;">MỨC GIẢM</th>
-                        <th style="width: 25%;">ĐIỀU KIỆN</th>
-                        <th style="width: 12%;">SỐ LƯỢNG</th>
-                        <th style="width: 15%;">HẠN SỬ DỤNG</th>
-                        <th style="width: 10%; text-align: center;">TRẠNG THÁI</th>
-                        <th style="width: 8%; text-align: center;">THAO TÁC</th>
+                        <th class="text-center" width="60">STT</th>
+                        <th width="140">MÃ GIẢM GIÁ</th>
+                        <th width="100">MỨC GIẢM</th>
+                        <th>ĐIỀU KIỆN ÁP DỤNG</th>
+                        <th width="110">SỐ LƯỢNG</th>
+                        <th width="140">HẠN SỬ DỤNG</th>
+                        <th class="text-center" width="120">TRẠNG THÁI</th>
+                        <th class="text-center" width="100">THAO TÁC</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${vouchersPage == null or vouchersPage.empty}">
-                        <td colspan="8" style="text-align: center; padding: 40px; color: #777;">
-                            Chưa có mã giảm giá nào. Nhấn "Thêm mã mới" để tạo chương trình khuyến mãi.
-                        </td>
-                    </tr>
                     <tr th:each="item, stat : ${vouchersPage.content}">
-                        <td class="col-stt" style="text-align: center;"
-                            th:text="${stat.count + vouchersPage.number * vouchersPage.size}">01</td>
+                        <td class="col-stt text-center" th:text="${stat.count + vouchersPage.number * vouchersPage.size}">1</td>
                         <td>
                             <span class="code-badge"
                                   th:classappend="${item.voucher.trangThai != null and !item.voucher.trangThai} ? ' expired' : ''"
                                   th:text="${item.voucher.ma}">VINHA20</span>
                         </td>
-                        <td class="col-highlight text-orange"
-                            th:text="${T(com.example.vinha.service.VoucherService).formatGiaTriGiam(item.voucher)}">20%</td>
+                        <td>
+                            <strong class="price-text"
+                                    th:text="${T(com.example.vinha.service.VoucherService).formatGiaTriGiam(item.voucher)}">20%</strong>
+                        </td>
                         <td>
                             <div class="condition-col">
-                                <span class="font-weight-600 text-main"
+                                <span class="food-title"
                                       th:text="'Đơn tối thiểu ' + ${T(com.example.vinha.service.VoucherService).formatCurrency(item.voucher.donToiThieu)}">
                                     Đơn tối thiểu 150,000đ
                                 </span>
@@ -124,12 +129,12 @@
                             </div>
                         </td>
                         <td>
-                            <strong class="text-main" th:text="${item.daNhan}">0</strong>
+                            <strong class="font-bold" th:text="${item.daNhan}">0</strong>
                             <span class="text-muted" th:text="'/ ' + ${item.voucher.soLuong}">/ 200</span>
                         </td>
                         <td>
                             <div class="date-col">
-                                <span class="font-weight-600"
+                                <span class="font-bold"
                                       th:text="${item.voucher.ngayBatDau != null ? #temporals.format(item.voucher.ngayBatDau, 'dd/MM/yyyy') : 'Không giới hạn'}">
                                     01/10/2026
                                 </span>
@@ -139,7 +144,7 @@
                                 </span>
                             </div>
                         </td>
-                        <td style="text-align: center;">
+                        <td class="text-center">
                             <div class="status-toggle">
                                 <a th:href="@{/admin/phieuGiamGia/toggle(id=${item.voucher.id})}"
                                    class="toggle-switch"
@@ -147,64 +152,64 @@
                                     <span class="slider"
                                           th:classappend="${item.voucher.trangThai != null and item.voucher.trangThai} ? ' on' : ''"></span>
                                 </a>
-                                <span class="status-text"
-                                      th:classappend="${item.voucher.trangThai != null and item.voucher.trangThai} ? ' text-success' : ' text-muted'"
+                                <span class="badge-status"
+                                      th:classappend="${item.voucher.trangThai != null and item.voucher.trangThai} ? ' badge-success' : ' badge-danger'"
                                       th:text="${item.voucher.trangThai != null and item.voucher.trangThai} ? 'Đang bật' : 'Đã tắt'">Đang bật</span>
                             </div>
                         </td>
-                        <td style="text-align: center;">
+                        <td class="text-center">
                             <div class="action-buttons">
                                 <a th:href="@{/admin/phieuGiamGia/sua(id=${item.voucher.id})}"
-                                   class="btn-icon" title="Sửa">
-                                    <i class="fas fa-pen"></i>
+                                   class="icon-btn btn-edit" title="Chỉnh sửa">
+                                    <i class="fa-regular fa-pen-to-square"></i>
                                 </a>
                                 <a th:href="@{/admin/phieuGiamGia/xoa(id=${item.voucher.id})}"
-                                   class="btn-icon text-danger btn-delete" title="Xóa"
-                                   th:data-ma="${item.voucher.ma}">
-                                    <i class="fas fa-trash"></i>
+                                   class="icon-btn btn-delete" title="Xóa"
+                                   th:data-ma="${item.voucher.ma}"
+                                   onclick="return confirm('Bạn có chắc muốn xóa phiếu giảm giá này?');">
+                                    <i class="fa-regular fa-trash-can"></i>
                                 </a>
                             </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${vouchersPage == null or vouchersPage.empty}">
+                        <td colspan="8" class="empty-table">
+                            Chưa có mã giảm giá nào. Nhấn "Thêm mã mới" để tạo chương trình khuyến mãi.
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Phân trang -->
-            <div class="pagination-container" th:if="${vouchersPage != null and vouchersPage.totalPages > 1}" style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-top: 1px solid #eee;">
-                <div class="pagination-info" style="color: #666; font-size: 14px;">
-                    Hiển thị <span th:text="${vouchersPage.number * vouchersPage.size + 1}">1</span> 
-                    - <span th:text="${(vouchersPage.number * vouchersPage.size + vouchersPage.numberOfElements)}">10</span> 
-                    trong tổng số <strong th:text="${vouchersPage.totalElements}">100</strong> mã giảm giá
+            <!-- Phân trang chuẩn giao diện Vị Nhà -->
+            <div class="pagination-container" th:if="${vouchersPage != null and vouchersPage.totalPages > 1}">
+                <div class="pagination-info">
+                    Hiển thị <span th:text="${vouchersPage.number * vouchersPage.size + 1}">1</span>
+                    - <span th:text="${(vouchersPage.number * vouchersPage.size + vouchersPage.numberOfElements)}">10</span>
+                    trên <strong th:text="${vouchersPage.totalElements}">100</strong> mã
                 </div>
-                
-                <ul class="pagination" style="display: flex; list-style: none; gap: 5px; margin: 0; padding: 0;">
-                    <li th:classappend="${vouchersPage.first ? 'disabled' : ''}" style="margin: 0;">
-                        <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number - 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}" 
-                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
-                           th:styleappend="${vouchersPage.first ? 'opacity: 0.5; pointer-events: none;' : ''}">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    </li>
-                    
-                    <li th:each="i : ${#numbers.sequence(0, vouchersPage.totalPages - 1)}" 
-                        th:if="${i >= vouchersPage.number - 2 and i <= vouchersPage.number + 2}"
-                        style="margin: 0;">
-                        <a th:href="@{/admin/phieuGiamGia(page=${i}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}" 
-                           th:text="${i + 1}"
-                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
-                           th:styleappend="${i == vouchersPage.number ? 'background: #f89b20; color: #fff; border-color: #f89b20;' : ''}">
-                        </a>
-                    </li>
-                    
-                    <li th:classappend="${vouchersPage.last ? 'disabled' : ''}" style="margin: 0;">
-                        <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number + 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}"
-                           style="display: block; padding: 6px 12px; border: 1px solid #ddd; border-radius: 6px; color: #444; text-decoration: none; font-size: 14px; background: #fff;"
-                           th:styleappend="${vouchersPage.last ? 'opacity: 0.5; pointer-events: none;' : ''}">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
+
+                <div class="pagination">
+                    <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number - 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}"
+                       class="page-btn"
+                       th:classappend="${vouchersPage.first} ? 'disabled' : ''">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+
+                    <a th:each="i : ${#numbers.sequence(0, vouchersPage.totalPages - 1)}"
+                       th:if="${i >= vouchersPage.number - 2 and i <= vouchersPage.number + 2}"
+                       th:href="@{/admin/phieuGiamGia(page=${i}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}"
+                       th:text="${i + 1}"
+                       class="page-btn"
+                       th:classappend="${i == vouchersPage.number} ? 'active' : ''">
+                    </a>
+
+                    <a th:href="@{/admin/phieuGiamGia(page=${vouchersPage.number + 1}, keyword=${keyword}, status=${selectedStatus}, quantity=${selectedQuantity})}"
+                       class="page-btn"
+                       th:classappend="${vouchersPage.last} ? 'disabled' : ''">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </main>

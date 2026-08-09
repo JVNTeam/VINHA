@@ -9,27 +9,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- GỌI FILE CSS RIÊNG -->
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/chi-tiet-don-khach.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('donHang')}"></div>
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
-        <!-- Phần Tiêu đề Đơn hàng -->
+
+        <!-- Page Header -->
         <div class="page-header">
             <div class="title-group">
-                <div class="order-title-row">
-                    <h1 class="page-title">Đơn hàng <span style="color: var(--admin-orange);" th:text="${donHang != null ? '#VN-' + donHang.id : '#VN-29034'}">#VN-29034</span></h1>
-                    <span class="badge" th:classappend="${donHang != null && donHang.trangThai == 'Đã hoàn thành' ? 'badge-success' : (donHang != null && donHang.trangThai == 'Hủy' ? 'badge-danger' : 'badge-pending')}" th:text="${donHang != null ? donHang.trangThai : 'Chờ xác nhận'}">Chờ xác nhận</span>
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Đơn hàng <span class="order-code-highlight" th:text="${donHang != null ? '#VN-' + donHang.id : '#VN-29034'}">#VN-29034</span></h1>
+                    <span class="badge-status"
+                          th:classappend="${donHang != null && (donHang.trangThai == 'Đã hoàn thành' || donHang.trangThai == 'Hoàn thành') ? 'badge-success' : (donHang != null && donHang.trangThai == 'Hủy' ? 'badge-danger' : 'badge-warning')}"
+                          th:text="${donHang != null ? donHang.trangThai : 'Chờ xác nhận'}">Chờ xác nhận</span>
                 </div>
-                <p class="page-subtitle">Ngày đặt: <span th:text="${donHang != null && donHang.ngayTao != null ? #temporals.format(donHang.ngayTao, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span></p>
+                <p class="page-subtitle">Thời gian đặt: <span class="font-bold" th:text="${donHang != null && donHang.ngayTao != null ? #temporals.format(donHang.ngayTao, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span></p>
             </div>
-            <!-- ĐÃ FIX: Nút quay lại trỏ về trang Quản lý đơn hàng -->
-            <a th:href="@{/admin/donHang}" class="btn-back"><i class="fas fa-arrow-left"></i> Quay lại</a>
+
+            <a th:href="@{/admin/donHang}" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </a>
         </div>
 
         <!-- Khung 2 Cột -->
@@ -39,7 +46,7 @@
 
                 <!-- Card: Thông tin khách hàng -->
                 <div class="info-card">
-                    <h3 class="card-title">Thông tin khách hàng</h3>
+                    <h3 class="card-title"><i class="fa-solid fa-user-gear"></i> Thông tin khách hàng</h3>
                     <div class="customer-info-grid">
                         <div class="info-row">
                             <span class="label">Khách hàng</span>
@@ -55,50 +62,50 @@
                         </div>
                         <div class="info-row">
                             <span class="label">Ghi chú</span>
-                            <em class="value text-muted" style="background: #fdf8f3; padding: 10px; border-radius: 8px;" th:text="${donHang != null && donHang.ghiChu != null && !donHang.ghiChu.isEmpty() ? donHang.ghiChu : 'Không có ghi chú'}">Không có ghi chú</em>
+                            <em class="value note-box" th:text="${donHang != null && donHang.ghiChu != null && !donHang.ghiChu.isEmpty() ? donHang.ghiChu : 'Không có ghi chú'}">Không có ghi chú</em>
                         </div>
                         <div class="info-row" th:if="${donHang != null && donHang.lyDoHuy != null && !donHang.lyDoHuy.isEmpty()}">
-                            <span class="label" style="color: #d9534f;">Lý do hủy</span>
-                            <em class="value" style="background: #fde8e8; color: #d9534f; padding: 10px; border-radius: 8px;" th:text="${donHang.lyDoHuy}"></em>
+                            <span class="label text-danger">Lý do hủy</span>
+                            <em class="value cancel-box" th:text="${donHang.lyDoHuy}">Khách muốn đổi sang món khác</em>
                         </div>
                     </div>
                 </div>
 
                 <!-- Card: Danh sách món ăn -->
                 <div class="info-card">
-                    <h3 class="card-title">Danh sách món ăn</h3>
+                    <h3 class="card-title"><i class="fa-solid fa-utensils"></i> Danh sách món ăn</h3>
                     <div class="table-responsive">
                         <table class="admin-table">
                             <thead>
                             <tr>
-                                <th style="width: 50%;">MÓN ĂN</th>
-                                <th style="width: 15%; text-align: center;">SỐ LƯỢNG</th>
-                                <th style="width: 15%; text-align: right;">ĐƠN GIÁ</th>
-                                <th style="width: 20%; text-align: right;">THÀNH TIỀN</th>
+                                <th width="50%">MÓN ĂN</th>
+                                <th class="text-center" width="15%">SỐ LƯỢNG</th>
+                                <th class="text-right" width="15%">ĐƠN GIÁ</th>
+                                <th class="text-right" width="20%">THÀNH TIỀN</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="ct : ${donHang != null && donHang.chiTietDonHangs != null ? donHang.chiTietDonHangs : {}}">
                                 <td>
                                     <div class="food-info">
-                                        <div class="food-img" th:style="'background-image: url(' + @{${ct.monAn != null && ct.monAn.hinhAnhs != null && !ct.monAn.hinhAnhs.isEmpty() && ct.monAn.hinhAnhs[0].duongDan != null ? (ct.monAn.hinhAnhs[0].duongDan.startsWith('http') ? ct.monAn.hinhAnhs[0].duongDan : (ct.monAn.hinhAnhs[0].duongDan.startsWith('/') ? ct.monAn.hinhAnhs[0].duongDan : '/' + ct.monAn.hinhAnhs[0].duongDan)) : 'https://via.placeholder.com/50'}} + ');'"></div>
-                                        <strong class="text-main" th:text="${ct.monAn != null ? ct.monAn.ten : 'Cơm Sườn Nướng'}">Cơm Sườn Nướng</strong>
+                                        <div class="food-img" th:style="'background-image: url(' + @{${ct.monAn != null && ct.monAn.hinhAnhs != null && !ct.monAn.hinhAnhs.isEmpty() && ct.monAn.hinhAnhs[0].duongDan != null ? (ct.monAn.hinhAnhs[0].duongDan.startsWith('http') ? ct.monAn.hinhAnhs[0].duongDan : (ct.monAn.hinhAnhs[0].duongDan.startsWith('/') ? ct.monAn.hinhAnhs[0].duongDan : '/' + ct.monAn.hinhAnhs[0].duongDan)) : '/images/placeholder.png'}} + ');'"></div>
+                                        <strong class="food-title" th:text="${ct.monAn != null ? ct.monAn.ten : 'Cơm Sườn Nướng'}">Cơm Sườn Nướng</strong>
                                     </div>
                                 </td>
-                                <td style="text-align: center;"><strong class="text-main" th:text="${ct.soLuong}">2</strong></td>
-                                <td style="text-align: right;" th:text="${ct.donGia != null ? #numbers.formatDecimal(ct.donGia, 0, 'COMMA', 0, 'POINT') + 'đ' : '150.000đ'}">150.000đ</td>
-                                <td style="text-align: right;"><strong class="text-main" th:text="${ct.thanhTien != null ? #numbers.formatDecimal(ct.thanhTien, 0, 'COMMA', 0, 'POINT') + 'đ' : (ct.donGia != null ? #numbers.formatDecimal(ct.donGia * ct.soLuong, 0, 'COMMA', 0, 'POINT') + 'đ' : '300.000đ')}">300.000đ</strong></td>
+                                <td class="text-center"><strong class="font-bold" th:text="${ct.soLuong}">2</strong></td>
+                                <td class="text-right text-muted" th:text="${ct.donGia != null ? #numbers.formatDecimal(ct.donGia, 0, 'COMMA', 0, 'POINT') + 'đ' : '150.000đ'}">150.000đ</td>
+                                <td class="text-right"><strong class="price-text" th:text="${ct.thanhTien != null ? #numbers.formatDecimal(ct.thanhTien, 0, 'COMMA', 0, 'POINT') + 'đ' : (ct.donGia != null ? #numbers.formatDecimal(ct.donGia * ct.soLuong, 0, 'COMMA', 0, 'POINT') + 'đ' : '300.000đ')}">300.000đ</strong></td>
                             </tr>
                             <tr th:if="${donHang == null || #lists.isEmpty(donHang.chiTietDonHangs)}">
                                 <td>
                                     <div class="food-info">
-                                        <div class="food-img" style="background-image: url('https://via.placeholder.com/50');"></div>
-                                        <strong class="text-main">Cơm Sườn Nướng</strong>
+                                        <div class="food-img" style="background-image: url('/images/placeholder.png');"></div>
+                                        <strong class="food-title">Cơm Sườn Nướng</strong>
                                     </div>
                                 </td>
-                                <td style="text-align: center;"><strong class="text-main">2</strong></td>
-                                <td style="text-align: right;">150.000đ</td>
-                                <td style="text-align: right;"><strong class="text-main">300.000đ</strong></td>
+                                <td class="text-center"><strong class="font-bold">2</strong></td>
+                                <td class="text-right text-muted">150.000đ</td>
+                                <td class="text-right"><strong class="price-text">300.000đ</strong></td>
                             </tr>
                             </tbody>
                         </table>
@@ -111,19 +118,19 @@
 
                 <!-- Card: Lịch sử trạng thái -->
                 <div class="info-card">
-                    <h3 class="card-title">Lịch sử trạng thái</h3>
+                    <h3 class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử trạng thái</h3>
                     <ul class="timeline">
                         <li class="timeline-item done" th:each="ls : ${donHang != null && donHang.lichSuTrangThais != null ? donHang.lichSuTrangThais : {}}">
                             <div class="icon"><i class="fas fa-check"></i></div>
                             <div class="content">
-                                <strong class="text-main" th:text="${ls.trangThai}">Đã đặt hàng</strong>
+                                <strong class="timeline-title" th:text="${ls.trangThai}">Đã đặt hàng</strong>
                                 <span class="time text-muted" th:text="${ls.thoiGian != null ? #temporals.format(ls.thoiGian, 'HH:mm - dd/MM/yyyy') : '10:24 - 25/10/2026'}">10:24 - 25/10/2026</span>
                             </div>
                         </li>
                         <li class="timeline-item done" th:if="${donHang == null || #lists.isEmpty(donHang.lichSuTrangThais)}">
                             <div class="icon"><i class="fas fa-check"></i></div>
                             <div class="content">
-                                <strong class="text-main">Đã đặt hàng</strong>
+                                <strong class="timeline-title">Đã đặt hàng</strong>
                                 <span class="time text-muted">10:24 - 25/10/2026</span>
                             </div>
                         </li>
@@ -132,70 +139,73 @@
 
                 <!-- Card: Tóm tắt thanh toán -->
                 <div class="info-card">
-                    <h3 class="card-title">Tóm tắt thanh toán</h3>
+                    <h3 class="card-title"><i class="fa-solid fa-receipt"></i> Tóm tắt thanh toán</h3>
 
                     <div class="summary-row">
-                        <span class="text-muted font-weight-600">Tạm tính</span>
-                        <span class="text-main font-weight-600" th:text="${donHang != null && donHang.tamTinh != null ? #numbers.formatDecimal(donHang.tamTinh, 0, 'COMMA', 0, 'POINT') + 'đ' : '420.000đ'}">420.000đ</span>
+                        <span class="text-muted">Tạm tính</span>
+                        <span class="font-bold" th:text="${donHang != null && donHang.tamTinh != null ? #numbers.formatDecimal(donHang.tamTinh, 0, 'COMMA', 0, 'POINT') + 'đ' : '420.000đ'}">420.000đ</span>
                     </div>
                     <div class="summary-row">
-                        <span class="text-muted font-weight-600">Phí vận chuyển</span>
-                        <span class="text-main font-weight-600" th:text="${donHang != null && donHang.phiGiaoHang != null ? #numbers.formatDecimal(donHang.phiGiaoHang, 0, 'COMMA', 0, 'POINT') + 'đ' : '30.000đ'}">30.000đ</span>
+                        <span class="text-muted">Phí vận chuyển</span>
+                        <span class="font-bold" th:text="${donHang != null && donHang.phiGiaoHang != null ? #numbers.formatDecimal(donHang.phiGiaoHang, 0, 'COMMA', 0, 'POINT') + 'đ' : '30.000đ'}">30.000đ</span>
                     </div>
                     <div class="summary-row">
-                        <span class="text-muted font-weight-600">Giảm giá</span>
-                        <span class="font-weight-600" style="color: var(--danger-color);" th:text="'-' + ${donHang != null && donHang.tienGiam != null ? #numbers.formatDecimal(donHang.tienGiam, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">-0đ</span>
+                        <span class="text-muted">Giảm giá</span>
+                        <span class="font-bold text-danger" th:text="'-' + ${donHang != null && donHang.tienGiam != null ? #numbers.formatDecimal(donHang.tienGiam, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">-0đ</span>
                     </div>
 
                     <div class="divider"></div>
 
                     <div class="summary-row total-row">
-                        <span class="text-main" style="font-size: 16px; font-weight: 800;">Tổng cộng</span>
-                        <span style="font-size: 22px; font-weight: 800; color: var(--admin-orange);" th:text="${donHang != null && donHang.tongTien != null ? #numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT') + 'đ' : '450.000đ'}">450.000đ</span>
+                        <span class="total-label">Tổng cộng</span>
+                        <span class="total-amount" th:text="${donHang != null && donHang.tongTien != null ? #numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT') + 'đ' : '450.000đ'}">450.000đ</span>
                     </div>
 
                     <div class="payment-method">
-                        <i class="fas fa-university" style="color: #8c7355; font-size: 20px;"></i>
+                        <i class="fas fa-university payment-icon"></i>
                         <div class="method-info">
-                            <span class="text-muted" style="font-size: 12px; font-weight: 600;">Phương thức thanh toán</span>
-                            <strong class="text-main" th:text="${donHang != null && donHang.hinhThucThanhToan != null ? donHang.hinhThucThanhToan : 'Chuyển khoản'}">Chuyển khoản</strong>
+                            <span class="text-muted" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Phương thức thanh toán</span>
+                            <strong class="font-bold" th:text="${donHang != null && donHang.hinhThucThanhToan != null ? donHang.hinhThucThanhToan : 'Chuyển khoản'}">Chuyển khoản</strong>
                         </div>
                     </div>
                 </div>
 
                 <!-- Nút thao tác -->
-                <div class="admin-actions" style="display: flex; flex-direction: column; gap: 15px;">
-                    <!-- Nút In Hóa Đơn luôn hiển thị -->
-                    <a th:if="${donHang != null}" th:href="@{/admin/donHang/print/{id}(id=${donHang.id})}" target="_blank" class="btn-action" style="background: #333; color: white; width: 100%; text-align: center; display: inline-block; padding: 12px; border-radius: 8px; text-decoration: none;">
+                <div class="admin-actions">
+                    <a th:if="${donHang != null}" th:href="@{/admin/donHang/print/{id}(id=${donHang.id})}" target="_blank" class="btn-print">
                         <i class="fas fa-print"></i> In Hóa Đơn
                     </a>
 
-                    <form th:action="@{/admin/donHang/updateStatus}" method="post" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                    <form th:action="@{/admin/donHang/updateStatus}" method="post" class="action-form">
                         <input type="hidden" name="id" th:value="${donHang != null ? donHang.id : ''}">
-                        <div style="display: flex; gap: 12px; width: 100%;">
-                            <!-- Nút Hủy (Có prompt lý do hủy bằng JS) -->
-                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}" 
-                                    type="button" class="btn-action btn-danger-outline" id="btnHuyPrompt" style="flex: 1;">
+                        <div class="action-btn-group">
+                            <!-- Nút Hủy -->
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}"
+                                    type="button" class="btn-action btn-danger-outline" id="btnHuyPrompt">
                                 <i class="fas fa-times"></i> Hủy đơn
                             </button>
                             <input type="hidden" name="lyDoHuy" id="lyDoHuyInput">
-                            
-                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}" 
+
+                            <button th:if="${donHang != null && donHang.trangThai != 'Hủy' && donHang.trangThai != 'Hoàn thành' && donHang.trangThai != 'Xác nhận'}"
                                     type="submit" name="status" value="Hủy" id="btnHuySubmit" style="display: none;"></button>
 
-                            <!-- Logic nút tiếp theo dựa theo trạng thái hiện tại -->
-                            <button th:if="${donHang == null || donHang.trangThai == 'Chờ xác nhận'}" type="submit" name="status" value="Xác nhận" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check"></i> Xác nhận đơn</button>
-                            <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Hoàn thành" class="btn-action btn-orange" style="flex: 1;"><i class="fas fa-check-circle"></i> Hoàn thành</button>
+                            <!-- Logic nút tiếp theo -->
+                            <button th:if="${donHang == null || donHang.trangThai == 'Chờ xác nhận'}" type="submit" name="status" value="Xác nhận" class="btn-action btn-orange">
+                                <i class="fas fa-check"></i> Xác nhận đơn
+                            </button>
+                            <button th:if="${donHang != null && donHang.trangThai == 'Xác nhận'}" type="submit" name="status" value="Hoàn thành" class="btn-action btn-orange">
+                                <i class="fas fa-check-circle"></i> Hoàn thành
+                            </button>
                         </div>
                     </form>
                 </div>
-                
+
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
                         const btnHuyPrompt = document.getElementById('btnHuyPrompt');
                         if(btnHuyPrompt) {
                             btnHuyPrompt.addEventListener('click', function() {
-                                const reason = prompt("Vui lòng nhập lý do hủy đơn (VD: Hết món, Khách đổi ý, vv):");
+                                const reason = prompt("Vui lòng nhập lý do hủy đơn (VD: Hết món, Khách đổi ý,...):");
                                 if(reason !== null && reason.trim() !== "") {
                                     document.getElementById('lyDoHuyInput').value = reason.trim();
                                     document.getElementById('btnHuySubmit').click();

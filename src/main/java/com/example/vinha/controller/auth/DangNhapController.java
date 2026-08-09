@@ -40,10 +40,6 @@ public class DangNhapController {
         return "/auth/login";
     }
 
-//    @GetMapping("/dangKy")
-//    public String showRegisterForm() {
-//        return "/auth/register";
-//    }
 
     @GetMapping("/quenMatKhau")
     public String showForgotPasswordForm() {
@@ -60,31 +56,34 @@ public class DangNhapController {
 
         Optional<NguoiDung> userOpt = authService.authenticate(username, password);
 
+        // Đăng nhập thất bại
         if (userOpt.isEmpty()) {
             model.addAttribute("error", "Sai tài khoản hoặc mật khẩu!");
             return "/auth/login";
         }
 
+        // Đăng nhập thành công
         NguoiDung user = userOpt.get();
 
+        // Lưu user vào session
         session.setAttribute("loggedInUser", user);
 
+        // Gộp giỏ hàng của khách với giỏ hàng trong tài khoản
         Object guestCartObj = session.getAttribute("guestCart");
+
         if (guestCartObj instanceof Map<?, ?> mapObj) {
             @SuppressWarnings("unchecked")
             Map<Long, Integer> guestCart = (Map<Long, Integer>) mapObj;
+
             cartService.mergeGuestCart(user.getId(), guestCart);
+
             session.removeAttribute("guestCart");
         }
 
         String roleTen = user.getVaiTro().getTen();
 
-        if ("Admin".equals(roleTen)) {
+        if (roleTen != null && "Admin".equalsIgnoreCase(roleTen.trim())) {
             return "redirect:/admin/tongQuan";
-        }
-
-        if (returnUrl != null && returnUrl.startsWith("/")) {
-            return "redirect:" + returnUrl;
         }
 
         return "redirect:/trangChu";

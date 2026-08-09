@@ -9,129 +9,167 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Nhúng CSS -->
+    <!-- CSS Admin dùng chung & đồng bộ -->
     <link rel="stylesheet" th:href="@{/css/admin/danh-gia.css}">
 </head>
 <body>
 
 <div class="admin-wrapper">
 
-    <!-- GỌI FRAGMENT MENU (Truyền tham số 'danhGia' để nó bôi cam đúng mục này) -->
+    <!-- Nhúng Sidebar Fragment đồng bộ -->
     <div th:replace="~{admin/sidebar :: sidebar('danhGia')}"></div>
 
     <!-- NỘI DUNG CHÍNH -->
     <main class="admin-main">
+
+        <!-- Page Header -->
         <div class="page-header">
             <div class="title-group">
-                <h1 class="page-title">Quản lý đánh giá</h1>
+                <div class="header-brand-title">
+                    <img th:src="@{/images/logo.png}" src="/images/logo.png" alt="Vị Nhà Logo" class="header-logo">
+                    <h1 class="page-title">Quản lý đánh giá</h1>
+                </div>
                 <p class="page-subtitle">Xem phản hồi từ khách hàng và quản lý hiển thị đánh giá món ăn.</p>
             </div>
         </div>
 
+        <!-- Notification Alerts -->
+        <div th:if="${message}" class="alert alert-success">
+            <i class="fa-solid fa-circle-check"></i> <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <i class="fa-solid fa-triangle-exclamation"></i> <span th:text="${error}"></span>
+        </div>
+
         <!-- 4 THẺ THỐNG KÊ ĐÁNH GIÁ -->
         <div class="summary-cards">
-            <div class="card">
+            <div class="summary-card">
                 <div class="icon-box bg-orange-light"><i class="fas fa-comments text-orange"></i></div>
                 <div class="card-info">
-                    <h3 class="text-main" th:text="${totalReviews}">1,284</h3>
-                    <p class="text-muted">Tổng đánh giá</p>
+                    <h3 th:text="${totalReviews != null ? totalReviews : '1,284'}">1,284</h3>
+                    <p class="card-label">Tổng đánh giá</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="summary-card">
                 <div class="icon-box bg-blue-light"><i class="fas fa-star text-blue"></i></div>
                 <div class="card-info">
-                    <h3 class="text-main" th:text="${avgRating}">4.8</h3>
-                    <p class="text-muted">Điểm trung bình</p>
+                    <h3 th:text="${avgRating != null ? avgRating : '4.8'}">4.8</h3>
+                    <p class="card-label">Điểm trung bình</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="summary-card">
                 <div class="icon-box bg-green-light"><i class="fas fa-smile text-green"></i></div>
                 <div class="card-info">
-                    <h3 class="text-main" th:text="${fiveStarCount}">15</h3>
-                    <p class="text-muted">Đánh giá 5 sao</p>
+                    <h3 th:text="${fiveStarCount != null ? fiveStarCount : '15'}">15</h3>
+                    <p class="card-label">Đánh giá 5 sao</p>
                 </div>
             </div>
-            <div class="card bg-orange text-white border-0">
+            <div class="summary-card bg-orange-highlight">
                 <div class="icon-box bg-white-opacity"><i class="fas fa-frown text-white"></i></div>
                 <div class="card-info">
-                    <h3 class="text-white" th:text="${oneStarCount}">8</h3>
-                    <p class="text-white">Đánh giá 1 sao</p>
+                    <h3 class="text-white" th:text="${oneStarCount != null ? oneStarCount : '8'}">8</h3>
+                    <p class="card-label text-white opacity-90">Đánh giá 1 sao</p>
                 </div>
             </div>
         </div>
 
-        <!-- KHU VỰC LỌC -->
-        <div class="filter-box">
-            <div class="filter-left" style="margin: 0; display: flex; gap: 15px; width: 100%;">
-                <select id="starFilter" class="form-control">
-                    <option value="">Tất cả số sao</option>
-                    <option value="5">5 Sao</option>
-                    <option value="4">4 Sao</option>
-                    <option value="3">3 Sao</option>
-                    <option value="2">2 Sao</option>
-                    <option value="1">1 Sao</option>
-                </select>
-                <input type="text" id="keywordFilter" class="form-control" placeholder="Tìm món ăn hoặc khách hàng..." style="width: 250px;">
-                <button type="button" id="btnFilter" class="btn-outline"><i class="fas fa-filter"></i> Lọc</button>
+        <!-- BỘ LỌC DỮ LIỆU CARD -->
+        <div class="filter-card">
+            <div class="filter-form">
+                <div class="form-group search-group">
+                    <label class="filter-label">TÌM KIẾM ĐÁNH GIÁ</label>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="keywordFilter" class="form-control" placeholder="Tìm tên món ăn hoặc khách hàng...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="filter-label">SỐ SAO</label>
+                    <select id="starFilter" class="form-control">
+                        <option value="">Tất cả số sao</option>
+                        <option value="5">5 Sao</option>
+                        <option value="4">4 Sao</option>
+                        <option value="3">3 Sao</option>
+                        <option value="2">2 Sao</option>
+                        <option value="1">1 Sao</option>
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="button" id="btnFilter" class="btn-search">
+                        <i class="fa-solid fa-filter"></i> Lọc
+                    </button>
+                    <button type="button" id="btnReset" class="btn-refresh" title="Làm mới">
+                        <i class="fas fa-rotate-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- BẢNG DỮ LIỆU ĐÁNH GIÁ -->
-        <div class="table-container">
-            <table class="admin-table">
-                <thead>
-                <tr>
-                    <th style="width: 5%; text-align: center;">STT</th>
-                    <th style="width: 20%;">KHÁCH HÀNG</th>
-                    <th style="width: 20%;">MÓN ĂN</th>
-                    <th style="width: 25%;">NỘI DUNG ĐÁNH GIÁ</th>
-                    <th style="width: 12%;">NGÀY ĐĂNG</th>
-                    <th style="width: 10%; text-align: center;">TRẠNG THÁI</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="dg, iterStat : ${danhGiaList}" class="review-row" th:data-star="${dg.soSao}">
-                    <td style="text-align: center;"><span class="text-muted font-bold" th:text="${iterStat.index + 1}">01</span></td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main" th:text="${dg.nguoiDung.hoTen}">Nguyễn Văn An</strong>
-                            <span class="text-muted text-sm" th:text="${dg.nguoiDung.soDienThoai}">0908 123 456</span>
-                        </div>
-                    </td>
-                    <td>
-                        <strong class="text-main" th:text="${dg.monAn.ten}">Cơm Sườn Nướng</strong>
-                    </td>
-                    <td>
-                        <div class="review-content">
-                            <div class="stars">
-                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                                    <i th:classappend="${i <= dg.soSao ? 'fas fa-star text-orange' : 'far fa-star text-gray'}"></i>
-                                </th:block>
+        <!-- BẢNG DỮ LIỆU CARD -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">STT</th>
+                        <th width="180">KHÁCH HÀNG</th>
+                        <th width="180">MÓN ĂN</th>
+                        <th>NỘI DUNG ĐÁNH GIÁ</th>
+                        <th width="130">NGÀY ĐĂNG</th>
+                        <th class="text-center" width="130">TRẠNG THÁI</th>
+                        <th class="text-center" width="90">THAO TÁC</th>
+                    </tr>
+                    </thead>
+                    <tbody id="reviewTableBody">
+                    <tr th:each="dg, iterStat : ${danhGiaList}" class="review-row" th:data-star="${dg.soSao}">
+                        <td class="col-stt text-center" th:text="${iterStat.index + 1}">1</td>
+                        <td>
+                            <div class="contact-info">
+                                <strong class="food-title" th:text="${dg.nguoiDung.hoTen}">Nguyễn Văn An</strong>
+                                <span class="text-muted" style="font-size: 12px;" th:text="${dg.nguoiDung.soDienThoai}">0908 123 456</span>
                             </div>
-                            <p class="comment" th:text="${dg.binhLuan}">Sườn ướp rất đậm đà!</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="details">
-                            <strong class="text-main" th:text="${#temporals.format(dg.ngayTao, 'HH:mm')}">12:30</strong>
-                            <span class="text-muted text-sm" th:text="${#temporals.format(dg.ngayTao, 'dd/MM/yyyy')}">27/07/2026</span>
-                        </div>
-                    </td>
-                    <td style="text-align: center;">
-                        <span class="badge badge-visible">Đang hiển thị</span>
-                    </td>
-                    <td style="text-align: center;">
-                        <div class="action-buttons">
-                            <!-- Xóa đánh giá (Thay vì ẩn) -->
-                            <a th:href="@{/admin/danhGia/xoa(id=${dg.id})}" class="btn-icon text-danger" title="Xóa đánh giá" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này vĩnh viễn?');"><i class="fas fa-trash"></i></a>
-                        </div>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(danhGiaList)}">
-                    <td colspan="7" style="text-align: center; color: #64748b;">Không có đánh giá nào.</td>
-                </tr>
-                </tbody>
-            </table>
+                        </td>
+                        <td>
+                            <strong class="food-title" th:text="${dg.monAn.ten}">Cơm Sườn Nướng</strong>
+                        </td>
+                        <td>
+                            <div class="review-content">
+                                <div class="stars">
+                                    <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                        <i th:classappend="${i <= dg.soSao ? 'fas fa-star text-orange' : 'far fa-star text-gray'}"></i>
+                                    </th:block>
+                                </div>
+                                <p class="comment" th:text="${dg.binhLuan}">Sườn ướp rất đậm đà!</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="date-col">
+                                <span class="font-bold" th:text="${#temporals.format(dg.ngayTao, 'HH:mm')}">12:30</span>
+                                <span class="text-muted" style="font-size: 12px;" th:text="${#temporals.format(dg.ngayTao, 'dd/MM/yyyy')}">27/07/2026</span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge-status badge-success">Đang hiển thị</span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{/admin/danhGia/xoa(id=${dg.id})}"
+                                   class="icon-btn btn-delete"
+                                   title="Xóa đánh giá"
+                                   onclick="return confirm('Bạn có chắc muốn xóa đánh giá này vĩnh viễn?');">
+                                    <i class="fas fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="noDataRow" th:if="${#lists.isEmpty(danhGiaList)}" style="display: none;">
+                        <td colspan="7" class="empty-table">Không tìm thấy đánh giá nào.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 </div>
@@ -141,9 +179,10 @@
         const starFilter = document.getElementById("starFilter");
         const keywordFilter = document.getElementById("keywordFilter");
         const btnFilter = document.getElementById("btnFilter");
+        const btnReset = document.getElementById("btnReset");
         const reviewRows = document.querySelectorAll(".review-row");
         const noDataRow = document.getElementById("noDataRow");
-        const tableBody = document.querySelector(".admin-table tbody");
+        const tableBody = document.getElementById("reviewTableBody");
 
         function filterReviews() {
             const starValue = starFilter.value;
@@ -153,7 +192,7 @@
             reviewRows.forEach(row => {
                 const rowStar = row.getAttribute("data-star");
                 const rowText = row.innerText.toLowerCase();
-                
+
                 const matchStar = starValue === "" || rowStar === starValue;
                 const matchKeyword = keywordValue === "" || rowText.includes(keywordValue);
 
@@ -165,34 +204,33 @@
                 }
             });
 
-            // Show 'No data' message if no rows are visible
             if (visibleCount === 0) {
-                if (!noDataRow) {
+                if (!document.getElementById("noDataRowCreated")) {
                     const tr = document.createElement("tr");
-                    tr.id = "noDataRow";
-                    tr.innerHTML = '<td colspan="7" style="text-align: center; color: #64748b; padding: 20px;">Không có đánh giá nào phù hợp.</td>';
+                    tr.id = "noDataRowCreated";
+                    tr.innerHTML = '<td colspan="7" class="empty-table">Không tìm thấy đánh giá nào phù hợp.</td>';
                     tableBody.appendChild(tr);
                 } else {
-                    noDataRow.style.display = "";
+                    document.getElementById("noDataRowCreated").style.display = "";
                 }
-            } else if (noDataRow) {
-                noDataRow.style.display = "none";
+            } else {
+                const customNoData = document.getElementById("noDataRowCreated");
+                if (customNoData) customNoData.style.display = "none";
             }
         }
 
-        // Listen for clicks on the filter button
         btnFilter.addEventListener("click", filterReviews);
-        
-        // Also listen for enter key on input
-        keywordFilter.addEventListener("keypress", function(e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                filterReviews();
-            }
-        });
-        
-        // Auto filter on select change
+
+        keywordFilter.addEventListener("input", filterReviews);
         starFilter.addEventListener("change", filterReviews);
+
+        if(btnReset) {
+            btnReset.addEventListener("click", function() {
+                keywordFilter.value = "";
+                starFilter.value = "";
+                filterReviews();
+            });
+        }
     });
 </script>
 

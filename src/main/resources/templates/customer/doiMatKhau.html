@@ -19,6 +19,98 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/hoso.css}" />
     <link rel="stylesheet" th:href="@{/css/doiMatKhau.css}" />
+
+    <!-- CSS Fix lỗi icon văng ra ngoài ô input -->
+    <style>
+        .input-icon-wrapper {
+            position: relative !important;
+            display: flex !important;
+            align-items: center !important;
+            border: 1px solid #E5C9B2 !important;
+            border-radius: 12px !important;
+            padding: 0 16px !important;
+            background: #fff !important;
+            box-sizing: border-box !important;
+        }
+
+        .input-icon-wrapper:focus-within {
+            border-color: #ff7b00 !important;
+            box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.15);
+        }
+
+        /* Icon ổ khóa bên trái */
+        .input-icon-wrapper .input-left-icon {
+            color: #9D7C62 !important;
+            font-size: 16px !important;
+            flex-shrink: 0 !important;
+            margin-right: 8px !important;
+        }
+
+        /* Ô nhập liệu input */
+        .input-icon-wrapper .form-input {
+            flex: 1 !important;
+            height: 48px !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            background: transparent !important;
+            font-size: 15px !important;
+            color: #333 !important;
+        }
+
+        /* Icon con mắt bên phải */
+        .input-icon-wrapper .toggle-pwd {
+            color: #9D7C62 !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            flex-shrink: 0 !important;
+            margin-left: 8px !important;
+            transition: color 0.2s ease !important;
+        }
+
+        .input-icon-wrapper .toggle-pwd:hover {
+            color: #ff7b00 !important;
+        }
+
+        /* Tinh chỉnh nút bấm */
+        .btn-save {
+            background-color: #ff7b00 !important;
+            border: none !important;
+            color: #fff !important;
+            padding: 12px 24px !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-save:hover {
+            background-color: #ef7000 !important;
+        }
+
+        .btn-cancel-edit {
+            background-color: #f1f1f1 !important;
+            border: none !important;
+            color: #555 !important;
+            padding: 12px 24px !important;
+            border-radius: 10px !important;
+            font-weight: 500 !important;
+            margin-left: 10px !important;
+        }
+
+        .strength-meter {
+            display: flex;
+            gap: 6px;
+            height: 4px;
+        }
+
+        .strength-bar {
+            flex: 1;
+            height: 100%;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 
 <body>
@@ -62,9 +154,7 @@
             <div class="content-header card-header-box">
                 <div>
                     <h2 class="page-title">Đổi mật khẩu</h2>
-                    <p class="page-subtitle">
-                        Để đảm bảo an toàn cho tài khoản, vui lòng nhập mật khẩu hiện tại và mật khẩu mới của bạn.
-                    </p>
+
                 </div>
             </div>
 
@@ -110,15 +200,8 @@
                     </div>
 
                     <!-- Thanh độ mạnh mật khẩu -->
-                    <div class="strength-meter mt-2">
-                        <div class="strength-bar" id="bar-1"></div>
-                        <div class="strength-bar" id="bar-2"></div>
-                        <div class="strength-bar" id="bar-3"></div>
-                        <div class="strength-bar" id="bar-4"></div>
-                    </div>
-                    <p class="field-hint mt-1">
-                        <i class="fa-solid fa-circle-info"></i> Sử dụng kết hợp chữ hoa, chữ thường và số để mật khẩu mạnh hơn.
-                    </p>
+
+
                 </div>
 
                 <!-- 3. Xác nhận mật khẩu mới -->

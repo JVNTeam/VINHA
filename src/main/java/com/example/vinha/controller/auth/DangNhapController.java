@@ -45,7 +45,10 @@ public class DangNhapController {
 //        return "/auth/register";
 //    }
 
-
+    @GetMapping("/quenMatKhau")
+    public String showForgotPasswordForm() {
+        return "/auth/ForgetPassword";
+    }
 
     @PostMapping("/dangNhap")
     public String processLogin(

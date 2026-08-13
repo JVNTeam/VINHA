@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     // 1. Xử lý Toggle Ẩn / Hiện Mật khẩu và Đổi Icon FontAwesome
     function setupPasswordToggle(toggleId, inputId) {
         const toggleBtn = document.getElementById(toggleId);
@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Đổi type của input
                 passwordInput.type = isPassword ? "text" : "password";
 
-                // Mặc định ô đang để password -> icon gạch chéo (fa-eye-slash)
-                // Khi bấm hiện text -> đổi sang icon mắt mở (fa-eye)
+                // Mặc định đang để password -> icon gạch chéo (fa-eye-slash)
+                // Khi bấm hiện text -> đổi sang icon mở mắt (fa-eye)
                 toggleBtn.classList.toggle("fa-eye-slash", !isPassword);
                 toggleBtn.classList.toggle("fa-eye", isPassword);
             });
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setupPasswordToggle("togglePassword", "password");
     setupPasswordToggle("toggleConfirmPassword", "confirmPassword");
 
-    // 2. Validate Form Đăng ký (Validate Email/SĐT & Mật khẩu)
+    // 2. Validate Form Đăng ký (Validate Email/SĐT & Mật khẩu & Tên)
     const registerForm = document.getElementById("registerForm");
     const clientError = document.getElementById("clientError");
 
@@ -32,12 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (registerForm) {
         registerForm.addEventListener("submit", function (e) {
+            const hoTenInput = document.getElementById("hoTen");
             const contactInput = document.getElementById("contactInput");
             const passwordInput = document.getElementById("password");
             const confirmInput = document.getElementById("confirmPassword");
 
-            if (!contactInput || !passwordInput || !confirmInput) return;
+            if (!hoTenInput || !contactInput || !passwordInput || !confirmInput) return;
 
+            const hoTenVal = hoTenInput.value.trim();
             const contactVal = contactInput.value.trim();
             const pwd = passwordInput.value;
             const confirmPwd = confirmInput.value;
@@ -52,23 +54,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let errorMsg = "";
 
-            if (!emailRegex.test(contactVal) && !phoneRegex.test(contactVal)) {
+            if (hoTenVal === "") {
+                errorMsg = "Vui lòng nhập Họ và tên!";
+            } else if (contactVal === "") {
+                errorMsg = "Vui lòng nhập Email hoặc Số điện thoại!";
+            } else if (!emailRegex.test(contactVal) && !phoneRegex.test(contactVal)) {
                 errorMsg = "Vui lòng nhập Email hoặc Số điện thoại hợp lệ!";
                 if (contactWrap) contactWrap.classList.add("error");
-            }
-            else if (pwd !== confirmPwd) {
+            } else if (pwd === "") {
+                errorMsg = "Vui lòng nhập mật khẩu!";
+            } else if (confirmPwd === "") {
+                errorMsg = "Vui lòng xác nhận mật khẩu!";
+            } else if (pwd !== confirmPwd) {
                 errorMsg = "Mật khẩu xác nhận không trùng khớp!";
                 if (confirmWrap) confirmWrap.classList.add("error");
             }
 
             if (errorMsg !== "") {
                 e.preventDefault();
+                alert(errorMsg); // Hiển thị bảng thông báo popup (alert box)
 
-                if (clientError) {
+                                if (clientError) {
                     clientError.innerText = errorMsg;
                     clientError.style.display = "block";
-                } else {
-                    alert(errorMsg);
+                    clientError.style.opacity = '1';
+                    
+                    // Auto-hide after 4 seconds
+                    setTimeout(function() {
+                        clientError.style.transition = 'opacity 0.5s ease';
+                        clientError.style.opacity = '0';
+                        setTimeout(function() {
+                            clientError.style.display = 'none';
+                        }, 500);
+                    }, 4000);
                 }
             } else if (clientError) {
                 clientError.style.display = "none";
@@ -76,3 +94,4 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+

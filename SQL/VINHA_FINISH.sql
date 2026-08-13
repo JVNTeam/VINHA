@@ -359,3 +359,10 @@ VALUES
 UPDATE nguoi_dung
 SET vai_tro_id = 3
 WHERE so_dien_thoai = '0977777777';
+
+-- Bước 1: Thêm cột da_xoa vào bảng dia_chi (mặc định là 0 tức là chưa xóa)
+ALTER TABLE dia_chi ADD da_xoa BIT DEFAULT 0;
+
+-- Bước 2: Cập nhật các bản ghi cũ đang có trong database (để tránh bị lỗi NULL)
+UPDATE dia_chi SET da_xoa = 0 WHERE da_xoa IS NULL;
+

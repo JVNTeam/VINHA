@@ -287,6 +287,201 @@
                 });
             });
         }
+                        <option value="Chờ xác nhận">Chờ xác nhận</option>
+                        <option value="Xác nhận">Xác nhận</option>
+                        <option value="Hoàn thành">Hoàn thành</option>
+                        <option value="Hủy">Hủy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- BẢNG DỮ LIỆU ĐƠN HÀNG -->
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th width="120">MÃ ĐƠN</th>
+                        <th width="200">KHÁCH HÀNG</th>
+                        <th width="120">NGÀY ĐẶT</th>
+                        <th width="120">TỔNG TIỀN</th>
+                        <th width="140">THANH TOÁN</th>
+                        <th class="text-center">CẬP NHẬT TRẠNG THÁI</th>
+                        <th class="text-center" width="110">THAO TÁC</th>
+                    </tr>
+                    </thead>
+                    <tbody id="orderTableBody">
+                    <tr th:each="dh : ${donHangs}"
+                        th:if="${donHangs != null && !#lists.isEmpty(donHangs)}"
+                        class="order-row"
+                        th:data-status="${dh.trangThai}"
+                        th:data-date="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'yyyy-MM-dd') : ''}"
+                        th:data-search="${'#VN-' + dh.id + ' vn-' + dh.id + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null ? dh.diaChi.tenNguoiNhan : '')) + ' ' + (dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : ''))}">
+
+                        <td><span class="code-badge" th:text="'#VN-' + ${dh.id}">#VN-29034</span></td>
+                        <td>
+                            <div class="contact-info">
+                                <strong class="food-title" th:text="${dh.nguoiDung != null ? dh.nguoiDung.hoTen : (dh.diaChi != null && dh.diaChi.tenNguoiNhan != null ? dh.diaChi.tenNguoiNhan : 'Khách vãng lai')}">Nguyễn Thành Nam</strong>
+                                <span class="text-muted" style="font-size: 12px;" th:text="${dh.nguoiDung != null ? dh.nguoiDung.soDienThoai : (dh.diaChi != null ? dh.diaChi.sdtNguoiNhan : '')}">0908 123 456</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="date-col">
+                                <span class="font-bold" th:text="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'HH:mm') : '--:--'}">10:24</span>
+                                <span class="text-muted" style="font-size: 12px;" th:text="${dh.ngayTao != null ? #temporals.format(dh.ngayTao, 'dd/MM/yyyy') : '--/--/----'}">25/10/2026</span>
+                            </div>
+                        </td>
+                        <td>
+                            <strong class="price-text" th:text="${dh.tongTien != null ? #numbers.formatDecimal(dh.tongTien, 0, 'COMMA', 0, 'POINT') + 'đ' : '0đ'}">450.000đ</strong>
+                        </td>
+                        <td>
+                            <span class="pay-badge">
+                                <i class="fas fa-wallet"></i>
+                                <span th:text="${dh.hinhThucThanhToan != null ? dh.hinhThucThanhToan : 'Tiền mặt'}">Chuyển khoản</span>
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <form th:action="@{/admin/donHang/updateStatus}" method="post" class="status-form">
+                                <input type="hidden" name="id" th:value="${dh.id}">
+                                <div class="status-stack">
+                                    <!-- Nút Hủy -->
+                                    <button type="submit" name="status" value="Hủy"
+                                            class="status-btn btn-cancel"
+                                            th:classappend="${dh.trangThai == 'Hủy' ? 'active' : ''}"
+                                            th:disabled="${dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Hủy' || dh.trangThai == 'Xác nhận'}">Hủy</button>
+
+                                    <!-- Nút Chờ xác nhận -->
+                                    <button type="submit" name="status" value="Chờ xác nhận"
+                                            class="status-btn"
+                                            th:classappend="${dh.trangThai == 'Chờ xác nhận' ? 'active' : (dh.trangThai != 'Hủy' ? 'completed' : '')}"
+                                            th:disabled="true">Chờ</button>
+
+                                    <!-- Nút Xác nhận -->
+                                    <button type="submit" name="status" value="Xác nhận"
+                                            class="status-btn"
+                                            th:classappend="${dh.trangThai == 'Xác nhận' ? 'active' : (dh.trangThai == 'Hoàn thành' ? 'completed' : '')}"
+                                            th:disabled="${dh.trangThai == 'Hủy' || dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Xác nhận'}">Xác nhận</button>
+
+                                    <!-- Nút Hoàn thành -->
+                                    <button type="submit" name="status" value="Hoàn thành"
+                                            class="status-btn"
+                                            th:classappend="${dh.trangThai == 'Hoàn thành' ? 'active' : ''}"
+                                            th:disabled="${dh.trangThai == 'Hủy' || dh.trangThai == 'Hoàn thành' || dh.trangThai == 'Chờ xác nhận'}">Hoàn thành</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td class="text-center">
+                            <a th:href="@{'/admin/chiTietDon/' + ${dh.id}}" class="btn-detail-link">Chi tiết</a>
+                        </td>
+                    </tr>
+                    <tr id="noResultsRow" style="display: none;">
+                        <td colspan="7" class="empty-table">
+                            Không tìm thấy đơn hàng nào phù hợp với bộ lọc.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PHÂN TRANG CONTAINER -->
+            <div class="pagination-container" id="paginationContainer"></div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const keywordInput = document.getElementById('keywordInput');
+        const dateFilter = document.getElementById('dateFilter');
+        const statusSelect = document.getElementById('statusSelect');
+        const allRows = Array.from(document.querySelectorAll('.order-row'));
+        const noResultsRow = document.getElementById('noResultsRow');
+        const paginationContainer = document.getElementById('paginationContainer');
+
+        let filteredRows = [...allRows];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        function applyFilter() {
+            const keyword = keywordInput.value.trim().toLowerCase();
+            const dateVal = dateFilter.value;
+            const status = statusSelect.value;
+
+            filteredRows = allRows.filter(row => {
+                const rowSearch = row.getAttribute('data-search').toLowerCase();
+                const rowStatus = row.getAttribute('data-status');
+                const rowDate = row.getAttribute('data-date');
+
+                const matchKeyword = keyword === '' || rowSearch.includes(keyword);
+                const matchDate = dateVal === '' || rowDate === dateVal;
+                const matchStatus = status === '' || rowStatus === status;
+
+                return matchKeyword && matchDate && matchStatus;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function renderTable() {
+            allRows.forEach(row => row.style.display = 'none');
+
+            if (filteredRows.length === 0) {
+                noResultsRow.style.display = 'table-row';
+                paginationContainer.innerHTML = '';
+                return;
+            } else {
+                noResultsRow.style.display = 'none';
+            }
+
+            const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            for (let i = startIndex; i < endIndex && i < filteredRows.length; i++) {
+                filteredRows[i].style.display = 'table-row';
+            }
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let html = '<div class="pagination">';
+            if (currentPage > 1) {
+                html += `<a href="#" data-page="${currentPage - 1}" class="page-btn"><i class="fas fa-chevron-left"></i></a>`;
+            } else {
+                html += `<span class="page-btn disabled"><i class="fas fa-chevron-left"></i></span>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                const activeClass = i === currentPage ? 'active' : '';
+                html += `<a href="#" data-page="${i}" class="page-btn ${activeClass}">${i}</a>`;
+            }
+
+            if (currentPage < totalPages) {
+                html += `<a href="#" data-page="${currentPage + 1}" class="page-btn"><i class="fas fa-chevron-right"></i></a>`;
+            } else {
+                html += `<span class="page-btn disabled"><i class="fas fa-chevron-right"></i></span>`;
+            }
+            html += '</div>';
+
+            paginationContainer.innerHTML = html;
+
+            paginationContainer.querySelectorAll('a[data-page]').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    renderTable();
+                });
+            });
+        }
 
         keywordInput.addEventListener('input', applyFilter);
         dateFilter.addEventListener('change', applyFilter);
@@ -296,39 +491,50 @@
     });
 </script>
 
-    <script th:inline="javascript">
-        // Real-time Order Monitoring (Short Polling)
-        const initialOrderCount = [[]];
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sử dụng cú pháp chuẩn của Thymeleaf để truyền mảng an toàn
+        let initialCount = /*[[${#lists.size(donHangs)}]]*/ 0;
         
         setInterval(function() {
             fetch('/admin/api/donHang/count')
-                .then(response => response.json())
+                .then(res => res.json())
                 .then(newCount => {
-                    if (newCount > initialOrderCount) {
-                        // Create a notification
+                    if (newCount > initialCount) {
+                        initialCount = newCount; // cập nhật lại để không báo liên tục
+                        
+                        // Tạo popup thông báo
                         const notification = document.createElement('div');
-                        notification.innerHTML = '<strong><i class="fa-solid fa-bell"></i> C� don h�ng m?i!</strong> �ang t?i l?i trang...';
+                        notification.innerHTML = '<strong><i class="fa-solid fa-bell fa-shake"></i> Bạn có đơn đặt hàng mới!</strong><br><small>Nhấn vào đây để tải lại trang</small>';
                         notification.style.position = 'fixed';
-                        notification.style.top = '20px';
-                        notification.style.right = '20px';
-                        notification.style.backgroundColor = '#4CAF50';
+                        notification.style.bottom = '30px';
+                        notification.style.right = '30px';
+                        notification.style.backgroundColor = '#ff9800'; // Màu cam nổi bật
                         notification.style.color = 'white';
                         notification.style.padding = '15px 25px';
-                        notification.style.borderRadius = '8px';
-                        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                        notification.style.borderRadius = '10px';
+                        notification.style.boxShadow = '0 5px 15px rgba(255, 152, 0, 0.4)';
                         notification.style.zIndex = '9999';
-                        notification.style.fontSize = '16px';
-                        notification.style.transition = 'all 0.3s ease';
+                        notification.style.cursor = 'pointer';
+                        
+                        // Nhấn vào thì reload trang
+                        notification.addEventListener('click', function() {
+                            window.location.reload();
+                        });
+                        
                         document.body.appendChild(notification);
                         
-                        // Play a sound if you want, but a reload is enough
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 2000);
+                        // Phát âm thanh thông báo (ting ting)
+                        try {
+                            const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+                            audio.play().catch(e => console.log("Trình duyệt chặn tự động phát âm thanh"));
+                        } catch(e) {}
                     }
                 })
-                .catch(err => console.error("Error checking new orders:", err));
-        }, 5000); // Check every 5 seconds
-    </script>
+                .catch(err => console.error("Lỗi cập nhật đơn hàng:", err));
+        }, 5000); // Quét 5 giây 1 lần
+    });
+</script>
+
 </body>
 </html>

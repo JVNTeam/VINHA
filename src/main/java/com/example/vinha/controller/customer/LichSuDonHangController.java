@@ -45,7 +45,7 @@ public class LichSuDonHangController {
             orderMap.put("code", "#VN-" + order.getId());
             orderMap.put("date", order.getNgayTao() != null ? order.getNgayTao().format(formatter) : "");
             orderMap.put("price", order.getTongTien() != null ? 
-                order.getTongTien().toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "Ä‘" : "0Ä‘");
+                order.getTongTien().toPlainString().replaceAll("\\B(?=(\\d{3})+(?!\\d))", ".") + "đ" : "0đ");
             orderMap.put("statusCode", normalizeStatus(order.getTrangThai()));
             orderMap.put("statusText", order.getTrangThai());
             orderList.add(orderMap);
@@ -62,7 +62,7 @@ public class LichSuDonHangController {
         return "customer/lichSuDon";
     }
 
-        @GetMapping("/api/customer/orders-hash")
+    @GetMapping("/api/customer/orders-hash")
     @org.springframework.web.bind.annotation.ResponseBody
     public String getOrdersHash(HttpSession session) {
         Object userObj = session.getAttribute("loggedInUser");
@@ -82,12 +82,11 @@ public class LichSuDonHangController {
             return "pending";
         }
         return switch (status) {
-            case "Chá» xÃ¡c nháº­n" -> "pending";
-            case "XÃ¡c nháº­n" -> "confirmed";
-            case "HoÃ n thÃ nh" -> "completed";
-            case "Há»§y" -> "cancelled";
+            case "Chờ xác nhận" -> "pending";
+            case "Xác nhận" -> "confirmed";
+            case "Hoàn thành" -> "completed";
+            case "Hủy" -> "cancelled";
             default -> "pending";
         };
     }
 }
-

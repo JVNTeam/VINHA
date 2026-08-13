@@ -155,14 +155,34 @@ public class CheckoutApiController {
                 return ResponseEntity.ok(response);
             }
 
-            // Create address
-            DiaChi diaChi = new DiaChi();
-            diaChi.setNguoiDung(user);
-            diaChi.setTenNguoiNhan(fullname);
-            diaChi.setSdtNguoiNhan(phone);
-            diaChi.setDiaChi(address + ", " + province);
-            diaChi.setMacDinh(false);
-            diaChi = diaChiRepository.save(diaChi);
+            String fullAddress = address + ", " + province;
+            
+            // Check if address already exists for this user
+            List<DiaChi> userAddresses = diaChiRepository.findByNguoiDungId(user.getId());
+            DiaChi diaChi = null;
+            
+            if (userAddresses != null) {
+                for (DiaChi addr : userAddresses) {
+                    if (Objects.equals(addr.getTenNguoiNhan(), fullname) &&
+                        Objects.equals(addr.getSdtNguoiNhan(), phone) &&
+                        Objects.equals(addr.getDiaChi(), fullAddress)) {
+                        diaChi = addr;
+                        break;
+                    }
+                }
+            }
+            
+            // Create new address if not found
+            if (diaChi == null) {
+                diaChi = new DiaChi();
+                diaChi.setNguoiDung(user);
+                diaChi.setTenNguoiNhan(fullname);
+                diaChi.setSdtNguoiNhan(phone);
+                diaChi.setDiaChi(fullAddress);
+                // Set default if it's the first address
+                diaChi.setMacDinh(userAddresses == null || userAddresses.isEmpty());
+                diaChi = diaChiRepository.save(diaChi);
+            }
 
             // Calculate totals
             BigDecimal tamTinh = cartItems.stream()

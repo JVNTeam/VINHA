@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-public class DangNhapController {
+public class    DangNhapController {
 
     @Autowired
     private AuthService authService;
@@ -44,6 +44,26 @@ public class DangNhapController {
     @GetMapping("/quenMatKhau")
     public String showForgotPasswordForm() {
         return "/auth/ForgetPassword";
+    }
+
+    @PostMapping("/quenMatKhau")
+    public String processForgotPassword(
+            @RequestParam("contact") String contact,
+            @RequestParam("oldPassword") String oldPassword,
+            @RequestParam("newPassword") String newPassword,
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
+
+        Optional<String> errorOpt = authService.resetPassword(contact, oldPassword, newPassword, confirmPassword);
+
+        if (errorOpt.isPresent()) {
+            model.addAttribute("error", errorOpt.get());
+            model.addAttribute("contact", contact);
+            return "/auth/ForgetPassword";
+        }
+
+        model.addAttribute("success", "Đổi mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.");
+        return "/auth/login";
     }
 
     @PostMapping("/dangNhap")

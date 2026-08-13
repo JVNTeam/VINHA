@@ -25,6 +25,17 @@ public class DonHangController {
         return orderService.getAllOrders().size();
     }
 
+    @GetMapping("/admin/api/donHang/hash")
+    @ResponseBody
+    public String getOrderHash() {
+        List<DonHang> orders = orderService.getAllOrders();
+        StringBuilder hash = new StringBuilder();
+        for (DonHang dh : orders) {
+            hash.append(dh.getId()).append(":").append(dh.getTrangThai()).append("|");
+        }
+        return hash.toString();
+    }
+
     // Trang danh sách đơn hàng
     @GetMapping("/admin/donHang")
     public String hienThiDonHang(Model model) {

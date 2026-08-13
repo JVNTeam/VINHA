@@ -298,17 +298,25 @@
 
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function() {
-        let initialCount = /*[[${#lists.size(donHangs)}]]*/ 0;
+        let initialHash = null;
         
+        fetch('/admin/api/donHang/hash')
+            .then(res => res.text())
+            .then(hash => {
+                initialHash = hash;
+            });
+            
         setInterval(function() {
-            fetch('/admin/api/donHang/count')
-                .then(res => res.json())
-                .then(newCount => {
-                    if (newCount > initialCount) {
-                        initialCount = newCount;
+            if (initialHash === null) return;
+            
+            fetch('/admin/api/donHang/hash')
+                .then(res => res.text())
+                .then(newHash => {
+                    if (newHash !== "" && newHash !== initialHash) {
+                        initialHash = newHash;
                         
                         const notification = document.createElement('div');
-                        notification.innerHTML = '<strong><i class="fa-solid fa-bell fa-shake"></i> Bạn có đơn đặt hàng mới!</strong><br><small>Đang tự động tải lại danh sách...</small>';
+                        notification.innerHTML = '<strong><i class="fa-solid fa-bell fa-shake"></i> Danh sách đơn hàng có thay đổi!</strong><br><small>Đang tự động tải lại danh sách...</small>';
                         notification.style.position = 'fixed';
                         notification.style.bottom = '30px';
                         notification.style.right = '30px';

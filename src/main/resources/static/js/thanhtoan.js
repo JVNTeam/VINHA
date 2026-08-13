@@ -329,6 +329,21 @@ document.querySelector(".order-btn")
             formData.append('voucherId', appliedVoucherId);
         }
 
+        const checkoutItemIds = document.getElementById("checkoutItemIds");
+        if (checkoutItemIds && checkoutItemIds.value) {
+            formData.append('itemIds', checkoutItemIds.value);
+        }
+
+        const checkoutBuyNowId = document.getElementById("checkoutBuyNowId");
+        if (checkoutBuyNowId && checkoutBuyNowId.value) {
+            formData.append('buyNowId', checkoutBuyNowId.value);
+        }
+        
+        const checkoutBuyNowQty = document.getElementById("checkoutBuyNowQty");
+        if (checkoutBuyNowQty && checkoutBuyNowQty.value) {
+            formData.append('buyNowQty', checkoutBuyNowQty.value);
+        }
+
         // Call checkout API
         fetch('/api/checkout/place-order', {
             method: 'POST',
@@ -340,8 +355,16 @@ document.querySelector(".order-btn")
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert("Đặt hàng thành công! Đơn hàng của bạn đang được xử lý.");
-                window.location.href = data.redirectUrl;
+                if (payment === 'bank') {
+                    // Cập nhật QR code với số tiền
+                    const qrImg = document.querySelector("#qrModal .qr-img");
+                    if (qrImg) {
+                        qrImg.src = `https://img.vietqr.io/image/MB-1234567899-compact2.png?amount=${finalSubtotal - finalDiscount}&addInfo=ThanhToan${data.orderId}&accountName=VINHA`;
+                    }
+                    document.getElementById("qrModal").style.display = "flex";
+                } else {
+                    document.getElementById("successModal").style.display = "flex";
+                }
             } else {
                 alert(data.message || "Lỗi khi đặt hàng");
             }
@@ -353,6 +376,15 @@ document.querySelector(".order-btn")
 
     });
 
+// ================= MODAL LOGIC =================
+
+const closeQrBtn = document.getElementById("closeQrBtn");
+if (closeQrBtn) {
+    closeQrBtn.addEventListener("click", () => {
+        document.getElementById("qrModal").style.display = "none";
+        document.getElementById("successModal").style.display = "flex";
+    });
+}
 
 // ================= INPUT EFFECT =================
 

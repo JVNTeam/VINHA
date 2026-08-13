@@ -123,10 +123,9 @@
             </button>
           </form>
 
-          <form class="buy-now-form w-100 mt-2" method="post" th:action="@{/gioHang/them}">
-            <input type="hidden" name="monAnId" th:value="${mon != null ? mon.id : 0}" />
+          <form class="buy-now-form w-100 mt-2" method="get" th:action="@{/thanhToan}">
+            <input type="hidden" name="buyNowId" th:value="${mon != null ? mon.id : 0}" />
             <input type="hidden" id="buyNowQuantity" name="soLuong" value="1" />
-            <input type="hidden" name="redirectTo" value="/thanhToan" />
             <button class="buy-now" type="submit" th:disabled="${mon != null && mon.soLuongCon != null && mon.soLuongCon <= 0}">
               Mua ngay
             </button>

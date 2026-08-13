@@ -45,6 +45,10 @@
             <!-- Thông tin nhận hàng -->
 
             <div class="card">
+              <input type="hidden" id="checkoutItemIds" th:if="${checkoutItemIds != null}" th:value="${#strings.listJoin(checkoutItemIds, ',')}"/>
+              <input type="hidden" id="checkoutBuyNowId" th:if="${checkoutBuyNowId != null}" th:value="${checkoutBuyNowId}"/>
+              <input type="hidden" id="checkoutBuyNowQty" th:if="${checkoutBuyNowQty != null}" th:value="${checkoutBuyNowQty}"/>
+
               <div class="card-title">
                 <h2>
                   <i class="fa-solid fa-truck-fast"></i>
@@ -243,24 +247,58 @@
               </label>
             </div>
 
-            <div id="bankQR" class="bank-qr" style="display:none;">
+              <!-- Custom QR / Success Modals -->
+              <style>
+                .checkout-modal-overlay {
+                  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                  background: rgba(0,0,0,0.6); display: none;
+                  align-items: center; justify-content: center; z-index: 1000;
+                }
+                .checkout-modal {
+                  background: #fff; padding: 30px; border-radius: 12px;
+                  max-width: 400px; width: 90%; text-align: center; position: relative;
+                }
+                .checkout-modal .close-btn {
+                  position: absolute; top: 15px; right: 15px;
+                  background: none; border: none; font-size: 20px; cursor: pointer;
+                }
+                .checkout-modal img.qr-img { width: 100%; max-width: 250px; border-radius: 8px; margin-bottom: 15px; }
+                .checkout-modal i.success-icon { font-size: 50px; color: #28a745; margin-bottom: 15px; }
+                .checkout-modal h3 { font-family: 'Be Vietnam Pro', sans-serif; font-weight: 700; margin-bottom: 10px; }
+                .checkout-modal button.home-btn {
+                  background: #ff9900; color: #fff; border: none; padding: 10px 20px;
+                  border-radius: 8px; font-weight: 600; width: 100%; margin-top: 15px; cursor: pointer;
+                }
+                .checkout-modal button.home-btn:hover { background: #e68a00; }
+              </style>
 
-              <img src="https://img.vietqr.io/image/MB-1234567899-compact2.png?amount=150000&addInfo=DH001&accountName=CUA%20HANG%20VI%20NHA">
-              <div class="bank-info">
-                <h4>Thông tin chuyển khoản</h4>
-
-                <p><strong>Ngân hàng:</strong> MB Bank</p>
-
-                <p><strong>Chủ tài khoản:</strong> CỬA HÀNG VỊ NHÀ</p>
-
-                <p><strong>Số tài khoản:</strong> 1234567899</p>
-
-                <p><strong>Nội dung:</strong>
-                  <span id="transferContent">DH001</span>
-                </p>
+              <div id="qrModal" class="checkout-modal-overlay">
+                <div class="checkout-modal">
+                  <button class="close-btn" id="closeQrBtn"><i class="fa-solid fa-xmark"></i></button>
+                  <h3>Quét mã để thanh toán</h3>
+                  <img src="https://img.vietqr.io/image/MB-1234567899-compact2.png?amount=0&addInfo=ThanhToan&accountName=VINHA" class="qr-img" alt="QR Code">
+                  <p>Vui lòng dùng ứng dụng ngân hàng quét mã QR trên để thanh toán.</p>
+                </div>
               </div>
 
-            </div>
+              <div id="successModal" class="checkout-modal-overlay">
+                <div class="checkout-modal">
+                  <i class="fa-solid fa-circle-check success-icon"></i>
+                  <h3>Đã đặt hàng thành công!</h3>
+                  <p>Đơn hàng của bạn đang được xử lý.</p>
+                  <button class="home-btn" onclick="window.location.href='/trangChu'">Quay lại trang chủ</button>
+                </div>
+              </div>
+
+              <div id="bankQR" class="bank-qr" style="display:none; margin-top: 15px; padding: 15px; background: #f9f9f9; border-radius: 8px; border: 1px solid #ddd;">
+                <div class="bank-info" style="width: 100%; text-align: left;">
+                  <h4>Thông tin chuyển khoản</h4>
+                  <p><strong>Ngân hàng:</strong> MB Bank</p>
+                  <p><strong>Số tài khoản:</strong> 1234567899</p>
+                  <p><strong>Chủ tài khoản:</strong> CUA HANG VI NHA</p>
+                  <p><em>(Mã QR sẽ hiển thị sau khi bạn bấm Đặt Hàng)</em></p>
+                </div>
+              </div>
 
             <!-- ================= GHI CHÚ ================= -->
 

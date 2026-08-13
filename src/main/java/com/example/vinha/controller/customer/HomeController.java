@@ -248,16 +248,51 @@ public class HomeController {
     }
 
     @GetMapping("/thanhToan")
-    public String thanhToan(HttpSession session, Model model) {
+    public String thanhToan(
+            @RequestParam(value = "itemIds", required = false) List<Long> itemIds,
+            @RequestParam(value = "buyNowId", required = false) Long buyNowId,
+            @RequestParam(value = "soLuong", defaultValue = "1") Integer soLuong,
+            HttpSession session, Model model) {
+            
         Object userObj = session.getAttribute("loggedInUser");
         if (!(userObj instanceof NguoiDung user)) {
             return "redirect:/dangNhap?returnUrl=/thanhToan";
         }
 
-        List<ChiTietGioHang> cartItems = gioHangRepository.findByNguoiDungId(user.getId())
-                .map(GioHang::getId)
-                .map(chiTietGioHangRepository::findByGioHangId)
-                .orElse(Collections.emptyList());
+        List<ChiTietGioHang> cartItems = new ArrayList<>();
+        
+        if (buyNowId != null) {
+            // Trường hợp mua ngay 1 sản phẩm
+            MonAn monAn = monAnRepository.findById(buyNowId).orElse(null);
+            if (monAn != null) {
+                ChiTietGioHang fakeItem = new ChiTietGioHang();
+                fakeItem.setMonAn(monAn);
+                fakeItem.setSoLuong(soLuong);
+                fakeItem.setDonGia(monAn.getGia());
+                // Không lưu vào DB, chỉ hiển thị
+                cartItems.add(fakeItem);
+            }
+        } else {
+            // Trường hợp mua từ giỏ hàng
+            cartItems = gioHangRepository.findByNguoiDungId(user.getId())
+                    .map(GioHang::getId)
+                    .map(chiTietGioHangRepository::findByGioHangId)
+                    .orElse(Collections.emptyList());
+                    
+            if (itemIds != null && !itemIds.isEmpty()) {
+                cartItems = cartItems.stream()
+                        .filter(item -> itemIds.contains(item.getId()))
+                        .toList();
+            } else {
+                // Mặc định không có itemIds truyền sang -> giỏ hàng trống ở trang thanh toán 
+                // hoặc chuyển về trang giỏ hàng
+                return "redirect:/gioHang";
+            }
+        }
+
+        if (cartItems.isEmpty()) {
+            return "redirect:/gioHang";
+        }
 
         BigDecimal subtotal = cartItems.stream()
                 .map(item -> item.getDonGia().multiply(BigDecimal.valueOf(item.getSoLuong())))
@@ -266,6 +301,15 @@ public class HomeController {
         int itemCount = cartItems.stream()
                 .mapToInt(ChiTietGioHang::getSoLuong)
                 .sum();
+
+        // Lưu thông tin itemIds hoặc buyNowId vào session hoặc model để truyền tiếp cho place-order
+        if (itemIds != null && !itemIds.isEmpty()) {
+            model.addAttribute("checkoutItemIds", itemIds);
+        }
+        if (buyNowId != null) {
+            model.addAttribute("checkoutBuyNowId", buyNowId);
+            model.addAttribute("checkoutBuyNowQty", soLuong);
+        }
 
         List<DiaChi> addresses = diaChiRepository.findByNguoiDungId(user.getId());
         DiaChi defaultAddress = addresses.stream()

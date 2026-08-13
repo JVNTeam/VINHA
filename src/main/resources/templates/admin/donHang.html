@@ -296,5 +296,39 @@
     });
 </script>
 
+    <script th:inline="javascript">
+        // Real-time Order Monitoring (Short Polling)
+        const initialOrderCount = [[]];
+        
+        setInterval(function() {
+            fetch('/admin/api/donHang/count')
+                .then(response => response.json())
+                .then(newCount => {
+                    if (newCount > initialOrderCount) {
+                        // Create a notification
+                        const notification = document.createElement('div');
+                        notification.innerHTML = '<strong><i class="fa-solid fa-bell"></i> Có don hàng m?i!</strong> Ðang t?i l?i trang...';
+                        notification.style.position = 'fixed';
+                        notification.style.top = '20px';
+                        notification.style.right = '20px';
+                        notification.style.backgroundColor = '#4CAF50';
+                        notification.style.color = 'white';
+                        notification.style.padding = '15px 25px';
+                        notification.style.borderRadius = '8px';
+                        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                        notification.style.zIndex = '9999';
+                        notification.style.fontSize = '16px';
+                        notification.style.transition = 'all 0.3s ease';
+                        document.body.appendChild(notification);
+                        
+                        // Play a sound if you want, but a reload is enough
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                })
+                .catch(err => console.error("Error checking new orders:", err));
+        }, 5000); // Check every 5 seconds
+    </script>
 </body>
 </html>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ public class CheckoutApiController {
     private final DiaChiRepository diaChiRepository;
     private final VoucherService voucherService;
     private final ThanhToanRepository thanhToanRepository;
+    private final MonAnRepository monAnRepository;
 
     public CheckoutApiController(
             DonHangRepository donHangRepository,
@@ -34,7 +37,8 @@ public class CheckoutApiController {
             ChiTietGioHangRepository chiTietGioHangRepository,
             DiaChiRepository diaChiRepository,
             VoucherService voucherService,
-            ThanhToanRepository thanhToanRepository
+            ThanhToanRepository thanhToanRepository,
+            MonAnRepository monAnRepository
     ) {
         this.donHangRepository = donHangRepository;
         this.chiTietDonHangRepository = chiTietDonHangRepository;
@@ -43,9 +47,11 @@ public class CheckoutApiController {
         this.diaChiRepository = diaChiRepository;
         this.voucherService = voucherService;
         this.thanhToanRepository = thanhToanRepository;
+        this.monAnRepository = monAnRepository;
     }
 
     @PostMapping("/place-order")
+    @Transactional
     public ResponseEntity<Map<String, Object>> placeOrder(
             @RequestParam("fullname") String fullname,
             @RequestParam("phone") String phone,
@@ -56,6 +62,9 @@ public class CheckoutApiController {
             @RequestParam(value = "voucherId", required = false) Long voucherId,
             @RequestParam(value = "discount", defaultValue = "0") String discountStr,
             @RequestParam(value = "subtotal", required = false) String subtotalStr,
+            @RequestParam(value = "itemIds", required = false) String itemIdsStr,
+            @RequestParam(value = "buyNowId", required = false) Long buyNowId,
+            @RequestParam(value = "buyNowQty", defaultValue = "1") Integer buyNowQty,
             HttpSession session
     ) {
         Map<String, Object> response = new HashMap<>();
@@ -107,29 +116,73 @@ public class CheckoutApiController {
                 return ResponseEntity.ok(response);
             }
 
-            // Get cart items
-            GioHang gioHang = gioHangRepository.findByNguoiDungId(user.getId()).orElse(null);
-            if (gioHang == null) {
-                response.put("success", false);
-                response.put("message", "Giỏ hàng trống");
-                return ResponseEntity.ok(response);
+            // Get cart items based on selection
+            List<ChiTietGioHang> cartItems = new ArrayList<>();
+            List<Long> itemIdsToClear = new ArrayList<>();
+
+            if (buyNowId != null) {
+                // Mua ngay 1 sản phẩm
+                MonAn monAn = monAnRepository.findById(buyNowId).orElse(null);
+                if (monAn != null) {
+                    ChiTietGioHang fakeItem = new ChiTietGioHang();
+                    fakeItem.setMonAn(monAn);
+                    fakeItem.setSoLuong(buyNowQty);
+                    fakeItem.setDonGia(monAn.getGia());
+                    cartItems.add(fakeItem);
+                }
+            } else {
+                // Mua từ giỏ hàng
+                GioHang gioHang = gioHangRepository.findByNguoiDungId(user.getId()).orElse(null);
+                if (gioHang != null) {
+                    List<ChiTietGioHang> fullCart = chiTietGioHangRepository.findByGioHangId(gioHang.getId());
+                    if (itemIdsStr != null && !itemIdsStr.trim().isEmpty()) {
+                        String[] ids = itemIdsStr.split(",");
+                        for (String idStr : ids) {
+                            try {
+                                itemIdsToClear.add(Long.parseLong(idStr.trim()));
+                            } catch (NumberFormatException ignored) {}
+                        }
+                        cartItems = fullCart.stream()
+                                .filter(item -> itemIdsToClear.contains(item.getId()))
+                                .toList();
+                    }
+                }
             }
 
-            List<ChiTietGioHang> cartItems = chiTietGioHangRepository.findByGioHangId(gioHang.getId());
             if (cartItems.isEmpty()) {
                 response.put("success", false);
-                response.put("message", "Giỏ hàng trống");
+                response.put("message", "Không có sản phẩm nào được chọn để thanh toán");
                 return ResponseEntity.ok(response);
             }
 
-            // Create address
-            DiaChi diaChi = new DiaChi();
-            diaChi.setNguoiDung(user);
-            diaChi.setTenNguoiNhan(fullname);
-            diaChi.setSdtNguoiNhan(phone);
-            diaChi.setDiaChi(address + ", " + province);
-            diaChi.setMacDinh(false);
-            diaChi = diaChiRepository.save(diaChi);
+            String fullAddress = address + ", " + province;
+            
+            // Check if address already exists for this user
+            List<DiaChi> userAddresses = diaChiRepository.findByNguoiDungId(user.getId());
+            DiaChi diaChi = null;
+            
+            if (userAddresses != null) {
+                for (DiaChi addr : userAddresses) {
+                    if (Objects.equals(addr.getTenNguoiNhan(), fullname) &&
+                        Objects.equals(addr.getSdtNguoiNhan(), phone) &&
+                        Objects.equals(addr.getDiaChi(), fullAddress)) {
+                        diaChi = addr;
+                        break;
+                    }
+                }
+            }
+            
+            // Create new address if not found
+            if (diaChi == null) {
+                diaChi = new DiaChi();
+                diaChi.setNguoiDung(user);
+                diaChi.setTenNguoiNhan(fullname);
+                diaChi.setSdtNguoiNhan(phone);
+                diaChi.setDiaChi(fullAddress);
+                // Set default if it's the first address
+                diaChi.setMacDinh(userAddresses == null || userAddresses.isEmpty());
+                diaChi = diaChiRepository.save(diaChi);
+            }
 
             // Calculate totals
             BigDecimal tamTinh = cartItems.stream()
@@ -203,8 +256,12 @@ public class CheckoutApiController {
             thanhToan.setThoiGian(LocalDateTime.now());
             thanhToanRepository.save(thanhToan);
 
-            // Clear cart
-            chiTietGioHangRepository.deleteAll(cartItems);
+            // Clear cart if not buy-now
+            if (buyNowId == null && !itemIdsToClear.isEmpty()) {
+                // Delete only the checked out items
+                List<ChiTietGioHang> itemsToDelete = chiTietGioHangRepository.findAllById(itemIdsToClear);
+                chiTietGioHangRepository.deleteAll(itemsToDelete);
+            }
 
             response.put("success", true);
             response.put("message", "Đặt hàng thành công");

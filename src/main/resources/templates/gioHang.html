@@ -47,6 +47,9 @@
 
         <!-- Item -->
         <div class="cart-item" th:each="item : ${cartItems}">
+          <div class="item-checkbox-wrapper" style="display: flex; align-items: center; margin-right: 15px;">
+            <input type="checkbox" class="item-checkbox" th:data-id="${item.id}" th:data-price="${item.thanhTien != null ? item.thanhTien : (item.donGia * item.soLuong)}" th:data-qty="${item.soLuong}" style="width: 20px; height: 20px; cursor: pointer;" />
+          </div>
           <div class="item-image">
             <img
                     th:src="@{${(item.monAn != null and item.monAn.hinhAnhs != null and !#lists.isEmpty(item.monAn.hinhAnhs) and item.monAn.hinhAnhs[0].duongDan != null and item.monAn.hinhAnhs[0].duongDan != '') ? ( #strings.startsWith(item.monAn.hinhAnhs[0].duongDan, '/') ? item.monAn.hinhAnhs[0].duongDan : '/' + item.monAn.hinhAnhs[0].duongDan ) : '/images/comGa.png'}}"
@@ -107,23 +110,23 @@
 
           <div class="summary-row">
             <span>Tạm tính</span>
-            <span id="subtotal" th:text="${#numbers.formatDecimal(subtotal != null ? subtotal : 0, 0, 'COMMA', 0, 'POINT') + 'đ'}">0đ</span>
+            <span id="subtotal">0đ</span>
           </div>
 
           <div class="summary-row">
             <span>Số lượng món</span>
-            <span id="item-count" th:text="${itemCount != null ? itemCount : 0}">0</span>
+            <span id="item-count">0</span>
           </div>
 
           <hr />
 
           <div class="summary-row total-row">
             <strong>Tổng cộng</strong>
-            <strong id="grand-total" th:text="${#numbers.formatDecimal(subtotal != null ? subtotal : 0, 0, 'COMMA', 0, 'POINT') + 'đ'}">0đ</strong>
+            <strong id="grand-total">0đ</strong>
           </div>
 
-          <a th:href="@{/thanhToan}" id="checkoutLink" onclick="return !document.getElementById('checkoutBtn').disabled">
-            <button type="button" class="checkout-btn" id="checkoutBtn" th:disabled="${itemCount == null or itemCount == 0}">
+          <a href="#" id="checkoutLink">
+            <button type="button" class="checkout-btn" id="checkoutBtn" disabled>
               Thanh toán
               <i class="fa-solid fa-arrow-right"></i>
             </button>

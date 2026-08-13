@@ -32,4 +32,7 @@ public class DiaChi {
 
     @Column(name = "mac_dinh")
     private Boolean macDinh;
+
+    @Column(name = "da_xoa")
+    private Boolean daXoa;
 }

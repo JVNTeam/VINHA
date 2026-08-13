@@ -104,4 +104,15 @@ public class VoucherApiController {
 
         return discountAmount;
     }
+
+    @GetMapping("/active-hash")
+    public ResponseEntity<Map<String, String>> getActiveVouchersHash() {
+        List<MaGiamGia> activeVouchers = voucherService.layMaDangHoatDong();
+        StringBuilder sb = new StringBuilder();
+        for (MaGiamGia v : activeVouchers) {
+            sb.append(v.getId()).append("-").append(v.getTrangThai()).append("|");
+        }
+        String hash = Integer.toHexString(sb.toString().hashCode());
+        return ResponseEntity.ok(Map.of("hash", hash));
+    }
 }

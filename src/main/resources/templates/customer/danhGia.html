@@ -124,7 +124,29 @@
 
             <!-- LIST REVIEWED -->
             <div class="review-list" id="reviewed-list" style="display: none">
-                <p class="empty-msg">Danh sách đã đánh giá sẽ được hiển thị ở đây (Tính năng đang được phát triển).</p>
+                <div th:if="${reviewedItems == null or reviewedItems.isEmpty()}" class="alert alert-info">
+                    Bạn chưa đánh giá món ăn nào.
+                </div>
+                
+                <div th:each="item : ${reviewedItems}" class="review-card">
+                    <div class="item-summary">
+                        <img th:src="${item.image}" alt="Món ăn" class="item-img" />
+
+                        <div class="item-info">
+                            <div class="item-header-title">
+                                <h3 class="item-title" th:text="${item.name}"></h3>
+                            </div>
+                            <p class="item-meta">
+                                Mã đơn: <span th:text="${item.orderCode}"></span> • Đánh giá: <span th:text="${item.reviewDate}"></span>
+                            </p>
+                            <div class="star-rating read-only">
+                                <i th:each="i : ${#numbers.sequence(1, 5)}" 
+                                   th:class="${i <= item.rating} ? 'fa-solid fa-star active' : 'fa-regular fa-star'"></i>
+                            </div>
+                            <p class="item-subtext" th:text="${item.comment}"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

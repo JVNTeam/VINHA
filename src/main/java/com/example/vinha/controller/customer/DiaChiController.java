@@ -97,10 +97,22 @@ public class DiaChiController {
         DiaChi diaChi = diaChiRepository.findById(id).orElse(null);
         if (diaChi != null && diaChi.getNguoiDung().getId().equals(user.getId())) {
             try {
-                diaChiRepository.delete(diaChi);
+                diaChi.setDaXoa(true);
+                if (Boolean.TRUE.equals(diaChi.getMacDinh())) {
+                    diaChi.setMacDinh(false);
+                    List<DiaChi> remainingAddresses = diaChiRepository.findByNguoiDungId(user.getId());
+                    for (DiaChi addr : remainingAddresses) {
+                        if (!addr.getId().equals(diaChi.getId())) {
+                            addr.setMacDinh(true);
+                            diaChiRepository.save(addr);
+                            break;
+                        }
+                    }
+                }
+                diaChiRepository.save(diaChi);
                 redirectAttributes.addFlashAttribute("successMessage", "Xóa địa chỉ thành công!");
             } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa địa chỉ này vì đã được sử dụng trong đơn hàng!");
+                redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa địa chỉ này!");
             }
         }
         

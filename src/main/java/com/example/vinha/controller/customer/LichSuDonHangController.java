@@ -62,6 +62,21 @@ public class LichSuDonHangController {
         return "customer/lichSuDon";
     }
 
+    @GetMapping("/api/customer/orders-hash")
+    @org.springframework.web.bind.annotation.ResponseBody
+    public String getOrdersHash(HttpSession session) {
+        Object userObj = session.getAttribute("loggedInUser");
+        if (!(userObj instanceof NguoiDung user)) {
+            return "";
+        }
+        List<DonHang> orders = donHangRepository.findByNguoiDungIdOrderByNgayTaoDesc(user.getId());
+        StringBuilder hash = new StringBuilder();
+        for (DonHang dh : orders) {
+            hash.append(dh.getId()).append(":").append(dh.getTrangThai()).append("|");
+        }
+        return hash.toString();
+    }
+
     private String normalizeStatus(String status) {
         if (status == null) {
             return "pending";

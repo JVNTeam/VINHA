@@ -95,13 +95,22 @@
     border-radius: 16px;
     padding: 20px 24px; /* Tăng padding trong từng item */
     display: grid;
-    grid-template-columns: 80px minmax(0, 1fr) 110px 120px 110px 36px;
+    /* Columns: Checkbox | Image | Info | Price | Quantity | Total | Delete */
+    grid-template-columns: 30px 80px minmax(0, 1fr) 110px 120px 110px 36px;
     align-items: center;
     gap: 20px; /* Tăng gap giữa các phần tử nội bộ */
     margin-bottom: 20px; /* Tăng khoảng cách giữa các card món ăn */
     box-shadow: 0 4px 15px rgba(139, 75, 22, 0.04);
     border: 1px solid #f2e9e1;
     transition: all 0.3s ease;
+}
+
+.gio-hang-page .item-checkbox {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #ff7a00; /* Custom brand color for modern browsers */
+    border-radius: 4px;
 }
 
 .gio-hang-page .cart-item:hover {
@@ -351,7 +360,7 @@
 
 @media(max-width: 768px) {
     .gio-hang-page .cart-item {
-        grid-template-columns: 70px 1fr;
+        grid-template-columns: 30px 70px 1fr;
         gap: 12px;
         padding: 16px;
     }

@@ -93,7 +93,7 @@ public class VoucherApiController {
         BigDecimal discountAmount;
         
         if ("Phần trăm".equals(voucher.getLoaiGiam())) {
-            discountAmount = subtotal.multiply(voucher.getGiaTriGiam()).divide(new BigDecimal("100"));
+            discountAmount = subtotal.multiply(voucher.getGiaTriGiam()).divide(new BigDecimal("100"), 0, java.math.RoundingMode.HALF_UP);
         } else {
             discountAmount = voucher.getGiaTriGiam();
         }

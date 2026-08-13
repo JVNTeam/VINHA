@@ -184,3 +184,79 @@ document.querySelectorAll(".save-btn").forEach(button => {
 
     });
 });
+
+// ======================= REAL-TIME VOUCHER POLLING =======================
+let currentVoucherHash = null;
+
+function checkVoucherUpdates() {
+    fetch('/api/voucher/active-hash')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.hash) return;
+            
+            if (currentVoucherHash === null) {
+                currentVoucherHash = data.hash;
+                return;
+            }
+            
+            if (currentVoucherHash !== data.hash) {
+                currentVoucherHash = data.hash;
+                fetchVouchersAndUpdateDOM();
+            }
+        })
+        .catch(err => console.error('Error polling vouchers:', err));
+}
+
+function fetchVouchersAndUpdateDOM() {
+    fetch('/khuyenMai')
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newVoucherList = doc.querySelector('.voucher-list');
+            const currentVoucherList = document.querySelector('.voucher-list');
+            
+            if (newVoucherList && currentVoucherList) {
+                currentVoucherList.innerHTML = newVoucherList.innerHTML;
+                
+                // Gán lại sự kiện cho các nút mới
+                attachEventsToNewVouchers(currentVoucherList);
+            }
+        })
+        .catch(err => console.error('Error fetching updated vouchers:', err));
+}
+
+function attachEventsToNewVouchers(container) {
+    container.querySelectorAll(".copy-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const code = btn.dataset.code;
+            navigator.clipboard.writeText(code);
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-regular fa-copy"></i> Sao chép';
+            }, 1500);
+        });
+    });
+
+    container.querySelectorAll(".save-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            const isLoggedIn = this.getAttribute("data-logged-in") === "true";
+            if (!isLoggedIn) {
+                if(confirm("Bạn cần đăng nhập để lưu mã ưu đãi. Đăng nhập ngay?")) {
+                    window.location.href = "/dangNhap";
+                }
+                return;
+            }
+            this.innerHTML = '<i class="fa-solid fa-check"></i> Đã lưu';
+            this.classList.add("saved");
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-regular fa-bookmark"></i> Lưu';
+                this.classList.remove("saved");
+            }, 2000);
+        });
+    });
+}
+
+// Check every 3 seconds
+setInterval(checkVoucherUpdates, 3000);
+checkVoucherUpdates();

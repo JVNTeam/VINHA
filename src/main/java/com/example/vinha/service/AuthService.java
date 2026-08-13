@@ -121,4 +121,35 @@ public class AuthService {
         userRepository.save(newUser);
         return Optional.empty();
     }
+
+    /**
+     * Xử lý Đổi mật khẩu dựa trên Contact (Email hoặc SĐT)
+     */
+    public Optional<String> resetPassword(String contact, String oldPassword, String newPassword, String confirmPassword) {
+        if (contact == null || contact.trim().isEmpty()
+                || oldPassword == null || oldPassword.trim().isEmpty()
+                || newPassword == null || newPassword.trim().isEmpty()
+                || confirmPassword == null || confirmPassword.trim().isEmpty()) {
+            return Optional.of("Vui lòng nhập đầy đủ thông tin.");
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            return Optional.of("Mật khẩu xác nhận không khớp.");
+        }
+
+        Optional<NguoiDung> userOpt = userRepository.findByEmailOrSoDienThoai(contact.trim(), contact.trim());
+        if (userOpt.isEmpty()) {
+            return Optional.of("Tài khoản không tồn tại.");
+        }
+
+        NguoiDung user = userOpt.get();
+        if (!user.getMatKhau().equals(oldPassword)) {
+            return Optional.of("Mật khẩu gần nhất không đúng.");
+        }
+
+        user.setMatKhau(newPassword);
+        userRepository.save(user);
+
+        return Optional.empty();
+    }
 }

@@ -95,7 +95,7 @@
 
                     <!-- Form Đánh Giá -->
                     <div class="review-form-body" style="display: none;">
-                        <form th:action="@{/danhGia/them}" method="post">
+                        <form th:action="@{/danhgia/them}" method="post">
                             <input type="hidden" name="monAnId" th:value="${item.id}" />
                             <input type="hidden" name="donHangId" th:value="${item.donHangId}" />
                             <input type="hidden" name="soSao" th:id="'rating-' + ${item.id}" value="5" />
